@@ -18,7 +18,19 @@ The order is roughly "quick‑wins → core upgrades → optional power‑ups," 
 
 ## Phase 1  Core Features & Quick Wins
 
-### 1‑A Trip Meta Information (Implemented - Review/Refine)
+### 1‑A Drag & Drop (Partially Implemented)
+
+- [✔︎] Implement item drag-and-drop reordering (within/between sections).
+- [✔︎] Implement visual drop indicators (`item-over`, `.dragging` styles).
+- [✔︎] Implement drag ghost effect.
+- [ ] **Implement Section Drag-and-Drop**: Enable reordering of entire sections using the `sectionHandle`.
+- [ ] Improve drag handle visibility/usability on touch devices (`@media (pointer:coarse)`).
+
+### 1‑B Modal Dialog (Partially Implemented)
+
+- [✔︎] Update any modal form to use the `<dialog>` element and corresponding api if it does not already
+
+### 1‑B Trip Meta Information (Implemented - Review/Refine)
 
 - [✔︎] Display Trip Info (Destination, Dates, Notes) in a dedicated card.
 - [✔︎] Implement `<dialog>` for editing Trip Info.
@@ -26,8 +38,12 @@ The order is roughly "quick‑wins → core upgrades → optional power‑ups," 
 - [ ] Add validation to date inputs (e.g., end date after start date).
 - [ ] Improve styling/UX of the meta info display and dialog.
 - [ ] Implement rich text formatting for trip notes (e.g., simple markdown support).
+- [ ] Add Google Maps and Directions
+- [ ] Use Google Maps Places to find useful Places near campsite such as grocery, hostpital, police, etc.
 
-### 1‑B Item Notes (Implemented - Review/Refine)
+GOOGLE_MAPS_API_KEY = "AIzaSyACkiD1ScnxmAX0gjJnB39j-Gj6jmQx2G4";
+
+### 1‑C Item Notes (Implemented - Review/Refine)
 
 - [✔︎] Add "Notes" button (🗒︎) to each item's actions.
 - [✔︎] Use `prompt()` to add/edit notes.
@@ -36,14 +52,6 @@ The order is roughly "quick‑wins → core upgrades → optional power‑ups," 
 - [✔︎] Indicate items with notes (e.g., styled button).
 - [ ] Replace `prompt()` with a dedicated modal or inline editor for better UX.
 - [ ] Add support for formatting in notes (e.g., bullet points, simple markdown).
-
-### 1‑C Drag & Drop (Partially Implemented)
-
-- [✔︎] Implement item drag-and-drop reordering (within/between sections).
-- [✔︎] Implement visual drop indicators (`item-over`, `.dragging` styles).
-- [✔︎] Implement drag ghost effect.
-- [ ] **Implement Section Drag-and-Drop**: Enable reordering of entire sections using the `sectionHandle`.
-- [ ] Improve drag handle visibility/usability on touch devices (`@media (pointer:coarse)`).
 
 ### 1‑D Section Management (Partially Implemented)
 
@@ -132,8 +140,11 @@ The order is roughly "quick‑wins → core upgrades → optional power‑ups," 
 
 (stretch if API key available)
 
+- OPENWEATHERMAP_API_KEY = "92df3f0f4c1aa7fdbbe39a05410f8895";
+- api.openweathermap.org
+
 - Build settings dialog to enter zip code / lat‑lon + trip start date.
-- Fetch 7‑day `JSON` forecast from `NWS API`.
+- Fetch 7‑day `JSON` forecast from `OpenWeatherMap API`.
 - Map conditions to tags (rain, freeze, heat).
 - Items get optional `tags:["rain"]`.
 - If tag matched → show orange badge and optional toast.
