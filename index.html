@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+     Lianna's Camping Checklist – Full Functionality (Meta + Date Inputs Fix)
+    </title>
+    <link rel="stylesheet" href="camplist.css" />
+  </head>
+  <body>
+    <h1>Lianna's Camping Checklist</h1>
+    <div class="controls">
+      <button id="btnReset" class="secondary">Reset All</button>
+      <button id="btnPrint">Print / PDF</button>
+    </div>
+    <div id="metaContainer"></div>
+    <div id="checklistContainer">Loading…</div>
+
+    <dialog id="metaDialog">
+      <h3>Edit Trip Info</h3>
+      <form id="metaForm" method="dialog">
+        <label
+          >Destination
+          <input type="text" name="destination" required />
+        </label>
+        <div class="row">
+          <label
+            >Start Date
+            <input type="date" name="startDate" />
+          </label>
+          <label
+            >End Date
+            <input type="date" name="endDate" />
+          </label>
+        </div>
+        <label
+          >Notes
+          <textarea name="notes"></textarea>
+        </label>
+        <menu>
+          <button value="cancel" type="reset" class="secondary">Cancel</button>
+          <button value="save" type="submit">Save</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <script src="camplist.js"></script>
+  </body>
+</html>

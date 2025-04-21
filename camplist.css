@@ -1,0 +1,277 @@
+
+:root {
+    --bg: #f7f5f0;
+    --card: #fff;
+    --accent: #2f855a;
+    --text: #222;
+    --muted: #666;
+    --border: #e0ded7;
+    --radius: 8px;
+    --shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
+      sans-serif;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+  }
+  h1 {
+    margin: 1.2rem 0 0.6rem;
+    text-align: center;
+    font-size: 1.85rem;
+    color: var(--accent);
+  }
+  .controls {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+  button {
+    padding: 0.45rem 1rem;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  button.secondary {
+    background: #fff;
+    color: var(--accent);
+  }
+  button:hover {
+    background: #236b46;
+  }
+  button.secondary:hover {
+    background: #e4ede8;
+  }
+  section.card {
+    background: var(--card);
+    margin: 1rem auto;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    max-width: 720px;
+    position: relative;
+  }
+  .meta-card {
+    border-left: 6px solid var(--accent);
+  }
+  .meta-grid {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    row-gap: 0.45rem;
+    column-gap: 0.6rem;
+    font-size: 0.9rem;
+  }
+  .meta-grid .label {
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  h2 {
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .sectionHandle {
+    cursor: grab;
+    font-size: 1.1rem;
+    margin-right: 0.25rem;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  .chevron {
+    margin-left: auto;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: pointer;
+  }
+
+  ul.checklist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  li.item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.45rem;
+    padding: 0.35rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  li.item:last-child {
+    border-bottom: none;
+  }
+  .handle {
+    cursor: grab;
+    font-size: 1.1rem;
+    margin-right: 0.1rem;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  .item-body {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  input[type="checkbox"] {
+    accent-color: var(--accent);
+    width: 1.15em;
+    height: 1.15em;
+    margin-top: 0.2em;
+    cursor: pointer;
+  }
+  label {
+    cursor: pointer;
+    display: inline-block;
+    max-width: 100%;
+    word-break: break-word;
+  }
+  li.checked label {
+    text-decoration: line-through;
+    color: var(--muted);
+  }
+  .details-note summary {
+    font-size: 0.75rem;
+    color: var(--accent);
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  .details-note summary::-webkit-details-marker {
+    display: none;
+  }
+  .details-note summary::before {
+    content: "▸ ";
+  }
+  .details-note[open] summary::before {
+    content: "▾ ";
+  }
+  .details-note div {
+    font-size: 0.75rem;
+    color: var(--muted);
+    white-space: pre-wrap;
+    margin-left: 1rem;
+    margin-top: 2px;
+  }
+  .actions {
+    display: flex;
+    gap: 0.25rem;
+  }
+  .actions button {
+    padding: 0.1rem 0.45rem;
+    font-size: 0.75rem;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  .actions button:hover {
+    color: var(--accent);
+    background: #e5f3ec;
+  }
+  .btnNote.has-note {
+    color: var(--accent);
+  }
+  form.addItem {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.6rem;
+  }
+  form.addItem input {
+    flex: 1;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.38rem;
+  }
+  form.addItem button {
+    padding: 0.4rem 0.9rem;
+  }
+  @media print {
+    button,
+    .controls,
+    .actions,
+    form.addItem,
+    .handle,
+    .sectionHandle {
+      display: none;
+    }
+  }
+  .collapsed {
+    display: none;
+  }
+  .drag-ghost {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    padding: 0.35rem 0.8rem;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    font-size: 0.9rem;
+    color: var(--text);
+    pointer-events: none;
+    max-width: 220px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  /* dialog */
+  dialog {
+    margin: auto;
+    border: none;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 1rem;
+    width: 90%;
+    max-width: 380px;
+  }
+  dialog h3 {
+    margin: 0 0 0.6rem;
+    color: var(--accent);
+  }
+  dialog form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  dialog input,
+  dialog textarea {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.35rem;
+    font: inherit;
+  }
+  dialog textarea {
+    resize: vertical;
+    height: 90px;
+  }
+  dialog .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
+  dialog menu {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.6rem;
+    margin-top: 0.8rem;
+    padding: 0;
+    background: none;
+    border: none;
+  }
