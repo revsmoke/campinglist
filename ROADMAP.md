@@ -9,7 +9,7 @@ The order is roughly "quick‑wins → core upgrades → optional power‑ups," 
 
 ### Task
 
-- [ ] Convert current project to `Git` repo → commit the v1 checklist (`tag v1.0`).
+- [✔︎] Convert current project to `Git` repo → commit the v1 checklist (`tag v1.0`).
 - [ ] Add `ESLint` & `Prettier` for consistent style.
 - [ ] **Split code → modules** (`state.js`, `ui.js`, `drag.js`, `serviceWorker.js`) to keep new features clean. *(Increased Importance)*
 - [ ] Unit‑test helpers (`findItem`, `save`/`load`) with `Vitest` or `Jest`.
