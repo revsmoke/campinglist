@@ -1,65 +1,399 @@
 [
-    {
-      "id":"planning",
-      "title":"Pre‑Trip Planning Script",
-      "items":[
-        {"id":"plan-reserve","text":"Pick destination & reserve campsite", "checked":false},
-        {"id":"plan-permits","text":"Check permit rules (fires, fishing, drones)", "checked":false},
-        {"id":"plan-hazards","text":"Verify seasonal hazards (bears, fire bans, bugs)", "checked":false},
-        {"id":"plan-tent-inspect","text":"Inspect/repair tent, stakes, zippers", "checked":false},
-        {"id":"plan-stove-test","text":"Test camp‑stove & fuel canisters", "checked":false},
-        {"id":"plan-food-plan","text":"Create shared food plan & divide groceries", "checked":false},
-        {"id":"plan-forecast","text":"Check 7‑day weather forecast & adjust clothing", "checked":false},
-        {"id":"plan-offline-maps","text":"Download offline maps & GPX route", "checked":false},
-        {"id":"plan-charge","text":"Charge power banks, camera batteries, headlamps", "checked":false},
-        {"id":"plan-freeze-water","text":"Freeze one gallon of drinking water (acts as ice)", "checked":false},
-        {"id":"plan-cooler","text":"Pre‑pack cooler & label meal bags", "checked":false},
-        {"id":"plan-house-mode","text":"Put house on away‑mode (thermostat, trash, mail)", "checked":false},
-        {"id":"plan-depart-check","text":"Turn off stove, lock doors, set alarm", "checked":false}
-      ]
-    },
-    {
-      "id":"shelter",
-      "title":"Shelter & Sleep",
-      "items":[
-        {"id":"shelter-tent","text":"Tent (poles, stakes, groundsheet)", "checked":false},
-        {"id":"shelter-footprint","text":"Footprint or tarp", "checked":false},
-        {"id":"shelter-bag","text":"Sleeping bag (temp‑rated)", "checked":false},
-        {"id":"shelter-pad","text":"Sleeping pad / air mattress & repair kit", "checked":false},
-        {"id":"shelter-pillow","text":"Pillow or stuff‑sack pillowcase", "checked":false},
-        {"id":"shelter-guy","text":"Extra guy lines & stake hammer", "checked":false}
-      ]
-    },
-    {
-      "id":"kitchen",
-      "title":"Camp Kitchen",
-      "items":[
-        {"id":"kitchen-stove","text":"Stove + full fuel canisters", "checked":false},
-        {"id":"kitchen-lighter","text":"Lighter + stormproof matches", "checked":false},
-        {"id":"kitchen-pot","text":"Cook pot / pan & lid", "checked":false},
-        {"id":"kitchen-utensils","text":"Utensils (spatula, long spoon, knife)", "checked":false},
-        {"id":"kitchen-cutting","text":"Cutting board (thin plastic)", "checked":false},
-        {"id":"kitchen-insulated","text":"Insulated mugs & bowls", "checked":false},
-        {"id":"kitchen-eating","text":"Eating utensils / spork", "checked":false},
-        {"id":"kitchen-soap","text":"Biodegradable soap & scrub pad", "checked":false},
-        {"id":"kitchen-basin","text":"Collapsible sink / wash basin", "checked":false},
-        {"id":"kitchen-cooler","text":"Cooler & ice packs / frozen water jugs", "checked":false},
-        {"id":"kitchen-filter","text":"Water filter / purification tablets", "checked":false},
-        {"id":"kitchen-bottles","text":"Refillable water bottles / hydration bladder", "checked":false},
-        {"id":"kitchen-bear","text":"Bear‑proof canister or hang‑kit", "checked":false},
-        {"id":"kitchen-trash","text":"Trash bags & zip‑locks", "checked":false}
-      ]
-    },
-    {
-      "id":"power",
-      "title":"Power",
-      "items":[
-        {"id":"power-solar","text":"Solar charger", "checked":false},
-        {"id":"power-battery","text":"Battery pack", "checked":false},
-        {"id":"power-charger","text":"Phone charger", "checked":false},
-        {"id":"power-headlamp","text":"Headlamp", "checked":false},
-        {"id":"power-lantern","text":"Lantern", "checked":false},
-        {"id":"power-radio","text":"Radio", "checked":false}
-      ]
-    }
-  ]
+  {
+    "id": "planning",
+    "title": "Pre‑Trip Planning Script",
+    "items": [
+      {
+        "id": "plan-reserve",
+        "text": "Pick destination & reserve campsite",
+        "checked": false
+      },
+      {
+        "id": "plan-permits",
+        "text": "Check permit rules (fires, fishing, drones)",
+        "checked": false
+      },
+      {
+        "id": "plan-hazards",
+        "text": "Verify seasonal hazards (bears, fire bans, bugs)",
+        "checked": false
+      },
+      {
+        "id": "plan-tent-inspect",
+        "text": "Inspect/repair tent, stakes, zippers",
+        "checked": false
+      },
+      {
+        "id": "plan-stove-test",
+        "text": "Test camp‑stove & fuel canisters",
+        "checked": false
+      },
+      {
+        "id": "plan-food-plan",
+        "text": "Create shared food plan & divide groceries",
+        "checked": false
+      },
+      {
+        "id": "plan-forecast",
+        "text": "Check 7‑day weather forecast & adjust clothing",
+        "checked": false
+      },
+      {
+        "id": "plan-offline-maps",
+        "text": "Download offline maps & GPX route",
+        "checked": false
+      },
+      {
+        "id": "plan-charge",
+        "text": "Charge power banks, camera batteries, headlamps",
+        "checked": false
+      },
+      {
+        "id": "plan-freeze-water",
+        "text": "Freeze one gallon of drinking water (acts as ice)",
+        "checked": false
+      },
+      {
+        "id": "plan-cooler",
+        "text": "Pre‑pack cooler & label meal bags",
+        "checked": false
+      },
+      {
+        "id": "plan-house-mode",
+        "text": "Put house on away‑mode (thermostat, trash, mail)",
+        "checked": false
+      },
+      {
+        "id": "plan-depart-check",
+        "text": "Turn off stove, lock doors, set alarm",
+        "checked": false
+      }
+    ]
+  },
+  {
+    "id": "shelter",
+    "title": "Shelter & Sleep",
+    "items": [
+      {
+        "id": "shelter-tent",
+        "text": "Tent (poles, stakes, groundsheet)",
+        "checked": false
+      },
+      {
+        "id": "shelter-footprint",
+        "text": "Footprint or tarp",
+        "checked": false
+      },
+      {
+        "id": "shelter-bag",
+        "text": "Sleeping bag (temp‑rated)",
+        "checked": false,
+        "requires": ["shelter-pad"]
+      },
+      {
+        "id": "shelter-pad",
+        "text": "Sleeping pad / air mattress & repair kit",
+        "checked": false
+      },
+      {
+        "id": "shelter-pillow",
+        "text": "Pillow or stuff‑sack pillowcase",
+        "checked": false
+      },
+      {
+        "id": "shelter-guy",
+        "text": "Extra guy lines & stake hammer",
+        "checked": false
+      }
+    ]
+  },
+  {
+    "id": "kitchen",
+    "title": "Camp Kitchen",
+    "items": [
+      {
+        "id": "kitchen-stove",
+        "text": "Stove + full fuel canisters",
+        "checked": false,
+        "requires": ["kitchen-lighter"]
+      },
+      {
+        "id": "kitchen-lighter",
+        "text": "Lighter + stormproof matches",
+        "checked": false
+      },
+      { "id": "kitchen-pot", "text": "Cook pot / pan & lid", "checked": false },
+      {
+        "id": "kitchen-utensils",
+        "text": "Utensils (spatula, long spoon, knife)",
+        "checked": false
+      },
+      {
+        "id": "kitchen-cutting",
+        "text": "Cutting board (thin plastic)",
+        "checked": false
+      },
+      {
+        "id": "kitchen-insulated",
+        "text": "Insulated mugs & bowls",
+        "checked": false
+      },
+      {
+        "id": "kitchen-eating",
+        "text": "Eating utensils / spork",
+        "checked": false
+      },
+      {
+        "id": "kitchen-soap",
+        "text": "Biodegradable soap & scrub pad",
+        "checked": false
+      },
+      {
+        "id": "kitchen-basin",
+        "text": "Collapsible sink / wash basin",
+        "checked": false
+      },
+      {
+        "id": "kitchen-cooler",
+        "text": "Cooler & ice packs / frozen water jugs",
+        "checked": false
+      },
+      {
+        "id": "kitchen-filter",
+        "text": "Water filter / purification tablets",
+        "checked": false
+      },
+      {
+        "id": "kitchen-bottles",
+        "text": "Refillable water bottles / hydration bladder",
+        "checked": false
+      },
+      {
+        "id": "kitchen-bear",
+        "text": "Bear‑proof canister or hang‑kit",
+        "checked": false
+      },
+      {
+        "id": "kitchen-trash",
+        "text": "Trash bags & zip‑locks",
+        "checked": false
+      }
+    ]
+  },
+  {
+    "id": "power",
+    "title": "Power",
+    "items": [
+      { "id": "power-solar", "text": "Solar charger", "checked": false },
+      { "id": "power-battery", "text": "Battery pack", "checked": false },
+      { "id": "power-charger", "text": "Phone charger", "checked": false },
+      { "id": "power-headlamp", "text": "Headlamp", "checked": false },
+      { "id": "power-lantern", "text": "Lantern", "checked": false },
+      { "id": "power-radio", "text": "Radio", "checked": false }
+    ]
+  },
+  {
+    "id": "clothing",
+    "title": "Clothing & Footwear",
+    "items": [
+      {
+        "id": "clothing-base",
+        "text": "Moisture‑wicking base layers (top & bottom)",
+        "checked": false
+      },
+      {
+        "id": "clothing-mid",
+        "text": "Insulating mid‑layer (fleece or puffy)",
+        "checked": false
+      },
+      {
+        "id": "clothing-rainjacket",
+        "text": "Rain jacket (waterproof/breathable)",
+        "checked": false
+      },
+      { "id": "clothing-rainpants", "text": "Rain pants", "checked": false },
+      {
+        "id": "clothing-extra-socks",
+        "text": "Extra hiking socks",
+        "checked": false
+      },
+      {
+        "id": "clothing-hat-sun",
+        "text": "Sun hat / brimmed cap",
+        "checked": false
+      },
+      {
+        "id": "clothing-hat-warm",
+        "text": "Warm hat/beanie",
+        "checked": false
+      },
+      {
+        "id": "clothing-gloves",
+        "text": "Light gloves / mittens",
+        "checked": false
+      },
+      {
+        "id": "clothing-camp-shoes",
+        "text": "Camp shoes / sandals",
+        "checked": false
+      }
+    ]
+  },
+  {
+    "id": "firstaid",
+    "title": "First Aid & Health",
+    "items": [
+      { "id": "firstaid-kit", "text": "First aid kit", "checked": false },
+      {
+        "id": "firstaid-meds",
+        "text": "Personal medications & copies of prescriptions",
+        "checked": false
+      },
+      {
+        "id": "firstaid-epi",
+        "text": "EpiPen / allergy meds (if needed)",
+        "checked": false
+      },
+      {
+        "id": "firstaid-blister",
+        "text": "Blister treatment (moleskin, leukotape)",
+        "checked": false
+      },
+      { "id": "firstaid-bug", "text": "Insect repellent", "checked": false },
+      {
+        "id": "firstaid-sunscreen",
+        "text": "Sunscreen SPF 30+ & lip balm",
+        "checked": false
+      },
+      {
+        "id": "firstaid-electrolyte",
+        "text": "Electrolyte tablets / rehydration salts",
+        "checked": false
+      }
+    ]
+  },
+  {
+    "id": "hygiene",
+    "title": "Hygiene & Sanitation",
+    "items": [
+      {
+        "id": "hygiene-toilet",
+        "text": "Toilet paper & zip‑lock bag to pack out",
+        "checked": false
+      },
+      {
+        "id": "hygiene-trowel",
+        "text": "Trowel / cathole digger",
+        "checked": false
+      },
+      { "id": "hygiene-sanitizer", "text": "Hand sanitizer", "checked": false },
+      {
+        "id": "hygiene-tooth",
+        "text": "Toothbrush & toothpaste",
+        "checked": false
+      },
+      {
+        "id": "hygiene-towel",
+        "text": "Quick‑dry camp towel",
+        "checked": false
+      },
+      {
+        "id": "hygiene-feminine",
+        "text": "Feminine hygiene products (if needed)",
+        "checked": false
+      },
+      {
+        "id": "hygiene-wipes",
+        "text": "Biodegradable wet wipes",
+        "checked": false
+      }
+    ]
+  },
+  {
+    "id": "nav",
+    "title": "Navigation & Safety",
+    "items": [
+      { "id": "nav-map", "text": "Paper map of area", "checked": false },
+      { "id": "nav-compass", "text": "Compass", "checked": false },
+      {
+        "id": "nav-gps",
+        "text": "GPS device / smartphone with offline maps",
+        "checked": false
+      },
+      { "id": "nav-whistle", "text": "Emergency whistle", "checked": false },
+      { "id": "nav-mirror", "text": "Signal mirror", "checked": false },
+      {
+        "id": "nav-plb",
+        "text": "Personal locator beacon / satellite messenger",
+        "checked": false
+      }
+    ]
+  },
+  {
+    "id": "tools",
+    "title": "Tools & Repair",
+    "items": [
+      {
+        "id": "tools-multitool",
+        "text": "Multi‑tool / knife",
+        "checked": false
+      },
+      {
+        "id": "tools-duct",
+        "text": "Duct tape / gear repair tape",
+        "checked": false
+      },
+      { "id": "tools-paracord", "text": "50 ft paracord", "checked": false },
+      {
+        "id": "tools-sewing",
+        "text": "Sewing kit / safety pins",
+        "checked": false
+      },
+      { "id": "tools-zip", "text": "Zip ties", "checked": false },
+      {
+        "id": "tools-batteries",
+        "text": "Spare AA/AAA batteries",
+        "checked": false
+      }
+    ]
+  },
+  {
+    "id": "fire",
+    "title": "Campfire",
+    "items": [
+      {
+        "id": "fire-permit",
+        "text": "Fire permit (if required)",
+        "checked": false
+      },
+      {
+        "id": "fire-starter",
+        "text": "Fire starter cubes / cotton‑vaseline balls",
+        "checked": false
+      },
+      {
+        "id": "fire-tinder",
+        "text": "Dry tinder in waterproof bag",
+        "checked": false
+      },
+      {
+        "id": "fire-hatchet",
+        "text": "Hatchet or folding saw",
+        "checked": false
+      },
+      { "id": "fire-gloves", "text": "Heat‑resistant gloves", "checked": false }
+    ]
+  },
+  {
+    "id": "recreation",
+    "title": "Recreation & Comfort",
+    "items": [
+      { "id": "rec-chair", "text": "Camp chair / stool", "checked": false },
+      { "id": "rec-hammock", "text": "Hammock & straps", "checked": false },
+      { "id": "rec-cards", "text": "Cards / travel games", "checked": false },
+      { "id": "rec-journal", "text": "Journal & pen", "checked": false },
+      { "id": "rec-binoculars", "text": "Binoculars", "checked": false },
+      { "id": "rec-camera", "text": "Camera & accessories", "checked": false }
+    ]
+  }
+]

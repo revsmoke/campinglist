@@ -1,1 +1,9 @@
 .history/
+node_modules/
+package-lock.json
+ROADMAP.md
+.prettierignore
+.prettierrc.json
+.releaserc.json
+.eslintrc.json
+vitest.config.js

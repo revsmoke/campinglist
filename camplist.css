@@ -1,277 +1,524 @@
-
 :root {
-    --bg: #f7f5f0;
-    --card: #fff;
-    --accent: #2f855a;
-    --text: #222;
-    --muted: #666;
-    --border: #e0ded7;
-    --radius: 8px;
-    --shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
-      sans-serif;
-  }
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  body {
-    font-family: var(--font);
-    background: var(--bg);
-    color: var(--text);
-  }
-  h1 {
-    margin: 1.2rem 0 0.6rem;
-    text-align: center;
-    font-size: 1.85rem;
-    color: var(--accent);
-  }
-  .controls {
-    display: flex;
-    justify-content: center;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-    margin-bottom: 1rem;
-  }
-  button {
-    padding: 0.45rem 1rem;
-    border: 1px solid var(--accent);
-    border-radius: var(--radius);
-    background: var(--accent);
-    color: #fff;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  button.secondary {
-    background: #fff;
-    color: var(--accent);
-  }
-  button:hover {
-    background: #236b46;
-  }
-  button.secondary:hover {
-    background: #e4ede8;
-  }
-  section.card {
-    background: var(--card);
-    margin: 1rem auto;
-    padding: 1rem 1.25rem;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    max-width: 720px;
-    position: relative;
-  }
-  .meta-card {
-    border-left: 6px solid var(--accent);
-  }
-  .meta-grid {
-    display: grid;
-    grid-template-columns: 120px 1fr;
-    row-gap: 0.45rem;
-    column-gap: 0.6rem;
-    font-size: 0.9rem;
-  }
-  .meta-grid .label {
-    font-weight: 600;
-    color: var(--muted);
-  }
+  --bg: #f7f5f0;
+  --card: #fff;
+  --accent: #2f855a;
+  --text: #222;
+  --muted: #666;
+  --border: #e0ded7;
+  --radius: 8px;
+  --shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --font:
+    system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
 
-  h2 {
-    margin-bottom: 0.75rem;
-    font-size: 1.25rem;
-    color: var(--accent);
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
+:root.dark {
+  --bg: #1a202c;
+  --card: #2d3748;
+  --accent: #68d391;
+  --text: #e2e8f0;
+  --muted: #a0aec0;
+  --border: #4a5568;
+  --shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+h1 {
+  margin: 1.2rem 0 0.6rem;
+  text-align: center;
+  font-size: 1.85rem;
+  color: var(--accent);
+}
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+button {
+  padding: 0.45rem 1rem;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+button.secondary {
+  background: #fff;
+  color: var(--accent);
+}
+button:hover {
+  background: #236b46;
+}
+button.secondary:hover {
+  background: #e4ede8;
+}
+section.card {
+  background: var(--card);
+  margin: 1rem auto;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  max-width: 720px;
+  position: relative;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+.meta-card {
+  border-left: 6px solid var(--accent);
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  row-gap: 0.45rem;
+  column-gap: 0.6rem;
+  font-size: 0.9rem;
+}
+.meta-grid .label {
+  font-weight: 600;
+  color: var(--muted);
+}
+
+h2 {
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.sectionHandle {
+  cursor: grab;
+  font-size: 1.1rem;
+  margin-right: 0.25rem;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.chevron {
+  margin-left: auto;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+
+ul.checklist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+li.item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--border);
+}
+li.item:last-child {
+  border-bottom: none;
+}
+.handle {
+  cursor: grab;
+  font-size: 1.1rem;
+  margin-right: 0.1rem;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.item-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+input[type="checkbox"] {
+  accent-color: var(--accent);
+  width: 1.15em;
+  height: 1.15em;
+  margin-top: 0.2em;
+  cursor: pointer;
+}
+label {
+  cursor: pointer;
+  display: inline-block;
+  max-width: 100%;
+  word-break: break-word;
+}
+li.checked label {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+.details-note summary {
+  font-size: 0.75rem;
+  color: var(--accent);
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.details-note summary::-webkit-details-marker {
+  display: none;
+}
+.details-note summary::before {
+  content: "▸ ";
+}
+.details-note[open] summary::before {
+  content: "▾ ";
+}
+.details-note div {
+  font-size: 0.75rem;
+  color: var(--muted);
+  white-space: pre-wrap;
+  margin-left: 1rem;
+  margin-top: 2px;
+}
+.actions {
+  display: flex;
+  gap: 0.25rem;
+}
+.actions button {
+  padding: 0.1rem 0.45rem;
+  font-size: 0.75rem;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  border-radius: 4px;
+}
+.actions button:hover {
+  color: var(--accent);
+  background: #e5f3ec;
+}
+.btnNote.has-note {
+  color: var(--accent);
+}
+form.addItem {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+form.addItem input {
+  flex: 1;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.38rem;
+}
+form.addItem button {
+  padding: 0.4rem 0.9rem;
+}
+@media print {
+  button,
+  .controls,
+  .actions,
+  form.addItem,
+  .handle,
   .sectionHandle {
-    cursor: grab;
-    font-size: 1.1rem;
-    margin-right: 0.25rem;
-    -webkit-user-select: none;
-    user-select: none;
+    display: none;
   }
-  .chevron {
-    margin-left: auto;
-    -webkit-user-select: none;
-    user-select: none;
-    cursor: pointer;
-  }
+}
+.collapsed {
+  display: none;
+}
+.drag-ghost {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  padding: 0.35rem 0.8rem;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  font-size: 0.9rem;
+  color: var(--text);
+  pointer-events: none;
+  max-width: 220px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* dialog */
+dialog {
+  margin: auto;
+  border: none;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+  width: 90%;
+  max-width: 380px;
+}
+dialog h3 {
+  margin: 0 0 0.6rem;
+  color: var(--accent);
+}
+dialog form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+dialog input,
+dialog textarea {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.35rem;
+  font: inherit;
+  transition: border-color 0.3s ease;
+  background: var(--card);
+  color: var(--text);
+}
+dialog textarea {
+  resize: vertical;
+  height: 90px;
+}
+dialog .row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+}
+dialog menu {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 0.8rem;
+  padding: 0;
+  background: none;
+  border: none;
+}
 
-  ul.checklist {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  li.item {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.45rem;
-    padding: 0.35rem 0;
-    border-bottom: 1px solid var(--border);
-  }
-  li.item:last-child {
-    border-bottom: none;
-  }
-  .handle {
-    cursor: grab;
-    font-size: 1.1rem;
-    margin-right: 0.1rem;
-    -webkit-user-select: none;
-    user-select: none;
-  }
-  .item-body {
-    flex: 1 1 auto;
-    min-width: 0;
-  }
-  input[type="checkbox"] {
-    accent-color: var(--accent);
-    width: 1.15em;
-    height: 1.15em;
-    margin-top: 0.2em;
-    cursor: pointer;
-  }
-  label {
-    cursor: pointer;
-    display: inline-block;
-    max-width: 100%;
-    word-break: break-word;
-  }
-  li.checked label {
-    text-decoration: line-through;
+#errorDialog p {
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+#errorDialog menu button {
+  /* Add specific styles if needed, otherwise inherits default button styles */
+}
+
+/* Section Drag Styles */
+section.section-dragging {
+  opacity: 0.5;
+  border-style: dashed;
+}
+
+section.section-over {
+  border-top: 3px dashed var(--accent);
+  margin-top: 1.5rem; /* Adjust spacing for visual cue */
+  transition: border-top 0.1s ease-in-out, margin-top 0.1s ease-in-out;
+}
+
+/* Note Edit Dialog Styles */
+#noteDialog p {
+    margin-bottom: 0.5rem;
     color: var(--muted);
-  }
-  .details-note summary {
-    font-size: 0.75rem;
-    color: var(--accent);
-    cursor: pointer;
-    -webkit-user-select: none;
-    user-select: none;
-  }
-  .details-note summary::-webkit-details-marker {
-    display: none;
-  }
-  .details-note summary::before {
-    content: "▸ ";
-  }
-  .details-note[open] summary::before {
-    content: "▾ ";
-  }
-  .details-note div {
-    font-size: 0.75rem;
-    color: var(--muted);
-    white-space: pre-wrap;
-    margin-left: 1rem;
-    margin-top: 2px;
-  }
-  .actions {
-    display: flex;
-    gap: 0.25rem;
-  }
-  .actions button {
-    padding: 0.1rem 0.45rem;
-    font-size: 0.75rem;
-    border: none;
-    background: transparent;
-    color: var(--muted);
-    cursor: pointer;
-    border-radius: 4px;
-  }
-  .actions button:hover {
-    color: var(--accent);
-    background: #e5f3ec;
-  }
-  .btnNote.has-note {
-    color: var(--accent);
-  }
-  form.addItem {
-    display: flex;
-    gap: 0.5rem;
-    margin-top: 0.6rem;
-  }
-  form.addItem input {
-    flex: 1;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 0.38rem;
-  }
-  form.addItem button {
-    padding: 0.4rem 0.9rem;
-  }
-  @media print {
-    button,
-    .controls,
-    .actions,
-    form.addItem,
-    .handle,
-    .sectionHandle {
-      display: none;
-    }
-  }
-  .collapsed {
-    display: none;
-  }
-  .drag-ghost {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-    padding: 0.35rem 0.8rem;
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
     font-size: 0.9rem;
+}
+#noteDialog p strong {
     color: var(--text);
-    pointer-events: none;
-    max-width: 220px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  /* dialog */
-  dialog {
-    margin: auto;
-    border: none;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 1rem;
-    width: 90%;
-    max-width: 380px;
-  }
-  dialog h3 {
-    margin: 0 0 0.6rem;
-    color: var(--accent);
-  }
-  dialog form {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-  }
-  dialog input,
-  dialog textarea {
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 0.35rem;
-    font: inherit;
-  }
-  dialog textarea {
-    resize: vertical;
-    height: 90px;
-  }
-  dialog .row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.6rem;
-  }
-  dialog menu {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.6rem;
-    margin-top: 0.8rem;
-    padding: 0;
+}
+#noteDialog label {
+    display: block; /* Make label take full width */
+    margin-bottom: 0.5rem;
+}
+#noteDialog textarea {
+    width: 100%;
+    height: 100px;
+    margin-top: 0.25rem;
+}
+
+/* Add Section Form Styles */
+form.addSection {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0 auto 1rem; /* Center and add bottom margin */
+  padding: 0.75rem;
+  max-width: 720px; /* Match section card width */
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+form.addSection input {
+  flex: 1;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.38rem;
+}
+
+form.addSection button {
+  padding: 0.4rem 0.9rem;
+}
+
+/* Undo/Redo Buttons */
+#btnUndo,
+#btnRedo {
+    padding: 0.45rem 0.8rem; /* Slightly less horizontal padding */
+    font-size: 1.2rem; /* Make icons bigger */
+    line-height: 1; /* Adjust line height for icons */
+}
+
+#btnUndo:disabled,
+#btnRedo:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: var(--muted);
+    border-color: var(--muted);
+}
+
+/* Theme Toggle Button */
+#btnTheme {
+    padding: 0.45rem 0.8rem; /* Match undo/redo */
+    font-size: 1.1rem; /* Adjust icon size */
+    line-height: 1;
     background: none;
     border: none;
+    color: var(--muted);
+}
+
+#btnTheme:hover {
+    background: #e4ede8; /* Same as secondary button hover */
+    color: var(--accent);
+}
+
+:root.dark #btnTheme {
+    color: var(--muted); /* Keep it muted in dark mode too */
+}
+
+:root.dark #btnTheme:hover {
+    background: #3f4a5a; /* Darker hover for dark mode */
+    color: var(--accent);
+}
+
+/* Filter/Search Input */
+.filter-container {
+    max-width: 720px;
+    margin: 0 auto 1rem;
+    position: relative;
+}
+
+#filterInput {
+    width: 100%;
+    padding: 0.5rem 2rem 0.5rem 0.75rem; /* Make space for clear button */
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+    background: var(--card);
+    color: var(--text);
+    transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+#filterInput:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(47, 133, 90, 0.2);
+}
+
+/* Styling for native search input clear button (webkit) */
+#filterInput::-webkit-search-cancel-button {
+  display: none; 
+}
+
+.clear-btn {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 0.2rem;
+    line-height: 1;
+}
+
+.clear-btn:hover {
+    color: var(--text);
+}
+
+/* Highlight for search matches */
+mark {
+    background-color: #fff3a3; 
+    color: #333;
+    padding: 0 2px;
+    border-radius: 3px;
+}
+
+:root.dark mark {
+    background-color: #a0aec0; /* Use a muted background in dark mode */
+    color: #1a202c;
+}
+
+/* Hide items that don't match filter */
+li.item.filtered-out {
+    display: none;
+}
+
+/* Message shown when filter yields no results */
+.filter-no-results {
+    text-align: center;
+    color: var(--muted);
+    margin-top: 0.5rem;
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+/* Touch Device Drag Handle Improvements */
+@media (pointer: coarse) {
+  .handle,
+  .sectionHandle {
+    padding: 0.5rem; /* Add padding to increase touch area */
+    margin: -0.5rem; /* Negative margin to compensate for padding visually */
+    margin-right: 0.25rem; /* Keep original right margin */
   }
+  .handle {
+      margin-right: 0.1rem;
+  }
+}
+
+/* Toast Notifications */
+#toastContainer {
+  position: fixed;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toast {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  transform: translateY(20px);
+  max-width: 90vw;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Optional: Add different types of toasts */
+.toast.warning {
+    background-color: rgba(217, 119, 6, 0.9); /* Amber */
+}
+
+.toast.error {
+    background-color: rgba(220, 38, 38, 0.9); /* Red */
+}
