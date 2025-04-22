@@ -20,6 +20,7 @@ import {
   canRedo,
   resetAllState,
   findItemState,
+  saveListState,
 } from "./state.js";
 
 /***************** UI UTILS *****************/
@@ -94,20 +95,116 @@ function openMetaDialog() {
 
 // Added function to open and populate the note dialog
 function openNoteDialog(itemId, itemText, currentNote) {
-  if (!noteDialog || !noteForm || !noteDialogItemText) {
-    console.error("Note dialog elements not found!");
-    return; // Don't fallback to prompt, just fail gracefully
-  }
-  // Populate dialog
-  noteDialogItemText.textContent = itemText; // Show which item we're editing
-  noteForm.itemId.value = itemId; // Store item ID in hidden input
-  noteForm.noteText.value = currentNote || ""; // Set current note text
+  const dialog = $("noteDialog");
+  const titleEl = $("noteDialogItemText");
+  const form = $("noteForm");
+  const noteInput = form.querySelector('[name="noteText"]');
+  const idField = form.querySelector('[name="itemId"]');
 
-  noteDialog.showModal();
-  noteForm.noteText.focus(); // Focus the textarea
+  if (dialog && titleEl && form && noteInput && idField) {
+    titleEl.textContent = itemText;
+    noteInput.value = currentNote || "";
+    idField.value = itemId;
+    dialog.showModal(); // Show the dialog
+  }
 }
 
-/***************** RENDER CHECKLIST *****************/
+// Add the new openWeightDialog function
+function openWeightDialog(itemId, itemText, currentWeight, isPacked) {
+  const dialog = $("weightDialog");
+  const titleEl = $("weightDialogItemText");
+  const form = $("weightForm");
+  const weightInput = form.querySelector('[name="itemWeight"]');
+  const packedInput = form.querySelector('[name="itemPacked"]');
+  const idField = form.querySelector('[name="itemId"]');
+
+  if (dialog && titleEl && form && weightInput && packedInput && idField) {
+    titleEl.textContent = itemText;
+    weightInput.value = currentWeight || 0;
+    packedInput.checked = !!isPacked;
+    idField.value = itemId;
+    dialog.showModal(); // Show the dialog
+  }
+}
+
+// Add a function to handle weight updates
+function updateItemWeightState(id, weight, packed) {
+  const itemContext = findItemState(id);
+  if (itemContext) {
+    // Save state before mutation for undo
+    _saveStateForUndo();
+
+    itemContext.item.weight = weight;
+    itemContext.item.packed = packed;
+    saveListState();
+
+    // Re-render (or update just UI)
+    renderList();
+    calculateAndDisplayWeights(); // Update the weight totals display
+    return true;
+  }
+  return false;
+}
+
+// Add function to calculate weight totals and update the sidebar
+function calculateAndDisplayWeights() {
+  const totalWeightEl = $("totalWeight");
+  const packedWeightEl = $("packedWeight");
+  const sectionWeightsEl = $("weightBySection");
+
+  if (!totalWeightEl || !packedWeightEl || !sectionWeightsEl) return;
+
+  let totalWeight = 0;
+  let packedWeight = 0;
+
+  // Build section weights HTML
+  let sectionWeightsHTML = "";
+
+  data.forEach((section) => {
+    let sectionTotal = 0;
+    let sectionPacked = 0;
+
+    section.items.forEach((item) => {
+      if (typeof item.weight === "number") {
+        sectionTotal += item.weight;
+        totalWeight += item.weight;
+
+        if (item.packed) {
+          sectionPacked += item.weight;
+          packedWeight += item.weight;
+        }
+      }
+    });
+
+    // Only show sections with weight > 0
+    if (sectionTotal > 0) {
+      sectionWeightsHTML += `
+        <div class="weight-section">
+          <div class="weight-section-title">${sanitize(section.title)}</div>
+          <div class="weight-section-value">
+            <span>Total: ${sectionTotal}g</span>
+            <span>Packed: ${sectionPacked}g</span>
+          </div>
+        </div>
+      `;
+    }
+  });
+
+  // Update displays
+  totalWeightEl.textContent = `${totalWeight}g`;
+  packedWeightEl.textContent = `${packedWeight}g`;
+  sectionWeightsEl.innerHTML = sectionWeightsHTML;
+}
+
+// Toggle weight sidebar visibility
+function toggleWeightSidebar() {
+  const sidebar = $("weightSidebar");
+  if (sidebar) {
+    sidebar.classList.toggle("collapsed");
+    // Could save preference to localStorage here
+  }
+}
+
 function noteHTML(n) {
   return n
     ? `<details class="details-note"><summary>Notes</summary><div>${sanitize(n)}</div></details>`
@@ -146,6 +243,7 @@ function renderList() {
                 </div>
                 <span class="actions">
                   <button class="btnNote ${hasNote ? "has-note" : ""}" title="Edit Note">🗒︎</button>
+                  <button class="btnWeight ${it.weight > 0 ? "has-weight" : ""}" title="Edit Weight">⚖️</button>
                   <button class="btnEdit" title="Edit Item">✎</button>
                   <button class="btnDel" title="Delete Item">✕</button>
                 </span>
@@ -262,6 +360,17 @@ function setupEventListeners() {
           // Replace prompt() with call to openNoteDialog
           openNoteDialog(id, itemContext.item.text, itemContext.item.note);
         }
+      } else if (target.classList.contains("btnWeight") && li) {
+        const id = li.dataset.id;
+        const itemContext = findItemState(id);
+        if (itemContext) {
+          openWeightDialog(
+            id,
+            itemContext.item.text,
+            itemContext.item.weight || 0,
+            itemContext.item.packed || false
+          );
+        }
       } else if (target.classList.contains("chevron")) {
         const sectionContent = sectionCard?.querySelector("ul.checklist"); // Use querySelector within the card
         const sectionId = sectionCard?.dataset.group;
@@ -307,6 +416,8 @@ function setupEventListeners() {
             showErrorDialog("Could not delete the section. Please try again.");
           }
         }
+      } else if (target.classList.contains("btnToggleWeightSidebar")) {
+        toggleWeightSidebar();
       }
 
       // Re-render and update buttons if state changed
@@ -505,6 +616,34 @@ function setupEventListeners() {
   if (btnPrint) {
     btnPrint.onclick = () => window.print();
   }
+
+  // Weight Dialog Submission
+  const weightDialog = $("weightDialog");
+  const weightForm = $("weightForm");
+
+  if (weightDialog && weightForm) {
+    weightForm.addEventListener("submit", (e) => {
+      // For <dialog> forms, default action is to close
+      // Extract form values for later handling
+      const itemId = e.target.querySelector('[name="itemId"]').value;
+      const weight =
+        Number(e.target.querySelector('[name="itemWeight"]').value) || 0;
+      const packed = e.target.querySelector('[name="itemPacked"]').checked;
+
+      // Since dialog will close automatically, this needs to be handled
+      // after the dialog is closed to maintain proper UI state
+      setTimeout(() => {
+        if (updateItemWeightState(itemId, weight, packed)) {
+          updateUndoRedoButtons();
+        }
+      }, 0);
+    });
+
+    // For cancel button - handled automatically by <dialog>
+  }
+
+  // Initial calculation
+  calculateAndDisplayWeights();
 }
 
 // Added function to update undo/redo button states
@@ -677,4 +816,15 @@ export {
   showErrorDialog,
   applyTheme,
   showToast,
+  calculateAndDisplayWeights, // Export for potential usage
+};
+
+// For internal state management like undo/redo
+// Using underscore prefix to match the convention in state.js
+const _saveStateForUndo = () => {
+  // Call undoState's preparatory function if available
+  if (typeof undoState === "function") {
+    // Just trigger undo/redo button updates, actual state saving happens in state.js
+    updateUndoRedoButtons();
+  }
 };

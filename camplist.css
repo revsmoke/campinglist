@@ -522,3 +522,151 @@ li.item.filtered-out {
 .toast.error {
     background-color: rgba(220, 38, 38, 0.9); /* Red */
 }
+
+/* Weight & Volume Estimator Styles */
+.main-content {
+  display: flex;
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+}
+
+#checklistContainer {
+  flex: 1;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.weight-sidebar {
+  width: 280px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+  margin: 1rem 0;
+  position: sticky;
+  top: 1rem;
+  height: max-content;
+  transition: transform 0.3s ease;
+}
+
+.weight-sidebar h3 {
+  font-size: 1.1rem;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.toggle-sidebar {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: transparent;
+  color: var(--muted);
+  border: none;
+  font-size: 1rem;
+  padding: 0.2rem;
+  cursor: pointer;
+}
+
+.toggle-sidebar:hover {
+  color: var(--accent);
+  background: transparent;
+}
+
+.weight-summary {
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.weight-total, .weight-packed {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.weight-total strong, .weight-packed strong {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.weight-by-section {
+  font-size: 0.85rem;
+}
+
+.weight-section {
+  margin-bottom: 0.75rem;
+}
+
+.weight-section-title {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.weight-section-value {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 0.5rem;
+  color: var(--muted);
+}
+
+/* Weight icon button in item actions */
+.btnWeight {
+  position: relative;
+}
+
+.btnWeight.has-weight::after {
+  content: "⚖️";
+  font-size: 0.65rem;
+  position: absolute;
+  top: -3px;
+  right: -3px;
+}
+
+/* Weight dialog specific styles */
+#weightDialog .row {
+  align-items: center;
+}
+
+#weightDialog .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: 1rem;
+}
+
+#weightDialog input[type="number"] {
+  width: 90px;
+}
+
+/* Responsive layouts */
+@media (max-width: 900px) {
+  .main-content {
+    flex-direction: column;
+  }
+  
+  .weight-sidebar {
+    width: 100%;
+    max-width: 720px;
+    margin: 1rem auto;
+    position: relative;
+    top: 0;
+  }
+  
+  .weight-sidebar.collapsed {
+    max-height: 3rem;
+    overflow: hidden;
+  }
+}
+
+/* Print styles update */
+@media print {
+  .weight-sidebar,
+  .btnWeight {
+    display: none;
+  }
+}

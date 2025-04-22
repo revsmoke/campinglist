@@ -26,7 +26,28 @@
     </div>
 
     <div id="metaContainer"></div>
-    <div id="checklistContainer">Loading…</div>
+
+    <div class="main-content">
+      <div id="checklistContainer">Loading…</div>
+      
+      <aside id="weightSidebar" class="weight-sidebar">
+        <h3>Weight Calculator</h3>
+        <button id="btnToggleWeightSidebar" class="toggle-sidebar" title="Toggle Weight Panel">⚖️</button>
+        <div class="weight-summary">
+          <div class="weight-total">
+            <span>Total Weight:</span>
+            <strong id="totalWeight">0g</strong>
+          </div>
+          <div class="weight-packed">
+            <span>Packed Weight:</span>
+            <strong id="packedWeight">0g</strong>
+          </div>
+        </div>
+        <div class="weight-by-section" id="weightBySection">
+          <!-- Section weights will be populated here -->
+        </div>
+      </aside>
+    </div>
 
     <form id="addSectionForm" class="addSection">
       <input type="text" id="newSectionTitle" placeholder="New Section Title..." required>
@@ -84,7 +105,29 @@
             <button value="save" type="submit">Save Note</button>
           </menu>
         </form>
-      </dialog>
+    </dialog>
+
+    <dialog id="weightDialog">
+        <h3>Edit Weight</h3>
+        <p>Item: <strong id="weightDialogItemText"></strong></p>
+        <form id="weightForm" method="dialog">
+          <input type="hidden" name="itemId" />
+          <div class="row">
+            <label>
+              Weight (g):
+              <input type="number" name="itemWeight" min="0" step="1" required />
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="itemPacked" />
+              <span>Packed</span>
+            </label>
+          </div>
+          <menu>
+            <button value="cancel" type="reset" class="secondary">Cancel</button>
+            <button value="save" type="submit">Save Weight</button>
+          </menu>
+        </form>
+    </dialog>
 
     <div id="toastContainer"></div>
     <script type="module" src="camplist.js"></script>
