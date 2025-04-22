@@ -158,27 +158,28 @@ GOOGLE_MAPS_API_KEY = "AIzaSyACkiD1ScnxmAX0gjJnB39j-Gj6jmQx2G4";
 
 ### 1-F: Undo / Redo
 
-- [ ] **State Layer**: 
+- [ ] **State Layer**:
   - [ ] Create a history stack data structure (array of states)
   - [ ] Implement deep cloning of checklist state
   - [ ] Add logic to push new state onto stack after each significant mutation
   - [ ] Implement maximum history size limit to prevent memory issues
-- [ ] **Keyboard/UI Hooks**: 
+- [ ] **Keyboard/UI Hooks**:
   - [ ] Add event listener for `Ctrl`/`⌘`‑`Z` for undo
   - [ ] Add event listener for `Shift`‑`Ctrl`/`⌘`‑`Z` for redo
   - [ ] Create "↶ Undo" & "↷ Redo" toolbar buttons in the controls bar
   - [ ] Implement logic to disable buttons when appropriate stacks are empty
-- [ ] **Persistence**: 
+- [ ] **Persistence**:
   - [ ] Modify storage logic to only save latest state to `localStorage`
   - [ ] Ensure history stack is maintained only in memory
   - [ ] Add safeguards to prevent history loss on page refresh
-- [ ] **Tests**: 
+- [ ] **Tests**:
   - [ ] Write unit tests for undo/redo functionality
   - [ ] Create memory leak detection tests
   - [ ] Verify support for ≥20 undo operations without performance degradation
   - [ ] Test edge cases (empty state, maximum history size)
 
 ### 1-G: Dark Mode Toggle
+
 - [ ] **CSS Setup**:
   - [ ] Utilize existing CSS custom properties
   - [ ] Move all colors to CSS custom properties
@@ -371,7 +372,7 @@ OPENWEATHERMAP_API_KEY = "92df3f0f4c1aa7fdbbe39a05410f8895";
   - [ ] Test offline capabilities
   - [ ] Validate PWA in Chrome DevTools Lighthouse
 - [ ] Set up hosting with `HTTPS`:
-  - [ ] Configure `GitHub Pages` or `Netlify` 
+  - [ ] Configure `Replit`
   - [ ] Ensure proper SSL certificate setup
   - [ ] Verify PWA requirements are met
 
@@ -551,7 +552,7 @@ OPENWEATHERMAP_API_KEY = "92df3f0f4c1aa7fdbbe39a05410f8895";
 
 ### 4‑A Opt‑in Sync (Supabase)
 
-#### Auth with GitHub or Google (`Supabase` Auth)
+#### Auth with Google (Auth)
 
 #### On login
 
