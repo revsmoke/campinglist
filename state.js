@@ -30,7 +30,7 @@ const DEFAULT_META = {
 let data = [];
 let meta = { ...DEFAULT_META };
 let collapsedSections = new Set(); // Store IDs of collapsed sections
-let theme = 'system'; // 'light', 'dark', or 'system'
+let theme = "system"; // 'light', 'dark', or 'system'
 
 // Undo/Redo History
 const MAX_HISTORY_SIZE = 50; // Limit history to prevent memory issues
@@ -38,7 +38,7 @@ let undoStack = [];
 let redoStack = [];
 
 // Helper function for retries
-const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 /***************** LOAD & SAVE *****************/
 async function fetchDefaultList() {
@@ -59,14 +59,18 @@ async function fetchDefaultList() {
       const jsonData = await r.json();
       // console.log("Fetch successful!");
       return jsonData; // Success!
-
     } catch (error) {
       console.warn(`Fetch attempt ${attempt + 1} failed:`, error.message); // Log warning for this attempt
 
       if (attempt === MAX_RETRIES - 1) {
         // Last attempt failed, log final error, show dialog, and return fallback
-        console.error(`Failed to fetch default list after ${MAX_RETRIES} attempts:`, error);
-        showErrorDialog("Could not fetch the default checklist template from the server after multiple attempts. Using a basic built-in list instead.");
+        console.error(
+          `Failed to fetch default list after ${MAX_RETRIES} attempts:`,
+          error
+        );
+        showErrorDialog(
+          "Could not fetch the default checklist template from the server after multiple attempts. Using a basic built-in list instead."
+        );
         return structuredClone(FALLBACK_LIST);
       }
 
@@ -78,7 +82,9 @@ async function fetchDefaultList() {
   }
   // Should theoretically not be reached due to the return in the loop/catch
   // but as a safeguard, return fallback if loop finishes unexpectedly.
-  console.error("fetchDefaultList loop completed unexpectedly. Returning fallback.");
+  console.error(
+    "fetchDefaultList loop completed unexpectedly. Returning fallback."
+  );
   return structuredClone(FALLBACK_LIST);
 }
 
@@ -93,11 +99,18 @@ async function loadAllState() {
         localStorage.setItem(STORAGE_LIST, JSON.stringify(data));
       } catch (saveError) {
         // Handle potential quota error during the *initial* save
-        if (saveError instanceof DOMException && saveError.name === 'QuotaExceededError') {
-          showErrorDialog("Could not save initial checklist. Storage space may be full.");
+        if (
+          saveError instanceof DOMException &&
+          saveError.name === "QuotaExceededError"
+        ) {
+          showErrorDialog(
+            "Could not save initial checklist. Storage space may be full."
+          );
         } else {
           console.error("Error saving initial checklist data:", saveError);
-          showErrorDialog("An unexpected error occurred saving the initial checklist.");
+          showErrorDialog(
+            "An unexpected error occurred saving the initial checklist."
+          );
         }
       }
     }
@@ -109,10 +122,18 @@ async function loadAllState() {
     try {
       localStorage.setItem(STORAGE_LIST, JSON.stringify(data));
     } catch (overwriteError) {
-      if (overwriteError instanceof DOMException && overwriteError.name === 'QuotaExceededError') {
-        showErrorDialog("Storage full: Could not even save the default checklist.");
+      if (
+        overwriteError instanceof DOMException &&
+        overwriteError.name === "QuotaExceededError"
+      ) {
+        showErrorDialog(
+          "Storage full: Could not even save the default checklist."
+        );
       } else {
-        console.error("Error overwriting checklist data with fallback:", overwriteError);
+        console.error(
+          "Error overwriting checklist data with fallback:",
+          overwriteError
+        );
         // No need for another dialog here, the first one suffices
       }
     }
@@ -120,25 +141,25 @@ async function loadAllState() {
 
   // Data Migration/Normalization (Ensure all items have expected fields)
   if (Array.isArray(data)) {
-    data.forEach(group => {
-        if (group && Array.isArray(group.items)) {
-            group.items.forEach(item => {
-                if (item && typeof item === 'object') {
-                    if (!item.hasOwnProperty('note')) {
-                        item.note = ""; // Add missing note field
-                    }
-                    if (!item.hasOwnProperty('requires')) {
-                        item.requires = []; // Add missing requires field (NEW)
-                    }
-                    if (!item.hasOwnProperty('weight')) {
-                        item.weight = 0; // Add missing weight field
-                    }
-                    if (!item.hasOwnProperty('packed')) {
-                        item.packed = false; // Add missing packed field
-                    }
-                }
-            });
-        }
+    data.forEach((group) => {
+      if (group && Array.isArray(group.items)) {
+        group.items.forEach((item) => {
+          if (item && typeof item === "object") {
+            if (!Object.hasOwn(item, "note")) {
+              item.note = ""; // Add missing note field
+            }
+            if (!Object.hasOwn(item, "requires")) {
+              item.requires = []; // Add missing requires field (NEW)
+            }
+            if (!Object.hasOwn(item, "weight")) {
+              item.weight = 0; // Add missing weight field
+            }
+            if (!Object.hasOwn(item, "packed")) {
+              item.packed = false; // Add missing packed field
+            }
+          }
+        });
+      }
     });
   }
 
@@ -148,32 +169,47 @@ async function loadAllState() {
     meta = metaRaw ? JSON.parse(metaRaw) : { ...DEFAULT_META };
     // If loaded from default (metaRaw is null), save it immediately
     if (!metaRaw) {
-        try {
-            localStorage.setItem(STORAGE_META, JSON.stringify(meta));
-        } catch (saveError) {
-             // Handle potential quota error during the *initial* save
-            if (saveError instanceof DOMException && saveError.name === 'QuotaExceededError') {
-                showErrorDialog("Could not save initial trip info. Storage space may be full.");
-            } else {
-                console.error("Error saving initial meta data:", saveError);
-                showErrorDialog("An unexpected error occurred saving the initial trip info.");
-            }
+      try {
+        localStorage.setItem(STORAGE_META, JSON.stringify(meta));
+      } catch (saveError) {
+        // Handle potential quota error during the *initial* save
+        if (
+          saveError instanceof DOMException &&
+          saveError.name === "QuotaExceededError"
+        ) {
+          showErrorDialog(
+            "Could not save initial trip info. Storage space may be full."
+          );
+        } else {
+          console.error("Error saving initial meta data:", saveError);
+          showErrorDialog(
+            "An unexpected error occurred saving the initial trip info."
+          );
         }
+      }
     }
   } catch (error) {
     console.error("Error loading meta data:", error);
     showErrorDialog("Could not load saved trip info. Using defaults.");
     meta = { ...DEFAULT_META }; // Fallback on error
-     // Attempt to overwrite corrupted data with default
+    // Attempt to overwrite corrupted data with default
     try {
-        localStorage.setItem(STORAGE_META, JSON.stringify(meta));
+      localStorage.setItem(STORAGE_META, JSON.stringify(meta));
     } catch (overwriteError) {
-        if (overwriteError instanceof DOMException && overwriteError.name === 'QuotaExceededError') {
-            showErrorDialog("Storage full: Could not even save the default trip info.");
-        } else {
-            console.error("Error overwriting meta data with default:", overwriteError);
-            // No need for another dialog here
-        }
+      if (
+        overwriteError instanceof DOMException &&
+        overwriteError.name === "QuotaExceededError"
+      ) {
+        showErrorDialog(
+          "Storage full: Could not even save the default trip info."
+        );
+      } else {
+        console.error(
+          "Error overwriting meta data with default:",
+          overwriteError
+        );
+        // No need for another dialog here
+      }
     }
   }
 
@@ -181,23 +217,23 @@ async function loadAllState() {
   try {
     const collapsedRaw = localStorage.getItem(STORAGE_COLLAPSED);
     if (collapsedRaw) {
-        const collapsedArray = JSON.parse(collapsedRaw);
-        if (Array.isArray(collapsedArray)) {
-            collapsedSections = new Set(collapsedArray);
-        }
+      const collapsedArray = JSON.parse(collapsedRaw);
+      if (Array.isArray(collapsedArray)) {
+        collapsedSections = new Set(collapsedArray);
+      }
     }
     // If nothing is stored, collapsedSections remains an empty Set (default: all expanded)
   } catch (error) {
-      console.error("Error loading collapsed sections state:", error);
-      collapsedSections = new Set(); // Fallback to empty Set on error
+    console.error("Error loading collapsed sections state:", error);
+    collapsedSections = new Set(); // Fallback to empty Set on error
   }
 
   // Load theme preference
   try {
-      theme = localStorage.getItem(STORAGE_THEME) || 'system'; // Default to system
+    theme = localStorage.getItem(STORAGE_THEME) || "system"; // Default to system
   } catch (error) {
-      console.error("Error loading theme preference:", error);
-      theme = 'system'; // Fallback
+    console.error("Error loading theme preference:", error);
+    theme = "system"; // Fallback
   }
 
   // Clear history on initial load
@@ -210,11 +246,15 @@ function saveListState() {
   try {
     localStorage.setItem(STORAGE_LIST, JSON.stringify(data));
   } catch (error) {
-    if (error instanceof DOMException && error.name === 'QuotaExceededError') {
-      showErrorDialog("Could not save checklist changes. Storage space is full. Please remove some items or clear other website data.");
+    if (error instanceof DOMException && error.name === "QuotaExceededError") {
+      showErrorDialog(
+        "Could not save checklist changes. Storage space is full. Please remove some items or clear other website data."
+      );
     } else {
       console.error("Error saving checklist data:", error);
-      showErrorDialog("An unexpected error occurred while saving the checklist. Please try again.");
+      showErrorDialog(
+        "An unexpected error occurred while saving the checklist. Please try again."
+      );
     }
   }
   saveMetaState();
@@ -224,35 +264,39 @@ function saveMetaState() {
   try {
     localStorage.setItem(STORAGE_META, JSON.stringify(meta));
   } catch (error) {
-    if (error instanceof DOMException && error.name === 'QuotaExceededError') {
-        showErrorDialog("Could not save trip info changes. Storage space is full. Please remove some items or clear other website data.");
-      } else {
-        console.error("Error saving meta data:", error);
-        showErrorDialog("An unexpected error occurred while saving the trip info. Please try again.");
-      }
+    if (error instanceof DOMException && error.name === "QuotaExceededError") {
+      showErrorDialog(
+        "Could not save trip info changes. Storage space is full. Please remove some items or clear other website data."
+      );
+    } else {
+      console.error("Error saving meta data:", error);
+      showErrorDialog(
+        "An unexpected error occurred while saving the trip info. Please try again."
+      );
+    }
   }
 }
 
 // Save the set of collapsed section IDs
 function saveCollapsedState() {
-    try {
-      const collapsedArray = Array.from(collapsedSections); // Convert Set to Array for storage
-      localStorage.setItem(STORAGE_COLLAPSED, JSON.stringify(collapsedArray));
-    } catch (error) {
-      // Don't show error dialog for this, just log it. It's non-critical.
-      console.error("Error saving collapsed sections state:", error);
-    }
+  try {
+    const collapsedArray = Array.from(collapsedSections); // Convert Set to Array for storage
+    localStorage.setItem(STORAGE_COLLAPSED, JSON.stringify(collapsedArray));
+  } catch (error) {
+    // Don't show error dialog for this, just log it. It's non-critical.
+    console.error("Error saving collapsed sections state:", error);
+  }
 }
 
 // Add or remove a section ID from the collapsed set
 function updateCollapsedState(sectionId, isCollapsed) {
-    _saveStateForUndo(); // Save state BEFORE mutation
-    if (isCollapsed) {
-        collapsedSections.add(sectionId);
-    } else {
-        collapsedSections.delete(sectionId);
-    }
-    saveCollapsedState(); // Persist the change
+  _saveStateForUndo(); // Save state BEFORE mutation
+  if (isCollapsed) {
+    collapsedSections.add(sectionId);
+  } else {
+    collapsedSections.delete(sectionId);
+  }
+  saveCollapsedState(); // Persist the change
 }
 
 function updateMetaState(newMeta) {
@@ -263,22 +307,22 @@ function updateMetaState(newMeta) {
 
 // Save theme preference to localStorage
 function saveThemeState() {
-    try {
-      localStorage.setItem(STORAGE_THEME, theme);
-    } catch (error) {
-      // Non-critical, just log
-      console.error("Error saving theme preference:", error);
-    }
+  try {
+    localStorage.setItem(STORAGE_THEME, theme);
+  } catch (error) {
+    // Non-critical, just log
+    console.error("Error saving theme preference:", error);
+  }
 }
 
 // Update the current theme state
 function updateThemeState(newTheme) {
-    if (['light', 'dark', 'system'].includes(newTheme)) {
-        theme = newTheme;
-        saveThemeState();
-    } else {
-        console.warn("Invalid theme value provided:", newTheme);
-    }
+  if (["light", "dark", "system"].includes(newTheme)) {
+    theme = newTheme;
+    saveThemeState();
+  } else {
+    console.warn("Invalid theme value provided:", newTheme);
+  }
 }
 
 /***************** STATE UTILS *****************/
@@ -312,7 +356,7 @@ function addItemState(groupId, text) {
       note: "",
       requires: [],
       weight: 0,
-      packed: false
+      packed: false,
     };
     group.items.push(newItem);
     saveListState();
@@ -364,7 +408,10 @@ function moveItemState(itemId, targetItemId) {
     // Remove from original position
     srcCtx.g.items.splice(srcCtx.idx, 1);
     // Insert at target position (adjust index if target was after source in same group)
-    const insertIndex = srcCtx.g === tgtCtx.g && srcCtx.idx < tgtCtx.idx ? tgtCtx.idx -1 : tgtCtx.idx;
+    const insertIndex =
+      srcCtx.g === tgtCtx.g && srcCtx.idx < tgtCtx.idx
+        ? tgtCtx.idx - 1
+        : tgtCtx.idx;
     tgtCtx.g.items.splice(insertIndex, 0, srcCtx.item);
     saveListState();
     return true;
@@ -373,8 +420,8 @@ function moveItemState(itemId, targetItemId) {
 }
 
 function moveSectionState(sourceSectionId, targetSectionId) {
-  const sourceIndex = data.findIndex(g => g.id === sourceSectionId);
-  const targetIndex = data.findIndex(g => g.id === targetSectionId);
+  const sourceIndex = data.findIndex((g) => g.id === sourceSectionId);
+  const targetIndex = data.findIndex((g) => g.id === targetSectionId);
 
   if (sourceIndex > -1 && targetIndex > -1 && sourceIndex !== targetIndex) {
     _saveStateForUndo(); // Save state BEFORE mutation
@@ -383,13 +430,18 @@ function moveSectionState(sourceSectionId, targetSectionId) {
 
     // Insert the moved section at the target index
     // Note: The targetIndex might need adjustment if source was before target
-    const adjustedTargetIndex = sourceIndex < targetIndex ? targetIndex - 1 : targetIndex;
+    const adjustedTargetIndex =
+      sourceIndex < targetIndex ? targetIndex - 1 : targetIndex;
     data.splice(adjustedTargetIndex, 0, movedSection);
 
     saveListState(); // Save the new order
     return true;
   }
-  console.warn("Could not move section: invalid IDs or indices", sourceSectionId, targetSectionId);
+  console.warn(
+    "Could not move section: invalid IDs or indices",
+    sourceSectionId,
+    targetSectionId
+  );
   return false;
 }
 
@@ -398,8 +450,8 @@ async function resetAllState() {
   undoStack = [];
   redoStack = [];
   // Update button state after clearing
-  if (typeof updateUndoRedoButtons === 'function') {
-      updateUndoRedoButtons(); 
+  if (typeof updateUndoRedoButtons === "function") {
+    updateUndoRedoButtons();
   }
 
   try {
@@ -407,7 +459,10 @@ async function resetAllState() {
     localStorage.removeItem(STORAGE_META);
   } catch (error) {
     // Log error, but don't prevent the rest of the reset
-    console.error("Error removing items from localStorage during reset:", error);
+    console.error(
+      "Error removing items from localStorage during reset:",
+      error
+    );
   }
   data = await fetchDefaultList();
   meta = { ...DEFAULT_META };
@@ -417,47 +472,51 @@ async function resetAllState() {
 
 // Creates and adds a new section (group) to the list
 function addSectionState(title) {
-    if (!title || !title.trim()) {
-        console.error("Cannot add section with empty title.");
-        return null;
-    }
-    _saveStateForUndo(); // Save state BEFORE mutation
-    const newSection = {
-        id: `section-${Date.now()}`,
-        title: title.trim(),
-        items: [] // New sections start with no items
-    };
-    data.push(newSection);
-    saveListState();
-    return newSection;
+  if (!title || !title.trim()) {
+    console.error("Cannot add section with empty title.");
+    return null;
+  }
+  _saveStateForUndo(); // Save state BEFORE mutation
+  const newSection = {
+    id: `section-${Date.now()}`,
+    title: title.trim(),
+    items: [], // New sections start with no items
+  };
+  data.push(newSection);
+  saveListState();
+  return newSection;
 }
 
 function updateSectionTitleState(sectionId, newTitle) {
-  const section = data.find(g => g.id === sectionId);
+  const section = data.find((g) => g.id === sectionId);
   if (section && newTitle && newTitle.trim()) {
     _saveStateForUndo(); // Save state BEFORE mutation
     section.title = newTitle.trim();
     saveListState();
     return true;
   } else {
-    console.error("Could not update section title: Invalid ID or title", sectionId, newTitle);
+    console.error(
+      "Could not update section title: Invalid ID or title",
+      sectionId,
+      newTitle
+    );
     return false;
   }
 }
 
 function deleteSectionState(sectionId) {
-    const index = data.findIndex(g => g.id === sectionId);
-    if (index > -1) {
-        _saveStateForUndo(); // Save state BEFORE mutation
-        data.splice(index, 1); // Remove section from data array
-        collapsedSections.delete(sectionId); // Remove from collapsed set if present
-        saveListState(); // Save the updated list
-        saveCollapsedState(); // Save the updated collapsed set
-        return true;
-    } else {
-        console.error("Could not delete section: Invalid ID", sectionId);
-        return false;
-    }
+  const index = data.findIndex((g) => g.id === sectionId);
+  if (index > -1) {
+    _saveStateForUndo(); // Save state BEFORE mutation
+    data.splice(index, 1); // Remove section from data array
+    collapsedSections.delete(sectionId); // Remove from collapsed set if present
+    saveListState(); // Save the updated list
+    saveCollapsedState(); // Save the updated collapsed set
+    return true;
+  } else {
+    console.error("Could not delete section: Invalid ID", sectionId);
+    return false;
+  }
 }
 
 // --- History Management ---
@@ -468,7 +527,7 @@ function _saveStateForUndo() {
   const stateSnapshot = {
     data: structuredClone(data),
     meta: structuredClone(meta),
-    collapsedSections: new Set(collapsedSections) // Clone the Set
+    collapsedSections: new Set(collapsedSections), // Clone the Set
   };
 
   undoStack.push(stateSnapshot);
@@ -482,10 +541,10 @@ function _saveStateForUndo() {
   redoStack = [];
 
   // Update UI button states
-  if (typeof updateUndoRedoButtons === 'function') {
-      updateUndoRedoButtons(); 
+  if (typeof updateUndoRedoButtons === "function") {
+    updateUndoRedoButtons();
   } else {
-      console.warn("updateUndoRedoButtons not available when saving state");
+    console.warn("updateUndoRedoButtons not available when saving state");
   }
 }
 
@@ -503,22 +562,22 @@ function undoState() {
     console.log("Undo stack empty");
     return false; // Nothing to undo
   }
-  
+
   // Save current state to redo stack BEFORE restoring
   const currentState = {
     data: structuredClone(data),
     meta: structuredClone(meta),
-    collapsedSections: new Set(collapsedSections)
+    collapsedSections: new Set(collapsedSections),
   };
   redoStack.push(currentState);
 
   // Pop and restore previous state
   const previousState = undoStack.pop();
   _restoreState(previousState);
-  
+
   // Update UI button states
-  if (typeof updateUndoRedoButtons === 'function') {
-      updateUndoRedoButtons(); 
+  if (typeof updateUndoRedoButtons === "function") {
+    updateUndoRedoButtons();
   }
   console.log("Undo successful");
   return true;
@@ -532,15 +591,15 @@ function redoState() {
   }
 
   // Save current state to undo stack BEFORE restoring
-   const currentState = {
+  const currentState = {
     data: structuredClone(data),
     meta: structuredClone(meta),
-    collapsedSections: new Set(collapsedSections)
+    collapsedSections: new Set(collapsedSections),
   };
   undoStack.push(currentState);
   // Enforce history limit on undo stack again
   if (undoStack.length > MAX_HISTORY_SIZE) {
-    undoStack.shift(); 
+    undoStack.shift();
   }
 
   // Pop and restore next state
@@ -548,8 +607,8 @@ function redoState() {
   _restoreState(nextState);
 
   // Update UI button states
-  if (typeof updateUndoRedoButtons === 'function') {
-      updateUndoRedoButtons(); 
+  if (typeof updateUndoRedoButtons === "function") {
+    updateUndoRedoButtons();
   }
   console.log("Redo successful");
   return true;
@@ -557,11 +616,11 @@ function redoState() {
 
 // Check if undo/redo is possible (for UI button state)
 function canUndo() {
-    return undoStack.length > 0;
+  return undoStack.length > 0;
 }
 
 function canRedo() {
-    return redoStack.length > 0;
+  return redoStack.length > 0;
 }
 
 // --- End History Management ---
@@ -594,4 +653,4 @@ export {
   moveSectionState,
   resetAllState,
   updateSectionTitleState, // Export the new function
-}; 
+};

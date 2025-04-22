@@ -2,7 +2,6 @@
 import {
   data,
   meta,
-  theme,
   updateThemeState,
   collapsedSections,
   updateMetaState,
@@ -26,10 +25,11 @@ import {
 /***************** UI UTILS *****************/
 const $ = (id) => document.getElementById(id);
 
-// Use DOMPurify (loaded from CDN in index.html) for robust sanitization
+// Use DOMPurify (loaded in index.html) for robust sanitization
 // Configure to return safe HTML string suitable for innerHTML
-const sanitize = (s) => DOMPurify.sanitize(s, {
-    USE_PROFILES: { html: true } // Ensure it outputs safe HTML, not just text
+const sanitize = (s) =>
+  DOMPurify.sanitize(s, {
+    USE_PROFILES: { html: true }, // Ensure it outputs safe HTML, not just text
   });
 
 const btnTheme = $("btnTheme"); // Get theme button reference
@@ -58,7 +58,7 @@ function renderMeta() {
   if (editBtn) {
     editBtn.onclick = openMetaDialog;
   } else {
-     console.error("Could not find #editMetaBtn after rendering meta panel.");
+    console.error("Could not find #editMetaBtn after rendering meta panel.");
   }
 }
 
@@ -95,8 +95,8 @@ function openMetaDialog() {
 // Added function to open and populate the note dialog
 function openNoteDialog(itemId, itemText, currentNote) {
   if (!noteDialog || !noteForm || !noteDialogItemText) {
-      console.error("Note dialog elements not found!");
-      return; // Don't fallback to prompt, just fail gracefully
+    console.error("Note dialog elements not found!");
+    return; // Don't fallback to prompt, just fail gracefully
   }
   // Populate dialog
   noteDialogItemText.textContent = itemText; // Show which item we're editing
@@ -186,19 +186,28 @@ function setupEventListeners() {
             updateUndoRedoButtons();
 
             // Check dependencies ONLY if the item was just checked
-            if (checked && itemContext && itemContext.item.requires && itemContext.item.requires.length > 0) {
-                let missingDeps = [];
-                itemContext.item.requires.forEach(requiredId => {
-                    const requiredItemContext = findItemState(requiredId);
-                    // Check if required item exists and is NOT checked
-                    if (requiredItemContext && !requiredItemContext.item.checked) {
-                        missingDeps.push(requiredItemContext.item.text);
-                    }
-                });
-                if (missingDeps.length > 0) {
-                    // Use toast notification instead of error dialog
-                    showToast(`Reminder: You might also need: ${missingDeps.join(", ")}`, 5000, 'warning'); // 5 sec duration, warning type
+            if (
+              checked &&
+              itemContext &&
+              itemContext.item.requires &&
+              itemContext.item.requires.length > 0
+            ) {
+              let missingDeps = [];
+              itemContext.item.requires.forEach((requiredId) => {
+                const requiredItemContext = findItemState(requiredId);
+                // Check if required item exists and is NOT checked
+                if (requiredItemContext && !requiredItemContext.item.checked) {
+                  missingDeps.push(requiredItemContext.item.text);
                 }
+              });
+              if (missingDeps.length > 0) {
+                // Use toast notification instead of error dialog
+                showToast(
+                  `Reminder: You might also need: ${missingDeps.join(", ")}`,
+                  5000,
+                  "warning" // 5 sec duration, warning type
+                );
+              }
             }
           }
         }
@@ -209,7 +218,7 @@ function setupEventListeners() {
       if (e.target.matches("form.addItem")) {
         e.preventDefault();
         const form = e.target;
-        const input = form.querySelector("input[type=\"text\"]");
+        const input = form.querySelector('input[type="text"]');
         const gId = form.dataset.group;
         const txt = input.value.trim();
         if (txt && gId) {
@@ -250,8 +259,8 @@ function setupEventListeners() {
         const id = li.dataset.id;
         const itemContext = findItemState(id); // Need findItemState from state.js
         if (itemContext) {
-            // Replace prompt() with call to openNoteDialog
-            openNoteDialog(id, itemContext.item.text, itemContext.item.note);
+          // Replace prompt() with call to openNoteDialog
+          openNoteDialog(id, itemContext.item.text, itemContext.item.note);
         }
       } else if (target.classList.contains("chevron")) {
         const sectionContent = sectionCard?.querySelector("ul.checklist"); // Use querySelector within the card
@@ -264,79 +273,88 @@ function setupEventListeners() {
           updateCollapsedState(sectionId, isNowCollapsed);
         }
       } else if (target.classList.contains("btnEditSection") && sectionCard) {
-          const sectionId = sectionCard.dataset.group;
-          const currentTitleElement = sectionCard.querySelector(".sectionTitle"); // Find title span
-          const currentTitle = currentTitleElement ? currentTitleElement.textContent : ""; // Get current text
-          
-          if (sectionId) {
-            const newTitle = prompt("Edit section title:", currentTitle);
-            if (newTitle !== null && newTitle.trim()) {
-              if (updateSectionTitleState(sectionId, newTitle.trim())) {
-                stateChanged = true;
-              }
+        const sectionId = sectionCard.dataset.group;
+        const currentTitleElement = sectionCard.querySelector(".sectionTitle"); // Find title span
+        const currentTitle = currentTitleElement
+          ? currentTitleElement.textContent
+          : ""; // Get current text
+
+        if (sectionId) {
+          const newTitle = prompt("Edit section title:", currentTitle);
+          if (newTitle !== null && newTitle.trim()) {
+            if (updateSectionTitleState(sectionId, newTitle.trim())) {
+              stateChanged = true;
             }
           }
+        }
       } else if (target.classList.contains("btnDeleteSection") && sectionCard) {
         const sectionId = sectionCard.dataset.group;
-        const sectionTitle = sectionCard.querySelector(".sectionTitle")?.textContent || "this section";
+        const sectionTitle =
+          sectionCard.querySelector(".sectionTitle")?.textContent ||
+          "this section";
 
         // Confirm deletion
-        if (sectionId && confirm(`Are you sure you want to delete the section "${sectionTitle}" and all its items?`)) {
-            if (deleteSectionState(sectionId)) {
-                stateChanged = true;
-            } else {
-                // Optional: Show error if deletion failed in state
-                showErrorDialog("Could not delete the section. Please try again.");
-            }
+        if (
+          sectionId &&
+          confirm(
+            `Are you sure you want to delete the section "${sectionTitle}" and all its items?`
+          )
+        ) {
+          if (deleteSectionState(sectionId)) {
+            stateChanged = true;
+          } else {
+            // Optional: Show error if deletion failed in state
+            showErrorDialog("Could not delete the section. Please try again.");
+          }
         }
       }
 
       // Re-render and update buttons if state changed
       if (stateChanged) {
-          renderList();
-          updateUndoRedoButtons();
+        renderList();
+        updateUndoRedoButtons();
       }
     });
   }
 
   // Add Section Form submission
   if (addSectionForm) {
-      addSectionForm.addEventListener("submit", (e) => {
-          e.preventDefault();
-          const titleInput = $("newSectionTitle"); // Assuming this is the ID of the input
-          const title = titleInput?.value.trim();
-          if (title && addSectionState(title)) {
-              renderList(); // Re-render to show the new section
-              updateUndoRedoButtons();
-              titleInput.value = ""; // Clear the input
-          } else if (title) {
-              console.error("Failed to add section state for title:", title);
-              showErrorDialog("Could not add the new section. Please try again.");
-          }
-      });
+    addSectionForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const titleInput = $("newSectionTitle"); // Assuming this is the ID of the input
+      const title = titleInput?.value.trim();
+      if (title && addSectionState(title)) {
+        renderList(); // Re-render to show the new section
+        updateUndoRedoButtons();
+        titleInput.value = ""; // Clear the input
+      } else if (title) {
+        console.error("Failed to add section state for title:", title);
+        showErrorDialog("Could not add the new section. Please try again.");
+      }
+    });
   }
 
   // Filter Input Listener (NEW)
   if (filterInput) {
-      filterInput.addEventListener('input', (e) => {
-          filterItems(e.target.value);
-      });
+    filterInput.addEventListener("input", (e) => {
+      filterItems(e.target.value);
+    });
 
-      // Prevent form submission if inside a form
-      filterInput.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter') {
-              e.preventDefault();
-          }
-      });
+    // Prevent form submission if inside a form
+    filterInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+      }
+    });
   }
 
   // Clear Filter Button Listener (NEW)
   if (btnClearFilter && filterInput) {
-      btnClearFilter.onclick = () => {
-          filterInput.value = '';
-          filterItems(''); // Re-apply filter with empty query
-          filterInput.focus(); // Keep focus on input
-      };
+    btnClearFilter.onclick = () => {
+      filterInput.value = "";
+      filterItems(""); // Re-apply filter with empty query
+      filterInput.focus(); // Keep focus on input
+    };
   }
 
   // Error Dialog close button (add this)
@@ -353,31 +371,34 @@ function setupEventListeners() {
   // Note Dialog form submission (add this)
   if (noteForm && noteDialog) {
     noteForm.addEventListener("submit", (e) => {
-        // Default behavior for submit in a method="dialog" form is to close.
-        // We need to prevent that only if saving fails, but here we assume success.
-        const itemId = noteForm.itemId.value;
-        const newNoteText = noteForm.noteText.value.trim(); // Trim whitespace
-        if (itemId && updateItemNoteState(itemId, newNoteText)) {
-            renderList(); // Re-render the list to show updated note/indicator
-            updateUndoRedoButtons();
-        } else {
-            console.error("Failed to update note state for item ID:", itemId);
-            // Optionally show an error
-        }
-        // No need to call noteDialog.close() because method="dialog" handles it on submit
-        // unless e.preventDefault() was called.
+      console.log("noteForm submitted", e);
+      // Default behavior for submit in a method="dialog" form is to close.
+      // We need to prevent that only if saving fails, but here we assume success.
+      const itemId = noteForm.itemId.value;
+      const newNoteText = noteForm.noteText.value.trim(); // Trim whitespace
+      if (itemId && updateItemNoteState(itemId, newNoteText)) {
+        renderList(); // Re-render the list to show updated note/indicator
+        updateUndoRedoButtons();
+      } else {
+        console.error("Failed to update note state for item ID:", itemId);
+        // Optionally show an error
+      }
+      // No need to call noteDialog.close() because method="dialog" handles it on submit
+      // unless e.preventDefault() was called.
     });
 
     noteDialog.addEventListener("close", (e) => {
-        // Clear the form/item text when dialog closes
-        noteDialogItemText.textContent = ""; 
-        noteForm.reset(); // Clears textarea and hidden input
+      console.log("noteDialog closed", e);
+      // Clear the form/item text when dialog closes
+      noteDialogItemText.textContent = "";
+      noteForm.reset(); // Clears textarea and hidden input
     });
   }
 
   // Meta Dialog actions
   if (metaForm && metaDialog) {
     metaForm.addEventListener("submit", (e) => {
+      console.log("metaForm submitted", e);
       // Don't prevent default immediately, only if validation fails
       const fd = new FormData(metaForm);
       const startDate = fd.get("startDate");
@@ -394,7 +415,7 @@ function setupEventListeners() {
       const newMeta = {
         destination: fd.get("destination").trim(),
         startDate: startDate, // Use the already retrieved value
-        endDate: endDate,     // Use the already retrieved value
+        endDate: endDate, // Use the already retrieved value
         notes: fd.get("notes").trim(),
       };
       updateMetaState(newMeta);
@@ -404,13 +425,15 @@ function setupEventListeners() {
     });
 
     metaDialog.addEventListener("reset", (e) => {
-        // The default behavior for reset in a dialog is to close it.
-        // No need to call close() explicitly unless preventing default.
+      console.log("metaDialog reset", e);
+      // The default behavior for reset in a dialog is to close it.
+      // No need to call close() explicitly unless preventing default.
     });
 
     metaDialog.addEventListener("close", (e) => {
-        // Handle anything needed when the dialog closes, regardless of how
-        // For example, maybe reset scroll position
+      console.log("metaDialog closed", e);
+      // Handle anything needed when the dialog closes, regardless of how
+      // For example, maybe reset scroll position
     });
   }
 
@@ -430,46 +453,49 @@ function setupEventListeners() {
   const btnUndo = $("btnUndo");
   const btnRedo = $("btnRedo");
   if (btnUndo) {
-      btnUndo.onclick = () => {
-          if (undoState()) {
-              renderList();
-              renderMeta();
-              updateUndoRedoButtons();
-          }
-      };
+    btnUndo.onclick = () => {
+      if (undoState()) {
+        renderList();
+        renderMeta();
+        updateUndoRedoButtons();
+      }
+    };
   }
   if (btnRedo) {
-      btnRedo.onclick = () => {
-          if (redoState()) {
-              renderList();
-              renderMeta();
-              updateUndoRedoButtons();
-          }
-      };
+    btnRedo.onclick = () => {
+      if (redoState()) {
+        renderList();
+        renderMeta();
+        updateUndoRedoButtons();
+      }
+    };
   }
 
   // Add Keyboard listener for Undo/Redo
-  document.addEventListener('keydown', (e) => {
-      // Check for Ctrl+Z or Cmd+Z (Undo)
-      if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
-          e.preventDefault(); // Prevent browser's default undo
-          btnUndo?.click(); // Simulate click on the button
-      }
-      // Check for Ctrl+Y or Cmd+Shift+Z (Redo)
-      else if ((e.ctrlKey && e.key === 'y') || (e.metaKey && e.shiftKey && e.key === 'z')) {
-          e.preventDefault(); // Prevent browser's default redo
-          btnRedo?.click(); // Simulate click on the button
-      }
+  document.addEventListener("keydown", (e) => {
+    // Check for Ctrl+Z or Cmd+Z (Undo)
+    if ((e.ctrlKey || e.metaKey) && e.key === "z" && !e.shiftKey) {
+      e.preventDefault(); // Prevent browser's default undo
+      btnUndo?.click(); // Simulate click on the button
+    }
+    // Check for Ctrl+Y or Cmd+Shift+Z (Redo)
+    else if (
+      (e.ctrlKey && e.key === "y") ||
+      (e.metaKey && e.shiftKey && e.key === "z")
+    ) {
+      e.preventDefault(); // Prevent browser's default redo
+      btnRedo?.click(); // Simulate click on the button
+    }
   });
 
   // Add Listener for Theme Toggle button
   if (btnTheme) {
-      btnTheme.onclick = () => {
-          const currentIsDark = document.documentElement.classList.contains('dark');
-          const nextTheme = currentIsDark ? 'light' : 'dark';
-          updateThemeState(nextTheme);
-          applyTheme(nextTheme);
-      };
+    btnTheme.onclick = () => {
+      const currentIsDark = document.documentElement.classList.contains("dark");
+      const nextTheme = currentIsDark ? "light" : "dark";
+      updateThemeState(nextTheme);
+      applyTheme(nextTheme);
+    };
   }
 
   // Set initial button state
@@ -485,137 +511,159 @@ function setupEventListeners() {
 const btnUndo = $("btnUndo");
 const btnRedo = $("btnRedo");
 function updateUndoRedoButtons() {
-    if (btnUndo) btnUndo.disabled = !canUndo();
-    if (btnRedo) btnRedo.disabled = !canRedo();
+  if (btnUndo) btnUndo.disabled = !canUndo();
+  if (btnRedo) btnRedo.disabled = !canRedo();
 }
 
 // --- Theme Application ---
 function applyTheme(themePreference) {
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    let applyDark = false;
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  let applyDark = false;
 
-    if (themePreference === 'dark') {
-        applyDark = true;
-    } else if (themePreference === 'light') {
-        applyDark = false;
-    } else { // 'system'
-        applyDark = prefersDark;
-    }
+  if (themePreference === "dark") {
+    applyDark = true;
+  } else if (themePreference === "light") {
+    applyDark = false;
+  } else {
+    // 'system'
+    applyDark = prefersDark;
+  }
 
-    document.documentElement.classList.toggle('dark', applyDark);
-    
-    // Update button icon
-    if (btnTheme) {
-        btnTheme.textContent = applyDark ? '☀️' : '🌙';
-        btnTheme.title = applyDark ? 'Switch to Light Theme' : 'Switch to Dark Theme';
-    }
+  document.documentElement.classList.toggle("dark", applyDark);
+
+  // Update button icon
+  if (btnTheme) {
+    btnTheme.textContent = applyDark ? "☀️" : "🌙";
+    btnTheme.title = applyDark
+      ? "Switch to Light Theme"
+      : "Switch to Dark Theme";
+  }
 }
 // --- End Theme Application ---
 
 // --- Toast Notification Logic ---
 const toastContainer = $("toastContainer");
 
-function showToast(message, duration = 3000, type = 'info') {
-    if (!toastContainer) return;
+function showToast(message, duration = 3000, type = "info") {
+  if (!toastContainer) return;
 
-    const toast = document.createElement("div");
-    toast.className = `toast ${type}`; // Add type class (e.g., 'warning', 'error')
-    toast.textContent = message; // message is already sanitized where needed before calling
+  const toast = document.createElement("div");
+  toast.className = `toast ${type}`; // Add type class (e.g., 'warning', 'error')
+  toast.textContent = message; // message is already sanitized where needed before calling
 
-    toastContainer.appendChild(toast);
+  toastContainer.appendChild(toast);
 
-    // Trigger reflow to enable transition
-    toast.offsetHeight; 
+  // Trigger reflow to enable transition
+  toast.offsetHeight;
 
-    // Add class to fade in
-    toast.classList.add('show');
+  // Add class to fade in
+  toast.classList.add("show");
 
-    // Set timeout to remove the toast
-    setTimeout(() => {
-        toast.classList.remove('show');
-        // Remove element after fade out transition completes
-        toast.addEventListener('transitionend', () => {
-            if (toast.parentNode === toastContainer) { // Check if still attached
-                 toastContainer.removeChild(toast);
-            }
-        });
-    }, duration);
+  // Set timeout to remove the toast
+  setTimeout(() => {
+    toast.classList.remove("show");
+    // Remove element after fade out transition completes
+    toast.addEventListener("transitionend", () => {
+      if (toast.parentNode === toastContainer) {
+        // Check if still attached
+        toastContainer.removeChild(toast);
+      }
+    });
+  }, duration);
 }
 // --- End Toast Notification Logic ---
 
 // --- Filter Logic ---
 function filterItems(query) {
-    const searchTerm = query.toLowerCase().trim();
-    const items = document.querySelectorAll("#checklistContainer li.item");
-    let matchCount = 0;
-    const sanitizeForMark = (str) => DOMPurify.sanitize(str, { USE_PROFILES: { html: true }, ADD_TAGS: ['mark'] });
-
-    // Clear existing highlights first
-    document.querySelectorAll("#checklistContainer mark").forEach(mark => {
-        const parent = mark.parentNode;
-        parent.replaceChild(document.createTextNode(mark.textContent), mark);
-        parent.normalize(); // Merge adjacent text nodes
+  const searchTerm = query.toLowerCase().trim();
+  const items = document.querySelectorAll("#checklistContainer li.item");
+  let matchCount = 0;
+  const sanitizeForMark = (str) =>
+    DOMPurify.sanitize(str, {
+      USE_PROFILES: { html: true },
+      ADD_TAGS: ["mark"],
     });
 
-    items.forEach(item => {
-        const itemId = item.dataset.id;
-        const itemState = findItemState(itemId); // Find original state for text
-        if (!itemState) return; // Should not happen, but safety check
+  // Clear existing highlights first
+  document.querySelectorAll("#checklistContainer mark").forEach((mark) => {
+    const parent = mark.parentNode;
+    parent.replaceChild(document.createTextNode(mark.textContent), mark);
+    parent.normalize(); // Merge adjacent text nodes
+  });
 
-        const label = item.querySelector("label");
-        const noteDiv = item.querySelector(".details-note div");
-        
-        // Always start with original, unsanitized text from state
-        const originalItemText = itemState.item.text;
-        const originalNoteText = itemState.item.note;
+  items.forEach((item) => {
+    const itemId = item.dataset.id;
+    const itemState = findItemState(itemId); // Find original state for text
+    if (!itemState) return; // Should not happen, but safety check
 
-        let isMatch = false;
-        let finalItemHTML = sanitize(originalItemText); // Default: sanitized original text
-        let finalNoteHTML = sanitize(originalNoteText); // Default: sanitized original note
+    const label = item.querySelector("label");
+    const noteDiv = item.querySelector(".details-note div");
 
-        if (searchTerm !== "") {
-            // Escape regex special characters in the search term
-            const escapedSearchTerm = searchTerm.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'); 
-            const regex = new RegExp(escapedSearchTerm, "ig"); // case-insensitive, global
-            const itemTextLower = originalItemText.toLowerCase();
-            const noteTextLower = originalNoteText.toLowerCase();
-            
-            isMatch = itemTextLower.includes(searchTerm) || noteTextLower.includes(searchTerm);
+    // Always start with original, unsanitized text from state
+    const originalItemText = itemState.item.text;
+    const originalNoteText = itemState.item.note;
 
-            if (isMatch) {
-                // Apply highlighting only if matched
-                finalItemHTML = sanitizeForMark(originalItemText.replace(regex, (match) => `<mark>${match}</mark>`));
-                finalNoteHTML = originalNoteText ? sanitizeForMark(originalNoteText.replace(regex, (match) => `<mark>${match}</mark>`)) : "";
-            }
-        } else {
-            isMatch = true; // Show all items if search is empty
-        }
+    let isMatch = false;
+    let finalItemHTML = sanitize(originalItemText); // Default: sanitized original text
+    let finalNoteHTML = sanitize(originalNoteText); // Default: sanitized original note
 
-        // Update DOM
-        if (label) label.innerHTML = finalItemHTML;
-        if (noteDiv) noteDiv.innerHTML = finalNoteHTML;
-        item.classList.toggle("filtered-out", !isMatch);
-        
-        if (isMatch) {
-            matchCount++;
-        }
-    });
+    if (searchTerm !== "") {
+      // Escape regex special characters in the search term
+      const escapedSearchTerm = searchTerm.replace(
+        /[-/\\^$*+?.()|[\]{}]/g,
+        "\\$&"
+      );
+      const regex = new RegExp(escapedSearchTerm, "ig"); // case-insensitive, global
+      const itemTextLower = originalItemText.toLowerCase();
+      const noteTextLower = originalNoteText.toLowerCase();
 
-    // Show/hide clear button
-    if (btnClearFilter) {
-        btnClearFilter.hidden = searchTerm === "";
+      isMatch =
+        itemTextLower.includes(searchTerm) ||
+        noteTextLower.includes(searchTerm);
+
+      if (isMatch) {
+        // Apply highlighting only if matched
+        finalItemHTML = sanitizeForMark(
+          originalItemText.replace(regex, (match) => `<mark>${match}</mark>`)
+        );
+        finalNoteHTML = originalNoteText
+          ? sanitizeForMark(
+              originalNoteText.replace(
+                regex,
+                (match) => `<mark>${match}</mark>`
+              )
+            )
+          : "";
+      }
+    } else {
+      isMatch = true; // Show all items if search is empty
     }
 
-    // Show/hide "No results" message
-    const filterMessage = $("filterMessage");
-    if (filterMessage) {
-        if (searchTerm !== "" && matchCount === 0) {
-            filterMessage.textContent = `No items match "${sanitize(searchTerm)}"`;
-            filterMessage.hidden = false;
-        } else {
-            filterMessage.hidden = true;
-        }
+    // Update DOM
+    if (label) label.innerHTML = finalItemHTML;
+    if (noteDiv) noteDiv.innerHTML = finalNoteHTML;
+    item.classList.toggle("filtered-out", !isMatch);
+
+    if (isMatch) {
+      matchCount++;
     }
+  });
+
+  // Show/hide clear button
+  if (btnClearFilter) {
+    btnClearFilter.hidden = searchTerm === "";
+  }
+
+  // Show/hide "No results" message
+  const filterMessage = $("filterMessage");
+  if (filterMessage) {
+    if (searchTerm !== "" && matchCount === 0) {
+      filterMessage.textContent = `No items match "${sanitize(searchTerm)}"`;
+      filterMessage.hidden = false;
+    } else {
+      filterMessage.hidden = true;
+    }
+  }
 }
 // --- End Filter Logic ---
 
@@ -628,5 +676,5 @@ export {
   openMetaDialog,
   showErrorDialog,
   applyTheme,
-  showToast
-}; 
+  showToast,
+};

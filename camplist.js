@@ -1,7 +1,12 @@
 // Main application entry point
 
 import { loadAllState, theme } from "./state.js";
-import { renderMeta, renderList, setupEventListeners, applyTheme } from "./ui.js";
+import {
+  renderMeta,
+  renderList,
+  setupEventListeners,
+  applyTheme,
+} from "./ui.js";
 import { setupDragAndDrop } from "./drag.js";
 
 /***************** BOOT *****************/
@@ -32,4 +37,4 @@ if (document.readyState === "loading") {
 } else {
   // `DOMContentLoaded` has already fired
   initializeApp();
-} 
+}

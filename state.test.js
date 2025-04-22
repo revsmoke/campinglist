@@ -64,7 +64,10 @@ vi.mock("./state.js", async (importOriginal) => {
         loadedData = JSON.parse(lsRaw);
       } else {
         loadedData = await mockFetchDefaultList();
-        console.log("[Mock] Fetched/Fallback List Data:", JSON.stringify(loadedData)); // Debug log
+        console.log(
+          "[Mock] Fetched/Fallback List Data:",
+          JSON.stringify(loadedData)
+        ); // Debug log
         localStorage.setItem(original.STORAGE_LIST, JSON.stringify(loadedData));
       }
     } catch (error) {
@@ -87,8 +90,14 @@ vi.mock("./state.js", async (importOriginal) => {
       loadedMeta = structuredClone(DEFAULT_META_CONST);
       localStorage.setItem(original.STORAGE_META, JSON.stringify(loadedMeta));
     }
-    console.log("[Mock] Before reset - loadedData:", JSON.stringify(loadedData)); // Debug log
-    console.log("[Mock] Before reset - loadedMeta:", JSON.stringify(loadedMeta)); // Debug log
+    console.log(
+      "[Mock] Before reset - loadedData:",
+      JSON.stringify(loadedData)
+    ); // Debug log
+    console.log(
+      "[Mock] Before reset - loadedMeta:",
+      JSON.stringify(loadedMeta)
+    ); // Debug log
     // Update the external state using the helper functions
     resetTestData(loadedData);
     resetTestMeta(loadedMeta);
@@ -99,21 +108,25 @@ vi.mock("./state.js", async (importOriginal) => {
   const mockSaveListState = () => {
     try {
       localStorage.setItem(original.STORAGE_LIST, JSON.stringify(testData));
-    } catch (error) {}
+    } catch (error) {
+      console.error("[Mock] Error saving list:", error); // Debug log
+    }
   };
 
   const mockSaveMetaState = () => {
     try {
       localStorage.setItem(original.STORAGE_META, JSON.stringify(testMeta));
-    } catch (error) {}
+    } catch (error) {
+      console.error("[Mock] Error saving meta:", error); // Debug log
+    }
   };
 
   const mockUpdateMetaState = (newMeta) => {
     resetTestMeta({ ...newMeta }); // Use helper
     mockSaveMetaState();
-  }
+  };
 
- const mockUpdateItemCheckedState = (id, checked) => {
+  const mockUpdateItemCheckedState = (id, checked) => {
     const itemContext = mockFindItemState(id);
     if (itemContext) {
       itemContext.item.checked = checked; // Modifies object in testData
@@ -121,33 +134,38 @@ vi.mock("./state.js", async (importOriginal) => {
       return true;
     }
     return false;
-  }
+  };
 
- const mockAddItemState = (groupId, text) => {
+  const mockAddItemState = (groupId, text) => {
     const group = testData.find((g) => g.id === groupId);
     if (group) {
-      const newItem = { id: `${groupId}-${Date.now()}`, text, checked: false, note: "" };
+      const newItem = {
+        id: `${groupId}-${Date.now()}`,
+        text,
+        checked: false,
+        note: "",
+      };
       group.items.push(newItem); // Modifies testData
       mockSaveListState();
       return newItem;
     }
     return null;
-  }
+  };
 
- const mockDeleteItemState = (id) => {
+  const mockDeleteItemState = (id) => {
     for (let gIndex = 0; gIndex < testData.length; gIndex++) {
-        const g = testData[gIndex];
-        const idx = g.items.findIndex((i) => i.id === id);
-        if (idx > -1) {
-            g.items.splice(idx, 1); // Modifies testData
-            mockSaveListState();
-            return true;
-        }
+      const g = testData[gIndex];
+      const idx = g.items.findIndex((i) => i.id === id);
+      if (idx > -1) {
+        g.items.splice(idx, 1); // Modifies testData
+        mockSaveListState();
+        return true;
+      }
     }
     return false;
-  }
+  };
 
- const mockUpdateItemTextState = (id, text) => {
+  const mockUpdateItemTextState = (id, text) => {
     const itemContext = mockFindItemState(id);
     if (itemContext) {
       itemContext.item.text = text; // Modifies object in testData
@@ -155,9 +173,9 @@ vi.mock("./state.js", async (importOriginal) => {
       return true;
     }
     return false;
-  }
+  };
 
- const mockUpdateItemNoteState = (id, note) => {
+  const mockUpdateItemNoteState = (id, note) => {
     const itemContext = mockFindItemState(id);
     if (itemContext) {
       itemContext.item.note = note; // Modifies object in testData
@@ -165,7 +183,7 @@ vi.mock("./state.js", async (importOriginal) => {
       return true;
     }
     return false;
-  }
+  };
 
   const mockMoveItemState = (itemId, targetItemId) => {
     const srcCtx = mockFindItemState(itemId);
@@ -173,20 +191,23 @@ vi.mock("./state.js", async (importOriginal) => {
     if (srcCtx && tgtCtx) {
       const itemToMove = srcCtx.g.items.splice(srcCtx.idx, 1)[0]; // Modifies testData
       if (itemToMove) {
-          const insertIndex = srcCtx.g === tgtCtx.g && srcCtx.idx < tgtCtx.idx ? tgtCtx.idx : tgtCtx.idx;
-          tgtCtx.g.items.splice(insertIndex, 0, itemToMove); // Modifies testData
-          mockSaveListState();
-          return true;
+        const insertIndex =
+          srcCtx.g === tgtCtx.g && srcCtx.idx < tgtCtx.idx
+            ? tgtCtx.idx
+            : tgtCtx.idx;
+        tgtCtx.g.items.splice(insertIndex, 0, itemToMove); // Modifies testData
+        mockSaveListState();
+        return true;
       }
     }
     return false;
-  }
+  };
 
   const mockResetAllState = async () => {
     localStorage.removeItem(original.STORAGE_LIST);
     localStorage.removeItem(original.STORAGE_META);
     const fetchedData = await mockFetchDefaultList();
-    const defaultMeta = structuredClone(original.DEFAULT_META);
+    //const defaultMeta = structuredClone(original.DEFAULT_META);
     resetTestData(fetchedData); // Use helper
     resetTestMeta(DEFAULT_META_CONST); // Use helper
     mockSaveListState();
@@ -230,14 +251,21 @@ describe("state.js", () => {
   let storage = {};
   const localStorageMock = {
     getItem: vi.fn((key) => storage[key] || null),
-    setItem: vi.fn((key, value) => { storage[key] = value ? value.toString() : ''; }),
-    removeItem: vi.fn((key) => { delete storage[key]; }),
-    clear: vi.fn(() => { storage = {}; }),
+    setItem: vi.fn((key, value) => {
+      storage[key] = value ? value.toString() : "";
+    }),
+    removeItem: vi.fn((key) => {
+      delete storage[key];
+    }),
+    clear: vi.fn(() => {
+      storage = {};
+    }),
   };
   vi.stubGlobal("localStorage", localStorageMock);
 
   // Mock fetch
-  const mockFetchResponse = (data) => Promise.resolve({ ok: true, json: () => Promise.resolve(data) });
+  const mockFetchResponse = (data) =>
+    Promise.resolve({ ok: true, json: () => Promise.resolve(data) });
   const mockFetchError = () => Promise.resolve({ ok: false });
   vi.stubGlobal("fetch", vi.fn());
 
@@ -270,8 +298,16 @@ describe("state.js", () => {
   // --- findItemState Tests ---
   describe("findItemState", () => {
     beforeEach(() => {
-      resetTestData([ // Set top-level state
-        { id: "g1", title: "Group 1", items: [{ id: "i1", text: "Item 1" },{ id: "i2", text: "Item 2" }] },
+      resetTestData([
+        // Set top-level state
+        {
+          id: "g1",
+          title: "Group 1",
+          items: [
+            { id: "i1", text: "Item 1" },
+            { id: "i2", text: "Item 2" },
+          ],
+        },
         { id: "g2", title: "Group 2", items: [{ id: "i3", text: "Item 3" }] },
       ]);
     });
@@ -289,7 +325,7 @@ describe("state.js", () => {
       expect(state.findItemState).toHaveBeenCalledWith("nonexistent");
       expect(result).toBeNull();
     });
-     it("should find an item in a different group", () => {
+    it("should find an item in a different group", () => {
       const result = state.findItemState("i3"); // Calls mocked findItemState
       expect(state.findItemState).toHaveBeenCalledWith("i3");
       expect(result).not.toBeNull();
@@ -331,17 +367,25 @@ describe("state.js", () => {
 
       expect(state.loadAllState).toHaveBeenCalledTimes(1);
       expect(localStorageMock.getItem).toHaveBeenCalledWith(state.STORAGE_LIST);
-      expect(fetch).toHaveBeenCalledWith(state.REMOTE_JSON, { cache: "no-store" }); // fetch inside mockFetchDefaultList was called
+      expect(fetch).toHaveBeenCalledWith(state.REMOTE_JSON, {
+        cache: "no-store",
+      }); // fetch inside mockFetchDefaultList was called
       // Check top-level state variables
       expect(testData).toEqual(mockFetchData);
       expect(testMeta).toEqual(DEFAULT_META_STRUCTURE);
       // Check that the mocked loadAllState called mocked setItem
-      expect(localStorageMock.setItem).toHaveBeenCalledWith(state.STORAGE_LIST, JSON.stringify(mockFetchData));
-      expect(localStorageMock.setItem).toHaveBeenCalledWith(state.STORAGE_META, JSON.stringify(DEFAULT_META_STRUCTURE));
+      expect(localStorageMock.setItem).toHaveBeenCalledWith(
+        state.STORAGE_LIST,
+        JSON.stringify(mockFetchData)
+      );
+      expect(localStorageMock.setItem).toHaveBeenCalledWith(
+        state.STORAGE_META,
+        JSON.stringify(DEFAULT_META_STRUCTURE)
+      );
       expect(localStorageMock.setItem).toHaveBeenCalledTimes(2);
     });
 
-     it("should use fallback list if fetch fails and save it", async () => {
+    it("should use fallback list if fetch fails and save it", async () => {
       localStorageMock.getItem.mockReturnValue(null);
       fetch.mockReturnValue(mockFetchError());
 
@@ -353,8 +397,14 @@ describe("state.js", () => {
       expect(testData).toEqual(FALLBACK_LIST_STRUCTURE);
       expect(testMeta).toEqual(DEFAULT_META_STRUCTURE);
       // Check save calls by mocked loadAllState
-      expect(localStorageMock.setItem).toHaveBeenCalledWith(state.STORAGE_LIST, JSON.stringify(FALLBACK_LIST_STRUCTURE));
-      expect(localStorageMock.setItem).toHaveBeenCalledWith(state.STORAGE_META, JSON.stringify(DEFAULT_META_STRUCTURE));
+      expect(localStorageMock.setItem).toHaveBeenCalledWith(
+        state.STORAGE_LIST,
+        JSON.stringify(FALLBACK_LIST_STRUCTURE)
+      );
+      expect(localStorageMock.setItem).toHaveBeenCalledWith(
+        state.STORAGE_META,
+        JSON.stringify(DEFAULT_META_STRUCTURE)
+      );
       expect(localStorageMock.setItem).toHaveBeenCalledTimes(2);
     });
 
@@ -371,31 +421,42 @@ describe("state.js", () => {
       expect(testData).toEqual(FALLBACK_LIST_STRUCTURE);
       expect(testMeta).toEqual(DEFAULT_META_STRUCTURE);
       // Check save calls by mocked loadAllState
-      expect(localStorageMock.setItem).toHaveBeenCalledWith(state.STORAGE_LIST, JSON.stringify(FALLBACK_LIST_STRUCTURE));
-      expect(localStorageMock.setItem).toHaveBeenCalledWith(state.STORAGE_META, JSON.stringify(DEFAULT_META_STRUCTURE));
+      expect(localStorageMock.setItem).toHaveBeenCalledWith(
+        state.STORAGE_LIST,
+        JSON.stringify(FALLBACK_LIST_STRUCTURE)
+      );
+      expect(localStorageMock.setItem).toHaveBeenCalledWith(
+        state.STORAGE_META,
+        JSON.stringify(DEFAULT_META_STRUCTURE)
+      );
       expect(localStorageMock.setItem).toHaveBeenCalledTimes(2); // Saves list fallback, saves meta fallback
     });
   });
 
   // --- saveListState / saveMetaState Tests ---
   describe("save state", () => {
-     it("saveListState should call mocked localStorage.setItem with current test data", () => {
-        const currentData = [{ id: "g1", items: [{id: "i1"}]}];
-        resetTestData(currentData);
-        state.saveListState(); // Calls the vi.fn wrapped mockSaveListState
+    it("saveListState should call mocked localStorage.setItem with current test data", () => {
+      const currentData = [{ id: "g1", items: [{ id: "i1" }] }];
+      resetTestData(currentData);
+      state.saveListState(); // Calls the vi.fn wrapped mockSaveListState
 
-        expect(state.saveListState).toHaveBeenCalledTimes(1);
-        expect(localStorageMock.setItem).toHaveBeenCalledWith(state.STORAGE_LIST, JSON.stringify(currentData));
-     });
+      expect(state.saveListState).toHaveBeenCalledTimes(1);
+      expect(localStorageMock.setItem).toHaveBeenCalledWith(
+        state.STORAGE_LIST,
+        JSON.stringify(currentData)
+      );
+    });
 
-     it("saveMetaState should call mocked localStorage.setItem with current test meta", () => {
-        const currentMeta = { destination: "test dest" };
-        resetTestMeta(currentMeta);
-        state.saveMetaState(); // Calls the vi.fn wrapped mockSaveMetaState
+    it("saveMetaState should call mocked localStorage.setItem with current test meta", () => {
+      const currentMeta = { destination: "test dest" };
+      resetTestMeta(currentMeta);
+      state.saveMetaState(); // Calls the vi.fn wrapped mockSaveMetaState
 
-        expect(state.saveMetaState).toHaveBeenCalledTimes(1);
-        expect(localStorageMock.setItem).toHaveBeenCalledWith(state.STORAGE_META, JSON.stringify(currentMeta));
-     });
+      expect(state.saveMetaState).toHaveBeenCalledTimes(1);
+      expect(localStorageMock.setItem).toHaveBeenCalledWith(
+        state.STORAGE_META,
+        JSON.stringify(currentMeta)
+      );
+    });
   });
-
-}); 
+});
