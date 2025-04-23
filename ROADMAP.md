@@ -57,23 +57,23 @@ Each feature is broken into step‑by‑step subtasks you can tick off (✔︎) 
 - [✔︎] Add validation to date inputs (e.g., end date after start date).
 - [ ] Improve styling/UX of the meta info display and dialog.
 - [ ] Implement rich text formatting for trip notes (e.g., simple markdown support).
-- [ ] Research GOOGLE MAPS API - use tools
+- [✔︎] Research GOOGLE MAPS API - use tools
 - [ ] **Google Places Autocomplete Integration**:
-  - [ ] Add Google Places API script to index.html
-  - [ ] Create location input field in meta dialog
-  - [ ] Initialize Places Autocomplete on location input
+  - [✔︎] Add Google Places API script to index.html
+  - [✔︎] Create location input field in meta dialog
+  - [✔︎] Initialize Places Autocomplete on location input
   - [ ] Configure Autocomplete to focus on camping locations
-  - [ ] Add event listener for place selection
-  - [ ] Extract and store:
-    - [ ] Full address
-    - [ ] Latitude
-    - [ ] Longitude
-    - [ ] Place ID (for future reference)
-  - [ ] Update meta state with location data
+  - [✔︎] Add event listener for place selection
+  - [✔︎] Extract and store:
+    - [✔︎] Full address
+    - [✔︎] Latitude
+    - [✔︎] Longitude
+    - [✔︎] Place ID (for future reference)
+  - [✔︎] Update meta state with location data
   - [ ] Add loading indicator during API calls
-  - [ ] Handle API errors gracefully
+  - [✔︎] Handle API errors gracefully
   - [ ] Add fallback for when API is unavailable
-- [ ] Update JSON Schema and data saving to include location information as needed
+- [✔︎] Update JSON Schema and data saving to include location information as needed
 - [ ] **Google Maps Integration**:
   - [ ] Add Google Maps JavaScript API script to index.html
   - [ ] Initialize Google Maps with API key

@@ -8,14 +8,16 @@
     </title>
     <link rel="stylesheet" href="camplist.css" />
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.11/dist/purify.min.js"></script>
+    <!-- 
+      IMPORTANT: Replace YOUR_API_KEY with your actual Google Maps API Key.
+      Ensure the key is properly restricted in the Google Cloud Console.
+    -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=your_key_here&libraries=places&loading=async&callback=googleMapsApiLoaded" async defer></script>
+
+
   </head>
   <body>
-    
-    
 
-   
-
-   
 
     <div class="main-content">
       <div>
@@ -30,14 +32,14 @@
         <input type="text" id="newSectionTitle" placeholder="New Section Title..." required>
         <button type="submit">Add Section</button>
       </form>
-  
+
       </div>
       <aside id="listSidebar" class="list-sidebar">
-        
+
    <div>
         <div id="metaContainer"></div>
     </div>
- 
+
       <div id="weightSidebar" class="weight-sidebar sidebar-section">
         <h3>Weight Calculator</h3>
         <button id="btnToggleWeightSidebar" class="toggle-sidebar" title="Toggle Weight Panel">⚖️</button>
@@ -107,14 +109,24 @@
       </aside>
     </div>
 
-    
+
     <dialog id="metaDialog">
       <h3>Edit Trip Info</h3>
       <form id="metaForm" method="dialog">
-        <label
-          >Destination
-          <input type="text" name="destination" required />
-        </label>
+        <label for="destinationAutocompleteElement">Destination</label> <!-- Updated label 'for' -->
+        <!-- Use ONLY the Place Autocomplete Element -->
+        <gmp-place-autocomplete
+            id="destinationAutocompleteElement"
+            placeholder="Enter a destination"
+            required>
+        </gmp-place-autocomplete>
+
+        <!-- Hidden fields to store detailed place data for form submission -->
+        <input type="hidden" name="destinationAddress" id="destinationAddressHidden">
+        <input type="hidden" name="destinationPlaceId" id="destinationPlaceIdHidden">
+        <input type="hidden" name="destinationLat" id="destinationLatHidden">
+        <input type="hidden" name="destinationLng" id="destinationLngHidden">
+
         <div class="row">
           <label
             >Start Date
@@ -129,7 +141,7 @@
           >Notes
           <textarea name="notes"></textarea>
         </label>
-        
+
         <!-- Permit & Regulations Fields -->
         <h4 class="dialog-section-title">Permits & Regulations</h4>
         <label>
@@ -147,7 +159,7 @@
           <textarea name="fireRules" placeholder="Current fire restrictions, regulations, etc."></textarea>
         </label>
         <!-- End Permit & Regulations Fields -->
-        
+
         <menu>
           <button type="button" value="cancel" class="secondary" id="metaCancelBtn">Cancel</button>
           <button value="save" type="submit">Save</button>
@@ -185,8 +197,8 @@
         <div id="weightDialogItemText" class="dialog-item-text"></div>
         <form id="weightForm" method="dialog">
             <div class="dialog-row">
-                <label for="itemWeight">Weight (oz):</label>
-                <input type="number" name="itemWeight" id="itemWeight" min="0" step="0.1">
+                <label for="itemWeight">Weight (oz):</label> <!-- Consider changing label if unit changes -->
+                <input type="number" name="itemWeight" id="itemWeight" min="0" step="any"> <!-- Use 'any' for decimals -->
             </div>
             <div class="dialog-row cost-row">
                 <label for="itemCost">Cost:</label>
@@ -199,7 +211,7 @@
                 <label for="itemPacked">Packed:</label>
                 <input type="checkbox" name="itemPacked" id="itemPacked">
             </div>
-            
+
             <!-- Permit & Regulations Fields -->
             <h4 class="dialog-section-title">Permits & Regulations</h4>
             <div class="dialog-row">
@@ -211,7 +223,7 @@
                 <textarea name="regulationNotes" id="itemRegulationNotes" placeholder="Special regulations or restrictions..."></textarea>
             </div>
             <!-- End Permit & Regulations Fields -->
-            
+
             <input type="hidden" name="itemId">
             <div class="dialog-buttons">
                 <button type="submit">Save</button>

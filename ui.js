@@ -1,7 +1,7 @@
 // Import state and state manipulation functions
 import {
   data,
-  meta,
+  // meta, // Remove meta import since we're using getMeta() instead
   updateThemeState,
   collapsedSections,
   updateMetaState,
@@ -21,7 +21,8 @@ import {
   resetAllState,
   findItemState,
   getState,
-  saveListState,
+  saveListState, // Keep if used by updateItemWeightState
+  getMeta, // Add new import for getMeta function
 } from "./state.js";
 
 /***************** UI UTILS *****************/
@@ -43,13 +44,24 @@ function renderMeta() {
   const container = $("metaContainer");
   if (!container) return; // Guard against missing element
 
+  // Use getMeta() to get the current state
+  const currentMeta = getMeta();
+
+  // LOG 2: Check the value renderMeta is about to use
+  console.log(
+    "[renderMeta] Reading meta.destination:",
+    currentMeta.destination
+  );
+  // Use meta.destination (which should hold the formatted address)
+  const displayDestination = currentMeta.destination || "–";
+
   const html = `<section class="sidebar-section">
     <h2 style="cursor:default">Trip Info</h2>
     <div class="meta-grid">
-      <div class="label">Destination</div><div>${sanitize(meta.destination) || "–"}</div>
-      <div class="label">Start Date</div><div>${meta.startDate || "–"}</div>
-      <div class="label">End Date</div><div>${meta.endDate || "–"}</div>
-      <div class="label">Notes</div><div>${sanitize(meta.notes) || "–"}</div>
+      <div class="label">Destination</div><div>${sanitize(displayDestination)}</div>
+      <div class="label">Start Date</div><div>${currentMeta.startDate ? formatDate(currentMeta.startDate) : "–"}</div>
+      <div class="label">End Date</div><div>${currentMeta.endDate ? formatDate(currentMeta.endDate) : "–"}</div>
+      <div class="label">Notes</div><div>${sanitize(currentMeta.notes) || "–"}</div>
     </div>
     <button id="editMetaBtn" class="secondary" style="margin-top:1rem">Edit Trip Info</button>
   </section>`;
@@ -91,15 +103,61 @@ function openMetaDialog() {
   const f = $("metaForm");
   if (!dlg || !f) return; // Guard against missing elements
 
-  f.destination.value = meta.destination;
-  f.startDate.value = meta.startDate;
-  f.endDate.value = meta.endDate;
-  f.notes.value = meta.notes;
+  // Get current meta state
+  const currentMeta = getMeta();
 
-  // Set permit fields
-  if (f.permitUrl) f.permitUrl.value = meta.permitUrl || "";
-  if (f.permitDeadline) f.permitDeadline.value = meta.permitDeadline || "";
-  if (f.fireRules) f.fireRules.value = meta.fireRules || "";
+  // Populate standard fields
+  f.startDate.value = currentMeta.startDate || "";
+  f.endDate.value = currentMeta.endDate || "";
+  f.notes.value = currentMeta.notes || "";
+  if (f.permitUrl) f.permitUrl.value = currentMeta.permitUrl || "";
+  if (f.permitDeadline)
+    f.permitDeadline.value = currentMeta.permitDeadline || "";
+  if (f.fireRules) f.fireRules.value = currentMeta.fireRules || "";
+
+  // Populate hidden destination fields from state
+  const addressHiddenInput = $("destinationAddressHidden");
+  const placeIdHiddenInput = $("destinationPlaceIdHidden");
+  const latHiddenInput = $("destinationLatHidden");
+  const lngHiddenInput = $("destinationLngHidden");
+  const autocompleteElement = $("destinationAutocompleteElement");
+
+  console.log(
+    "Opening meta dialog with current destination:",
+    currentMeta.destination
+  );
+
+  if (addressHiddenInput)
+    addressHiddenInput.value = currentMeta.destination || "";
+  if (placeIdHiddenInput)
+    placeIdHiddenInput.value = currentMeta.destinationPlaceId || "";
+  if (latHiddenInput) latHiddenInput.value = currentMeta.destinationLat || "";
+  if (lngHiddenInput) lngHiddenInput.value = currentMeta.destinationLng || "";
+
+  // The Place Autocomplete Element is a web component that doesn't have a simple value property
+  // We can only set the value through the selection event, but we can try to set some properties
+  if (autocompleteElement && currentMeta.destination) {
+    // Try setting the component's internal value as best we can
+    try {
+      // Experiment with updating visible input - note that this is a web component
+      // so this might not work directly, but it's worth trying
+      autocompleteElement.setAttribute(
+        "data-initial-value",
+        currentMeta.destination
+      );
+
+      // Log that we're trying to update the autocomplete element
+      console.log(
+        "Attempting to populate autocomplete with:",
+        currentMeta.destination
+      );
+
+      // Note: Google's web components don't have a direct way to set their value programmatically,
+      // so the user will likely need to re-select a place if editing an existing destination
+    } catch (error) {
+      console.warn("Error trying to set autocomplete value:", error);
+    }
+  }
 
   dlg.showModal();
 }
@@ -136,9 +194,14 @@ function openWeightDialog(
   const form = document.getElementById("weightForm");
   const itemText = document.getElementById("weightDialogItemText");
 
+  if (!weightDialog || !form || !itemText) {
+    console.error("Weight dialog elements not found!");
+    return;
+  }
+
   itemText.textContent = text;
   form.elements.itemId.value = id;
-  form.elements.itemWeight.value = weight || "";
+  form.elements.itemWeight.value = weight || ""; // Weight is stored in grams
   form.elements.itemPacked.checked = packed || false;
   form.elements.itemCost.value = cost || "";
   form.elements.permitRequired.checked = permitRequired || false;
@@ -152,7 +215,7 @@ function openWeightDialog(
  */
 function updateItemWeightState(
   itemId,
-  weight,
+  weight, // Assume weight passed in is in grams
   packed,
   cost,
   permitRequired,
@@ -161,24 +224,27 @@ function updateItemWeightState(
   const itemContext = findItemState(itemId);
   if (!itemContext) return false;
 
-  const parsedWeight = parseFloat(weight) || 0;
+  const parsedWeight = parseFloat(weight) || 0; // Ensure it's a number (grams)
   const parsedCost = parseFloat(cost) || 0;
+
+  // Save state BEFORE mutation for undo
+  _saveStateForUndo();
 
   // Update item properties
   itemContext.item.weight = parsedWeight;
   itemContext.item.packed = packed;
   itemContext.item.cost = parsedCost;
   itemContext.item.permitRequired = permitRequired;
-  itemContext.item.regulationNotes = regulationNotes;
+  itemContext.item.regulationNotes = regulationNotes || ""; // Ensure string
 
   // Save state
-  saveListState();
+  saveListState(); // This now saves the updated item
 
-  // Update UI
-  renderList();
+  // Update UI (Consider more targeted updates later)
+  renderList(); // Re-render might be needed to update weight/permit indicators
   calculateAndDisplayWeights();
   calculateAndDisplayCosts();
-  updatePermitRequiredItems(); // New function to update permit items in sidebar
+  updatePermitRequiredItems(); // Update permit items in sidebar
 
   return true;
 }
@@ -192,30 +258,20 @@ function toggleWeightSidebar() {
   }
 }
 
-// Unit conversion functions
-function convertWeight(weight, fromUnit, toUnit) {
-  // First convert to grams as base unit
-  let weightInGrams = weight;
-  if (fromUnit === "kg") {
-    weightInGrams = weight * 1000;
-  } else if (fromUnit === "lb") {
-    weightInGrams = weight * 453.592;
-  }
-
-  // Then convert to target unit
+// Unit conversion functions (Weight is always stored in grams)
+function convertWeightFromGrams(weightInGrams, toUnit) {
   if (toUnit === "g") {
-    return Math.round(weightInGrams);
+    return Math.round(weightInGrams); // Round grams to nearest integer
   } else if (toUnit === "kg") {
-    return (weightInGrams / 1000).toFixed(2);
+    return (weightInGrams / 1000).toFixed(2); // Keep 2 decimal places for kg
   } else if (toUnit === "lb") {
-    return (weightInGrams / 453.592).toFixed(2);
+    return (weightInGrams / 453.592).toFixed(2); // Keep 2 decimal places for lb
   }
-
-  return weight; // Fallback
+  return weightInGrams; // Fallback
 }
 
-function formatWeight(weight, unit) {
-  return `${weight}${unit}`;
+function formatWeight(weightValue, unit) {
+  return `${weightValue}${unit}`;
 }
 
 // Save weight unit preference
@@ -251,39 +307,36 @@ function calculateAndDisplayWeights() {
   // Get selected unit
   const selectedUnit = weightUnitSelect ? weightUnitSelect.value : "g";
 
-  let totalWeight = 0;
-  let packedWeight = 0;
+  let totalWeightGrams = 0;
+  let packedWeightGrams = 0;
 
   // Build section weights HTML
   let sectionWeightsHTML = "";
 
   data.forEach((section) => {
-    let sectionTotal = 0;
-    let sectionPacked = 0;
+    let sectionTotalGrams = 0;
+    let sectionPackedGrams = 0;
 
     section.items.forEach((item) => {
-      if (typeof item.weight === "number") {
-        sectionTotal += item.weight; // Accumulate in grams
-        totalWeight += item.weight; // Accumulate in grams
+      const itemWeightGrams = typeof item.weight === "number" ? item.weight : 0;
+      sectionTotalGrams += itemWeightGrams;
+      totalWeightGrams += itemWeightGrams;
 
-        if (item.packed) {
-          sectionPacked += item.weight; // Accumulate in grams
-          packedWeight += item.weight; // Accumulate in grams
-        }
+      if (item.packed) {
+        sectionPackedGrams += itemWeightGrams;
+        packedWeightGrams += itemWeightGrams;
       }
     });
 
     // Only show sections with weight > 0
-    if (sectionTotal > 0) {
+    if (sectionTotalGrams > 0) {
       // Convert section totals to selected unit for display
-      const displaySectionTotal = convertWeight(
-        sectionTotal,
-        "g",
+      const displaySectionTotal = convertWeightFromGrams(
+        sectionTotalGrams,
         selectedUnit
       );
-      const displaySectionPacked = convertWeight(
-        sectionPacked,
-        "g",
+      const displaySectionPacked = convertWeightFromGrams(
+        sectionPackedGrams,
         selectedUnit
       );
 
@@ -300,8 +353,14 @@ function calculateAndDisplayWeights() {
   });
 
   // Convert total weights to selected unit for display
-  const displayTotalWeight = convertWeight(totalWeight, "g", selectedUnit);
-  const displayPackedWeight = convertWeight(packedWeight, "g", selectedUnit);
+  const displayTotalWeight = convertWeightFromGrams(
+    totalWeightGrams,
+    selectedUnit
+  );
+  const displayPackedWeight = convertWeightFromGrams(
+    packedWeightGrams,
+    selectedUnit
+  );
 
   // Update displays
   totalWeightEl.textContent = formatWeight(displayTotalWeight, selectedUnit);
@@ -339,7 +398,8 @@ function renderList() {
               const hasNote = !!it.note;
               const cbId = `cb-${it.id}`;
               const permitClass = it.permitRequired ? "item-with-permit" : "";
-              return `<li class="item ${it.checked ? "checked" : ""} ${permitClass}" data-id="${it.id}">
+              const weightClass = it.weight > 0 ? "item-with-weight" : ""; // Add class if weight > 0
+              return `<li class="item ${it.checked ? "checked" : ""} ${permitClass} ${weightClass}" data-id="${it.id}">
                 <span class="handle" draggable="true">☰</span>
                 <input type="checkbox" id="${cbId}" ${it.checked ? "checked" : ""}>
                 <div class="item-body">
@@ -348,7 +408,7 @@ function renderList() {
                 </div>
                 <span class="actions">
                   <button class="btnNote ${hasNote ? "has-note" : ""}" title="Edit Note">🗒︎</button>
-                  <button class="btnWeight ${it.weight > 0 ? "has-weight" : ""}" title="Edit Weight">⚖️</button>
+                  <button class="btnWeight ${it.weight > 0 ? "has-weight" : ""}" title="Edit Weight/Cost/Status">⚖️</button>
                   <button class="btnEdit" title="Edit Item">✎</button>
                   <button class="btnDel" title="Delete Item">✕</button>
                 </span>
@@ -426,10 +486,13 @@ function setupEventListeners() {
         const txt = input.value.trim();
         if (txt && gId) {
           if (addItemState(gId, txt)) {
-            renderList();
+            renderList(); // Re-render the list to show the new item
             updateUndoRedoButtons();
             input.value = "";
-          } // else: handle error?
+            input.focus(); // Keep focus in the add item input
+          } else {
+            showErrorDialog("Could not add the item. Please try again.");
+          }
         }
       }
     });
@@ -449,7 +512,7 @@ function setupEventListeners() {
         }
       } else if (target.classList.contains("btnEdit") && li) {
         const id = li.dataset.id;
-        const itemContext = findItemState(id); // Need findItemState from state.js
+        const itemContext = findItemState(id);
         if (itemContext) {
           const t = prompt("Edit item text", itemContext.item.text);
           if (t !== null && t.trim()) {
@@ -460,9 +523,8 @@ function setupEventListeners() {
         }
       } else if (target.classList.contains("btnNote") && li) {
         const id = li.dataset.id;
-        const itemContext = findItemState(id); // Need findItemState from state.js
+        const itemContext = findItemState(id);
         if (itemContext) {
-          // Replace prompt() with call to openNoteDialog
           openNoteDialog(id, itemContext.item.text, itemContext.item.note);
         }
       } else if (target.classList.contains("btnWeight") && li) {
@@ -472,7 +534,7 @@ function setupEventListeners() {
           openWeightDialog(
             id,
             itemContext.item.text,
-            itemContext.item.weight || 0,
+            itemContext.item.weight || 0, // Pass weight in grams
             itemContext.item.packed || false,
             itemContext.item.cost || 0,
             itemContext.item.permitRequired || false,
@@ -480,27 +542,26 @@ function setupEventListeners() {
           );
         }
       } else if (target.classList.contains("chevron")) {
-        const sectionContent = sectionCard?.querySelector("ul.checklist"); // Use querySelector within the card
+        const sectionContent = sectionCard?.querySelector("ul.checklist");
         const sectionId = sectionCard?.dataset.group;
 
         if (sectionContent && sectionId) {
           const isNowCollapsed = sectionContent.classList.toggle("collapsed");
           target.textContent = isNowCollapsed ? "▸" : "▾";
-          // Call state update function
-          updateCollapsedState(sectionId, isNowCollapsed);
+          updateCollapsedState(sectionId, isNowCollapsed); // Update state, no re-render needed
         }
       } else if (target.classList.contains("btnEditSection") && sectionCard) {
         const sectionId = sectionCard.dataset.group;
-        const currentTitleElement = sectionCard.querySelector(".sectionTitle"); // Find title span
+        const currentTitleElement = sectionCard.querySelector(".sectionTitle");
         const currentTitle = currentTitleElement
           ? currentTitleElement.textContent
-          : ""; // Get current text
+          : "";
 
         if (sectionId) {
           const newTitle = prompt("Edit section title:", currentTitle);
           if (newTitle !== null && newTitle.trim()) {
             if (updateSectionTitleState(sectionId, newTitle.trim())) {
-              stateChanged = true;
+              stateChanged = true; // Re-render needed to update title display
             }
           }
         }
@@ -510,7 +571,6 @@ function setupEventListeners() {
           sectionCard.querySelector(".sectionTitle")?.textContent ||
           "this section";
 
-        // Confirm deletion
         if (
           sectionId &&
           confirm(
@@ -518,9 +578,8 @@ function setupEventListeners() {
           )
         ) {
           if (deleteSectionState(sectionId)) {
-            stateChanged = true;
+            stateChanged = true; // Re-render needed to remove section
           } else {
-            // Optional: Show error if deletion failed in state
             showErrorDialog("Could not delete the section. Please try again.");
           }
         }
@@ -540,7 +599,7 @@ function setupEventListeners() {
   if (addSectionForm) {
     addSectionForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      const titleInput = $("newSectionTitle"); // Assuming this is the ID of the input
+      const titleInput = $("newSectionTitle");
       const title = titleInput?.value.trim();
       if (title && addSectionState(title)) {
         renderList(); // Re-render to show the new section
@@ -553,13 +612,12 @@ function setupEventListeners() {
     });
   }
 
-  // Filter Input Listener (NEW)
+  // Filter Input Listener
   if (filterInput) {
     filterInput.addEventListener("input", (e) => {
       filterItems(e.target.value);
     });
 
-    // Prevent form submission if inside a form
     filterInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
@@ -567,7 +625,7 @@ function setupEventListeners() {
     });
   }
 
-  // Clear Filter Button Listener (NEW)
+  // Clear Filter Button Listener
   if (btnClearFilter && filterInput) {
     btnClearFilter.onclick = () => {
       filterInput.value = "";
@@ -576,49 +634,33 @@ function setupEventListeners() {
     };
   }
 
-  // Error Dialog close button (add this)
-  if (errorDialog) {
-    // Assumes the form inside the dialog handles the closing via method="dialog"
-    // If not, you'd add a click listener to the close button here.
-    // Example:
-    // const closeButton = errorDialog.querySelector('button[value="close"]');
-    // if (closeButton) {
-    //   closeButton.addEventListener('click', () => errorDialog.close());
-    // }
-  }
+  // Error Dialog close button (using form method="dialog")
 
-  // Note Dialog form submission (add this)
+  // Note Dialog form submission
   if (noteForm && noteDialog) {
-    noteForm.addEventListener("submit", (e) => {
-      console.log("noteForm submitted", e);
+    noteForm.addEventListener("submit", () => {
       // Default behavior for submit in a method="dialog" form is to close.
-      // We need to prevent that only if saving fails, but here we assume success.
       const itemId = noteForm.itemId.value;
-      const newNoteText = noteForm.noteText.value.trim(); // Trim whitespace
-      if (itemId && updateItemNoteState(itemId, newNoteText)) {
-        renderList(); // Re-render the list to show updated note/indicator
-        updateUndoRedoButtons();
+      const newNoteText = noteForm.noteText.value.trim();
+
+      if (updateItemNoteState(itemId, newNoteText)) {
+        renderList(); // Re-render to show updated note
       } else {
-        console.error("Failed to update note state for item ID:", itemId);
-        // Optionally show an error
+        console.error("Failed to update note for item:", itemId);
       }
-      // No need to call noteDialog.close() because method="dialog" handles it on submit
-      // unless e.preventDefault() was called.
     });
 
-    noteDialog.addEventListener("close", (e) => {
-      console.log("noteDialog closed", e);
+    noteDialog.addEventListener("close", () => {
       // Clear the form/item text when dialog closes
-      noteDialogItemText.textContent = "";
+      if (noteDialogItemText) noteDialogItemText.textContent = "";
       noteForm.reset(); // Clears textarea and hidden input
     });
 
-    // Add event listener for the note cancel button
     const noteCancelBtn = $("noteCancelBtn");
     if (noteCancelBtn) {
       noteCancelBtn.addEventListener("click", () => {
-        noteForm.reset(); // Reset the form
-        noteDialog.close(); // Close the dialog
+        noteForm.reset();
+        noteDialog.close();
       });
     }
   }
@@ -626,22 +668,47 @@ function setupEventListeners() {
   // Meta Dialog actions
   if (metaForm && metaDialog) {
     metaForm.addEventListener("submit", (e) => {
-      e.preventDefault();
+      // The default submit for method="dialog" closes the dialog.
+      // We need to prevent this only if validation fails.
+      // e.preventDefault(); // Only prevent if validation fails
 
-      // Get form data
       const fd = new FormData(metaForm);
       const startDate = fd.get("startDate");
       const endDate = fd.get("endDate");
 
+      // Debug: Check hidden field values
+      console.log("Hidden field values:");
+      console.log(
+        "destinationAddressHidden:",
+        $("destinationAddressHidden")?.value
+      );
+      console.log("FormData destinationAddress:", fd.get("destinationAddress"));
+      console.log(
+        "destinationPlaceIdHidden:",
+        $("destinationPlaceIdHidden")?.value
+      );
+      console.log("destinationLatHidden:", $("destinationLatHidden")?.value);
+      console.log("destinationLngHidden:", $("destinationLngHidden")?.value);
+
       // Validate dates: Only if both are present and end is before start
       if (startDate && endDate && endDate < startDate) {
+        e.preventDefault(); // Prevent closing dialog on validation error
         showErrorDialog("End date cannot be before the start date.");
         return; // Stop processing
       }
 
-      // Update meta data with new fields
+      // Get values directly from hidden inputs to ensure they're captured correctly
+      const addressHiddenInput = $("destinationAddressHidden");
+      const placeIdHiddenInput = $("destinationPlaceIdHidden");
+      const latHiddenInput = $("destinationLatHidden");
+      const lngHiddenInput = $("destinationLngHidden");
+
+      // Update meta data using hidden fields for destination
       const newMeta = {
-        destination: fd.get("destination").trim(),
+        destination: addressHiddenInput?.value || "", // Get directly from the DOM element
+        destinationPlaceId: placeIdHiddenInput?.value || "",
+        destinationLat: latHiddenInput?.value || "",
+        destinationLng: lngHiddenInput?.value || "",
         startDate: startDate,
         endDate: endDate,
         notes: fd.get("notes").trim(),
@@ -650,49 +717,64 @@ function setupEventListeners() {
         fireRules: fd.get("fireRules").trim(),
       };
 
-      // Update state
+      // LOG 1: Check if renderMeta is being called after state update
+      console.log(
+        "[Submit Handler] About to update state and call renderMeta. New destination:",
+        newMeta.destination
+      );
+      // Update state (this now includes saving)
       updateMetaState(newMeta);
 
       // Update UI
-      renderMeta();
-      updatePermitInfo();
+      renderMeta(); // Re-render the meta sidebar section
+      updatePermitInfo(); // Update permit details in sidebar
       updateUndoRedoButtons();
 
-      // Close dialog
-      metaDialog.close();
+      // Dialog closes automatically on successful submit (no preventDefault)
+      // metaDialog.close(); // Not needed if not preventing default
     });
 
-    metaDialog.addEventListener("reset", (e) => {
-      console.log("metaDialog reset", e);
-      // The default behavior for reset in a dialog is to close it.
-      // No need to call close() explicitly unless preventing default.
-    });
-
-    metaDialog.addEventListener("close", (e) => {
-      console.log("metaDialog closed", e);
-      // Handle anything needed when the dialog closes, regardless of how
-      // For example, maybe reset scroll position
-    });
-
-    // Add event listener for the cancel button
+    // Cancel button listener
     const metaCancelBtn = $("metaCancelBtn");
     if (metaCancelBtn) {
       metaCancelBtn.addEventListener("click", () => {
-        metaForm.reset(); // Reset the form
+        metaForm.reset(); // Reset form fields
+        // Also clear the hidden destination fields manually if reset doesn't cover them
+        const addressHiddenInput = $("destinationAddressHidden");
+        const placeIdHiddenInput = $("destinationPlaceIdHidden");
+        const latHiddenInput = $("destinationLatHidden");
+        const lngHiddenInput = $("destinationLngHidden");
+        if (addressHiddenInput) addressHiddenInput.value = "";
+        if (placeIdHiddenInput) placeIdHiddenInput.value = "";
+        if (latHiddenInput) latHiddenInput.value = "";
+        if (lngHiddenInput) lngHiddenInput.value = "";
+        // Clear the visible autocomplete input too
+        const autocompleteElement = $("destinationAutocompleteElement");
+        if (autocompleteElement) autocompleteElement.value = "";
+
         metaDialog.close(); // Close the dialog
       });
     }
+
+    metaDialog.addEventListener("close", () => {
+      // Optional: Add any cleanup needed when dialog closes regardless of method
+    });
   }
 
   // General page controls
   const btnReset = $("btnReset");
   if (btnReset) {
     btnReset.onclick = async () => {
-      if (!confirm("Reset checklist and trip info?")) return;
+      if (!confirm("Reset checklist and trip info? This cannot be undone."))
+        return;
       await resetAllState();
       renderMeta();
       renderList();
       updateUndoRedoButtons();
+      // Reset filter
+      if (filterInput) filterInput.value = "";
+      filterItems("");
+      showToast("Checklist reset to default.", 3000, "info");
     };
   }
 
@@ -703,8 +785,10 @@ function setupEventListeners() {
     btnUndo.onclick = () => {
       if (undoState()) {
         renderList();
-        renderMeta();
+        renderMeta(); // Also re-render meta in case it changed
         updateUndoRedoButtons();
+        // Re-apply filter after undo/redo potentially changes items
+        if (filterInput) filterItems(filterInput.value);
       }
     };
   }
@@ -712,14 +796,27 @@ function setupEventListeners() {
     btnRedo.onclick = () => {
       if (redoState()) {
         renderList();
-        renderMeta();
+        renderMeta(); // Also re-render meta in case it changed
         updateUndoRedoButtons();
+        // Re-apply filter after undo/redo potentially changes items
+        if (filterInput) filterItems(filterInput.value);
       }
     };
   }
 
   // Add Keyboard listener for Undo/Redo
   document.addEventListener("keydown", (e) => {
+    // Ignore shortcuts if focus is inside an input/textarea/dialog
+    const activeEl = document.activeElement;
+    const isInputFocused =
+      activeEl &&
+      (activeEl.tagName === "INPUT" || activeEl.tagName === "TEXTAREA");
+    const isDialogOpen = document.querySelector("dialog[open]");
+
+    if (isInputFocused || isDialogOpen) {
+      return;
+    }
+
     // Check for Ctrl+Z or Cmd+Z (Undo)
     if ((e.ctrlKey || e.metaKey) && e.key === "z" && !e.shiftKey) {
       e.preventDefault(); // Prevent browser's default undo
@@ -738,10 +835,13 @@ function setupEventListeners() {
   // Add Listener for Theme Toggle button
   if (btnTheme) {
     btnTheme.onclick = () => {
-      const currentIsDark = document.documentElement.classList.contains("dark");
-      const nextTheme = currentIsDark ? "light" : "dark";
-      updateThemeState(nextTheme);
-      applyTheme(nextTheme);
+      const currentTheme = document.documentElement.classList.contains("dark")
+        ? "dark"
+        : "light";
+      // Determine next theme based on current state (could also cycle through 'system')
+      const nextTheme = currentTheme === "dark" ? "light" : "dark";
+      updateThemeState(nextTheme); // Save preference
+      applyTheme(nextTheme); // Apply visually
     };
   }
 
@@ -759,8 +859,9 @@ function setupEventListeners() {
 
   if (weightDialog && weightForm) {
     weightForm.addEventListener("submit", () => {
+      // Dialog closes automatically via method="dialog"
       const id = weightForm.elements.itemId.value;
-      const weight = weightForm.elements.itemWeight.value;
+      const weightGrams = parseFloat(weightForm.elements.itemWeight.value) || 0; // Assume input is grams
       const packed = weightForm.elements.itemPacked.checked;
       const cost = weightForm.elements.itemCost.value;
       const permitRequired = weightForm.elements.permitRequired.checked;
@@ -768,20 +869,20 @@ function setupEventListeners() {
 
       updateItemWeightState(
         id,
-        weight,
+        weightGrams, // Pass weight in grams
         packed,
         cost,
         permitRequired,
         regulationNotes
       );
+      // UI updates (renderList, calculators) are handled within updateItemWeightState
     });
 
-    // Add event listener for the weight cancel button
     const weightCancelBtn = weightDialog.querySelector(".btn-cancel-dialog");
     if (weightCancelBtn) {
       weightCancelBtn.addEventListener("click", () => {
-        weightForm.reset(); // Reset the form
-        weightDialog.close(); // Close the dialog
+        weightForm.reset();
+        weightDialog.close();
       });
     }
   }
@@ -797,13 +898,11 @@ function setupEventListeners() {
   // Weight unit selector
   const weightUnitSelect = $("weightUnit");
   if (weightUnitSelect) {
-    // Set initial value from localStorage
-    weightUnitSelect.value = loadWeightUnitPreference();
+    weightUnitSelect.value = loadWeightUnitPreference(); // Set initial value
 
-    // Add event listener for unit changes
     weightUnitSelect.addEventListener("change", () => {
       saveWeightUnitPreference(weightUnitSelect.value);
-      calculateAndDisplayWeights();
+      calculateAndDisplayWeights(); // Recalculate and display with new unit
     });
   }
 }
@@ -882,25 +981,30 @@ function filterItems(query) {
   const sanitizeForMark = (str) =>
     DOMPurify.sanitize(str, {
       USE_PROFILES: { html: true },
-      ADD_TAGS: ["mark"],
+      ADD_TAGS: ["mark"], // Allow <mark> tag
     });
 
   // Clear existing highlights first
   document.querySelectorAll("#checklistContainer mark").forEach((mark) => {
     const parent = mark.parentNode;
-    parent.replaceChild(document.createTextNode(mark.textContent), mark);
-    parent.normalize(); // Merge adjacent text nodes
+    if (parent) {
+      parent.replaceChild(
+        document.createTextNode(mark.textContent || ""),
+        mark
+      );
+      parent.normalize(); // Merge adjacent text nodes
+    }
   });
 
   items.forEach((item) => {
     const itemId = item.dataset.id;
-    const itemState = findItemState(itemId); // Find original state for text
-    if (!itemState) return; // Should not happen, but safety check
+    const itemState = findItemState(itemId);
+    if (!itemState) return;
 
     const label = item.querySelector("label");
-    const noteDiv = item.querySelector(".details-note div");
+    const noteDetails = item.querySelector(".details-note"); // Target details element
+    const noteDiv = noteDetails?.querySelector("div"); // Div inside details
 
-    // Always start with original, unsanitized text from state
     const originalItemText = itemState.item.text;
     const originalNoteText = itemState.item.note;
 
@@ -909,12 +1013,11 @@ function filterItems(query) {
     let finalNoteHTML = sanitize(originalNoteText); // Default: sanitized original note
 
     if (searchTerm !== "") {
-      // Escape regex special characters in the search term
       const escapedSearchTerm = searchTerm.replace(
-        /[-/\\^$*+?.()|[\]{}]/g,
+        /[-/^$*+?.()|[\]{}]/g,
         "\\$&"
       );
-      const regex = new RegExp(escapedSearchTerm, "ig"); // case-insensitive, global
+      const regex = new RegExp(escapedSearchTerm, "ig");
       const itemTextLower = originalItemText.toLowerCase();
       const noteTextLower = originalNoteText.toLowerCase();
 
@@ -923,7 +1026,6 @@ function filterItems(query) {
         noteTextLower.includes(searchTerm);
 
       if (isMatch) {
-        // Apply highlighting only if matched
         finalItemHTML = sanitizeForMark(
           originalItemText.replace(regex, (match) => `<mark>${match}</mark>`)
         );
@@ -943,6 +1045,18 @@ function filterItems(query) {
     // Update DOM
     if (label) label.innerHTML = finalItemHTML;
     if (noteDiv) noteDiv.innerHTML = finalNoteHTML;
+
+    // Ensure note <details> is open if the note contains a match and search is active
+    if (noteDetails) {
+      const noteMatches =
+        searchTerm !== "" &&
+        originalNoteText.toLowerCase().includes(searchTerm);
+      if (noteMatches) {
+        noteDetails.open = true;
+      }
+      // Optionally close if it doesn't match? Or leave as user set? Let's leave it.
+    }
+
     item.classList.toggle("filtered-out", !isMatch);
 
     if (isMatch) {
@@ -973,14 +1087,10 @@ function filterItems(query) {
  */
 function calculateAndDisplayCosts() {
   const { state } = getState();
-  const listId = state.currentListId;
-
-  if (!listId) return;
-
-  const list = state.lists[listId];
+  // Assuming list ID 0 for simplicity, adjust if multiple lists are possible
+  const list = state.lists[0]; // Access data directly
   if (!list) return;
 
-  // Get sections and their costs
   const sections = {};
   let totalCost = 0;
 
@@ -1000,17 +1110,15 @@ function calculateAndDisplayCosts() {
     });
   });
 
-  // Update the total cost
   const totalCostEl = document.getElementById("totalCost");
   if (totalCostEl) {
     totalCostEl.textContent = `$${totalCost.toFixed(2)}`;
   }
 
-  // Update the costs by section
-  const costBySection = document.getElementById("costBySection");
-  if (!costBySection) return;
+  const costBySectionEl = document.getElementById("costBySection");
+  if (!costBySectionEl) return;
 
-  costBySection.innerHTML = "";
+  costBySectionEl.innerHTML = ""; // Clear previous entries
 
   Object.keys(sections)
     .sort()
@@ -1021,7 +1129,7 @@ function calculateAndDisplayCosts() {
 
         const titleDiv = document.createElement("div");
         titleDiv.className = "cost-section-title";
-        titleDiv.textContent = section;
+        titleDiv.textContent = sanitize(section); // Sanitize section title
 
         const valueDiv = document.createElement("div");
         valueDiv.className = "cost-section-value";
@@ -1029,15 +1137,16 @@ function calculateAndDisplayCosts() {
 
         sectionDiv.appendChild(titleDiv);
         sectionDiv.appendChild(valueDiv);
-        costBySection.appendChild(sectionDiv);
+        costBySectionEl.appendChild(sectionDiv);
       }
     });
 }
 
-// Helper function for consistent undo state saving
+// Helper function for consistent undo state saving (Placeholder - actual logic is in state.js)
 const _saveStateForUndo = () => {
-  // This would be implemented if needed
-  console.log("saveStateForUndo is called");
+  // The actual saving happens within the state mutation functions (e.g., updateItemWeightState)
+  // This function might not be needed here anymore, but keep if called elsewhere.
+  // console.log("_saveStateForUndo called in ui.js (should be handled in state.js)");
 };
 
 /**
@@ -1047,22 +1156,21 @@ function updatePermitRequiredItems() {
   const permitItemsList = document.getElementById("permitItemsList");
   if (!permitItemsList) return;
 
-  permitItemsList.innerHTML = "";
+  permitItemsList.innerHTML = ""; // Clear previous list
 
-  // Get all items that require permits
   const itemsRequiringPermits = data.flatMap((group) =>
     group.items.filter((item) => item.permitRequired)
   );
 
   if (itemsRequiringPermits.length === 0) {
-    permitItemsList.innerHTML = "<li>No items require permits</li>";
+    permitItemsList.innerHTML =
+      "<li>No items marked as requiring permits.</li>";
     return;
   }
 
-  // Add each item to the list
   itemsRequiringPermits.forEach((item) => {
     const li = document.createElement("li");
-    li.textContent = item.text;
+    li.textContent = sanitize(item.text); // Sanitize item text
     permitItemsList.appendChild(li);
   });
 }
@@ -1077,54 +1185,91 @@ function updatePermitInfo() {
 
   if (!permitUrlLink || !permitDeadlineText || !fireRulesText) return;
 
+  // Get current meta state
+  const currentMeta = getMeta();
+
   // Update permit URL
-  if (meta.permitUrl) {
-    permitUrlLink.href = meta.permitUrl;
-    permitUrlLink.textContent = "View Permit Information";
+  if (currentMeta.permitUrl) {
+    permitUrlLink.href = currentMeta.permitUrl;
+    permitUrlLink.textContent = "View Permit Info"; // Keep it concise
+    permitUrlLink.classList.remove("disabled-link");
   } else {
-    permitUrlLink.href = "#";
+    permitUrlLink.href = "#"; // Prevent navigation
     permitUrlLink.textContent = "None specified";
+    permitUrlLink.classList.add("disabled-link");
+    permitUrlLink.onclick = (e) => e.preventDefault(); // Explicitly prevent click
   }
 
   // Update permit deadline
-  if (meta.permitDeadline) {
-    const deadline = new Date(meta.permitDeadline);
-    const today = new Date();
-    const daysUntilDeadline = Math.ceil(
-      (deadline - today) / (1000 * 60 * 60 * 24)
-    );
+  if (currentMeta.permitDeadline) {
+    try {
+      // Ensure the date string includes timezone info or is treated as UTC to avoid off-by-one day issues
+      const deadline = new Date(currentMeta.permitDeadline + "T00:00:00"); // Treat as local time start of day
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Compare start of day to start of day
 
-    permitDeadlineText.textContent = formatDate(meta.permitDeadline);
+      // Calculate difference in milliseconds and convert to days
+      const diffTime = deadline - today;
+      const daysUntilDeadline = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    // Add warning class if deadline is approaching (within 14 days)
-    if (daysUntilDeadline <= 14 && daysUntilDeadline >= 0) {
-      permitDeadlineText.classList.add("warning");
-      permitDeadlineText.textContent += ` (${daysUntilDeadline} days left)`;
-    } else {
-      permitDeadlineText.classList.remove("warning");
+      permitDeadlineText.textContent = formatDate(currentMeta.permitDeadline); // Format as MM/DD/YYYY
+      permitDeadlineText.classList.remove("warning", "past-due"); // Clear previous classes
+
+      if (daysUntilDeadline < 0) {
+        permitDeadlineText.classList.add("past-due");
+        permitDeadlineText.textContent += ` (Past Due)`;
+      } else if (daysUntilDeadline <= 14) {
+        permitDeadlineText.classList.add("warning");
+        permitDeadlineText.textContent += ` (${daysUntilDeadline} day${daysUntilDeadline !== 1 ? "s" : ""} left)`;
+      }
+    } catch (e) {
+      console.error("Error parsing permit deadline date:", e);
+      permitDeadlineText.textContent = "Invalid Date";
+      permitDeadlineText.classList.remove("warning", "past-due");
     }
   } else {
     permitDeadlineText.textContent = "None";
-    permitDeadlineText.classList.remove("warning");
+    permitDeadlineText.classList.remove("warning", "past-due");
   }
 
-  // Update fire rules
-  if (meta.fireRules) {
-    fireRulesText.textContent = meta.fireRules;
+  // Update fire rules (Sanitize potentially user-entered HTML/script)
+  if (currentMeta.fireRules) {
+    fireRulesText.innerHTML = sanitize(currentMeta.fireRules); // Use innerHTML with sanitize
   } else {
     fireRulesText.textContent = "None specified";
   }
 }
 
 /**
- * Format a date as MM/DD/YYYY
+ * Format a date string (like YYYY-MM-DD) as MM/DD/YYYY.
+ * Handles potential timezone issues by parsing as UTC.
  */
 function formatDate(dateString) {
-  const date = new Date(dateString);
-  return date.toLocaleDateString();
+  if (!dateString) return "";
+  try {
+    // Split the date string and create a UTC date to avoid timezone shifts
+    const parts = dateString.split("-");
+    if (parts.length === 3) {
+      const year = parseInt(parts[0], 10);
+      const month = parseInt(parts[1], 10) - 1; // Month is 0-indexed
+      const day = parseInt(parts[2], 10);
+      const date = new Date(Date.UTC(year, month, day));
+
+      // Format using UTC methods to ensure consistency
+      const formattedMonth = (date.getUTCMonth() + 1)
+        .toString()
+        .padStart(2, "0");
+      const formattedDay = date.getUTCDate().toString().padStart(2, "0");
+      const formattedYear = date.getUTCFullYear();
+      return `${formattedMonth}/${formattedDay}/${formattedYear}`;
+    }
+  } catch (e) {
+    console.error("Error formatting date:", e);
+  }
+  return "Invalid Date"; // Fallback for invalid input
 }
 
-// Export UI functions for use in app.js
+// Export UI functions for use in camplist.js (camplist.js)
 export {
   renderMeta,
   renderList,
@@ -1136,7 +1281,7 @@ export {
   showToast,
   calculateAndDisplayWeights,
   calculateAndDisplayCosts,
-  _saveStateForUndo,
+  // _saveStateForUndo, // Removed as it's handled in state.js
   updatePermitRequiredItems,
   updatePermitInfo,
   formatDate,

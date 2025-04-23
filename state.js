@@ -27,6 +27,11 @@ const DEFAULT_META = {
   permitUrl: "",
   permitDeadline: "",
   fireRules: "",
+  // Add location fields from Google Places Autocomplete
+  destinationAddress: "",
+  destinationPlaceId: "",
+  destinationLat: "",
+  destinationLng: "",
 };
 
 // Use 'let' so they can be reassigned by loadAll()
@@ -189,6 +194,20 @@ async function loadAllState() {
     }
     if (!Object.hasOwn(meta, "permitDeadline")) {
       meta.permitDeadline = "";
+    }
+
+    // Add new location fields to existing meta if they don't exist
+    if (!Object.hasOwn(meta, "destinationAddress")) {
+      meta.destinationAddress = "";
+    }
+    if (!Object.hasOwn(meta, "destinationPlaceId")) {
+      meta.destinationPlaceId = "";
+    }
+    if (!Object.hasOwn(meta, "destinationLat")) {
+      meta.destinationLat = "";
+    }
+    if (!Object.hasOwn(meta, "destinationLng")) {
+      meta.destinationLng = "";
     }
 
     // If loaded from default (metaRaw is null), save it immediately
@@ -705,4 +724,10 @@ export {
   resetAllState,
   updateSectionTitleState, // Export the new function
   getState, // Export getState function
+  getMeta, // Export getMeta function
 };
+
+// Add a getter function for meta
+function getMeta() {
+  return meta;
+}
