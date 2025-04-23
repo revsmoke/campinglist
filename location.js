@@ -4,27 +4,33 @@
 // Track initialization state
 let placeChangeListenerInitialized = false;
 let initAttempts = 0;
-const MAX_INIT_ATTEMPTS = 10;
+const MAX_INIT_ATTEMPTS = 5; // Reduced from 10
 
 /**
  * Checks if the Google Maps API is fully loaded
  * @returns {boolean} True if API is available
  */
 function isGoogleMapsAvailable() {
-  return (
+  const available = (
     typeof window.google !== "undefined" &&
     typeof window.google.maps !== "undefined" &&
     typeof window.google.maps.places !== "undefined"
   );
+  console.log(`Google Maps API available: ${available}`);
+  return available;
 }
 
 /**
  * Fixes data binding issues by manually copying values from hidden fields to the form
  */
 function syncHiddenFieldsToFormData() {
+  console.log("Syncing hidden fields to form data");
   // Get the form element
   const metaForm = document.getElementById("metaForm");
-  if (!metaForm) return;
+  if (!metaForm) {
+    console.warn("metaForm not found, cannot sync hidden fields");
+    return;
+  }
 
   // Get the address hidden field (only one we need to sync with autocomplete)
   const addressHiddenInput = document.getElementById(
@@ -44,19 +50,38 @@ function syncHiddenFieldsToFormData() {
       autocompleteElement.setAttribute("data-initial-value", addressValue);
       console.log(`Set autocomplete initial value: ${addressValue}`);
     }
+  } else {
+    console.log("No address value to sync or hidden input missing");
   }
+}
+
+// Function to remove existing event listener and prepare for reattachment
+function cleanupExistingListener() {
+  const autocompleteElement = document.getElementById(
+    "destinationAutocompleteElement"
+  );
+  
+  if (autocompleteElement) {
+    // Mark as not having a listener attached
+    delete autocompleteElement.dataset.listenerAttached;
+    console.log("Removed existing listener data attribute");
+    
+    // Note: We cannot easily remove the existing event listener directly
+    // since we don't have a reference to the handler function
+    // Instead, we'll rely on the dataset flag to track attachment state
+  }
+  
+  placeChangeListenerInitialized = false;
 }
 
 // Export the function to be used by other modules
 export function initMap() {
-  console.log(
-    `Initializing Google Maps Autocomplete (attempt ${++initAttempts})...`
-  );
+  console.log(`[INIT] Initializing Google Maps Autocomplete (attempt ${++initAttempts})...`);
 
   // Check if Google Maps API is loaded
   if (!isGoogleMapsAvailable()) {
     console.warn(
-      "Google Maps API not fully loaded yet, initialization deferred"
+      "[INIT] Google Maps API not fully loaded yet, initialization deferred"
     );
     // We'll rely on the callback to initialize when ready
     return;
@@ -64,10 +89,14 @@ export function initMap() {
 
   // Function to set up the event listener on the autocomplete element
   function setupPlaceChangeListener() {
+    console.log("[SETUP] Starting setupPlaceChangeListener");
+    
     // Get the new Web Component element
     const autocompleteElement = document.getElementById(
       "destinationAutocompleteElement"
     );
+    console.log("[SETUP] Found autocomplete element:", !!autocompleteElement);
+    
     // Get references to the hidden input fields
     const addressHiddenInput = document.getElementById(
       "destinationAddressHidden"
@@ -80,7 +109,7 @@ export function initMap() {
 
     if (!autocompleteElement) {
       console.error(
-        "PlaceAutocompleteElement (#destinationAutocompleteElement) not found when initMap was called!"
+        "[SETUP] PlaceAutocompleteElement (#destinationAutocompleteElement) not found!"
       );
       return false;
     }
@@ -91,31 +120,31 @@ export function initMap() {
       !latHiddenInput ||
       !lngHiddenInput
     ) {
-      console.error("One or more hidden destination input fields are missing!");
+      console.error("[SETUP] One or more hidden destination input fields are missing!");
       return false;
     }
 
     // Check if the listener is already attached
     if (autocompleteElement.dataset.listenerAttached === "true") {
-      console.log("Place change listener already attached.");
+      console.log("[SETUP] Place change listener already attached.");
       return true;
     }
 
     // Check if the element is fully initialized by the Google Maps API
-    // The Web Component should have child elements and shadow roots when properly initialized
-    // Google Maps may need more time to initialize the web component
-    if (
-      !autocompleteElement.shadowRoot &&
-      !autocompleteElement.children.length
-    ) {
+    // The Web Component should have shadowRoot or children when fully initialized
+    const isInitialized = autocompleteElement.shadowRoot || 
+                          (autocompleteElement.children && autocompleteElement.children.length > 0);
+    console.log(`[SETUP] Autocomplete element initialized: ${isInitialized}`);
+    
+    if (!isInitialized) {
       console.log(
-        "Autocomplete element not fully initialized by Google Maps API yet."
+        "[SETUP] Autocomplete element not fully initialized by Google Maps API yet."
       );
 
       // If we've tried too many times, force setup anyway
       if (initAttempts >= MAX_INIT_ATTEMPTS) {
         console.warn(
-          `Reached max initialization attempts (${MAX_INIT_ATTEMPTS}), forcing setup...`
+          `[SETUP] Reached max initialization attempts (${MAX_INIT_ATTEMPTS}), forcing setup...`
         );
       } else {
         return false;
@@ -123,19 +152,18 @@ export function initMap() {
     }
 
     console.log(
-      "Setting up place change listener on element:",
-      autocompleteElement
+      "[SETUP] Setting up place change listener on element"
     );
 
     // Listen for the custom event fired by the component when a place is selected
     autocompleteElement.addEventListener("gmp-placechange", (event) => {
-      console.log("gmp-placechange event triggered!", event);
+      console.log("[EVENT] gmp-placechange FIRED!", event);
 
       const place = event.detail.place; // Access place details from event.detail
 
       if (!place || !place.geometry || !place.geometry.location) {
         console.warn(
-          "Place selected, but no geometry data available:",
+          "[EVENT] Place selected, but no geometry data available:",
           place?.name
         );
         // Clear hidden fields if the selection is invalid or cleared by user
@@ -147,7 +175,7 @@ export function initMap() {
       }
 
       // --- Process the selected place ---
-      console.log("Place selected via PlaceAutocompleteElement:", place);
+      console.log("[EVENT] Place selected via PlaceAutocompleteElement:", place);
 
       const address = place.formatted_address || "";
       const placeId = place.place_id || "";
@@ -161,7 +189,7 @@ export function initMap() {
       lngHiddenInput.value = lng;
 
       // Debug: Log the values after setting them
-      console.log("Hidden fields after place selection:");
+      console.log("[EVENT] Hidden fields after place selection:");
       console.log("addressHiddenInput:", addressHiddenInput.value);
       console.log("placeIdHiddenInput:", placeIdHiddenInput.value);
       console.log("latHiddenInput:", latHiddenInput.value);
@@ -175,7 +203,7 @@ export function initMap() {
     autocompleteElement.dataset.listenerAttached = "true";
     placeChangeListenerInitialized = true;
 
-    console.log("PlaceAutocompleteElement listener attached successfully.");
+    console.log("[SETUP] PlaceAutocompleteElement listener attached successfully.");
 
     // Also sync existing values
     syncHiddenFieldsToFormData();
@@ -185,47 +213,33 @@ export function initMap() {
 
   // Try to set up the listener immediately
   const initialized = setupPlaceChangeListener();
+  console.log(`[INIT] Initial setup ${initialized ? 'succeeded' : 'failed'}`);
 
-  // If initialization failed, set up a MutationObserver to watch for changes to the dialog
-  // and try again when the dialog is fully loaded/rendered
+  // If initialization failed, use simpler retry logic
   if (!initialized) {
-    console.log("Setting up MutationObserver to watch for dialog rendering...");
+    console.log("[INIT] Setting up retry mechanisms...");
 
-    // Watch for changes in the metaDialog
-    const metaDialog = document.getElementById("metaDialog");
-    if (metaDialog) {
-      const observer = new MutationObserver(() => {
-        // Try to initialize again on DOM changes
-        if (!placeChangeListenerInitialized && setupPlaceChangeListener()) {
-          // If successful this time, disconnect the observer
-          observer.disconnect();
-        }
-      });
-
-      // Start observing
-      observer.observe(metaDialog, {
-        childList: true,
-        subtree: true,
-        attributes: true,
-      });
-
-      // Also set retry with timeout as a backup
+    // Simple timeout retry with increasing delay
+    const retryWithTimeout = (attempt = 1, maxRetries = 3) => {
+      if (attempt > maxRetries || placeChangeListenerInitialized) return;
+      
+      const delay = 200 * attempt; // Increasing delay: 200ms, 400ms, 600ms...
+      console.log(`[INIT] Scheduling retry attempt ${attempt} in ${delay}ms`);
+      
       setTimeout(() => {
         if (!placeChangeListenerInitialized) {
-          console.log("Trying initialization again after timeout");
-          setupPlaceChangeListener();
+          console.log(`[INIT] Retry attempt ${attempt}`);
+          if (setupPlaceChangeListener()) {
+            console.log(`[INIT] Retry attempt ${attempt} succeeded`);
+          } else {
+            retryWithTimeout(attempt + 1, maxRetries);
+          }
         }
-      }, 500);
-    }
-
-    // Also set up an event listener for when the dialog is shown
-    if (metaDialog) {
-      metaDialog.addEventListener("click", () => {
-        if (!placeChangeListenerInitialized) {
-          setupPlaceChangeListener();
-        }
-      });
-    }
+      }, delay);
+    };
+    
+    // Start retry sequence
+    retryWithTimeout();
   }
 }
 
@@ -233,30 +247,41 @@ export function initMap() {
 export function setupFormSubmitSync() {
   const metaForm = document.getElementById("metaForm");
   if (metaForm) {
+    console.log("Setting up form submit sync");
     metaForm.addEventListener("submit", () => {
       // Ensure all hidden fields are synced before submission
       syncHiddenFieldsToFormData();
       console.log("Form submission - Hidden fields synced");
     });
     console.log("Form submit listener attached");
+  } else {
+    console.warn("metaForm not found, cannot set up form submit sync");
   }
 }
 
 // Expose a function to manually reinitialize the place autocomplete
 // This can be called when the dialog is opened
 export function reinitializePlaceAutocomplete() {
-  console.log("Manually reinitializing Place Autocomplete...");
+  console.log("[REINIT] Manually reinitializing Place Autocomplete...");
 
   // Check if Google Maps API is loaded before attempting to reinitialize
   if (!isGoogleMapsAvailable()) {
-    console.error("Cannot reinitialize - Google Maps API not fully loaded");
+    console.error("[REINIT] Cannot reinitialize - Google Maps API not fully loaded");
     return;
   }
 
-  placeChangeListenerInitialized = false;
-  initAttempts = 0; // Reset attempts counter
-  initMap();
-  setupFormSubmitSync();
+  // Clean up existing listener state
+  cleanupExistingListener();
+  
+  // Reset counters
+  initAttempts = 0;
+  
+  // Add a short delay to ensure the dialog is fully rendered
+  setTimeout(() => {
+    console.log("[REINIT] Running initMap with delay");
+    initMap();
+    setupFormSubmitSync();
+  }, 100);
 }
 
 // --- End Google Maps Autocomplete ---

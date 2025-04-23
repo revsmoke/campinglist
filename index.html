@@ -8,11 +8,12 @@
     </title>
     <link rel="stylesheet" href="camplist.css" />
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.11/dist/purify.min.js"></script>
-    <!-- 
-      IMPORTANT: Replace YOUR_API_KEY with your actual Google Maps API Key.
-      Ensure the key is properly restricted in the Google Cloud Console.
-    -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=your_key_here&libraries=places&loading=async&callback=googleMapsApiLoaded" async defer></script>
+    <!-- API keys are loaded securely from config.js -->
+    <script type="module">
+      import { loadGoogleMapsApi } from './config.js';
+      // Load Google Maps API script dynamically with the key from keys.txt
+      loadGoogleMapsApi();
+    </script>
 
 
   </head>

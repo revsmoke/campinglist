@@ -6,6 +6,19 @@
 window.googleMapsApiLoaded = function () {
   console.log("Google Maps API script loaded.");
   window.googleMapsApiReady = true;
+  
+  // Dispatch a custom event that components can listen for
+  try {
+    const customEvent = new CustomEvent("googleMapsApiReady", { 
+      bubbles: true,
+      detail: { timestamp: Date.now() }
+    });
+    window.dispatchEvent(customEvent);
+    console.log("Dispatched googleMapsApiReady event");
+  } catch(e) {
+    console.error("Failed to dispatch googleMapsApiReady event", e);
+  }
+  
   // The actual initialization will happen in initializeApp()
 };
 // --- End Google Maps API Callback ---
@@ -83,10 +96,40 @@ async function initializeApp() {
       // Ensure maps API is ready before trying to reinit
       googleMapsApiReady = window.googleMapsApiReady || googleMapsApiReady;
       if (googleMapsApiReady) {
+        console.log("Google Maps API is ready, calling reinitializePlaceAutocomplete");
+        
         // Use the dedicated reinitialize function for reliability
-        setTimeout(reinitializePlaceAutocomplete, 100);
+        // Wait a bit longer to ensure dialog is fully rendered
+        setTimeout(reinitializePlaceAutocomplete, 200);
+        
+        // Add a fallback attempt in case the first one fails
+        setTimeout(() => {
+          console.log("Running second reinitializePlaceAutocomplete attempt");
+          reinitializePlaceAutocomplete();
+        }, 800);
       } else {
         console.warn("Meta dialog opened, but Google Maps API not ready yet");
+        
+        // Add listener for when API becomes ready
+        window.addEventListener("googleMapsApiReady", () => {
+          console.log("Google Maps API became ready after dialog opened");
+          setTimeout(reinitializePlaceAutocomplete, 200);
+        }, { once: true });
+      }
+    });
+  }
+  
+  // Also add a listener directly to the dialog for when it's shown
+  if (metaDialog) {
+    metaDialog.addEventListener("click", (e) => {
+      // Only proceed if we're clicking on the dialog itself, not its children
+      if (e.target === metaDialog) {
+        console.log("Dialog clicked, checking if we should reinitialize autocomplete");
+        googleMapsApiReady = window.googleMapsApiReady || googleMapsApiReady;
+        if (googleMapsApiReady && metaDialog.open) {
+          console.log("Dialog is open and API is ready, reinitializing");
+          reinitializePlaceAutocomplete();
+        }
       }
     });
   }

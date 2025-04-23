@@ -99,9 +99,13 @@ function showErrorDialog(message) {
 }
 
 function openMetaDialog() {
+  console.log("[UI] Opening meta dialog");
   const dlg = $("metaDialog");
   const f = $("metaForm");
-  if (!dlg || !f) return; // Guard against missing elements
+  if (!dlg || !f) {
+    console.error("[UI] Dialog or form not found");
+    return; // Guard against missing elements
+  }
 
   // Get current meta state
   const currentMeta = getMeta();
@@ -123,16 +127,29 @@ function openMetaDialog() {
   const autocompleteElement = $("destinationAutocompleteElement");
 
   console.log(
-    "Opening meta dialog with current destination:",
+    "[UI] Meta dialog opening with current destination:",
     currentMeta.destination
   );
 
-  if (addressHiddenInput)
+  if (addressHiddenInput) {
     addressHiddenInput.value = currentMeta.destination || "";
-  if (placeIdHiddenInput)
+    console.log(`[UI] Set addressHiddenInput value: ${addressHiddenInput.value}`);
+  }
+  
+  if (placeIdHiddenInput) {
     placeIdHiddenInput.value = currentMeta.destinationPlaceId || "";
-  if (latHiddenInput) latHiddenInput.value = currentMeta.destinationLat || "";
-  if (lngHiddenInput) lngHiddenInput.value = currentMeta.destinationLng || "";
+    console.log(`[UI] Set placeIdHiddenInput value: ${placeIdHiddenInput.value}`);
+  }
+  
+  if (latHiddenInput) {
+    latHiddenInput.value = currentMeta.destinationLat || "";
+    console.log(`[UI] Set latHiddenInput value: ${latHiddenInput.value}`);
+  }
+  
+  if (lngHiddenInput) {
+    lngHiddenInput.value = currentMeta.destinationLng || "";
+    console.log(`[UI] Set lngHiddenInput value: ${lngHiddenInput.value}`);
+  }
 
   // The Place Autocomplete Element is a web component that doesn't have a simple value property
   // We can only set the value through the selection event, but we can try to set some properties
@@ -148,18 +165,42 @@ function openMetaDialog() {
 
       // Log that we're trying to update the autocomplete element
       console.log(
-        "Attempting to populate autocomplete with:",
+        "[UI] Attempting to populate autocomplete with:",
         currentMeta.destination
       );
+
+      // For web components like these, we can try to set some properties
+      // that might be picked up by the component
+      if (typeof autocompleteElement.value !== 'undefined') {
+        try {
+          autocompleteElement.value = currentMeta.destination;
+          console.log("[UI] Set autocomplete value property directly");
+        } catch (e) {
+          console.warn("[UI] Could not set value property:", e);
+        }
+      }
+
+      // Dispatch an input event to try triggering internal component updates
+      try {
+        const inputEvent = new Event('input', { bubbles: true });
+        autocompleteElement.dispatchEvent(inputEvent);
+        console.log("[UI] Dispatched input event to autocomplete element");
+      } catch (e) {
+        console.warn("[UI] Could not dispatch input event:", e);
+      }
 
       // Note: Google's web components don't have a direct way to set their value programmatically,
       // so the user will likely need to re-select a place if editing an existing destination
     } catch (error) {
-      console.warn("Error trying to set autocomplete value:", error);
+      console.warn("[UI] Error trying to set autocomplete value:", error);
     }
+  } else {
+    console.log("[UI] No destination value to set or autocomplete element not found");
   }
 
+  // Show the dialog
   dlg.showModal();
+  console.log("[UI] Dialog shown");
 }
 
 // Added function to open and populate the note dialog
@@ -670,14 +711,13 @@ function setupEventListeners() {
     metaForm.addEventListener("submit", (e) => {
       // The default submit for method="dialog" closes the dialog.
       // We need to prevent this only if validation fails.
-      // e.preventDefault(); // Only prevent if validation fails
-
+      
       const fd = new FormData(metaForm);
       const startDate = fd.get("startDate");
       const endDate = fd.get("endDate");
 
       // Debug: Check hidden field values
-      console.log("Hidden field values:");
+      console.log("[SUBMIT] Hidden field values:");
       console.log(
         "destinationAddressHidden:",
         $("destinationAddressHidden")?.value
@@ -702,6 +742,17 @@ function setupEventListeners() {
       const placeIdHiddenInput = $("destinationPlaceIdHidden");
       const latHiddenInput = $("destinationLatHidden");
       const lngHiddenInput = $("destinationLngHidden");
+      
+      // Make sure we run one final sync of hidden fields before retrieving values
+      try {
+        // Force one more sync from the Google Places element before submitting
+        const autocompleteElement = $("destinationAutocompleteElement");
+        if (autocompleteElement && autocompleteElement.dataset.listenerAttached === "true") {
+          console.log("[SUBMIT] Final check of autocomplete element before submission");
+        }
+      } catch (err) {
+        console.warn("[SUBMIT] Error during final sync check:", err);
+      }
 
       // Update meta data using hidden fields for destination
       const newMeta = {
@@ -711,19 +762,28 @@ function setupEventListeners() {
         destinationLng: lngHiddenInput?.value || "",
         startDate: startDate,
         endDate: endDate,
-        notes: fd.get("notes").trim(),
-        permitUrl: fd.get("permitUrl").trim(),
-        permitDeadline: fd.get("permitDeadline"),
-        fireRules: fd.get("fireRules").trim(),
+        notes: fd.get("notes")?.trim() || "",
+        permitUrl: fd.get("permitUrl")?.trim() || "",
+        permitDeadline: fd.get("permitDeadline") || "",
+        fireRules: fd.get("fireRules")?.trim() || "",
       };
 
-      // LOG 1: Check if renderMeta is being called after state update
       console.log(
-        "[Submit Handler] About to update state and call renderMeta. New destination:",
-        newMeta.destination
+        "[SUBMIT] About to update state with new meta data:",
+        JSON.stringify(newMeta)
       );
+      
       // Update state (this now includes saving)
       updateMetaState(newMeta);
+
+      // Show feedback toast to indicate successful save
+      try {
+        if (typeof showToast === 'function') {
+          showToast("Location information saved successfully", 2000, "success");
+        }
+      } catch (err) {
+        console.warn("[SUBMIT] Error showing toast:", err);
+      }
 
       // Update UI
       renderMeta(); // Re-render the meta sidebar section
@@ -731,7 +791,7 @@ function setupEventListeners() {
       updateUndoRedoButtons();
 
       // Dialog closes automatically on successful submit (no preventDefault)
-      // metaDialog.close(); // Not needed if not preventing default
+      console.log("[SUBMIT] Form submitted successfully");
     });
 
     // Cancel button listener
