@@ -188,11 +188,20 @@ export function initMap() {
       latHiddenInput.value = lat;
       lngHiddenInput.value = lng;
       
-      // Also update the fallback input field if it exists
-      const fallbackInput = document.getElementById("destinationFallbackInput");
-      if (fallbackInput) {
-        fallbackInput.value = address;
-        console.log("[EVENT] Updated fallback input with:", address);
+      // CRITICAL: Update the meta.destination field directly
+      // This is the key fix to make sure the destination gets saved
+      try {
+        const meta = window.getMeta ? window.getMeta() : {};
+        if (meta) {
+          // Update in memory meta directly
+          meta.destination = address;
+          meta.destinationPlaceId = placeId;
+          meta.destinationLat = lat;
+          meta.destinationLng = lng;
+          console.log("[EVENT] ✅ Updated meta object directly with address:", address);
+        }
+      } catch (err) {
+        console.error("[EVENT] Failed to update meta directly:", err);
       }
 
       // Debug: Log the values after setting them

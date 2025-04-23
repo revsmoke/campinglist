@@ -119,28 +119,24 @@ function openMetaDialog() {
     f.permitDeadline.value = currentMeta.permitDeadline || "";
   if (f.fireRules) f.fireRules.value = currentMeta.fireRules || "";
 
-  // Set the destination input directly - this is the simple fix
-  const destinationInput = $("destinationInput");
+  // Get necessary values
   const destinationValue = currentMeta.destination || "";
   
   console.log(
     "[UI] Meta dialog opening with current destination:",
     destinationValue
   );
-
-  if (destinationInput) {
-    destinationInput.value = destinationValue;
-    console.log(`[UI] Set destination input value: ${destinationInput.value}`);
-  }
   
-  // Still populate the hidden fields for completeness
+  // Populate the hidden fields for Google Maps data
   const addressHiddenInput = $("destinationAddressHidden");
   const placeIdHiddenInput = $("destinationPlaceIdHidden");
   const latHiddenInput = $("destinationLatHidden");
   const lngHiddenInput = $("destinationLngHidden");
+  const autocompleteElement = $("destinationAutocompleteElement");
   
   if (addressHiddenInput) {
     addressHiddenInput.value = destinationValue;
+    console.log(`[UI] Set addressHiddenInput value: ${addressHiddenInput.value}`);
   }
   
   if (placeIdHiddenInput) {
@@ -153,6 +149,13 @@ function openMetaDialog() {
   
   if (lngHiddenInput) {
     lngHiddenInput.value = currentMeta.destinationLng || "";
+  }
+  
+  // Try to update the Google Maps Autocomplete element
+  if (autocompleteElement && destinationValue) {
+    // Let the user know the current value is available in the hidden field
+    console.log("[UI] Current destination is saved in the hidden field as:", destinationValue);
+    console.log("[UI] Note: You'll need to re-select the destination from the dropdown");
   }
 
   // Show the dialog
@@ -702,10 +705,9 @@ function setupEventListeners() {
       const latHiddenInput = $("destinationLatHidden");
       const lngHiddenInput = $("destinationLngHidden");
       
-      // Get the value directly from the destination input
-      const destinationInput = $("destinationInput");
-      const destinationValue = destinationInput?.value || "";
-      console.log("[SUBMIT] Getting destination directly from input:", destinationValue);
+      // Get the value from the hidden field (populated by the autocomplete)
+      const destinationValue = addressHiddenInput?.value || "";
+      console.log("[SUBMIT] Getting destination from hidden field:", destinationValue);
 
       // Update meta data using fields, with fallback input as backup
       const newMeta = {

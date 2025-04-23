@@ -834,28 +834,24 @@ a.disabled-link {
   font-weight: bold;
 }
 
-/* --- Destination Input Styles --- */
+/* --- Google Maps Autocomplete Styles --- */
 .destination-container {
   position: relative;
   width: 100%;
   margin-bottom: 16px;
 }
 
-#destinationInput {
+gmp-place-autocomplete {
   width: 100%;
   box-sizing: border-box;
   border-radius: var(--radius);
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-  font-size: 16px;
-  background-color: var(--bg);
-  color: var(--text);
+  margin-top: 4px;
 }
 
 .hidden {
   display: none !important;
 }
-/* --- End Destination Input Styles --- */
+/* --- End Google Maps Autocomplete Styles --- */
 
 /* --- Print Styles --- */
 @media print {

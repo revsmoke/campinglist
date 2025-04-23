@@ -727,7 +727,10 @@ export {
   getMeta, // Export getMeta function
 };
 
-// Add a getter function for meta
+// Add a getter function for meta and expose it globally for other modules
 function getMeta() {
   return meta;
 }
+
+// Expose getMeta to window for cross-module access
+window.getMeta = getMeta;

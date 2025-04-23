@@ -116,12 +116,11 @@
       <form id="metaForm" method="dialog">
         <label for="destinationContainer">Destination</label>
         <div class="destination-container">
-          <!-- Standard text input that always works -->
-          <input type="text" 
-                 id="destinationInput" 
-                 name="destination"
-                 placeholder="Enter destination"
-                 required>
+          <gmp-place-autocomplete
+              id="destinationAutocompleteElement"
+              placeholder="Enter a destination"
+              required>
+          </gmp-place-autocomplete>
         </div>
 
         <!-- Hidden fields to store detailed place data for form submission -->
