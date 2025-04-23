@@ -26,7 +26,7 @@ const DEFAULT_META = {
   notes: "",
   permitUrl: "",
   permitDeadline: "",
-  fireRules: ""
+  fireRules: "",
 };
 
 // Use 'let' so they can be reassigned by loadAll()
@@ -179,7 +179,7 @@ async function loadAllState() {
   try {
     const metaRaw = localStorage.getItem(STORAGE_META);
     meta = metaRaw ? JSON.parse(metaRaw) : { ...DEFAULT_META };
-    
+
     // Add new permit fields to existing meta if they don't exist
     if (!Object.hasOwn(meta, "permitUrl")) {
       meta.permitUrl = "";
@@ -190,7 +190,7 @@ async function loadAllState() {
     if (!Object.hasOwn(meta, "permitDeadline")) {
       meta.permitDeadline = "";
     }
-    
+
     // If loaded from default (metaRaw is null), save it immediately
     if (!metaRaw) {
       try {
@@ -381,7 +381,7 @@ function addItemState(groupId, text) {
       requires: [],
       weight: 0,
       packed: false,
-      cost: 0 // Add cost field
+      cost: 0, // Add cost field
     };
     group.items.push(newItem);
     saveListState();
@@ -656,7 +656,7 @@ function getState() {
     state: {
       // For compatibility with our existing code, we return the data array directly
       lists: { [0]: data },
-      currentListId: 0
+      currentListId: 0,
     },
     dispatch: (action) => {
       if (action.type === "UPDATE_ITEM") {
@@ -672,7 +672,7 @@ function getState() {
       }
       // Add more action types as needed
       return false;
-    }
+    },
   };
 }
 
@@ -704,5 +704,5 @@ export {
   moveSectionState,
   resetAllState,
   updateSectionTitleState, // Export the new function
-  getState // Export getState function
+  getState, // Export getState function
 };

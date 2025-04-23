@@ -21,7 +21,7 @@ import {
   resetAllState,
   findItemState,
   getState,
-  saveListState
+  saveListState,
 } from "./state.js";
 
 /***************** UI UTILS *****************/
@@ -62,7 +62,7 @@ function renderMeta() {
   } else {
     console.error("Could not find #editMetaBtn after rendering meta panel.");
   }
-  
+
   // Update permit information in the sidebar
   updatePermitInfo();
   updatePermitRequiredItems();
@@ -95,12 +95,12 @@ function openMetaDialog() {
   f.startDate.value = meta.startDate;
   f.endDate.value = meta.endDate;
   f.notes.value = meta.notes;
-  
+
   // Set permit fields
-  if (f.permitUrl) f.permitUrl.value = meta.permitUrl || '';
-  if (f.permitDeadline) f.permitDeadline.value = meta.permitDeadline || '';
-  if (f.fireRules) f.fireRules.value = meta.fireRules || '';
-  
+  if (f.permitUrl) f.permitUrl.value = meta.permitUrl || "";
+  if (f.permitDeadline) f.permitDeadline.value = meta.permitDeadline || "";
+  if (f.fireRules) f.fireRules.value = meta.fireRules || "";
+
   dlg.showModal();
 }
 
@@ -123,11 +123,19 @@ function openNoteDialog(itemId, itemText, currentNote) {
 /**
  * Opens the weight dialog with the current item values
  */
-function openWeightDialog(id, text, weight, packed, cost, permitRequired, regulationNotes) {
+function openWeightDialog(
+  id,
+  text,
+  weight,
+  packed,
+  cost,
+  permitRequired,
+  regulationNotes
+) {
   const weightDialog = document.getElementById("weightDialog");
   const form = document.getElementById("weightForm");
   const itemText = document.getElementById("weightDialogItemText");
-  
+
   itemText.textContent = text;
   form.elements.itemId.value = id;
   form.elements.itemWeight.value = weight || "";
@@ -135,36 +143,43 @@ function openWeightDialog(id, text, weight, packed, cost, permitRequired, regula
   form.elements.itemCost.value = cost || "";
   form.elements.permitRequired.checked = permitRequired || false;
   form.elements.regulationNotes.value = regulationNotes || "";
-  
+
   weightDialog.showModal();
 }
 
 /**
  * Updates the weight and packed status of an item
  */
-function updateItemWeightState(itemId, weight, packed, cost, permitRequired, regulationNotes) {
+function updateItemWeightState(
+  itemId,
+  weight,
+  packed,
+  cost,
+  permitRequired,
+  regulationNotes
+) {
   const itemContext = findItemState(itemId);
   if (!itemContext) return false;
 
   const parsedWeight = parseFloat(weight) || 0;
   const parsedCost = parseFloat(cost) || 0;
-  
+
   // Update item properties
   itemContext.item.weight = parsedWeight;
   itemContext.item.packed = packed;
   itemContext.item.cost = parsedCost;
   itemContext.item.permitRequired = permitRequired;
   itemContext.item.regulationNotes = regulationNotes;
-  
+
   // Save state
   saveListState();
-  
+
   // Update UI
   renderList();
   calculateAndDisplayWeights();
   calculateAndDisplayCosts();
   updatePermitRequiredItems(); // New function to update permit items in sidebar
-  
+
   return true;
 }
 
@@ -181,21 +196,21 @@ function toggleWeightSidebar() {
 function convertWeight(weight, fromUnit, toUnit) {
   // First convert to grams as base unit
   let weightInGrams = weight;
-  if (fromUnit === 'kg') {
+  if (fromUnit === "kg") {
     weightInGrams = weight * 1000;
-  } else if (fromUnit === 'lb') {
+  } else if (fromUnit === "lb") {
     weightInGrams = weight * 453.592;
   }
-  
+
   // Then convert to target unit
-  if (toUnit === 'g') {
+  if (toUnit === "g") {
     return Math.round(weightInGrams);
-  } else if (toUnit === 'kg') {
+  } else if (toUnit === "kg") {
     return (weightInGrams / 1000).toFixed(2);
-  } else if (toUnit === 'lb') {
+  } else if (toUnit === "lb") {
     return (weightInGrams / 453.592).toFixed(2);
   }
-  
+
   return weight; // Fallback
 }
 
@@ -206,19 +221,19 @@ function formatWeight(weight, unit) {
 // Save weight unit preference
 function saveWeightUnitPreference(unit) {
   try {
-    localStorage.setItem('campChecklist_weightUnit', unit);
+    localStorage.setItem("campChecklist_weightUnit", unit);
   } catch (error) {
-    console.error('Error saving weight unit preference:', error);
+    console.error("Error saving weight unit preference:", error);
   }
 }
 
 // Load weight unit preference
 function loadWeightUnitPreference() {
   try {
-    return localStorage.getItem('campChecklist_weightUnit') || 'g'; // Default to grams
+    return localStorage.getItem("campChecklist_weightUnit") || "g"; // Default to grams
   } catch (error) {
-    console.error('Error loading weight unit preference:', error);
-    return 'g';
+    console.error("Error loading weight unit preference:", error);
+    return "g";
   }
 }
 
@@ -230,40 +245,48 @@ function calculateAndDisplayWeights() {
   const packedWeightEl = $("packedWeight");
   const sectionWeightsEl = $("weightBySection");
   const weightUnitSelect = $("weightUnit");
-  
+
   if (!totalWeightEl || !packedWeightEl || !sectionWeightsEl) return;
-  
+
   // Get selected unit
-  const selectedUnit = weightUnitSelect ? weightUnitSelect.value : 'g';
-  
+  const selectedUnit = weightUnitSelect ? weightUnitSelect.value : "g";
+
   let totalWeight = 0;
   let packedWeight = 0;
-  
+
   // Build section weights HTML
   let sectionWeightsHTML = "";
-  
+
   data.forEach((section) => {
     let sectionTotal = 0;
     let sectionPacked = 0;
-    
+
     section.items.forEach((item) => {
       if (typeof item.weight === "number") {
         sectionTotal += item.weight; // Accumulate in grams
         totalWeight += item.weight; // Accumulate in grams
-        
+
         if (item.packed) {
           sectionPacked += item.weight; // Accumulate in grams
           packedWeight += item.weight; // Accumulate in grams
         }
       }
     });
-    
+
     // Only show sections with weight > 0
     if (sectionTotal > 0) {
       // Convert section totals to selected unit for display
-      const displaySectionTotal = convertWeight(sectionTotal, 'g', selectedUnit);
-      const displaySectionPacked = convertWeight(sectionPacked, 'g', selectedUnit);
-      
+      const displaySectionTotal = convertWeight(
+        sectionTotal,
+        "g",
+        selectedUnit
+      );
+      const displaySectionPacked = convertWeight(
+        sectionPacked,
+        "g",
+        selectedUnit
+      );
+
       sectionWeightsHTML += `
         <div class="weight-section">
           <div class="weight-section-title">${sanitize(section.title)}</div>
@@ -275,11 +298,11 @@ function calculateAndDisplayWeights() {
       `;
     }
   });
-  
+
   // Convert total weights to selected unit for display
-  const displayTotalWeight = convertWeight(totalWeight, 'g', selectedUnit);
-  const displayPackedWeight = convertWeight(packedWeight, 'g', selectedUnit);
-  
+  const displayTotalWeight = convertWeight(totalWeight, "g", selectedUnit);
+  const displayPackedWeight = convertWeight(packedWeight, "g", selectedUnit);
+
   // Update displays
   totalWeightEl.textContent = formatWeight(displayTotalWeight, selectedUnit);
   packedWeightEl.textContent = formatWeight(displayPackedWeight, selectedUnit);
@@ -604,18 +627,18 @@ function setupEventListeners() {
   if (metaForm && metaDialog) {
     metaForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      
+
       // Get form data
       const fd = new FormData(metaForm);
       const startDate = fd.get("startDate");
       const endDate = fd.get("endDate");
-      
+
       // Validate dates: Only if both are present and end is before start
       if (startDate && endDate && endDate < startDate) {
         showErrorDialog("End date cannot be before the start date.");
         return; // Stop processing
       }
-      
+
       // Update meta data with new fields
       const newMeta = {
         destination: fd.get("destination").trim(),
@@ -624,17 +647,17 @@ function setupEventListeners() {
         notes: fd.get("notes").trim(),
         permitUrl: fd.get("permitUrl").trim(),
         permitDeadline: fd.get("permitDeadline"),
-        fireRules: fd.get("fireRules").trim()
+        fireRules: fd.get("fireRules").trim(),
       };
-      
+
       // Update state
       updateMetaState(newMeta);
-      
+
       // Update UI
       renderMeta();
       updatePermitInfo();
       updateUndoRedoButtons();
-      
+
       // Close dialog
       metaDialog.close();
     });
@@ -742,8 +765,15 @@ function setupEventListeners() {
       const cost = weightForm.elements.itemCost.value;
       const permitRequired = weightForm.elements.permitRequired.checked;
       const regulationNotes = weightForm.elements.regulationNotes.value;
-      
-      updateItemWeightState(id, weight, packed, cost, permitRequired, regulationNotes);
+
+      updateItemWeightState(
+        id,
+        weight,
+        packed,
+        cost,
+        permitRequired,
+        regulationNotes
+      );
     });
 
     // Add event listener for the weight cancel button
@@ -759,7 +789,7 @@ function setupEventListeners() {
   // Initial calculations
   calculateAndDisplayWeights();
   calculateAndDisplayCosts();
-  
+
   // Initialize permit information
   updatePermitInfo();
   updatePermitRequiredItems();
@@ -769,7 +799,7 @@ function setupEventListeners() {
   if (weightUnitSelect) {
     // Set initial value from localStorage
     weightUnitSelect.value = loadWeightUnitPreference();
-    
+
     // Add event listener for unit changes
     weightUnitSelect.addEventListener("change", () => {
       saveWeightUnitPreference(weightUnitSelect.value);
@@ -944,7 +974,7 @@ function filterItems(query) {
 function calculateAndDisplayCosts() {
   const { state } = getState();
   const listId = state.currentListId;
-  
+
   if (!listId) return;
 
   const list = state.lists[listId];
@@ -954,16 +984,16 @@ function calculateAndDisplayCosts() {
   const sections = {};
   let totalCost = 0;
 
-  list.forEach(group => {
+  list.forEach((group) => {
     const section = group.title || "Uncategorized";
     if (!sections[section]) {
       sections[section] = 0;
     }
-    
-    group.items.forEach(item => {
+
+    group.items.forEach((item) => {
       const cost = parseFloat(item.cost) || 0;
       totalCost += cost;
-      
+
       if (cost > 0) {
         sections[section] += cost;
       }
@@ -975,31 +1005,33 @@ function calculateAndDisplayCosts() {
   if (totalCostEl) {
     totalCostEl.textContent = `$${totalCost.toFixed(2)}`;
   }
-  
+
   // Update the costs by section
   const costBySection = document.getElementById("costBySection");
   if (!costBySection) return;
-  
+
   costBySection.innerHTML = "";
-  
-  Object.keys(sections).sort().forEach(section => {
-    if (sections[section] > 0) {
-      const sectionDiv = document.createElement("div");
-      sectionDiv.className = "cost-section";
-      
-      const titleDiv = document.createElement("div");
-      titleDiv.className = "cost-section-title";
-      titleDiv.textContent = section;
-      
-      const valueDiv = document.createElement("div");
-      valueDiv.className = "cost-section-value";
-      valueDiv.textContent = `$${sections[section].toFixed(2)}`;
-      
-      sectionDiv.appendChild(titleDiv);
-      sectionDiv.appendChild(valueDiv);
-      costBySection.appendChild(sectionDiv);
-    }
-  });
+
+  Object.keys(sections)
+    .sort()
+    .forEach((section) => {
+      if (sections[section] > 0) {
+        const sectionDiv = document.createElement("div");
+        sectionDiv.className = "cost-section";
+
+        const titleDiv = document.createElement("div");
+        titleDiv.className = "cost-section-title";
+        titleDiv.textContent = section;
+
+        const valueDiv = document.createElement("div");
+        valueDiv.className = "cost-section-value";
+        valueDiv.textContent = `$${sections[section].toFixed(2)}`;
+
+        sectionDiv.appendChild(titleDiv);
+        sectionDiv.appendChild(valueDiv);
+        costBySection.appendChild(sectionDiv);
+      }
+    });
 }
 
 // Helper function for consistent undo state saving
@@ -1014,21 +1046,21 @@ const _saveStateForUndo = () => {
 function updatePermitRequiredItems() {
   const permitItemsList = document.getElementById("permitItemsList");
   if (!permitItemsList) return;
-  
+
   permitItemsList.innerHTML = "";
-  
+
   // Get all items that require permits
-  const itemsRequiringPermits = data.flatMap(group => 
-    group.items.filter(item => item.permitRequired)
+  const itemsRequiringPermits = data.flatMap((group) =>
+    group.items.filter((item) => item.permitRequired)
   );
-  
+
   if (itemsRequiringPermits.length === 0) {
     permitItemsList.innerHTML = "<li>No items require permits</li>";
     return;
   }
-  
+
   // Add each item to the list
-  itemsRequiringPermits.forEach(item => {
+  itemsRequiringPermits.forEach((item) => {
     const li = document.createElement("li");
     li.textContent = item.text;
     permitItemsList.appendChild(li);
@@ -1042,9 +1074,9 @@ function updatePermitInfo() {
   const permitUrlLink = document.getElementById("permitUrlLink");
   const permitDeadlineText = document.getElementById("permitDeadlineText");
   const fireRulesText = document.getElementById("fireRulesText");
-  
+
   if (!permitUrlLink || !permitDeadlineText || !fireRulesText) return;
-  
+
   // Update permit URL
   if (meta.permitUrl) {
     permitUrlLink.href = meta.permitUrl;
@@ -1053,15 +1085,17 @@ function updatePermitInfo() {
     permitUrlLink.href = "#";
     permitUrlLink.textContent = "None specified";
   }
-  
+
   // Update permit deadline
   if (meta.permitDeadline) {
     const deadline = new Date(meta.permitDeadline);
     const today = new Date();
-    const daysUntilDeadline = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
-    
+    const daysUntilDeadline = Math.ceil(
+      (deadline - today) / (1000 * 60 * 60 * 24)
+    );
+
     permitDeadlineText.textContent = formatDate(meta.permitDeadline);
-    
+
     // Add warning class if deadline is approaching (within 14 days)
     if (daysUntilDeadline <= 14 && daysUntilDeadline >= 0) {
       permitDeadlineText.classList.add("warning");
@@ -1073,7 +1107,7 @@ function updatePermitInfo() {
     permitDeadlineText.textContent = "None";
     permitDeadlineText.classList.remove("warning");
   }
-  
+
   // Update fire rules
   if (meta.fireRules) {
     fireRulesText.textContent = meta.fireRules;
@@ -1105,5 +1139,5 @@ export {
   _saveStateForUndo,
   updatePermitRequiredItems,
   updatePermitInfo,
-  formatDate
+  formatDate,
 };

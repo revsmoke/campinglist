@@ -29,7 +29,6 @@ async function initializeApp() {
   // 4. Setup all event listeners
   setupEventListeners();
   setupDragAndDrop();
-  
   // 5. Initialize calculators and info
   calculateAndDisplayWeights();
   calculateAndDisplayCosts();

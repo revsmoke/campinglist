@@ -30,7 +30,9 @@ body {
   font-family: var(--font);
   background: var(--bg);
   color: var(--text);
-  transition: background 0.3s ease, color 0.3s ease;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
 }
 h1 {
   margin: 1.2rem 0 0.6rem;
@@ -100,7 +102,9 @@ section.card {
   box-shadow: var(--shadow);
   max-width: 720px;
   position: relative;
-  transition: background 0.3s ease, border-color 0.3s ease;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .meta-sidebar {
@@ -116,7 +120,6 @@ section.card {
   height: max-content;
   transition: transform 0.3s ease;
 }
-
 
 .meta-card {
   border-left: 6px solid var(--accent);
@@ -338,10 +341,6 @@ dialog menu {
   line-height: 1.5;
 }
 
-#errorDialog menu button {
-  /* Add specific styles if needed, otherwise inherits default button styles */
-}
-
 /* Section Drag Styles */
 section.section-dragging {
   opacity: 0.5;
@@ -351,26 +350,28 @@ section.section-dragging {
 section.section-over {
   border-top: 3px dashed var(--accent);
   margin-top: 1.5rem; /* Adjust spacing for visual cue */
-  transition: border-top 0.1s ease-in-out, margin-top 0.1s ease-in-out;
+  transition:
+    border-top 0.1s ease-in-out,
+    margin-top 0.1s ease-in-out;
 }
 
 /* Note Edit Dialog Styles */
 #noteDialog p {
-    margin-bottom: 0.5rem;
-    color: var(--muted);
-    font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  color: var(--muted);
+  font-size: 0.9rem;
 }
 #noteDialog p strong {
-    color: var(--text);
+  color: var(--text);
 }
 #noteDialog label {
-    display: block; /* Make label take full width */
-    margin-bottom: 0.5rem;
+  display: block; /* Make label take full width */
+  margin-bottom: 0.5rem;
 }
 #noteDialog textarea {
-    width: 100%;
-    height: 100px;
-    margin-top: 0.25rem;
+  width: 100%;
+  height: 100px;
+  margin-top: 0.25rem;
 }
 
 /* Add Section Form Styles */
@@ -384,7 +385,9 @@ form.addSection {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  transition: background 0.3s ease, border-color 0.3s ease;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
 }
 
 form.addSection input {
@@ -401,115 +404,118 @@ form.addSection button {
 /* Undo/Redo Buttons */
 #btnUndo,
 #btnRedo {
-    padding: 0.45rem 0.8rem; /* Slightly less horizontal padding */
-    font-size: 1.2rem; /* Make icons bigger */
-    line-height: 1; /* Adjust line height for icons */
+  padding: 0.45rem 0.8rem; /* Slightly less horizontal padding */
+  font-size: 1.2rem; /* Make icons bigger */
+  line-height: 1; /* Adjust line height for icons */
 }
 
 #btnUndo:disabled,
 #btnRedo:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    background: var(--muted);
-    border-color: var(--muted);
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--muted);
+  border-color: var(--muted);
 }
 
 /* Theme Toggle Button */
 #btnTheme {
-    padding: 0.45rem 0.8rem; /* Match undo/redo */
-    font-size: 1.1rem; /* Adjust icon size */
-    line-height: 1;
-    background: none;
-    border: none;
-    color: var(--muted);
+  padding: 0.45rem 0.8rem; /* Match undo/redo */
+  font-size: 1.1rem; /* Adjust icon size */
+  line-height: 1;
+  background: none;
+  border: none;
+  color: var(--muted);
 }
 
 #btnTheme:hover {
-    background: #e4ede8; /* Same as secondary button hover */
-    color: var(--accent);
+  background: #e4ede8; /* Same as secondary button hover */
+  color: var(--accent);
 }
 
 :root.dark #btnTheme {
-    color: var(--muted); /* Keep it muted in dark mode too */
+  color: var(--muted); /* Keep it muted in dark mode too */
 }
 
 :root.dark #btnTheme:hover {
-    background: #3f4a5a; /* Darker hover for dark mode */
-    color: var(--accent);
+  background: #3f4a5a; /* Darker hover for dark mode */
+  color: var(--accent);
 }
 
 /* Filter/Search Input */
 .filter-container {
-    max-width: 720px;
-    margin: 0 auto 1rem;
-    position: relative;
+  max-width: 720px;
+  margin: 0 auto 1rem;
+  position: relative;
 }
 
 #filterInput {
-    width: 100%;
-    padding: 0.5rem 2rem 0.5rem 0.75rem; /* Make space for clear button */
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    font-size: 0.9rem;
-    background: var(--card);
-    color: var(--text);
-    transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  width: 100%;
+  padding: 0.5rem 2rem 0.5rem 0.75rem; /* Make space for clear button */
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  background: var(--card);
+  color: var(--text);
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
 }
 
 #filterInput:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 2px rgba(47, 133, 90, 0.2);
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(47, 133, 90, 0.2);
 }
 
 /* Styling for native search input clear button (webkit) */
 #filterInput::-webkit-search-cancel-button {
-  display: none; 
+  display: none;
 }
 
 .clear-btn {
-    position: absolute;
-    right: 0.5rem;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    font-size: 1.2rem;
-    color: var(--muted);
-    cursor: pointer;
-    padding: 0.2rem;
-    line-height: 1;
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0.2rem;
+  line-height: 1;
 }
 
 .clear-btn:hover {
-    color: var(--text);
+  color: var(--text);
 }
 
 /* Highlight for search matches */
 mark {
-    background-color: #fff3a3; 
-    color: #333;
-    padding: 0 2px;
-    border-radius: 3px;
+  background-color: #fff3a3;
+  color: #333;
+  padding: 0 2px;
+  border-radius: 3px;
 }
 
 :root.dark mark {
-    background-color: #a0aec0; /* Use a muted background in dark mode */
-    color: #1a202c;
+  background-color: #a0aec0; /* Use a muted background in dark mode */
+  color: #1a202c;
 }
 
 /* Hide items that don't match filter */
 li.item.filtered-out {
-    display: none;
+  display: none;
 }
 
 /* Message shown when filter yields no results */
 .filter-no-results {
-    text-align: center;
-    color: var(--muted);
-    margin-top: 0.5rem;
-    font-style: italic;
-    font-size: 0.9rem;
+  text-align: center;
+  color: var(--muted);
+  margin-top: 0.5rem;
+  font-style: italic;
+  font-size: 0.9rem;
 }
 
 /* Touch Device Drag Handle Improvements */
@@ -521,7 +527,7 @@ li.item.filtered-out {
     margin-right: 0.25rem; /* Keep original right margin */
   }
   .handle {
-      margin-right: 0.1rem;
+    margin-right: 0.1rem;
   }
 }
 
@@ -546,7 +552,9 @@ li.item.filtered-out {
   font-size: 0.9rem;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
   opacity: 0;
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
   transform: translateY(20px);
   max-width: 90vw;
 }
@@ -558,11 +566,11 @@ li.item.filtered-out {
 
 /* Optional: Add different types of toasts */
 .toast.warning {
-    background-color: rgba(217, 119, 6, 0.9); /* Amber */
+  background-color: rgba(217, 119, 6, 0.9); /* Amber */
 }
 
 .toast.error {
-    background-color: rgba(220, 38, 38, 0.9); /* Red */
+  background-color: rgba(220, 38, 38, 0.9); /* Red */
 }
 
 /* Weight & Volume Estimator Styles */
@@ -594,8 +602,6 @@ li.item.filtered-out {
   transition: transform 0.3s ease;
 }
 
-
-
 .weight-sidebar h3 {
   font-size: 1.1rem;
   color: var(--accent);
@@ -604,19 +610,17 @@ li.item.filtered-out {
   align-items: center;
 }
 
- .sidebar-section h3 {
+.sidebar-section h3 {
   margin-bottom: 0.5rem;
   font-size: 1.1rem;
   color: var(--accent);
- }
+}
 
- .sidebar-section {
+.sidebar-section {
   margin-bottom: 1rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--border);
- }
-
-
+}
 
 .toggle-sidebar {
   position: absolute;
@@ -663,14 +667,16 @@ li.item.filtered-out {
   font-size: 0.85rem;
 }
 
-.weight-total, .weight-packed {
+.weight-total,
+.weight-packed {
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.5rem;
   font-size: 0.9rem;
 }
 
-.weight-total strong, .weight-packed strong {
+.weight-total strong,
+.weight-packed strong {
   font-weight: 600;
   color: var(--accent);
 }
@@ -746,7 +752,7 @@ li.item.filtered-out {
   .main-content {
     flex-direction: column;
   }
-  
+
   .weight-sidebar {
     width: 100%;
     max-width: 720px;
@@ -754,7 +760,7 @@ li.item.filtered-out {
     position: relative;
     top: 0;
   }
-  
+
   .weight-sidebar.collapsed {
     max-height: 3rem;
     overflow: hidden;

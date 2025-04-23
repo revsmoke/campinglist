@@ -57,10 +57,73 @@ Each feature is broken into step‑by‑step subtasks you can tick off (✔︎) 
 - [✔︎] Add validation to date inputs (e.g., end date after start date).
 - [ ] Improve styling/UX of the meta info display and dialog.
 - [ ] Implement rich text formatting for trip notes (e.g., simple markdown support).
-- [ ] Add Google Maps and Directions
-- [ ] Use Google Maps Places to find useful Places near campsite such as grocery, hostpital, police, etc.
+- [ ] Research GOOGLE MAPS API - use tools
+- [ ] **Google Places Autocomplete Integration**:
+  - [ ] Add Google Places API script to index.html
+  - [ ] Create location input field in meta dialog
+  - [ ] Initialize Places Autocomplete on location input
+  - [ ] Configure Autocomplete to focus on camping locations
+  - [ ] Add event listener for place selection
+  - [ ] Extract and store:
+    - [ ] Full address
+    - [ ] Latitude
+    - [ ] Longitude
+    - [ ] Place ID (for future reference)
+  - [ ] Update meta state with location data
+  - [ ] Add loading indicator during API calls
+  - [ ] Handle API errors gracefully
+  - [ ] Add fallback for when API is unavailable
+- [ ] Update JSON Schema and data saving to include location information as needed
+- [ ] **Google Maps Integration**:
+  - [ ] Add Google Maps JavaScript API script to index.html
+  - [ ] Initialize Google Maps with API key
+  - [ ] Create map container in trip details section
+  - [ ] Add map initialization function
+  - [ ] Handle map loading errors gracefully
+  - [ ] Add loading indicator during map initialization
 
-GOOGLE_MAPS_API_KEY = "AIzaSyACkiD1ScnxmAX0gjJnB39j-Gj6jmQx2G4";
+- [ ] **Directions Implementation**:
+  - [ ] Create directions service and renderer objects
+  - [ ] Add origin/destination input fields
+  - [ ] Implement geocoding for address inputs
+  - [ ] Add route calculation function
+  - [ ] Display route on map with polyline
+  - [ ] Show turn-by-turn directions in sidebar
+  - [ ] Add error handling for invalid routes
+  - [ ] Cache route data for offline use
+  - [ ] Add route optimization options (avoid highways, tolls, etc.)
+
+- [ ] **UI/UX Enhancements**:
+  - [ ] Add map controls (zoom, street view, etc.)
+  - [ ] Implement map markers for key locations
+  - [ ] Add info windows for location details
+  - [ ] Create responsive map layout
+  - [ ] Add map style customization
+  - [ ] Implement map interaction handlers
+  - [ ] Add loading states and error messages
+  - [ ] Create print-friendly map view
+- [ ] **Nearby Places Search**:
+  - [ ] Add Places API search functionality:
+    - [ ] Create function to search for places by type (grocery, hospital, etc.)
+    - [ ] Implement radius-based search from campsite coordinates
+    - [ ] Add type filters for common emergency/essential locations
+  - [ ] **UI Implementation**:
+    - [ ] Create collapsible "Nearby Places" section in sidebar
+    - [ ] Add category filters (medical, shopping, emergency, etc.)
+    - [ ] Display results in organized list with icons
+    - [ ] Show distance and rating for each place
+  - [ ] **Map Integration**:
+    - [ ] Add markers for found places on the map
+    - [ ] Implement info windows with place details
+    - [ ] Add click handlers to show directions
+  - [ ] **Data Management**:
+    - [ ] Cache place results for offline access
+    - [ ] Store user's preferred place categories
+    - [ ] Implement refresh mechanism for updated data
+  - [ ] **Error Handling**:
+    - [ ] Add loading states during API calls
+    - [ ] Handle API quota limits gracefully
+    - [ ] Provide fallback for when Places API is unavailable
 
 ### 1‑C Item Notes (Implemented - Review/Refine)
 
@@ -169,8 +232,6 @@ GOOGLE_MAPS_API_KEY = "AIzaSyACkiD1ScnxmAX0gjJnB39j-Gj6jmQx2G4";
   - [ ] Display a static map image for campsite coordinates (using Maps Static API).
   - [ ] Provide a link for turn-by-turn navigation in a maps app.
 - [ ] **Nearby Places Lookup**: Integrate with the Google Places API to find nearby points of interest (grocery stores, hospitals, police, ranger stations, etc.).
-
-GOOGLE_MAPS_API_KEY = "AIzaSyACkiD1ScnxmAX0gjJnB39j-Gj6jmQx2G4";
 
 ### 1-D: Item Notes _(Implemented — Review/Refine)_
 
@@ -302,18 +363,18 @@ GOOGLE_MAPS_API_KEY = "AIzaSyACkiD1ScnxmAX0gjJnB39j-Gj6jmQx2G4";
   - [✔︎] Add `weight: number` (grams) field to item schema
   - [✔︎] Add optional `packed: boolean` field to item schema
 
-- [ ] **UI**:
+- [✔︎] **UI**:
 
-  - [ ] Create "⚖️ Weights" sidebar with fixed CSS positioning
-  - [ ] Implement summary panel showing weight totals
-  - [ ] Add weight input dialog accessible via 💬 icon on items
+  - [✔︎] Create "⚖️ Weights" sidebar with fixed CSS positioning
+  - [✔︎] Implement summary panel showing weight totals
+  - [✔︎] Add weight input dialog accessible via ⚖️ icon on items
 
-- [ ] **Logic**:
+- [✔︎] **Logic**:
 
-  - [ ] Implement weight calculation function
-  - [ ] Set up event listeners for checkbox and weight changes
-  - [ ] Calculate and display base-weight separately from consumables
-  - [ ] Show totals in both kg and lb units
+  - [✔︎] Implement weight calculation function
+  - [✔︎] Set up event listeners for checkbox and weight changes
+  - [✔︎] Calculate and display totals separately by section
+  - [✔︎] Show totals in both kg and lb units (added unit selector)
 
 - [ ] **Export**:
   - [ ] Create "Export to `CSV`" button
@@ -321,20 +382,19 @@ GOOGLE_MAPS_API_KEY = "AIzaSyACkiD1ScnxmAX0gjJnB39j-Gj6jmQx2G4";
 
 ### 2-C: Cost Tracker
 
-- [ ] **Cost Tracking**:
+- [✓] **Cost Tracking**:
 
-  - [ ] Add an optional `cost: number` field to the item schema
-  - [ ] Update JSON structure to support cost data
-  - [ ] Ensure backward compatibility with existing items
+  - [✓] Add an optional `cost: number` field to the item schema
+  - [✓] Update JSON structure to support cost data
+  - [✓] Ensure backward compatibility with existing items
 
-- [ ] **UI Integration**:
+- [✓] **UI Integration**:
 
-  - [ ] Add cost input field to item creation/edit dialog
-  - [ ] Display cost alongside items in the main list
-  - [ ] Create cost summary section in the sidebar
-  - [ ] Implement running total calculation function
+  - [✓] Add cost input field to item creation/edit dialog
+  - [✓] Create cost summary section in the sidebar
+  - [✓] Implement running total calculation function
 
-- [ ] **Budget Management**:
+- [ ] **Budget Management**: _(Deferred for future implementation)_
   - [ ] Add optional `budget: number` field to Trip Meta information
   - [ ] Display budget and remaining amount in the sidebar
   - [ ] Add visual indicator when approaching/exceeding budget
@@ -342,24 +402,24 @@ GOOGLE_MAPS_API_KEY = "AIzaSyACkiD1ScnxmAX0gjJnB39j-Gj6jmQx2G4";
 
 ### 2-D: Permits & Regulations Helper
 
-- [ ] **Schema Enhancements**:
+- [✓] **Schema Enhancements**:
 
-  - [ ] Add `permitUrl` field to trip metadata schema
-  - [ ] Add `fireRules` field to trip metadata schema
-  - [ ] Add `permitRequired: boolean` flag for relevant items
-  - [ ] Add `regulationNotes: string` field for special rules
+  - [✓] Add `permitUrl` field to trip metadata schema
+  - [✓] Add `fireRules` field to trip metadata schema
+  - [✓] Add `permitRequired: boolean` flag for relevant items
+  - [✓] Add `regulationNotes: string` field for special rules
 
-- [ ] **UI Components**:
+- [✓] **UI Components**:
 
-  - [ ] Create permit information panel in trip details section
-  - [ ] Add visual indicators for items with special regulations
-  - [ ] Implement collapsible regulations summary view
+  - [✓] Create permit information panel in trip details section
+  - [✓] Add visual indicators for items with special regulations
+  - [✓] Implement collapsible regulations summary view
 
-- [ ] **Warning System**:
+- [⚠] **Warning System**:
   - [ ] Build logic to detect missing permits based on destination
-  - [ ] Create warning badges for items with regulation restrictions
-  - [ ] Implement toast notifications for permit deadlines
-  - [ ] Add links to official regulation websites
+  - [✓] Create warning badges for items with regulation restrictions
+  - [✓] Implement warning for permit deadlines
+  - [✓] Add links to official regulation websites
 
 ### 2-E: Weather-Aware Prompts
 
@@ -401,7 +461,8 @@ GOOGLE_MAPS_API_KEY = "AIzaSyACkiD1ScnxmAX0gjJnB39j-Gj6jmQx2G4";
 
 ### OpenWeatherMap API Key (for Weather-Aware Prompts)
 
-OPENWEATHERMAP_API_KEY = "92df3f0f4c1aa7fdbbe39a05410f8895";
+- OPENWEATHERMAP_API_KEY = ''
+- keys.txt
 
 ## Phase 3 Field Use Enhancements
 

@@ -61,12 +61,14 @@ function setupDragAndDrop() {
       if (li) {
         dragId = li.dataset.id;
         li.classList.add("dragging");
-        dragGhostElement = createDragGhost(li.querySelector("label").textContent);
+        dragGhostElement = createDragGhost(
+          li.querySelector("label").textContent
+        );
         e.dataTransfer.setDragImage(dragGhostElement, 10, 10);
         e.dataTransfer.effectAllowed = "move";
         e.dataTransfer.setData("text/plain", dragId); // Set data for item drag
       }
-    } 
+    }
     // Check if dragging a section handle
     else if (e.target.classList.contains("sectionHandle")) {
       const section = e.target.closest("section.card");
@@ -77,7 +79,7 @@ function setupDragAndDrop() {
         e.dataTransfer.effectAllowed = "move";
         e.dataTransfer.setData("text/plain", dragSectionId); // Set data for section drag
       } else {
-         e.preventDefault(); // Prevent drag if section info is missing
+        e.preventDefault(); // Prevent drag if section info is missing
       }
     } else {
       // Prevent dragging from other elements
@@ -92,17 +94,21 @@ function setupDragAndDrop() {
       if (li && li.dataset.id !== dragId) {
         e.preventDefault();
         e.dataTransfer.dropEffect = "move";
-        document.querySelectorAll(".item-over").forEach(el => el.classList.remove("item-over")); // Clear previous
+        document
+          .querySelectorAll(".item-over")
+          .forEach((el) => el.classList.remove("item-over")); // Clear previous
         li.classList.add("item-over");
       }
-    } 
+    }
     // If dragging a section
     else if (dragSectionId) {
       const section = e.target.closest("section.card");
       if (section && section.dataset.group !== dragSectionId) {
         e.preventDefault();
         e.dataTransfer.dropEffect = "move";
-        document.querySelectorAll(".section-over").forEach(el => el.classList.remove("section-over")); // Clear previous
+        document
+          .querySelectorAll(".section-over")
+          .forEach((el) => el.classList.remove("section-over")); // Clear previous
         section.classList.add("section-over");
       } else {
         // Optionally allow dropping outside a section card within the container?
@@ -118,13 +124,13 @@ function setupDragAndDrop() {
       if (li) {
         li.classList.remove("item-over");
       }
-    } 
+    }
     // If dragging a section
     else if (dragSectionId) {
-        const section = e.target.closest("section.card");
-        if (section) {
-            section.classList.remove("section-over");
-        }
+      const section = e.target.closest("section.card");
+      if (section) {
+        section.classList.remove("section-over");
+      }
     }
   });
 
@@ -140,14 +146,14 @@ function setupDragAndDrop() {
           renderList();
         }
       }
-    } 
+    }
     // Handle section drop
     else if (dragSectionId) {
       const targetSection = e.target.closest("section.card");
       if (targetSection && targetSection.dataset.group !== dragSectionId) {
         const targetSectionId = targetSection.dataset.group;
         if (moveSectionState(dragSectionId, targetSectionId)) {
-          renderList(); 
+          renderList();
         }
       }
     }
@@ -161,6 +167,7 @@ function setupDragAndDrop() {
 
   // Use document level listener for dragend as it might fire outside the container
   document.addEventListener("dragend", (e) => {
+    console.log("dragend", e);
     // Clean up visual styles and state if a drag was in progress
     if (dragId || dragSectionId) {
       cleanupDragStyles();
@@ -171,4 +178,4 @@ function setupDragAndDrop() {
   });
 }
 
-export { setupDragAndDrop }; 
+export { setupDragAndDrop };
