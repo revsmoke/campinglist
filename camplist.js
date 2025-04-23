@@ -7,6 +7,9 @@ import {
   setupEventListeners,
   applyTheme,
   calculateAndDisplayWeights,
+  calculateAndDisplayCosts,
+  updatePermitRequiredItems,
+  updatePermitInfo,
 } from "./ui.js";
 import { setupDragAndDrop } from "./drag.js";
 
@@ -27,8 +30,11 @@ async function initializeApp() {
   setupEventListeners();
   setupDragAndDrop();
   
-  // 5. Initialize weight calculator
+  // 5. Initialize calculators and info
   calculateAndDisplayWeights();
+  calculateAndDisplayCosts();
+  updatePermitRequiredItems();
+  updatePermitInfo();
 
   // console.log("App Initialized");
 }

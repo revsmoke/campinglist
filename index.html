@@ -10,30 +10,46 @@
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.11/dist/purify.min.js"></script>
   </head>
   <body>
-    <h1>Lianna's Camping Checklist</h1>
-    <div class="controls">
-      <button id="btnReset" class="secondary">Reset All</button>
-      <button id="btnPrint">Print / PDF</button>
-      <button id="btnUndo" disabled title="Undo (Ctrl+Z)">↶</button>
-      <button id="btnRedo" disabled title="Redo (Ctrl+Y)">↷</button>
-      <button id="btnTheme" title="Toggle Theme">🌙</button>
-    </div>
+    
+    
 
-    <div class="filter-container">
-      <input type="search" id="filterInput" placeholder="Search items...">
-      <button id="btnClearFilter" class="clear-btn" hidden>✕</button>
-      <p id="filterMessage" class="filter-no-results" hidden></p>
-    </div>
+   
 
-    <div id="metaContainer"></div>
+   
 
     <div class="main-content">
+      <div>
+        <h1>Lianna's Camping Checklist</h1>
+        <div class="filter-container">
+          <input type="search" id="filterInput" placeholder="Search items...">
+          <button id="btnClearFilter" class="clear-btn" hidden>✕</button>
+          <p id="filterMessage" class="filter-no-results" hidden></p>
+        </div>
       <div id="checklistContainer">Loading…</div>
-      
-      <aside id="weightSidebar" class="weight-sidebar">
+      <form id="addSectionForm" class="addSection">
+        <input type="text" id="newSectionTitle" placeholder="New Section Title..." required>
+        <button type="submit">Add Section</button>
+      </form>
+  
+      </div>
+      <aside id="listSidebar" class="list-sidebar">
+        
+   <div>
+        <div id="metaContainer"></div>
+    </div>
+ 
+      <div id="weightSidebar" class="weight-sidebar sidebar-section">
         <h3>Weight Calculator</h3>
         <button id="btnToggleWeightSidebar" class="toggle-sidebar" title="Toggle Weight Panel">⚖️</button>
         <div class="weight-summary">
+          <div class="weight-unit-selector">
+            <label for="weightUnit">Unit:</label>
+            <select id="weightUnit">
+              <option value="g">g</option>
+              <option value="kg">kg</option>
+              <option value="lb">lb</option>
+            </select>
+          </div>
           <div class="weight-total">
             <span>Total Weight:</span>
             <strong id="totalWeight">0g</strong>
@@ -43,17 +59,55 @@
             <strong id="packedWeight">0g</strong>
           </div>
         </div>
-        <div class="weight-by-section" id="weightBySection">
-          <!-- Section weights will be populated here -->
+        <div id="weightBySection" class="weight-sections"></div>
+      </div>
+
+      <!-- Cost Summary Section -->
+      <section class="sidebar-section cost-summary">
+        <h3>Cost Summary</h3>
+        <div class="cost-total">
+          <span>Total Cost: <span id="totalCost">$0.00</span></span>
         </div>
+        <div id="costBySection" class="cost-sections"></div>
+      </section>
+
+      <!-- Permits & Regulations Section -->
+      <section class="sidebar-section permits-section">
+        <h3>Permits & Regulations</h3>
+        <div id="permitInfo" class="permit-info">
+          <div class="permit-url-container">
+            <span>Permit:</span>
+            <a id="permitUrlLink" href="#" target="_blank">None specified</a>
+          </div>
+          <div class="permit-deadline">
+            <span>Deadline:</span>
+            <span id="permitDeadlineText">None</span>
+          </div>
+          <div class="fire-rules">
+            <span>Fire Rules:</span>
+            <div id="fireRulesText" class="fire-rules-text">None specified</div>
+          </div>
+        </div>
+        <div id="permitRequiredItems" class="permit-required-items">
+          <h4>Items Requiring Permits:</h4>
+          <ul id="permitItemsList"></ul>
+        </div>
+      </section>
+
+      <div class="controls">
+        <h3>Controls</h3>
+        <div class="controls-buttons">
+        <button id="btnReset" class="secondary">Reset All</button>
+        <button id="btnPrint">Print / PDF</button>
+        <button id="btnUndo" disabled title="Undo (Ctrl+Z)">↶</button>
+        <button id="btnRedo" disabled title="Redo (Ctrl+Y)">↷</button>
+        <button id="btnTheme" title="Toggle Theme">🌙</button>
+        </div>
+      </div>
       </aside>
     </div>
 
-    <form id="addSectionForm" class="addSection">
-      <input type="text" id="newSectionTitle" placeholder="New Section Title..." required>
-      <button type="submit">Add Section</button>
-    </form>
-
+    
     <dialog id="metaDialog">
       <h3>Edit Trip Info</h3>
       <form id="metaForm" method="dialog">
@@ -75,8 +129,27 @@
           >Notes
           <textarea name="notes"></textarea>
         </label>
+        
+        <!-- Permit & Regulations Fields -->
+        <h4 class="dialog-section-title">Permits & Regulations</h4>
+        <label>
+          Permit URL
+          <input type="url" name="permitUrl" placeholder="https://recreation.gov/..." />
+        </label>
+        <div class="row">
+          <label>
+            Permit Deadline
+            <input type="date" name="permitDeadline" />
+          </label>
+        </div>
+        <label>
+          Fire Rules
+          <textarea name="fireRules" placeholder="Current fire restrictions, regulations, etc."></textarea>
+        </label>
+        <!-- End Permit & Regulations Fields -->
+        
         <menu>
-          <button value="cancel" type="reset" class="secondary">Cancel</button>
+          <button type="button" value="cancel" class="secondary" id="metaCancelBtn">Cancel</button>
           <button value="save" type="submit">Save</button>
         </menu>
       </form>
@@ -101,31 +174,49 @@
               <textarea name="noteText" rows="4"></textarea>
           </label>
           <menu>
-            <button value="cancel" type="reset" class="secondary">Cancel</button>
+            <button type="button" value="cancel" class="secondary" id="noteCancelBtn">Cancel</button>
             <button value="save" type="submit">Save Note</button>
           </menu>
         </form>
     </dialog>
 
-    <dialog id="weightDialog">
-        <h3>Edit Weight</h3>
-        <p>Item: <strong id="weightDialogItemText"></strong></p>
+    <dialog id="weightDialog" class="modal">
+        <h3>Item Weight &amp; Status</h3>
+        <div id="weightDialogItemText" class="dialog-item-text"></div>
         <form id="weightForm" method="dialog">
-          <input type="hidden" name="itemId" />
-          <div class="row">
-            <label>
-              Weight (g):
-              <input type="number" name="itemWeight" min="0" step="1" required />
-            </label>
-            <label class="checkbox-label">
-              <input type="checkbox" name="itemPacked" />
-              <span>Packed</span>
-            </label>
-          </div>
-          <menu>
-            <button value="cancel" type="reset" class="secondary">Cancel</button>
-            <button value="save" type="submit">Save Weight</button>
-          </menu>
+            <div class="dialog-row">
+                <label for="itemWeight">Weight (oz):</label>
+                <input type="number" name="itemWeight" id="itemWeight" min="0" step="0.1">
+            </div>
+            <div class="dialog-row cost-row">
+                <label for="itemCost">Cost:</label>
+                <div class="cost-input-wrapper">
+                    <span class="currency-symbol">$</span>
+                    <input type="number" name="itemCost" id="itemCost" min="0" step="0.01" placeholder="0.00">
+                </div>
+            </div>
+            <div class="dialog-row">
+                <label for="itemPacked">Packed:</label>
+                <input type="checkbox" name="itemPacked" id="itemPacked">
+            </div>
+            
+            <!-- Permit & Regulations Fields -->
+            <h4 class="dialog-section-title">Permits & Regulations</h4>
+            <div class="dialog-row">
+                <label for="itemPermitRequired">Permit Required:</label>
+                <input type="checkbox" name="permitRequired" id="itemPermitRequired">
+            </div>
+            <div class="dialog-row">
+                <label for="itemRegulationNotes">Regulation Notes:</label>
+                <textarea name="regulationNotes" id="itemRegulationNotes" placeholder="Special regulations or restrictions..."></textarea>
+            </div>
+            <!-- End Permit & Regulations Fields -->
+            
+            <input type="hidden" name="itemId">
+            <div class="dialog-buttons">
+                <button type="submit">Save</button>
+                <button type="button" class="btn-cancel-dialog">Cancel</button>
+            </div>
         </form>
     </dialog>
 

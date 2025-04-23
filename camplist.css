@@ -38,12 +38,18 @@ h1 {
   font-size: 1.85rem;
   color: var(--accent);
 }
-.controls {
+.controls-buttons {
   display: flex;
   justify-content: center;
   gap: 0.75rem;
   flex-wrap: wrap;
   margin-bottom: 1rem;
+}
+
+.controls h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  color: var(--accent);
 }
 button {
   padding: 0.45rem 1rem;
@@ -65,6 +71,26 @@ button:hover {
 button.secondary:hover {
   background: #e4ede8;
 }
+.btnEditSection {
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  height: 1.5rem;
+  width: 1.5rem;
+  padding: 0;
+}
+.btnDeleteSection {
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  height: 1.5rem;
+  width: 1.5rem;
+  padding: 0;
+}
 section.card {
   background: var(--card);
   margin: 1rem auto;
@@ -76,6 +102,22 @@ section.card {
   position: relative;
   transition: background 0.3s ease, border-color 0.3s ease;
 }
+
+.meta-sidebar {
+  width: 280px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+  margin: 1rem 0;
+  position: sticky;
+  top: 1rem;
+  height: max-content;
+  transition: transform 0.3s ease;
+}
+
+
 .meta-card {
   border-left: 6px solid var(--accent);
 }
@@ -527,8 +569,9 @@ li.item.filtered-out {
 .main-content {
   display: flex;
   max-width: 1100px;
-  margin: 0 auto;
+  margin: auto;
   position: relative;
+  gap: 1rem;
 }
 
 #checklistContainer {
@@ -537,7 +580,7 @@ li.item.filtered-out {
   margin: 0 auto;
 }
 
-.weight-sidebar {
+.list-sidebar {
   width: 280px;
   background: var(--card);
   border: 1px solid var(--border);
@@ -551,6 +594,8 @@ li.item.filtered-out {
   transition: transform 0.3s ease;
 }
 
+
+
 .weight-sidebar h3 {
   font-size: 1.1rem;
   color: var(--accent);
@@ -558,6 +603,20 @@ li.item.filtered-out {
   display: flex;
   align-items: center;
 }
+
+ .sidebar-section h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  color: var(--accent);
+ }
+
+ .sidebar-section {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+ }
+
+
 
 .toggle-sidebar {
   position: absolute;
@@ -580,6 +639,28 @@ li.item.filtered-out {
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--border);
+}
+
+.weight-unit-selector {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 0.75rem;
+  font-size: 0.85rem;
+}
+
+.weight-unit-selector label {
+  margin-right: 0.5rem;
+  color: var(--muted);
+}
+
+.weight-unit-selector select {
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+  color: var(--text);
+  font-size: 0.85rem;
 }
 
 .weight-total, .weight-packed {
@@ -643,6 +724,23 @@ li.item.filtered-out {
   width: 90px;
 }
 
+/* Cost input styles */
+.cost-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.currency-symbol {
+  position: absolute;
+  left: 8px;
+  color: var(--muted);
+}
+
+#itemCost {
+  padding-left: 20px;
+}
+
 /* Responsive layouts */
 @media (max-width: 900px) {
   .main-content {
@@ -670,3 +768,167 @@ li.item.filtered-out {
     display: none;
   }
 }
+
+.weight-sections {
+  margin-top: 10px;
+}
+
+/* Cost summary styles */
+.cost-summary {
+  margin-top: 20px;
+  padding-bottom: 15px;
+}
+
+.cost-total {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.cost-sections {
+  margin-top: 10px;
+}
+
+.cost-section {
+  margin-bottom: 8px;
+}
+
+.cost-section-title {
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.cost-section-value {
+  font-size: 0.9em;
+  color: var(--muted);
+}
+
+.dialog-row {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dialog-row label {
+  flex: 0 0 120px;
+  font-weight: 500;
+}
+
+.dialog-row input[type="text"],
+.dialog-row input[type="number"],
+.dialog-row input[type="date"] {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+.cost-row {
+  position: relative;
+}
+
+.cost-input-wrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.currency-symbol {
+  position: absolute;
+  left: 8px;
+  pointer-events: none;
+  color: var(--muted);
+}
+
+#itemCost {
+  width: 100%;
+  padding-left: 20px;
+}
+
+/* Dialog buttons */
+
+/* Permit & Regulations Styles */
+.permits-section {
+  margin-top: 20px;
+  padding-bottom: 15px;
+}
+
+.permit-info {
+  margin-bottom: 15px;
+}
+
+.permit-url-container,
+.permit-deadline,
+.fire-rules {
+  margin-bottom: 10px;
+}
+
+.permit-url-container span,
+.permit-deadline span,
+.fire-rules span {
+  font-weight: 500;
+  margin-right: 5px;
+}
+
+.fire-rules-text {
+  margin-top: 5px;
+  font-size: 0.9em;
+  color: var(--muted);
+  white-space: pre-wrap;
+}
+
+.permit-required-items h4 {
+  font-size: 0.95em;
+  margin-bottom: 5px;
+}
+
+.permit-required-items ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.permit-required-items li {
+  font-size: 0.9em;
+  margin-bottom: 3px;
+  padding-left: 15px;
+  position: relative;
+}
+
+.permit-required-items li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+
+.dialog-section-title {
+  font-size: 1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5rem;
+}
+
+.item-with-permit {
+  position: relative;
+}
+
+.item-with-permit::after {
+  content: "🏷️";
+  font-size: 0.8rem;
+  position: absolute;
+  top: 2px;
+  left: -5px;
+  color: orange;
+}
+
+/* Permit deadline warning */
+.permit-deadline.warning {
+  color: #e53e3e;
+  font-weight: bold;
+}
+
+/* Responsive layouts */

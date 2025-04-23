@@ -24,6 +24,9 @@ const DEFAULT_META = {
   startDate: "",
   endDate: "",
   notes: "",
+  permitUrl: "",
+  permitDeadline: "",
+  fireRules: ""
 };
 
 // Use 'let' so they can be reassigned by loadAll()
@@ -157,6 +160,15 @@ async function loadAllState() {
             if (!Object.hasOwn(item, "packed")) {
               item.packed = false; // Add missing packed field
             }
+            if (!Object.hasOwn(item, "cost")) {
+              item.cost = 0; // Add missing cost field
+            }
+            if (!Object.hasOwn(item, "permitRequired")) {
+              item.permitRequired = false; // Add missing permitRequired field
+            }
+            if (!Object.hasOwn(item, "regulationNotes")) {
+              item.regulationNotes = ""; // Add missing regulationNotes field
+            }
           }
         });
       }
@@ -167,6 +179,18 @@ async function loadAllState() {
   try {
     const metaRaw = localStorage.getItem(STORAGE_META);
     meta = metaRaw ? JSON.parse(metaRaw) : { ...DEFAULT_META };
+    
+    // Add new permit fields to existing meta if they don't exist
+    if (!Object.hasOwn(meta, "permitUrl")) {
+      meta.permitUrl = "";
+    }
+    if (!Object.hasOwn(meta, "fireRules")) {
+      meta.fireRules = "";
+    }
+    if (!Object.hasOwn(meta, "permitDeadline")) {
+      meta.permitDeadline = "";
+    }
+    
     // If loaded from default (metaRaw is null), save it immediately
     if (!metaRaw) {
       try {
@@ -357,6 +381,7 @@ function addItemState(groupId, text) {
       requires: [],
       weight: 0,
       packed: false,
+      cost: 0 // Add cost field
     };
     group.items.push(newItem);
     saveListState();
@@ -625,6 +650,32 @@ function canRedo() {
 
 // --- End History Management ---
 
+// Helper function to get current state and dispatch
+function getState() {
+  return {
+    state: {
+      // For compatibility with our existing code, we return the data array directly
+      lists: { [0]: data },
+      currentListId: 0
+    },
+    dispatch: (action) => {
+      if (action.type === "UPDATE_ITEM") {
+        const itemContext = findItemState(action.payload.itemId);
+        if (itemContext) {
+          _saveStateForUndo(); // Save state before mutation
+          // Update the item with all properties from payload item
+          Object.assign(itemContext.item, action.payload.item);
+          saveListState();
+          return true;
+        }
+        return false;
+      }
+      // Add more action types as needed
+      return false;
+    }
+  };
+}
+
 // Export necessary functions and state variables
 export {
   data,
@@ -653,4 +704,5 @@ export {
   moveSectionState,
   resetAllState,
   updateSectionTitleState, // Export the new function
+  getState // Export getState function
 };

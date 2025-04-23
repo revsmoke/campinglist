@@ -20,7 +20,8 @@ import {
   canRedo,
   resetAllState,
   findItemState,
-  saveListState,
+  getState,
+  saveListState
 } from "./state.js";
 
 /***************** UI UTILS *****************/
@@ -42,7 +43,7 @@ function renderMeta() {
   const container = $("metaContainer");
   if (!container) return; // Guard against missing element
 
-  const html = `<section class="card meta-card">
+  const html = `<section class="sidebar-section">
     <h2 style="cursor:default">Trip Info</h2>
     <div class="meta-grid">
       <div class="label">Destination</div><div>${sanitize(meta.destination) || "–"}</div>
@@ -61,6 +62,10 @@ function renderMeta() {
   } else {
     console.error("Could not find #editMetaBtn after rendering meta panel.");
   }
+  
+  // Update permit information in the sidebar
+  updatePermitInfo();
+  updatePermitRequiredItems();
 }
 
 // Added for error dialog
@@ -90,6 +95,12 @@ function openMetaDialog() {
   f.startDate.value = meta.startDate;
   f.endDate.value = meta.endDate;
   f.notes.value = meta.notes;
+  
+  // Set permit fields
+  if (f.permitUrl) f.permitUrl.value = meta.permitUrl || '';
+  if (f.permitDeadline) f.permitDeadline.value = meta.permitDeadline || '';
+  if (f.fireRules) f.fireRules.value = meta.fireRules || '';
+  
   dlg.showModal();
 }
 
@@ -109,91 +120,52 @@ function openNoteDialog(itemId, itemText, currentNote) {
   }
 }
 
-// Add the new openWeightDialog function
-function openWeightDialog(itemId, itemText, currentWeight, isPacked) {
-  const dialog = $("weightDialog");
-  const titleEl = $("weightDialogItemText");
-  const form = $("weightForm");
-  const weightInput = form.querySelector('[name="itemWeight"]');
-  const packedInput = form.querySelector('[name="itemPacked"]');
-  const idField = form.querySelector('[name="itemId"]');
-
-  if (dialog && titleEl && form && weightInput && packedInput && idField) {
-    titleEl.textContent = itemText;
-    weightInput.value = currentWeight || 0;
-    packedInput.checked = !!isPacked;
-    idField.value = itemId;
-    dialog.showModal(); // Show the dialog
-  }
+/**
+ * Opens the weight dialog with the current item values
+ */
+function openWeightDialog(id, text, weight, packed, cost, permitRequired, regulationNotes) {
+  const weightDialog = document.getElementById("weightDialog");
+  const form = document.getElementById("weightForm");
+  const itemText = document.getElementById("weightDialogItemText");
+  
+  itemText.textContent = text;
+  form.elements.itemId.value = id;
+  form.elements.itemWeight.value = weight || "";
+  form.elements.itemPacked.checked = packed || false;
+  form.elements.itemCost.value = cost || "";
+  form.elements.permitRequired.checked = permitRequired || false;
+  form.elements.regulationNotes.value = regulationNotes || "";
+  
+  weightDialog.showModal();
 }
 
-// Add a function to handle weight updates
-function updateItemWeightState(id, weight, packed) {
-  const itemContext = findItemState(id);
-  if (itemContext) {
-    // Save state before mutation for undo
-    _saveStateForUndo();
+/**
+ * Updates the weight and packed status of an item
+ */
+function updateItemWeightState(itemId, weight, packed, cost, permitRequired, regulationNotes) {
+  const itemContext = findItemState(itemId);
+  if (!itemContext) return false;
 
-    itemContext.item.weight = weight;
-    itemContext.item.packed = packed;
-    saveListState();
-
-    // Re-render (or update just UI)
-    renderList();
-    calculateAndDisplayWeights(); // Update the weight totals display
-    return true;
-  }
-  return false;
-}
-
-// Add function to calculate weight totals and update the sidebar
-function calculateAndDisplayWeights() {
-  const totalWeightEl = $("totalWeight");
-  const packedWeightEl = $("packedWeight");
-  const sectionWeightsEl = $("weightBySection");
-
-  if (!totalWeightEl || !packedWeightEl || !sectionWeightsEl) return;
-
-  let totalWeight = 0;
-  let packedWeight = 0;
-
-  // Build section weights HTML
-  let sectionWeightsHTML = "";
-
-  data.forEach((section) => {
-    let sectionTotal = 0;
-    let sectionPacked = 0;
-
-    section.items.forEach((item) => {
-      if (typeof item.weight === "number") {
-        sectionTotal += item.weight;
-        totalWeight += item.weight;
-
-        if (item.packed) {
-          sectionPacked += item.weight;
-          packedWeight += item.weight;
-        }
-      }
-    });
-
-    // Only show sections with weight > 0
-    if (sectionTotal > 0) {
-      sectionWeightsHTML += `
-        <div class="weight-section">
-          <div class="weight-section-title">${sanitize(section.title)}</div>
-          <div class="weight-section-value">
-            <span>Total: ${sectionTotal}g</span>
-            <span>Packed: ${sectionPacked}g</span>
-          </div>
-        </div>
-      `;
-    }
-  });
-
-  // Update displays
-  totalWeightEl.textContent = `${totalWeight}g`;
-  packedWeightEl.textContent = `${packedWeight}g`;
-  sectionWeightsEl.innerHTML = sectionWeightsHTML;
+  const parsedWeight = parseFloat(weight) || 0;
+  const parsedCost = parseFloat(cost) || 0;
+  
+  // Update item properties
+  itemContext.item.weight = parsedWeight;
+  itemContext.item.packed = packed;
+  itemContext.item.cost = parsedCost;
+  itemContext.item.permitRequired = permitRequired;
+  itemContext.item.regulationNotes = regulationNotes;
+  
+  // Save state
+  saveListState();
+  
+  // Update UI
+  renderList();
+  calculateAndDisplayWeights();
+  calculateAndDisplayCosts();
+  updatePermitRequiredItems(); // New function to update permit items in sidebar
+  
+  return true;
 }
 
 // Toggle weight sidebar visibility
@@ -203,6 +175,115 @@ function toggleWeightSidebar() {
     sidebar.classList.toggle("collapsed");
     // Could save preference to localStorage here
   }
+}
+
+// Unit conversion functions
+function convertWeight(weight, fromUnit, toUnit) {
+  // First convert to grams as base unit
+  let weightInGrams = weight;
+  if (fromUnit === 'kg') {
+    weightInGrams = weight * 1000;
+  } else if (fromUnit === 'lb') {
+    weightInGrams = weight * 453.592;
+  }
+  
+  // Then convert to target unit
+  if (toUnit === 'g') {
+    return Math.round(weightInGrams);
+  } else if (toUnit === 'kg') {
+    return (weightInGrams / 1000).toFixed(2);
+  } else if (toUnit === 'lb') {
+    return (weightInGrams / 453.592).toFixed(2);
+  }
+  
+  return weight; // Fallback
+}
+
+function formatWeight(weight, unit) {
+  return `${weight}${unit}`;
+}
+
+// Save weight unit preference
+function saveWeightUnitPreference(unit) {
+  try {
+    localStorage.setItem('campChecklist_weightUnit', unit);
+  } catch (error) {
+    console.error('Error saving weight unit preference:', error);
+  }
+}
+
+// Load weight unit preference
+function loadWeightUnitPreference() {
+  try {
+    return localStorage.getItem('campChecklist_weightUnit') || 'g'; // Default to grams
+  } catch (error) {
+    console.error('Error loading weight unit preference:', error);
+    return 'g';
+  }
+}
+
+/**
+ * Updates the weight summary in the sidebar
+ */
+function calculateAndDisplayWeights() {
+  const totalWeightEl = $("totalWeight");
+  const packedWeightEl = $("packedWeight");
+  const sectionWeightsEl = $("weightBySection");
+  const weightUnitSelect = $("weightUnit");
+  
+  if (!totalWeightEl || !packedWeightEl || !sectionWeightsEl) return;
+  
+  // Get selected unit
+  const selectedUnit = weightUnitSelect ? weightUnitSelect.value : 'g';
+  
+  let totalWeight = 0;
+  let packedWeight = 0;
+  
+  // Build section weights HTML
+  let sectionWeightsHTML = "";
+  
+  data.forEach((section) => {
+    let sectionTotal = 0;
+    let sectionPacked = 0;
+    
+    section.items.forEach((item) => {
+      if (typeof item.weight === "number") {
+        sectionTotal += item.weight; // Accumulate in grams
+        totalWeight += item.weight; // Accumulate in grams
+        
+        if (item.packed) {
+          sectionPacked += item.weight; // Accumulate in grams
+          packedWeight += item.weight; // Accumulate in grams
+        }
+      }
+    });
+    
+    // Only show sections with weight > 0
+    if (sectionTotal > 0) {
+      // Convert section totals to selected unit for display
+      const displaySectionTotal = convertWeight(sectionTotal, 'g', selectedUnit);
+      const displaySectionPacked = convertWeight(sectionPacked, 'g', selectedUnit);
+      
+      sectionWeightsHTML += `
+        <div class="weight-section">
+          <div class="weight-section-title">${sanitize(section.title)}</div>
+          <div class="weight-section-value">
+            <span>Total: ${formatWeight(displaySectionTotal, selectedUnit)}</span>
+            <span>Packed: ${formatWeight(displaySectionPacked, selectedUnit)}</span>
+          </div>
+        </div>
+      `;
+    }
+  });
+  
+  // Convert total weights to selected unit for display
+  const displayTotalWeight = convertWeight(totalWeight, 'g', selectedUnit);
+  const displayPackedWeight = convertWeight(packedWeight, 'g', selectedUnit);
+  
+  // Update displays
+  totalWeightEl.textContent = formatWeight(displayTotalWeight, selectedUnit);
+  packedWeightEl.textContent = formatWeight(displayPackedWeight, selectedUnit);
+  sectionWeightsEl.innerHTML = sectionWeightsHTML;
 }
 
 function noteHTML(n) {
@@ -234,7 +315,8 @@ function renderList() {
             .map((it) => {
               const hasNote = !!it.note;
               const cbId = `cb-${it.id}`;
-              return `<li class="item ${it.checked ? "checked" : ""}" data-id="${it.id}">
+              const permitClass = it.permitRequired ? "item-with-permit" : "";
+              return `<li class="item ${it.checked ? "checked" : ""} ${permitClass}" data-id="${it.id}">
                 <span class="handle" draggable="true">☰</span>
                 <input type="checkbox" id="${cbId}" ${it.checked ? "checked" : ""}>
                 <div class="item-body">
@@ -368,7 +450,10 @@ function setupEventListeners() {
             id,
             itemContext.item.text,
             itemContext.item.weight || 0,
-            itemContext.item.packed || false
+            itemContext.item.packed || false,
+            itemContext.item.cost || 0,
+            itemContext.item.permitRequired || false,
+            itemContext.item.regulationNotes || ""
           );
         }
       } else if (target.classList.contains("chevron")) {
@@ -504,35 +589,54 @@ function setupEventListeners() {
       noteDialogItemText.textContent = "";
       noteForm.reset(); // Clears textarea and hidden input
     });
+
+    // Add event listener for the note cancel button
+    const noteCancelBtn = $("noteCancelBtn");
+    if (noteCancelBtn) {
+      noteCancelBtn.addEventListener("click", () => {
+        noteForm.reset(); // Reset the form
+        noteDialog.close(); // Close the dialog
+      });
+    }
   }
 
   // Meta Dialog actions
   if (metaForm && metaDialog) {
     metaForm.addEventListener("submit", (e) => {
-      console.log("metaForm submitted", e);
-      // Don't prevent default immediately, only if validation fails
+      e.preventDefault();
+      
+      // Get form data
       const fd = new FormData(metaForm);
       const startDate = fd.get("startDate");
       const endDate = fd.get("endDate");
-
+      
       // Validate dates: Only if both are present and end is before start
       if (startDate && endDate && endDate < startDate) {
-        e.preventDefault(); // Prevent form submission and dialog closing
         showErrorDialog("End date cannot be before the start date.");
         return; // Stop processing
       }
-
-      // If validation passes, proceed with update
+      
+      // Update meta data with new fields
       const newMeta = {
         destination: fd.get("destination").trim(),
-        startDate: startDate, // Use the already retrieved value
-        endDate: endDate, // Use the already retrieved value
+        startDate: startDate,
+        endDate: endDate,
         notes: fd.get("notes").trim(),
+        permitUrl: fd.get("permitUrl").trim(),
+        permitDeadline: fd.get("permitDeadline"),
+        fireRules: fd.get("fireRules").trim()
       };
+      
+      // Update state
       updateMetaState(newMeta);
-      renderMeta(); // Re-render the meta display
+      
+      // Update UI
+      renderMeta();
+      updatePermitInfo();
       updateUndoRedoButtons();
-      metaDialog.close(); // Close dialog programmatically IF validation passes
+      
+      // Close dialog
+      metaDialog.close();
     });
 
     metaDialog.addEventListener("reset", (e) => {
@@ -546,6 +650,15 @@ function setupEventListeners() {
       // Handle anything needed when the dialog closes, regardless of how
       // For example, maybe reset scroll position
     });
+
+    // Add event listener for the cancel button
+    const metaCancelBtn = $("metaCancelBtn");
+    if (metaCancelBtn) {
+      metaCancelBtn.addEventListener("click", () => {
+        metaForm.reset(); // Reset the form
+        metaDialog.close(); // Close the dialog
+      });
+    }
   }
 
   // General page controls
@@ -622,28 +735,47 @@ function setupEventListeners() {
   const weightForm = $("weightForm");
 
   if (weightDialog && weightForm) {
-    weightForm.addEventListener("submit", (e) => {
-      // For <dialog> forms, default action is to close
-      // Extract form values for later handling
-      const itemId = e.target.querySelector('[name="itemId"]').value;
-      const weight =
-        Number(e.target.querySelector('[name="itemWeight"]').value) || 0;
-      const packed = e.target.querySelector('[name="itemPacked"]').checked;
-
-      // Since dialog will close automatically, this needs to be handled
-      // after the dialog is closed to maintain proper UI state
-      setTimeout(() => {
-        if (updateItemWeightState(itemId, weight, packed)) {
-          updateUndoRedoButtons();
-        }
-      }, 0);
+    weightForm.addEventListener("submit", () => {
+      const id = weightForm.elements.itemId.value;
+      const weight = weightForm.elements.itemWeight.value;
+      const packed = weightForm.elements.itemPacked.checked;
+      const cost = weightForm.elements.itemCost.value;
+      const permitRequired = weightForm.elements.permitRequired.checked;
+      const regulationNotes = weightForm.elements.regulationNotes.value;
+      
+      updateItemWeightState(id, weight, packed, cost, permitRequired, regulationNotes);
     });
 
-    // For cancel button - handled automatically by <dialog>
+    // Add event listener for the weight cancel button
+    const weightCancelBtn = weightDialog.querySelector(".btn-cancel-dialog");
+    if (weightCancelBtn) {
+      weightCancelBtn.addEventListener("click", () => {
+        weightForm.reset(); // Reset the form
+        weightDialog.close(); // Close the dialog
+      });
+    }
   }
 
-  // Initial calculation
+  // Initial calculations
   calculateAndDisplayWeights();
+  calculateAndDisplayCosts();
+  
+  // Initialize permit information
+  updatePermitInfo();
+  updatePermitRequiredItems();
+
+  // Weight unit selector
+  const weightUnitSelect = $("weightUnit");
+  if (weightUnitSelect) {
+    // Set initial value from localStorage
+    weightUnitSelect.value = loadWeightUnitPreference();
+    
+    // Add event listener for unit changes
+    weightUnitSelect.addEventListener("change", () => {
+      saveWeightUnitPreference(weightUnitSelect.value);
+      calculateAndDisplayWeights();
+    });
+  }
 }
 
 // Added function to update undo/redo button states
@@ -806,7 +938,159 @@ function filterItems(query) {
 }
 // --- End Filter Logic ---
 
-// Export functions needed by other modules (like main.js)
+/**
+ * Updates the cost summary in the sidebar
+ */
+function calculateAndDisplayCosts() {
+  const { state } = getState();
+  const listId = state.currentListId;
+  
+  if (!listId) return;
+
+  const list = state.lists[listId];
+  if (!list) return;
+
+  // Get sections and their costs
+  const sections = {};
+  let totalCost = 0;
+
+  list.forEach(group => {
+    const section = group.title || "Uncategorized";
+    if (!sections[section]) {
+      sections[section] = 0;
+    }
+    
+    group.items.forEach(item => {
+      const cost = parseFloat(item.cost) || 0;
+      totalCost += cost;
+      
+      if (cost > 0) {
+        sections[section] += cost;
+      }
+    });
+  });
+
+  // Update the total cost
+  const totalCostEl = document.getElementById("totalCost");
+  if (totalCostEl) {
+    totalCostEl.textContent = `$${totalCost.toFixed(2)}`;
+  }
+  
+  // Update the costs by section
+  const costBySection = document.getElementById("costBySection");
+  if (!costBySection) return;
+  
+  costBySection.innerHTML = "";
+  
+  Object.keys(sections).sort().forEach(section => {
+    if (sections[section] > 0) {
+      const sectionDiv = document.createElement("div");
+      sectionDiv.className = "cost-section";
+      
+      const titleDiv = document.createElement("div");
+      titleDiv.className = "cost-section-title";
+      titleDiv.textContent = section;
+      
+      const valueDiv = document.createElement("div");
+      valueDiv.className = "cost-section-value";
+      valueDiv.textContent = `$${sections[section].toFixed(2)}`;
+      
+      sectionDiv.appendChild(titleDiv);
+      sectionDiv.appendChild(valueDiv);
+      costBySection.appendChild(sectionDiv);
+    }
+  });
+}
+
+// Helper function for consistent undo state saving
+const _saveStateForUndo = () => {
+  // This would be implemented if needed
+  console.log("saveStateForUndo is called");
+};
+
+/**
+ * Updates the permit required items list in the sidebar
+ */
+function updatePermitRequiredItems() {
+  const permitItemsList = document.getElementById("permitItemsList");
+  if (!permitItemsList) return;
+  
+  permitItemsList.innerHTML = "";
+  
+  // Get all items that require permits
+  const itemsRequiringPermits = data.flatMap(group => 
+    group.items.filter(item => item.permitRequired)
+  );
+  
+  if (itemsRequiringPermits.length === 0) {
+    permitItemsList.innerHTML = "<li>No items require permits</li>";
+    return;
+  }
+  
+  // Add each item to the list
+  itemsRequiringPermits.forEach(item => {
+    const li = document.createElement("li");
+    li.textContent = item.text;
+    permitItemsList.appendChild(li);
+  });
+}
+
+/**
+ * Updates the permit information in the sidebar
+ */
+function updatePermitInfo() {
+  const permitUrlLink = document.getElementById("permitUrlLink");
+  const permitDeadlineText = document.getElementById("permitDeadlineText");
+  const fireRulesText = document.getElementById("fireRulesText");
+  
+  if (!permitUrlLink || !permitDeadlineText || !fireRulesText) return;
+  
+  // Update permit URL
+  if (meta.permitUrl) {
+    permitUrlLink.href = meta.permitUrl;
+    permitUrlLink.textContent = "View Permit Information";
+  } else {
+    permitUrlLink.href = "#";
+    permitUrlLink.textContent = "None specified";
+  }
+  
+  // Update permit deadline
+  if (meta.permitDeadline) {
+    const deadline = new Date(meta.permitDeadline);
+    const today = new Date();
+    const daysUntilDeadline = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
+    
+    permitDeadlineText.textContent = formatDate(meta.permitDeadline);
+    
+    // Add warning class if deadline is approaching (within 14 days)
+    if (daysUntilDeadline <= 14 && daysUntilDeadline >= 0) {
+      permitDeadlineText.classList.add("warning");
+      permitDeadlineText.textContent += ` (${daysUntilDeadline} days left)`;
+    } else {
+      permitDeadlineText.classList.remove("warning");
+    }
+  } else {
+    permitDeadlineText.textContent = "None";
+    permitDeadlineText.classList.remove("warning");
+  }
+  
+  // Update fire rules
+  if (meta.fireRules) {
+    fireRulesText.textContent = meta.fireRules;
+  } else {
+    fireRulesText.textContent = "None specified";
+  }
+}
+
+/**
+ * Format a date as MM/DD/YYYY
+ */
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString();
+}
+
+// Export UI functions for use in app.js
 export {
   renderMeta,
   renderList,
@@ -816,15 +1100,10 @@ export {
   showErrorDialog,
   applyTheme,
   showToast,
-  calculateAndDisplayWeights, // Export for potential usage
-};
-
-// For internal state management like undo/redo
-// Using underscore prefix to match the convention in state.js
-const _saveStateForUndo = () => {
-  // Call undoState's preparatory function if available
-  if (typeof undoState === "function") {
-    // Just trigger undo/redo button updates, actual state saving happens in state.js
-    updateUndoRedoButtons();
-  }
+  calculateAndDisplayWeights,
+  calculateAndDisplayCosts,
+  _saveStateForUndo,
+  updatePermitRequiredItems,
+  updatePermitInfo,
+  formatDate
 };
