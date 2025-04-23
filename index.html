@@ -114,13 +114,22 @@
     <dialog id="metaDialog">
       <h3>Edit Trip Info</h3>
       <form id="metaForm" method="dialog">
-        <label for="destinationAutocompleteElement">Destination</label> <!-- Updated label 'for' -->
-        <!-- Use ONLY the Place Autocomplete Element -->
-        <gmp-place-autocomplete
-            id="destinationAutocompleteElement"
-            placeholder="Enter a destination"
-            required>
-        </gmp-place-autocomplete>
+        <label for="destinationContainer">Destination</label>
+        <div id="destinationContainer" class="destination-container">
+          <!-- Google Maps Autocomplete component - may not always render correctly -->
+          <gmp-place-autocomplete
+              id="destinationAutocompleteElement"
+              placeholder="Enter a destination"
+              class="gmp-element">
+          </gmp-place-autocomplete>
+          
+          <!-- Fallback input field that always works -->
+          <input type="text" 
+                 id="destinationFallbackInput" 
+                 name="destinationFallback"
+                 placeholder="Enter destination manually if autocomplete doesn't work"
+                 class="destination-fallback">
+        </div>
 
         <!-- Hidden fields to store detailed place data for form submission -->
         <input type="hidden" name="destinationAddress" id="destinationAddressHidden">

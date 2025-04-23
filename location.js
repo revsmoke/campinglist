@@ -187,6 +187,13 @@ export function initMap() {
       placeIdHiddenInput.value = placeId;
       latHiddenInput.value = lat;
       lngHiddenInput.value = lng;
+      
+      // Also update the fallback input field if it exists
+      const fallbackInput = document.getElementById("destinationFallbackInput");
+      if (fallbackInput) {
+        fallbackInput.value = address;
+        console.log("[EVENT] Updated fallback input with:", address);
+      }
 
       // Debug: Log the values after setting them
       console.log("[EVENT] Hidden fields after place selection:");

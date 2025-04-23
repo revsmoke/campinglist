@@ -125,15 +125,24 @@ function openMetaDialog() {
   const latHiddenInput = $("destinationLatHidden");
   const lngHiddenInput = $("destinationLngHidden");
   const autocompleteElement = $("destinationAutocompleteElement");
+  const fallbackInput = $("destinationFallbackInput");
 
   console.log(
     "[UI] Meta dialog opening with current destination:",
     currentMeta.destination
   );
 
+  // Set values on both the hidden input and the fallback text input
+  const destinationValue = currentMeta.destination || "";
+  
   if (addressHiddenInput) {
-    addressHiddenInput.value = currentMeta.destination || "";
+    addressHiddenInput.value = destinationValue;
     console.log(`[UI] Set addressHiddenInput value: ${addressHiddenInput.value}`);
+  }
+  
+  if (fallbackInput) {
+    fallbackInput.value = destinationValue;
+    console.log(`[UI] Set fallbackInput value: ${fallbackInput.value}`);
   }
   
   if (placeIdHiddenInput) {
@@ -153,27 +162,25 @@ function openMetaDialog() {
 
   // The Place Autocomplete Element is a web component that doesn't have a simple value property
   // We can only set the value through the selection event, but we can try to set some properties
-  if (autocompleteElement && currentMeta.destination) {
+  if (autocompleteElement && destinationValue) {
     // Try setting the component's internal value as best we can
     try {
-      // Experiment with updating visible input - note that this is a web component
-      // so this might not work directly, but it's worth trying
+      // Set a data attribute for our reference
       autocompleteElement.setAttribute(
         "data-initial-value",
-        currentMeta.destination
+        destinationValue
       );
 
-      // Log that we're trying to update the autocomplete element
       console.log(
         "[UI] Attempting to populate autocomplete with:",
-        currentMeta.destination
+        destinationValue
       );
 
       // For web components like these, we can try to set some properties
       // that might be picked up by the component
       if (typeof autocompleteElement.value !== 'undefined') {
         try {
-          autocompleteElement.value = currentMeta.destination;
+          autocompleteElement.value = destinationValue;
           console.log("[UI] Set autocomplete value property directly");
         } catch (e) {
           console.warn("[UI] Could not set value property:", e);
@@ -188,9 +195,6 @@ function openMetaDialog() {
       } catch (e) {
         console.warn("[UI] Could not dispatch input event:", e);
       }
-
-      // Note: Google's web components don't have a direct way to set their value programmatically,
-      // so the user will likely need to re-select a place if editing an existing destination
     } catch (error) {
       console.warn("[UI] Error trying to set autocomplete value:", error);
     }
@@ -707,6 +711,17 @@ function setupEventListeners() {
   }
 
   // Meta Dialog actions
+  // Set up fallback input sync with hidden field
+  const fallbackInput = $("destinationFallbackInput");
+  const addressHiddenInput = $("destinationAddressHidden");
+  if (fallbackInput && addressHiddenInput) {
+    fallbackInput.addEventListener("input", (e) => {
+      addressHiddenInput.value = e.target.value;
+      console.log(`[FALLBACK] Updated hidden field to: ${e.target.value}`);
+    });
+    console.log("[UI] Added fallback input listener");
+  }
+
   if (metaForm && metaDialog) {
     metaForm.addEventListener("submit", (e) => {
       // The default submit for method="dialog" closes the dialog.
@@ -743,9 +758,21 @@ function setupEventListeners() {
       const latHiddenInput = $("destinationLatHidden");
       const lngHiddenInput = $("destinationLngHidden");
       
+      // Get the fallback input to use if the hidden field is empty
+      const fallbackInput = $("destinationFallbackInput");
+      
+      // Check if we need to use the fallback input value
+      if (fallbackInput && (!addressHiddenInput || !addressHiddenInput.value)) {
+        console.log("[SUBMIT] Using fallback input value:", fallbackInput.value);
+        // If the hidden input is empty but we have a fallback value, use that
+        if (addressHiddenInput) {
+          addressHiddenInput.value = fallbackInput.value;
+        }
+      }
+      
       // Make sure we run one final sync of hidden fields before retrieving values
       try {
-        // Force one more sync from the Google Places element before submitting
+        // Final check for autocomplete element
         const autocompleteElement = $("destinationAutocompleteElement");
         if (autocompleteElement && autocompleteElement.dataset.listenerAttached === "true") {
           console.log("[SUBMIT] Final check of autocomplete element before submission");
@@ -754,9 +781,13 @@ function setupEventListeners() {
         console.warn("[SUBMIT] Error during final sync check:", err);
       }
 
-      // Update meta data using hidden fields for destination
+      // Determine the destination value (prioritize hidden input but fall back to direct input)
+      const destinationValue = addressHiddenInput?.value || fallbackInput?.value || "";
+      console.log("[SUBMIT] Final destination value:", destinationValue);
+
+      // Update meta data using fields, with fallback input as backup
       const newMeta = {
-        destination: addressHiddenInput?.value || "", // Get directly from the DOM element
+        destination: destinationValue,
         destinationPlaceId: placeIdHiddenInput?.value || "",
         destinationLat: latHiddenInput?.value || "",
         destinationLng: lngHiddenInput?.value || "",
