@@ -834,35 +834,28 @@ a.disabled-link {
   font-weight: bold;
 }
 
-/* --- Google Maps Autocomplete Styles --- */
+/* --- Destination Input Styles --- */
 .destination-container {
   position: relative;
   width: 100%;
   margin-bottom: 16px;
 }
 
-gmp-place-autocomplete {
-  width: 100%;
-  box-sizing: border-box;
-  border-radius: var(--radius);
-  margin-top: 4px;
-}
-
-.destination-fallback {
+#destinationInput {
   width: 100%;
   box-sizing: border-box;
   border-radius: var(--radius);
   padding: 8px 12px;
   border: 1px solid var(--border);
   font-size: 16px;
-  margin-top: 8px;
-  display: block;
+  background-color: var(--bg);
+  color: var(--text);
 }
 
 .hidden {
   display: none !important;
 }
-/* --- End Google Maps Autocomplete Styles --- */
+/* --- End Destination Input Styles --- */
 
 /* --- Print Styles --- */
 @media print {

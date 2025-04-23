@@ -119,87 +119,40 @@ function openMetaDialog() {
     f.permitDeadline.value = currentMeta.permitDeadline || "";
   if (f.fireRules) f.fireRules.value = currentMeta.fireRules || "";
 
-  // Populate hidden destination fields from state
+  // Set the destination input directly - this is the simple fix
+  const destinationInput = $("destinationInput");
+  const destinationValue = currentMeta.destination || "";
+  
+  console.log(
+    "[UI] Meta dialog opening with current destination:",
+    destinationValue
+  );
+
+  if (destinationInput) {
+    destinationInput.value = destinationValue;
+    console.log(`[UI] Set destination input value: ${destinationInput.value}`);
+  }
+  
+  // Still populate the hidden fields for completeness
   const addressHiddenInput = $("destinationAddressHidden");
   const placeIdHiddenInput = $("destinationPlaceIdHidden");
   const latHiddenInput = $("destinationLatHidden");
   const lngHiddenInput = $("destinationLngHidden");
-  const autocompleteElement = $("destinationAutocompleteElement");
-  const fallbackInput = $("destinationFallbackInput");
-
-  console.log(
-    "[UI] Meta dialog opening with current destination:",
-    currentMeta.destination
-  );
-
-  // Set values on both the hidden input and the fallback text input
-  const destinationValue = currentMeta.destination || "";
   
   if (addressHiddenInput) {
     addressHiddenInput.value = destinationValue;
-    console.log(`[UI] Set addressHiddenInput value: ${addressHiddenInput.value}`);
-  }
-  
-  if (fallbackInput) {
-    fallbackInput.value = destinationValue;
-    console.log(`[UI] Set fallbackInput value: ${fallbackInput.value}`);
   }
   
   if (placeIdHiddenInput) {
     placeIdHiddenInput.value = currentMeta.destinationPlaceId || "";
-    console.log(`[UI] Set placeIdHiddenInput value: ${placeIdHiddenInput.value}`);
   }
   
   if (latHiddenInput) {
     latHiddenInput.value = currentMeta.destinationLat || "";
-    console.log(`[UI] Set latHiddenInput value: ${latHiddenInput.value}`);
   }
   
   if (lngHiddenInput) {
     lngHiddenInput.value = currentMeta.destinationLng || "";
-    console.log(`[UI] Set lngHiddenInput value: ${lngHiddenInput.value}`);
-  }
-
-  // The Place Autocomplete Element is a web component that doesn't have a simple value property
-  // We can only set the value through the selection event, but we can try to set some properties
-  if (autocompleteElement && destinationValue) {
-    // Try setting the component's internal value as best we can
-    try {
-      // Set a data attribute for our reference
-      autocompleteElement.setAttribute(
-        "data-initial-value",
-        destinationValue
-      );
-
-      console.log(
-        "[UI] Attempting to populate autocomplete with:",
-        destinationValue
-      );
-
-      // For web components like these, we can try to set some properties
-      // that might be picked up by the component
-      if (typeof autocompleteElement.value !== 'undefined') {
-        try {
-          autocompleteElement.value = destinationValue;
-          console.log("[UI] Set autocomplete value property directly");
-        } catch (e) {
-          console.warn("[UI] Could not set value property:", e);
-        }
-      }
-
-      // Dispatch an input event to try triggering internal component updates
-      try {
-        const inputEvent = new Event('input', { bubbles: true });
-        autocompleteElement.dispatchEvent(inputEvent);
-        console.log("[UI] Dispatched input event to autocomplete element");
-      } catch (e) {
-        console.warn("[UI] Could not dispatch input event:", e);
-      }
-    } catch (error) {
-      console.warn("[UI] Error trying to set autocomplete value:", error);
-    }
-  } else {
-    console.log("[UI] No destination value to set or autocomplete element not found");
   }
 
   // Show the dialog
@@ -711,16 +664,7 @@ function setupEventListeners() {
   }
 
   // Meta Dialog actions
-  // Set up fallback input sync with hidden field
-  const fallbackInput = $("destinationFallbackInput");
-  const addressHiddenInput = $("destinationAddressHidden");
-  if (fallbackInput && addressHiddenInput) {
-    fallbackInput.addEventListener("input", (e) => {
-      addressHiddenInput.value = e.target.value;
-      console.log(`[FALLBACK] Updated hidden field to: ${e.target.value}`);
-    });
-    console.log("[UI] Added fallback input listener");
-  }
+  // We no longer need complex listeners for input field synchronization
 
   if (metaForm && metaDialog) {
     metaForm.addEventListener("submit", (e) => {
@@ -758,32 +702,10 @@ function setupEventListeners() {
       const latHiddenInput = $("destinationLatHidden");
       const lngHiddenInput = $("destinationLngHidden");
       
-      // Get the fallback input to use if the hidden field is empty
-      const fallbackInput = $("destinationFallbackInput");
-      
-      // Check if we need to use the fallback input value
-      if (fallbackInput && (!addressHiddenInput || !addressHiddenInput.value)) {
-        console.log("[SUBMIT] Using fallback input value:", fallbackInput.value);
-        // If the hidden input is empty but we have a fallback value, use that
-        if (addressHiddenInput) {
-          addressHiddenInput.value = fallbackInput.value;
-        }
-      }
-      
-      // Make sure we run one final sync of hidden fields before retrieving values
-      try {
-        // Final check for autocomplete element
-        const autocompleteElement = $("destinationAutocompleteElement");
-        if (autocompleteElement && autocompleteElement.dataset.listenerAttached === "true") {
-          console.log("[SUBMIT] Final check of autocomplete element before submission");
-        }
-      } catch (err) {
-        console.warn("[SUBMIT] Error during final sync check:", err);
-      }
-
-      // Determine the destination value (prioritize hidden input but fall back to direct input)
-      const destinationValue = addressHiddenInput?.value || fallbackInput?.value || "";
-      console.log("[SUBMIT] Final destination value:", destinationValue);
+      // Get the value directly from the destination input
+      const destinationInput = $("destinationInput");
+      const destinationValue = destinationInput?.value || "";
+      console.log("[SUBMIT] Getting destination directly from input:", destinationValue);
 
       // Update meta data using fields, with fallback input as backup
       const newMeta = {
