@@ -63,10 +63,13 @@ function handleGisError(err) {
 }
 
 
+// --- Initialization Callbacks ---
+
 /**
  * Callback after the GAPI library script has loaded.
+ * Declared here so it can be exported.
  */
-window.gapiLoaded = () => {
+function gapiLoadedCallback() {
     console.log("GAPI script loaded.");
     googleApiLoaded = true; // Mark GAPI as loaded
     initializeGapiClient();
@@ -74,11 +77,17 @@ window.gapiLoaded = () => {
 
 /**
  * Callback after the GIS library script has loaded.
+ * Declared here so it can be exported.
  */
-window.gisLoaded = () => {
+function gisLoadedCallback() {
     console.log("GIS script loaded.");
     initializeGisClient();
 };
+
+// Assign to window for external script access
+window.gapiLoaded = gapiLoadedCallback;
+window.gisLoaded = gisLoadedCallback;
+
 
 // --- Authentication ---
 
@@ -147,12 +156,16 @@ async function fetchUserProfile() {
  * Initiates the Google Sign-In flow.
  */
 function handleAuthClick() {
+    // Add guard
+    if (!gapiInited || !gisInited || !gapi.client || !tokenClient) {
+        console.warn("Auth libraries not fully initialized yet.");
+        showToast("Google Sign-In is not ready yet. Please wait a moment.");
+        return;
+    }
+    // Original code
     if (gapi.client.getToken() === null) {
-        // Prompt the user to select a Google Account and ask for consent to share their data
-        // when establishing a new session.
         tokenClient.requestAccessToken({ prompt: 'consent' });
     } else {
-        // Skip display of account chooser and consent dialog for an existing session.
         tokenClient.requestAccessToken({ prompt: '' });
     }
 }
@@ -161,17 +174,25 @@ function handleAuthClick() {
  * Signs the user out.
  */
 function handleSignOutClick() {
+    // Add guard
+    if (!gapiInited || !gisInited || !gapi.client || !google.accounts?.oauth2) {
+         console.warn("Auth libraries not fully initialized for sign out.");
+         // Don't necessarily show toast, just prevent error and update UI
+         updateUiWithSignInStatus(false);
+         return;
+    }
+    // Original code
     const token = gapi.client.getToken();
     if (token !== null) {
         google.accounts.oauth2.revoke(token.access_token, () => {
             gapi.client.setToken('');
-            googleUser = null; // Clear user profile
+            googleUser = null;
             updateUiWithSignInStatus(false);
             showToast("Signed out from Google.");
             console.log('Access token revoked.');
         });
     } else {
-        updateUiWithSignInStatus(false); // Ensure UI is updated even if no token existed
+        updateUiWithSignInStatus(false);
     }
 }
 
@@ -205,18 +226,23 @@ function updateUiWithSignInStatus(isSignedIn) {
  * Enables buttons if both GAPI and GIS are initialized.
  */
 function maybeEnableButtons() {
-    // Check if user is already signed in (e.g., page refresh)
-    const token = gapi.client.getToken();
-    const isSignedIn = token !== null;
+    // Only attempt to get token and check sign-in status *if* GAPI is initialized
+    let isSignedIn = false;
+    let token = null; // Define token variable here
+    if (gapiInited && gapi.client) { // Check if gapi.client itself is initialized
+         token = gapi.client.getToken(); // Now safe to call getToken
+         isSignedIn = token !== null;
+    } // If gapiInited is false or gapi.client isn't ready, isSignedIn remains false
 
-    if (gapiInited && gisInited) {
+    if (gapiInited && gisInited) { // Check if *both* are ready for full functionality
         googleSignInBtn.disabled = false;
         googleSignOutBtn.disabled = false; // Enable sign out regardless of initial state
-        updateUiWithSignInStatus(isSignedIn); // Update UI based on current token status
+        updateUiWithSignInStatus(isSignedIn); // Update UI based on token status
         if (isSignedIn) {
             exportGoogleDriveBtn.disabled = false;
             importGoogleDriveBtn.disabled = false;
-            if (!googleUser) fetchUserProfile(); // Fetch profile if signed in but no user data yet
+            // Fetch profile if signed in but no user data yet, ensure token exists
+            if (!googleUser && token) fetchUserProfile();
         } else {
             exportGoogleDriveBtn.disabled = true;
             importGoogleDriveBtn.disabled = true;
@@ -280,6 +306,13 @@ async function findFileInDrive() {
  * Overwrites the existing file if found, otherwise creates a new one.
  */
 async function exportToGoogleDrive() {
+    // Add guard (checking gapiInited implies gapi.client should be ready if init succeeded)
+    if (!gapiInited || !gisInited) {
+        console.warn("GAPI/GIS not ready for export.");
+        showToast("Google Drive export is not ready yet.");
+        return;
+    }
+    // Check token specifically
     if (!gapi.client.getToken()) {
         showToast("Please sign in to Google first.");
         handleAuthClick(); // Prompt sign-in
@@ -359,7 +392,16 @@ async function exportToGoogleDrive() {
  * Imports data from Google Drive using the Google Picker API.
  */
 function importFromGoogleDrive() {
-     if (!gapi.client.getToken()) {
+     // Add guard (checking gapiInited implies gapi.client should be ready)
+     // Also check for google.picker which is loaded via gapi.load
+     if (!gapiInited || !gisInited || !google.picker) {
+         console.warn("GAPI/GIS/Picker not ready for import.");
+         showToast("Google Drive import is not ready yet.");
+         return;
+     }
+     // Check token specifically
+     const token = gapi.client.getToken(); // Get token once
+     if (!token) {
          showToast("Please sign in to Google first.");
          handleAuthClick(); // Prompt sign-in
          return;
@@ -374,11 +416,10 @@ function importFromGoogleDrive() {
      // view.setParent('appDataFolder');
 
      const picker = new google.picker.PickerBuilder()
-         .enableFeature(google.picker.Feature.NAV_HIDDEN) // Optional: Hide navigation
-         .setAppId(CLIENT_ID.split('-')[0]) // Use the numeric part of the client ID as App ID
-         .setOAuthToken(gapi.client.getToken().access_token)
+         .enableFeature(google.picker.Feature.NAV_HIDDEN)
+         .setAppId(CLIENT_ID.split('-')[0])
+         .setOAuthToken(token.access_token) // Use the retrieved token
          .addView(view)
-         // .addView(new google.picker.DocsUploadView()) // Optional: Allow upload
          .setDeveloperKey(API_KEY)
          .setCallback(pickerCallback)
          .build();
@@ -470,4 +511,11 @@ function setupAuthEventListeners() {
 
 // --- Exported Functions ---
 // Export functions needed by other modules (like camplist.js)
-export { initializeGapiClient, initializeGisClient, setupAuthEventListeners, gapiLoaded, gisLoaded };
+// Now exporting the locally declared functions
+export {
+    initializeGapiClient,
+    initializeGisClient,
+    setupAuthEventListeners,
+    gapiLoadedCallback as gapiLoaded, // Export with the original name if needed elsewhere
+    gisLoadedCallback as gisLoaded   // Export with the original name if needed elsewhere
+};
