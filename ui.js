@@ -21,6 +21,7 @@ import {
   resetAllState,
   findItemState,
   getState,
+  saveMetaState,
   saveListState, // Keep if used by updateItemWeightState
   getMeta, // Add new import for getMeta function
 } from "./state.js";
@@ -925,6 +926,83 @@ function setupEventListeners() {
       calculateAndDisplayWeights(); // Recalculate and display with new unit
     });
   }
+
+  // Add listeners for Export/Import buttons
+  const btnExport = $("btnExport");
+  const btnImport = $("btnImport");
+  if (btnExport) btnExport.onclick = exportDataAsJSON;
+  if (btnImport) btnImport.onclick = importDataFromJSON;
+}
+
+// --- Import/Export JSON Logic ---
+function exportDataAsJSON() {
+  try {
+    // Gather all relevant state
+    const exportObj = {
+      data: structuredClone(data),
+      meta: structuredClone(getMeta()),
+      collapsedSections: Array.from(collapsedSections),
+      theme: theme
+    };
+    const jsonStr = JSON.stringify(exportObj, null, 2);
+    const blob = new Blob([jsonStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `campinglist-export-${new Date().toISOString().slice(0,10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 0);
+  } catch (err) {
+    showErrorDialog('Failed to export data: ' + err.message);
+  }
+}
+
+function importDataFromJSON() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json,application/json';
+  input.addEventListener('change', async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    try {
+      const text = await file.text();
+      const imported = JSON.parse(text);
+      if (!imported.data || !imported.meta) {
+        showErrorDialog('Invalid file format.');
+        return;
+      }
+      // Overwrite state and save
+      data.length = 0;
+      imported.data.forEach(g => data.push(g));
+      updateMetaState(imported.meta);
+      collapsedSections.clear();
+      if (Array.isArray(imported.collapsedSections)) {
+        imported.collapsedSections.forEach(id => collapsedSections.add(id));
+      }
+      if (imported.theme) {
+        updateThemeState(imported.theme);
+        applyTheme(imported.theme);
+      }
+      saveListState();
+      saveMetaState();
+      // UI updates
+      renderList();
+      renderMeta();
+      calculateAndDisplayWeights(); // Add this line to update the weight sidebar
+      calculateAndDisplayCosts(); // Also update costs
+      updatePermitInfo(); // Update permit info
+      updatePermitRequiredItems(); // Update permit items list
+      updateUndoRedoButtons();
+      showToast('Import successful!', 3000, 'info');
+    } catch (err) {
+      showErrorDialog('Failed to import: ' + err.message);
+    }
+  });
+  input.click();
 }
 
 // Added function to update undo/redo button states
