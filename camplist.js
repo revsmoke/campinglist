@@ -73,20 +73,23 @@ async function initMap() {
 
 // Import necessary functions from other modules
 import { loadAllState, theme } from "./state.js";
-
 import {
   renderMeta,
   renderList,
-  setupEventListeners,
+  setupEventListeners as setupUiEventListeners, // Rename to avoid conflict
   applyTheme,
   calculateAndDisplayWeights,
   calculateAndDisplayCosts,
   updatePermitRequiredItems,
   updatePermitInfo,
 } from "./ui.js";
-
 import { setupDragAndDrop } from "./drag.js";
-// Import the Google Maps initialization functions
+// Import Google Auth setup
+import { setupAuthEventListeners, gapiLoaded, gisLoaded } from "./auth.js"; // Import auth functions
+
+// Make GAPI/GIS load callbacks globally accessible
+window.gapiLoaded = gapiLoaded;
+window.gisLoaded = gisLoaded;
 
 /***************** BOOT *****************/
 // Initial app bootstrap
@@ -97,12 +100,13 @@ async function initializeApp() {
   // 2. Apply initial theme based on saved pref or system setting
   applyTheme(theme);
 
-  // 3. Render initial UI (this should create the #metaDialog and its contents)
-  renderMeta(); // Ensure this renders the dialog containing #destinationInput
+  // 3. Render initial UI
+  renderMeta();
   renderList();
 
   // 4. Setup all event listeners
-  setupEventListeners(); // This likely includes the listener to open #metaDialog
+  setupUiEventListeners(); // Setup UI specific listeners
+  setupAuthEventListeners(); // Setup Google Auth listeners
   setupDragAndDrop();
 
   // 5. Initialize calculators and info
@@ -111,24 +115,21 @@ async function initializeApp() {
   updatePermitRequiredItems();
   updatePermitInfo();
 
-  // 7. Add a listener to reinitialize autocomplete when the dialog opens
+  // 6. Initialize Google Maps Autocomplete (if meta dialog exists)
   const metaDialog = document.getElementById("metaDialog");
-  const editMetaButton = document.querySelector("#metaContainer button");
-
-  if (editMetaButton && metaDialog) {
-    editMetaButton.addEventListener("click", () => {
-      console.log("Edit Trip Info button clicked");
-      metaDialog.showModal(); // Ensure the dialog is shown
-    });
+  if (metaDialog) {
+      // Assuming initMap is safe to call even if called multiple times or before dialog is shown
+      // It might be better to trigger initMap only when the dialog is first opened if it causes issues.
+      await initMap();
+  } else {
+      console.warn("Meta dialog not found, skipping Maps initialization.");
   }
 
-  await initMap();
 
   console.log("App Initialized");
 }
 
 // Run the initialization function when the DOM is ready
-
 document.addEventListener("DOMContentLoaded", () => {
   initializeApp();
 });
