@@ -25,10 +25,8 @@ A comprehensive web application for planning camping trips. Manage your camping 
 
 1. Create a `keys.txt` file in the project root with your API keys:
 
-```
 GOOGLE_MAPS_API_KEY = "your-google-maps-api-key-here"
 OPENWEATHERMAP_API_KEY = "your-openweathermap-api-key-here"
-```
 
 **Note:** The `keys.txt` file is ignored by Git to keep your API keys secure.
 
@@ -71,3 +69,14 @@ To get a Google Maps API key:
 ## License
 
 ISC
+
+// Add this to reinitializePlaceAutocomplete in location.js
+document.addEventListener('gmp-placechange', (event) => {
+  console.log('Document-level gmp-placechange captured:', event);
+  
+  if (event.target.id === 'destinationAutocompleteElement') {
+    const place = event.detail.place;
+    console.log('Place selected:', place);
+    // Process place...
+  }
+}, true); // Use capture phase

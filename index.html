@@ -2,132 +2,162 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <link rel="apple-touch-icon" href="images/camplist_logo.svg" />
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#f7f5f0" />
     <title>
-      Lianna's Camping Checklist – Full Functionality (Meta + Date Inputs Fix)
+      Lianna's CampList for Camping – Full Functionality (Meta + Date Inputs
+      Fix)
     </title>
     <link rel="stylesheet" href="camplist.css" />
+    <link rel="stylesheet" href="https://use.typekit.net/xsc8giw.css" />
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.11/dist/purify.min.js"></script>
     <!-- API keys are loaded securely from config.js -->
-    <script type="module">
-      import { loadGoogleMapsApi } from './config.js';
-      // Load Google Maps API script dynamically with the key from keys.txt
-      loadGoogleMapsApi();
-    </script>
-
-
   </head>
   <body>
-
-
-    <div class="main-content">
-      <div>
-        <h1>Lianna's Camping Checklist</h1>
+    <div id="mainContent" class="main-content">
+      <div id="listColumn">
+        <h1>
+          <img
+            src="images/camplist_logo.svg"
+            alt="Lianna's Camping Checklist"
+            class="logo"
+          />
+          Lianna's CampList
+        </h1>
+        <div>
+          <div id="metaContainer"></div>
+        </div>
         <div class="filter-container">
-          <input type="search" id="filterInput" placeholder="Search items...">
+          <input type="search" id="filterInput" placeholder="Search items..." />
           <button id="btnClearFilter" class="clear-btn" hidden>✕</button>
           <p id="filterMessage" class="filter-no-results" hidden></p>
         </div>
-      <div id="checklistContainer">Loading…</div>
-      <form id="addSectionForm" class="addSection">
-        <input type="text" id="newSectionTitle" placeholder="New Section Title..." required>
-        <button type="submit">Add Section</button>
-      </form>
-
+        <div id="checklistContainer">Loading…</div>
+        <form id="addSectionForm" class="addSection">
+          <input
+            type="text"
+            id="newSectionTitle"
+            placeholder="New Section Title..."
+            required
+          />
+          <button type="submit">Add Section</button>
+        </form>
       </div>
       <aside id="listSidebar" class="list-sidebar">
-
-   <div>
-        <div id="metaContainer"></div>
-    </div>
-
-      <div id="weightSidebar" class="weight-sidebar sidebar-section">
-        <h3>Weight Calculator</h3>
-        <button id="btnToggleWeightSidebar" class="toggle-sidebar" title="Toggle Weight Panel">⚖️</button>
-        <div class="weight-summary">
-          <div class="weight-unit-selector">
-            <label for="weightUnit">Unit:</label>
-            <select id="weightUnit">
-              <option value="g">g</option>
-              <option value="kg">kg</option>
-              <option value="lb">lb</option>
-            </select>
+        <div id="weightSidebar" class="weight-sidebar sidebar-section">
+          <h3>Weight Calculator</h3>
+          <button
+            id="btnToggleWeightSidebar"
+            class="toggle-sidebar"
+            title="Toggle Weight Panel"
+          >
+            ⚖️
+          </button>
+          <div class="weight-summary">
+            <div class="weight-unit-selector">
+              <label for="weightUnit">Unit:</label>
+              <select id="weightUnit">
+                <option value="g">g</option>
+                <option value="kg">kg</option>
+                <option value="lb">lb</option>
+              </select>
+            </div>
+            <div class="weight-total">
+              <span>Total Weight:</span>
+              <strong id="totalWeight">0g</strong>
+            </div>
+            <div class="weight-packed">
+              <span>Packed Weight:</span>
+              <strong id="packedWeight">0g</strong>
+            </div>
           </div>
-          <div class="weight-total">
-            <span>Total Weight:</span>
-            <strong id="totalWeight">0g</strong>
+          <div id="weightBySection" class="weight-sections"></div>
+        </div>
+
+        <!-- Cost Summary Section -->
+        <section class="sidebar-section cost-summary">
+          <h3>Cost Summary</h3>
+          <div class="cost-total">
+            <span>Total Cost: <span id="totalCost">$0.00</span></span>
           </div>
-          <div class="weight-packed">
-            <span>Packed Weight:</span>
-            <strong id="packedWeight">0g</strong>
+          <div id="costBySection" class="cost-sections"></div>
+        </section>
+
+        <!-- Permits & Regulations Section -->
+        <section class="sidebar-section permits-section">
+          <h3>Permits & Regulations</h3>
+          <div id="permitInfo" class="permit-info">
+            <div class="permit-url-container">
+              <span>Permit:</span>
+              <a id="permitUrlLink" href="#" target="_blank">None specified</a>
+            </div>
+            <div class="permit-deadline">
+              <span>Deadline:</span>
+              <span id="permitDeadlineText">None</span>
+            </div>
+            <div class="fire-rules">
+              <span>Fire Rules:</span>
+              <div id="fireRulesText" class="fire-rules-text">
+                None specified
+              </div>
+            </div>
+          </div>
+          <div id="permitRequiredItems" class="permit-required-items">
+            <h4>Items Requiring Permits:</h4>
+            <ul id="permitItemsList"></ul>
+          </div>
+        </section>
+        <section class="sidebar-section privacy-terms-section">
+          <h3>Privacy & Terms</h3>
+          <p>
+            Your data is stored locally in your browser.
+            <a href="privacy.html">Privacy Policy</a>
+          </p>
+          <p><a href="terms.html">Terms of Service</a></p>
+        </section>
+
+        <div class="controls">
+          <h3>Controls</h3>
+          <div class="controls-buttons">
+            <button id="btnReset" class="secondary">Reset All</button>
+            <button id="btnPrint">Print / PDF</button>
+            <button id="btnUndo" disabled title="Undo (Ctrl+Z)">↶</button>
+            <button id="btnRedo" disabled title="Redo (Ctrl+Y)">↷</button>
+            <button id="btnTheme" title="Toggle Theme">🌙</button>
           </div>
         </div>
-        <div id="weightBySection" class="weight-sections"></div>
-      </div>
-
-      <!-- Cost Summary Section -->
-      <section class="sidebar-section cost-summary">
-        <h3>Cost Summary</h3>
-        <div class="cost-total">
-          <span>Total Cost: <span id="totalCost">$0.00</span></span>
-        </div>
-        <div id="costBySection" class="cost-sections"></div>
-      </section>
-
-      <!-- Permits & Regulations Section -->
-      <section class="sidebar-section permits-section">
-        <h3>Permits & Regulations</h3>
-        <div id="permitInfo" class="permit-info">
-          <div class="permit-url-container">
-            <span>Permit:</span>
-            <a id="permitUrlLink" href="#" target="_blank">None specified</a>
-          </div>
-          <div class="permit-deadline">
-            <span>Deadline:</span>
-            <span id="permitDeadlineText">None</span>
-          </div>
-          <div class="fire-rules">
-            <span>Fire Rules:</span>
-            <div id="fireRulesText" class="fire-rules-text">None specified</div>
-          </div>
-        </div>
-        <div id="permitRequiredItems" class="permit-required-items">
-          <h4>Items Requiring Permits:</h4>
-          <ul id="permitItemsList"></ul>
-        </div>
-      </section>
-
-      <div class="controls">
-        <h3>Controls</h3>
-        <div class="controls-buttons">
-        <button id="btnReset" class="secondary">Reset All</button>
-        <button id="btnPrint">Print / PDF</button>
-        <button id="btnUndo" disabled title="Undo (Ctrl+Z)">↶</button>
-        <button id="btnRedo" disabled title="Redo (Ctrl+Y)">↷</button>
-        <button id="btnTheme" title="Toggle Theme">🌙</button>
-        </div>
-      </div>
       </aside>
     </div>
-
 
     <dialog id="metaDialog">
       <h3>Edit Trip Info</h3>
       <form id="metaForm" method="dialog">
-        <label for="destinationContainer">Destination</label>
-        <div class="destination-container">
-          <gmp-place-autocomplete
-              id="destinationAutocompleteElement"
-              placeholder="Enter a destination"
-              required>
-          </gmp-place-autocomplete>
+        <div id="destinationContainer" class="destination-container">
+          <label for="destinationAutocompleteInput"
+            >Search for a destination</label
+          >
         </div>
-
-        <!-- Hidden fields to store detailed place data for form submission -->
-        <input type="hidden" name="destinationAddress" id="destinationAddressHidden">
-        <input type="hidden" name="destinationPlaceId" id="destinationPlaceIdHidden">
-        <input type="hidden" name="destinationLat" id="destinationLatHidden">
-        <input type="hidden" name="destinationLng" id="destinationLngHidden">
+        <input
+          type="hidden"
+          name="destinationPlaceId"
+          id="destinationPlaceIdHidden"
+        />
+        <label for="destinationInput">Destination</label>
+        <input type="text" name="destination" id="destinationInput" />
+        <input
+          type="text"
+          name="destinationAddress"
+          id="destinationAddressInput"
+        />
+        <input type="text" name="destinationLat" id="destinationLatInput" />
+        <input type="text" name="destinationLng" id="destinationLngInput" />
 
         <div class="row">
           <label
@@ -148,7 +178,11 @@
         <h4 class="dialog-section-title">Permits & Regulations</h4>
         <label>
           Permit URL
-          <input type="url" name="permitUrl" placeholder="https://recreation.gov/..." />
+          <input
+            type="url"
+            name="permitUrl"
+            placeholder="https://recreation.gov/..."
+          />
         </label>
         <div class="row">
           <label>
@@ -158,12 +192,22 @@
         </div>
         <label>
           Fire Rules
-          <textarea name="fireRules" placeholder="Current fire restrictions, regulations, etc."></textarea>
+          <textarea
+            name="fireRules"
+            placeholder="Current fire restrictions, regulations, etc."
+          ></textarea>
         </label>
         <!-- End Permit & Regulations Fields -->
 
         <menu>
-          <button type="button" value="cancel" class="secondary" id="metaCancelBtn">Cancel</button>
+          <button
+            type="button"
+            value="cancel"
+            class="secondary"
+            id="metaCancelBtn"
+          >
+            Cancel
+          </button>
           <button value="save" type="submit">Save</button>
         </menu>
       </form>
@@ -180,61 +224,95 @@
     </dialog>
 
     <dialog id="noteDialog">
-        <h3>Edit Note</h3>
-        <p>Item: <strong id="noteDialogItemText"></strong></p>
-        <form id="noteForm" method="dialog">
-          <input type="hidden" name="itemId" />
-          <label>Note:
-              <textarea name="noteText" rows="4"></textarea>
-          </label>
-          <menu>
-            <button type="button" value="cancel" class="secondary" id="noteCancelBtn">Cancel</button>
-            <button value="save" type="submit">Save Note</button>
-          </menu>
-        </form>
+      <h3>Edit Note</h3>
+      <p>Item: <strong id="noteDialogItemText"></strong></p>
+      <form id="noteForm" method="dialog">
+        <input type="hidden" name="itemId" />
+        <label
+          >Note:
+          <textarea name="noteText" rows="4"></textarea>
+        </label>
+        <menu>
+          <button
+            type="button"
+            value="cancel"
+            class="secondary"
+            id="noteCancelBtn"
+          >
+            Cancel
+          </button>
+          <button value="save" type="submit">Save Note</button>
+        </menu>
+      </form>
     </dialog>
 
     <dialog id="weightDialog" class="modal">
-        <h3>Item Weight &amp; Status</h3>
-        <div id="weightDialogItemText" class="dialog-item-text"></div>
-        <form id="weightForm" method="dialog">
-            <div class="dialog-row">
-                <label for="itemWeight">Weight (oz):</label> <!-- Consider changing label if unit changes -->
-                <input type="number" name="itemWeight" id="itemWeight" min="0" step="any"> <!-- Use 'any' for decimals -->
-            </div>
-            <div class="dialog-row cost-row">
-                <label for="itemCost">Cost:</label>
-                <div class="cost-input-wrapper">
-                    <span class="currency-symbol">$</span>
-                    <input type="number" name="itemCost" id="itemCost" min="0" step="0.01" placeholder="0.00">
-                </div>
-            </div>
-            <div class="dialog-row">
-                <label for="itemPacked">Packed:</label>
-                <input type="checkbox" name="itemPacked" id="itemPacked">
-            </div>
+      <h3>Item Weight &amp; Status</h3>
+      <div id="weightDialogItemText" class="dialog-item-text"></div>
+      <form id="weightForm" method="dialog">
+        <div class="dialog-row">
+          <label for="itemWeight">Weight (oz):</label>
+          <!-- Consider changing label if unit changes -->
+          <input
+            type="number"
+            name="itemWeight"
+            id="itemWeight"
+            min="0"
+            step="any"
+          />
+          <!-- Use 'any' for decimals -->
+        </div>
+        <div class="dialog-row cost-row">
+          <label for="itemCost">Cost:</label>
+          <div class="cost-input-wrapper">
+            <span class="currency-symbol">$</span>
+            <input
+              type="number"
+              name="itemCost"
+              id="itemCost"
+              min="0"
+              step="0.01"
+              placeholder="0.00"
+            />
+          </div>
+        </div>
+        <div class="dialog-row">
+          <label for="itemPacked">Packed:</label>
+          <input type="checkbox" name="itemPacked" id="itemPacked" />
+        </div>
 
-            <!-- Permit & Regulations Fields -->
-            <h4 class="dialog-section-title">Permits & Regulations</h4>
-            <div class="dialog-row">
-                <label for="itemPermitRequired">Permit Required:</label>
-                <input type="checkbox" name="permitRequired" id="itemPermitRequired">
-            </div>
-            <div class="dialog-row">
-                <label for="itemRegulationNotes">Regulation Notes:</label>
-                <textarea name="regulationNotes" id="itemRegulationNotes" placeholder="Special regulations or restrictions..."></textarea>
-            </div>
-            <!-- End Permit & Regulations Fields -->
+        <!-- Permit & Regulations Fields -->
+        <h4 class="dialog-section-title">Permits & Regulations</h4>
+        <div class="dialog-row">
+          <label for="itemPermitRequired">Permit Required:</label>
+          <input
+            type="checkbox"
+            name="permitRequired"
+            id="itemPermitRequired"
+          />
+        </div>
+        <div class="dialog-row">
+          <label for="itemRegulationNotes">Regulation Notes:</label>
+          <textarea
+            name="regulationNotes"
+            id="itemRegulationNotes"
+            placeholder="Special regulations or restrictions..."
+          ></textarea>
+        </div>
+        <!-- End Permit & Regulations Fields -->
 
-            <input type="hidden" name="itemId">
-            <div class="dialog-buttons">
-                <button type="submit">Save</button>
-                <button type="button" class="btn-cancel-dialog">Cancel</button>
-            </div>
-        </form>
+        <input type="hidden" name="itemId" />
+        <div class="dialog-buttons">
+          <button type="submit">Save</button>
+          <button type="button" class="btn-cancel-dialog">Cancel</button>
+        </div>
+      </form>
     </dialog>
 
     <div id="toastContainer"></div>
+    <!-- prettier-ignore -->
+    <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
+      ({key: "AIzaSyBqs2NU8V9KkJGSaTFPNJegpv7olGGXxCw", v: "weekly"});</script>
     <script type="module" src="camplist.js"></script>
   </body>
 </html>

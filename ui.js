@@ -1,7 +1,7 @@
 // Import state and state manipulation functions
 import {
   data,
-  // meta, // Remove meta import since we're using getMeta() instead
+  theme,
   updateThemeState,
   collapsedSections,
   updateMetaState,
@@ -35,14 +35,9 @@ const sanitize = (s) =>
     USE_PROFILES: { html: true }, // Ensure it outputs safe HTML, not just text
   });
 
-const btnTheme = $("btnTheme"); // Get theme button reference
-const filterInput = $("filterInput"); // Get filter input reference
-const btnClearFilter = $("btnClearFilter"); // Get clear button reference
-
 /***************** RENDER META PANEL *****************/
 function renderMeta() {
-  const container = $("metaContainer");
-  if (!container) return; // Guard against missing element
+  let container = $("metaContainer");
 
   // Use getMeta() to get the current state
   const currentMeta = getMeta();
@@ -99,16 +94,16 @@ function showErrorDialog(message) {
 }
 
 function openMetaDialog() {
-  console.log("[UI] Opening meta dialog");
   const dlg = $("metaDialog");
   const f = $("metaForm");
-  if (!dlg || !f) {
-    console.error("[UI] Dialog or form not found");
-    return; // Guard against missing elements
-  }
+  let destinationInput = $("destinationInput");
+
+  if (!dlg || !f) return; // Guard against missing elements
 
   // Get current meta state
   const currentMeta = getMeta();
+
+  destinationInput.value = currentMeta.destination || "";
 
   // Populate standard fields
   f.startDate.value = currentMeta.startDate || "";
@@ -119,48 +114,52 @@ function openMetaDialog() {
     f.permitDeadline.value = currentMeta.permitDeadline || "";
   if (f.fireRules) f.fireRules.value = currentMeta.fireRules || "";
 
-  // Get necessary values
-  const destinationValue = currentMeta.destination || "";
-  
-  console.log(
-    "[UI] Meta dialog opening with current destination:",
-    destinationValue
-  );
-  
-  // Populate the hidden fields for Google Maps data
-  const addressHiddenInput = $("destinationAddressHidden");
+  // Populate hidden destination fields from state
+  const addressHiddenInput = $("destinationAddressInput");
   const placeIdHiddenInput = $("destinationPlaceIdHidden");
-  const latHiddenInput = $("destinationLatHidden");
-  const lngHiddenInput = $("destinationLngHidden");
+  const latHiddenInput = $("destinationLatInput");
+  const lngHiddenInput = $("destinationLngInput");
   const autocompleteElement = $("destinationAutocompleteElement");
-  
-  if (addressHiddenInput) {
-    addressHiddenInput.value = destinationValue;
-    console.log(`[UI] Set addressHiddenInput value: ${addressHiddenInput.value}`);
-  }
-  
-  if (placeIdHiddenInput) {
+  //input whose name not id is destinationAutocomplete
+  let destinationAutocomplete = document.querySelector(
+    'input[name="destinationAutocomplete"]'
+  );
+  console.log("destinationAutocomplete", destinationAutocomplete);
+  //destinationAutocomplete.value = currentMeta.destination || "";
+
+  if (addressHiddenInput)
+    addressHiddenInput.value = currentMeta.destinationAddress || "";
+  if (placeIdHiddenInput)
     placeIdHiddenInput.value = currentMeta.destinationPlaceId || "";
-  }
-  
-  if (latHiddenInput) {
-    latHiddenInput.value = currentMeta.destinationLat || "";
-  }
-  
-  if (lngHiddenInput) {
-    lngHiddenInput.value = currentMeta.destinationLng || "";
-  }
-  
-  // Try to update the Google Maps Autocomplete element
-  if (autocompleteElement && destinationValue) {
-    // Let the user know the current value is available in the hidden field
-    console.log("[UI] Current destination is saved in the hidden field as:", destinationValue);
-    console.log("[UI] Note: You'll need to re-select the destination from the dropdown");
+  if (latHiddenInput) latHiddenInput.value = currentMeta.destinationLat || "";
+  if (lngHiddenInput) lngHiddenInput.value = currentMeta.destinationLng || "";
+
+  // The Place Autocomplete Element is a web component that doesn't have a simple value property
+  // We can only set the value through the selection event, but we can try to set some properties
+  if (autocompleteElement && currentMeta.destination) {
+    // Try setting the component's internal value as best we can
+    try {
+      // Experiment with updating visible input - note that this is a web component
+      // so this might not work directly, but it's worth trying
+      autocompleteElement.setAttribute(
+        "data-initial-value",
+        currentMeta.destination
+      );
+
+      // Log that we're trying to update the autocomplete element
+      console.log(
+        "Attempting to populate autocomplete with:",
+        currentMeta.destination
+      );
+
+      // Note: Google's web components don't have a direct way to set their value programmatically,
+      // so the user will likely need to re-select a place if editing an existing destination
+    } catch (error) {
+      console.warn("Error trying to set autocomplete value:", error);
+    }
   }
 
-  // Show the dialog
   dlg.showModal();
-  console.log("[UI] Dialog shown");
 }
 
 // Added function to open and populate the note dialog
@@ -429,9 +428,14 @@ function renderList() {
 /***************** EVENT HANDLERS *****************/
 function setupEventListeners() {
   const checklistContainer = $("checklistContainer");
-  const metaDialog = $("metaDialog");
-  const metaForm = $("metaForm");
-  const addSectionForm = $("addSectionForm");
+  let metaDialog = $("metaDialog");
+  let metaForm = $("metaForm");
+  let addSectionForm = $("addSectionForm");
+  let btnTheme = $("btnTheme"); // Get theme button reference
+  let btnUndo = $("btnUndo");
+  let btnRedo = $("btnRedo");
+  let filterInput = $("filterInput"); // Get filter input reference
+  let btnClearFilter = $("btnClearFilter"); // Get clear button reference
 
   // Use event delegation on a parent element where possible
 
@@ -667,30 +671,31 @@ function setupEventListeners() {
   }
 
   // Meta Dialog actions
-  // We no longer need complex listeners for input field synchronization
-
   if (metaForm && metaDialog) {
     metaForm.addEventListener("submit", (e) => {
       // The default submit for method="dialog" closes the dialog.
       // We need to prevent this only if validation fails.
-      
-      const fd = new FormData(metaForm);
-      const startDate = fd.get("startDate");
-      const endDate = fd.get("endDate");
+      // e.preventDefault(); // Only prevent if validation fails
 
-      // Debug: Check hidden field values
-      console.log("[SUBMIT] Hidden field values:");
-      console.log(
-        "destinationAddressHidden:",
-        $("destinationAddressHidden")?.value
-      );
-      console.log("FormData destinationAddress:", fd.get("destinationAddress"));
-      console.log(
-        "destinationPlaceIdHidden:",
-        $("destinationPlaceIdHidden")?.value
-      );
-      console.log("destinationLatHidden:", $("destinationLatHidden")?.value);
-      console.log("destinationLngHidden:", $("destinationLngHidden")?.value);
+      // LOG 1: Check if renderMeta is being called after state update
+      console.log("[Submit Handler] ");
+
+      console.log("metaForm", metaForm);
+
+      let fd = new FormData(metaForm);
+      let startDate = fd.get("startDate");
+      let endDate = fd.get("endDate");
+      let destination = fd.get("destination").trim();
+      let destinationAddress = fd.get("destinationAddress").trim();
+      let destinationPlaceId = fd.get("destinationPlaceId").trim();
+      let destinationLat = fd.get("destinationLat").trim();
+      let destinationLng = fd.get("destinationLng").trim();
+      let notes = fd.get("notes").trim();
+      let permitUrl = fd.get("permitUrl").trim();
+      let permitDeadline = fd.get("permitDeadline");
+      let fireRules = fd.get("fireRules").trim();
+
+      console.log("fd:", fd);
 
       // Validate dates: Only if both are present and end is before start
       if (startDate && endDate && endDate < startDate) {
@@ -699,46 +704,24 @@ function setupEventListeners() {
         return; // Stop processing
       }
 
-      // Get values directly from hidden inputs to ensure they're captured correctly
-      const addressHiddenInput = $("destinationAddressHidden");
-      const placeIdHiddenInput = $("destinationPlaceIdHidden");
-      const latHiddenInput = $("destinationLatHidden");
-      const lngHiddenInput = $("destinationLngHidden");
-      
-      // Get the value from the hidden field (populated by the autocomplete)
-      const destinationValue = addressHiddenInput?.value || "";
-      console.log("[SUBMIT] Getting destination from hidden field:", destinationValue);
-
-      // Update meta data using fields, with fallback input as backup
+      // Update meta data using hidden fields for destination
       const newMeta = {
-        destination: destinationValue,
-        destinationPlaceId: placeIdHiddenInput?.value || "",
-        destinationLat: latHiddenInput?.value || "",
-        destinationLng: lngHiddenInput?.value || "",
+        destination: destination,
+        destinationAddress: destinationAddress,
+        destinationPlaceId: destinationPlaceId,
+        destinationLat: destinationLat,
+        destinationLng: destinationLng,
         startDate: startDate,
         endDate: endDate,
-        notes: fd.get("notes")?.trim() || "",
-        permitUrl: fd.get("permitUrl")?.trim() || "",
-        permitDeadline: fd.get("permitDeadline") || "",
-        fireRules: fd.get("fireRules")?.trim() || "",
+        notes: notes,
+        permitUrl: permitUrl,
+        permitDeadline: permitDeadline,
+        fireRules: fireRules,
       };
 
-      console.log(
-        "[SUBMIT] About to update state with new meta data:",
-        JSON.stringify(newMeta)
-      );
-      
+      console.log("newMeta", newMeta);
       // Update state (this now includes saving)
       updateMetaState(newMeta);
-
-      // Show feedback toast to indicate successful save
-      try {
-        if (typeof showToast === 'function') {
-          showToast("Location information saved successfully", 2000, "success");
-        }
-      } catch (err) {
-        console.warn("[SUBMIT] Error showing toast:", err);
-      }
 
       // Update UI
       renderMeta(); // Re-render the meta sidebar section
@@ -746,7 +729,7 @@ function setupEventListeners() {
       updateUndoRedoButtons();
 
       // Dialog closes automatically on successful submit (no preventDefault)
-      console.log("[SUBMIT] Form submitted successfully");
+      // metaDialog.close(); // Not needed if not preventing default
     });
 
     // Cancel button listener
@@ -754,19 +737,20 @@ function setupEventListeners() {
     if (metaCancelBtn) {
       metaCancelBtn.addEventListener("click", () => {
         metaForm.reset(); // Reset form fields
-        // Also clear the hidden destination fields manually if reset doesn't cover them
-        const addressHiddenInput = $("destinationAddressHidden");
-        const placeIdHiddenInput = $("destinationPlaceIdHidden");
-        const latHiddenInput = $("destinationLatHidden");
-        const lngHiddenInput = $("destinationLngHidden");
-        if (addressHiddenInput) addressHiddenInput.value = "";
-        if (placeIdHiddenInput) placeIdHiddenInput.value = "";
-        if (latHiddenInput) latHiddenInput.value = "";
-        if (lngHiddenInput) lngHiddenInput.value = "";
-        // Clear the visible autocomplete input too
-        const autocompleteElement = $("destinationAutocompleteElement");
-        if (autocompleteElement) autocompleteElement.value = "";
-
+        /*
+        let fd = new FormData(metaForm);
+      let startDate = fd.get("startDate");
+      let endDate = fd.get("endDate");
+      let destination = fd.get("destination").trim();
+      let destinationAddress = fd.get("destinationAddress").trim();
+      let destinationPlaceId = fd.get("destinationPlaceId").trim();
+      let destinationLat = fd.get("destinationLat").trim();
+      let destinationLng = fd.get("destinationLng").trim();
+      let notes = fd.get("notes").trim();
+      let permitUrl = fd.get("permitUrl").trim();
+      let permitDeadline = fd.get("permitDeadline");
+        let fireRules = fd.get("fireRules").trim();
+        */
         metaDialog.close(); // Close the dialog
       });
     }
@@ -794,8 +778,7 @@ function setupEventListeners() {
   }
 
   // Add listeners for Undo/Redo buttons
-  const btnUndo = $("btnUndo");
-  const btnRedo = $("btnRedo");
+
   if (btnUndo) {
     btnUndo.onclick = () => {
       if (undoState()) {
@@ -818,6 +801,20 @@ function setupEventListeners() {
       }
     };
   }
+
+  document.addEventListener(
+    "gmp-placechange",
+    (event) => {
+      console.log("Document-level gmp-placechange captured:", event);
+
+      if (event.target.id === "destinationAutocompleteElement") {
+        const place = event.detail.place;
+        console.log("Place selected:", place);
+        // Process place...
+      }
+    },
+    true
+  ); // Use capture phase
 
   // Add Keyboard listener for Undo/Redo
   document.addEventListener("keydown", (e) => {
@@ -850,13 +847,21 @@ function setupEventListeners() {
   // Add Listener for Theme Toggle button
   if (btnTheme) {
     btnTheme.onclick = () => {
-      const currentTheme = document.documentElement.classList.contains("dark")
-        ? "dark"
-        : "light";
-      // Determine next theme based on current state (could also cycle through 'system')
-      const nextTheme = currentTheme === "dark" ? "light" : "dark";
-      updateThemeState(nextTheme); // Save preference
-      applyTheme(nextTheme); // Apply visually
+      // Use the stored theme state
+      const currentTheme = theme;
+
+      // Cycle through themes: system -> light -> dark -> system
+      let nextTheme;
+      if (currentTheme === "system") {
+        nextTheme = "light";
+      } else if (currentTheme === "light") {
+        nextTheme = "dark";
+      } else {
+        nextTheme = "system";
+      }
+
+      updateThemeState(nextTheme);
+      applyTheme(nextTheme);
     };
   }
 
@@ -923,33 +928,38 @@ function setupEventListeners() {
 }
 
 // Added function to update undo/redo button states
-const btnUndo = $("btnUndo");
-const btnRedo = $("btnRedo");
+
 function updateUndoRedoButtons() {
+  let btnUndo = $("btnUndo");
+  let btnRedo = $("btnRedo");
   if (btnUndo) btnUndo.disabled = !canUndo();
   if (btnRedo) btnRedo.disabled = !canRedo();
 }
 
 // --- Theme Application ---
 function applyTheme(themePreference) {
+  let btnTheme = $("btnTheme"); // Get theme button reference
   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  let applyDark = false;
 
+  // First remove both classes to start clean
+  document.documentElement.classList.remove("dark", "light");
+
+  // Then apply the appropriate class based on preference
   if (themePreference === "dark") {
-    applyDark = true;
+    document.documentElement.classList.add("dark");
   } else if (themePreference === "light") {
-    applyDark = false;
-  } else {
-    // 'system'
-    applyDark = prefersDark;
+    document.documentElement.classList.add("light");
   }
+  // For "system", don't add any class - let the media query handle it
 
-  document.documentElement.classList.toggle("dark", applyDark);
+  // For button display purposes, determine if dark mode is active
+  const isDarkMode =
+    themePreference === "dark" || (themePreference === "system" && prefersDark);
 
   // Update button icon
   if (btnTheme) {
-    btnTheme.textContent = applyDark ? "☀️" : "🌙";
-    btnTheme.title = applyDark
+    btnTheme.textContent = isDarkMode ? "☀️" : "🌙";
+    btnTheme.title = isDarkMode
       ? "Switch to Light Theme"
       : "Switch to Dark Theme";
   }
@@ -992,6 +1002,7 @@ function showToast(message, duration = 3000, type = "info") {
 function filterItems(query) {
   const searchTerm = query.toLowerCase().trim();
   const items = document.querySelectorAll("#checklistContainer li.item");
+  let btnClearFilter = $("btnClearFilter");
   let matchCount = 0;
   const sanitizeForMark = (str) =>
     DOMPurify.sanitize(str, {
@@ -1256,7 +1267,7 @@ function updatePermitInfo() {
 }
 
 /**
- * Format a date string (like YYYY-MM-DD) as MM/DD/YYYY.
+ * Format a date string (like Yfine-MM-DD) as MM/DD/YYYY.
  * Handles potential timezone issues by parsing as UTC.
  */
 function formatDate(dateString) {
@@ -1284,7 +1295,9 @@ function formatDate(dateString) {
   return "Invalid Date"; // Fallback for invalid input
 }
 
-// Export UI functions for use in camplist.js (camplist.js)
+// --- End Google Maps Autocomplete Logic ---
+
+// Export UI functions AND potentially the map init functions if needed by camplist.js
 export {
   renderMeta,
   renderList,
@@ -1296,7 +1309,6 @@ export {
   showToast,
   calculateAndDisplayWeights,
   calculateAndDisplayCosts,
-  // _saveStateForUndo, // Removed as it's handled in state.js
   updatePermitRequiredItems,
   updatePermitInfo,
   formatDate,

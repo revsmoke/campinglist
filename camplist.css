@@ -5,13 +5,20 @@
   --text: #222;
   --muted: #666;
   --border: #e0ded7;
+  --logo-color: #154122;
   --radius: 8px;
   --shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  --font:
+    "informapro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-header: "pinecone-mvb", sans-serif;
+  --font-header-condensed: "pinecone-mvb-condensed", sans-serif;
+  --font-header-wide: "pinecone-mvb-wide", sans-serif;
+  --padding-sm: 0.75rem;
+  --padding-md: 1rem;
+  --padding-lg: 1.5rem;
 }
 
-/* --- Dark Mode --- */
 :root.dark {
   --bg: #1a1a1a;
   --card: #262626;
@@ -20,8 +27,22 @@
   --muted: #a0a0a0;
   --border: #404040;
   --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --logo-color: #154122;
 }
-/* --- End Dark Mode --- */
+
+/* For system preference - only when theme isn't explicitly set */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light):not(.dark) {
+    --bg: #1a1a1a;
+    --card: #262626;
+    --accent: #48bb78;
+    --text: #f0f0f0;
+    --muted: #a0a0a0;
+    --border: #404040;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --logo-color: #154122;
+  }
+}
 
 * {
   box-sizing: border-box;
@@ -33,27 +54,35 @@ html {
   font-family: var(--font);
   background: var(--bg);
   color: var(--text);
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
 }
 
 body {
   margin: 0 auto;
   max-width: 1280px;
-  padding: 1.5rem;
+  padding: var(--padding-md);
 }
 
 h1 {
-  font-size: 1.5rem;
+  font-size: clamp(1.5rem, 4vw, 3rem);
   margin-bottom: 1rem;
+  font-family: var(--font-header-wide);
+  line-height: 1.1;
 }
 
 h2 {
   display: flex;
   align-items: center;
-  font-size: 1.25rem;
+  font-family: var(--font-header);
+  font-size: clamp(1.1rem, 3vw, 1.25rem);
   border-bottom: 1px solid var(--border);
   padding: 0.5rem 0;
   margin-bottom: 0.5rem;
+  -webkit-user-select: none;
   user-select: none;
+  color: var(--logo-color);
 }
 
 /* Dialog styling */
@@ -62,9 +91,10 @@ dialog {
   color: var(--text);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 2rem;
-  max-width: 95%;
+  padding: clamp(1rem, 5vw, 2rem);
+  width: min(95%, 500px);
   box-shadow: var(--shadow);
+  margin: auto;
 }
 
 dialog::backdrop {
@@ -92,6 +122,7 @@ dialog select {
   border-radius: var(--radius);
   background-color: var(--bg);
   color: var(--text);
+  font-size: 16px; /* Prevents zoom on iOS */
 }
 
 dialog textarea {
@@ -105,6 +136,13 @@ dialog menu {
   gap: 0.5rem;
   margin-top: 1rem;
   padding: 0;
+}
+
+.logo {
+  width: auto;
+  height: clamp(40px, 10vw, 70px);
+  margin-right: 1.5rem;
+  margin-left: 0.5rem;
 }
 
 /* Meta section */
@@ -122,10 +160,11 @@ dialog menu {
 .row {
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .row > label {
-  flex: 1;
+  flex: 1 1 200px;
 }
 
 /* Labels in forms */
@@ -145,6 +184,8 @@ button {
   border-radius: var(--radius);
   cursor: pointer;
   font-weight: bold;
+  min-height: 44px; /* Better tap target */
+  touch-action: manipulation;
 }
 
 button:hover {
@@ -169,18 +210,18 @@ button:disabled {
 /* Main layout & card styling */
 .main-content {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 2rem;
 }
 
-.main-content > *:first-child {
-  flex: 2;
+.main-content h1 {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  color: var(--logo-color);
 }
 
 .list-sidebar {
-  flex: 1;
-  min-width: 240px;
-  max-width: 320px;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -189,7 +230,7 @@ button:disabled {
 .card {
   background-color: var(--card);
   border-radius: var(--radius);
-  padding: 1rem;
+  padding: var(--padding-md);
   margin-bottom: 1rem;
   box-shadow: var(--shadow);
   border: 1px solid var(--border);
@@ -220,12 +261,13 @@ h2:hover .sectionHandle {
   transition: opacity 0.2s ease-in-out;
   padding: 0;
   font-size: 16px;
-  width: 24px;
-  height: 24px;
+  width: 36px; /* Larger tap target */
+  height: 36px; /* Larger tap target */
   display: inline-flex;
   align-items: center;
   justify-content: center;
   margin-left: 0.25rem;
+  min-height: auto;
 }
 
 .btnEditSection:hover,
@@ -253,11 +295,20 @@ h2 {
   margin-left: auto;
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
+  min-width: 24px;
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 h2:hover .btnEditSection,
 h2:hover .btnDeleteSection {
   visibility: visible;
+}
+
+#map {
+  height: 100%;
 }
 
 .checklist {
@@ -307,6 +358,8 @@ li.item:hover .handle {
 .checklist li.item input[type="checkbox"] {
   flex-shrink: 0;
   margin-top: 0.1875rem;
+  min-width: 20px;
+  min-height: 20px;
 }
 
 .checklist li.item label {
@@ -344,6 +397,8 @@ li.item:hover .actions {
   padding: 0.25rem;
   font-size: 0.875rem;
   transition: color 0.2s ease;
+  min-height: 36px; /* Larger tap target */
+  min-width: 36px; /* Larger tap target */
 }
 
 .actions button:hover {
@@ -392,16 +447,19 @@ li.item-over {
   display: flex;
   margin-top: 0.5rem;
   gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .addItem input[type="text"] {
   flex-grow: 1;
+  flex-basis: 65%;
   padding: 0.5rem;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  font-size: 0.875rem;
+  font-size: 16px; /* Prevents zoom on iOS */
   background-color: var(--bg);
   color: var(--text);
+  min-height: 44px; /* Better tap target */
 }
 
 .addItem button {
@@ -413,16 +471,19 @@ li.item-over {
   margin-top: 1rem;
   display: flex;
   gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .addSection input[type="text"] {
   flex-grow: 1;
+  flex-basis: 65%;
   padding: 0.5rem;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  font-size: 0.875rem;
+  font-size: 16px; /* Prevents zoom on iOS */
   background-color: var(--bg);
   color: var(--text);
+  min-height: 44px; /* Better tap target */
 }
 
 .addSection button {
@@ -434,7 +495,7 @@ li.item-over {
 .sidebar-section {
   background-color: var(--card);
   border-radius: var(--radius);
-  padding: 1rem;
+  padding: var(--padding-md);
   margin-bottom: 1rem;
   box-shadow: var(--shadow);
   border: 1px solid var(--border);
@@ -444,14 +505,15 @@ li.item-over {
   margin-bottom: 0.75rem;
   border-bottom: 1px solid var(--border);
   padding-bottom: 0.5rem;
+  color: var(--logo-color);
+  font-family: var(--font-header-condensed);
 }
 
 /* Controls section */
 .controls {
   background-color: var(--card);
   border-radius: var(--radius);
-  padding: 1rem;
-  margin-top: auto;
+  padding: var(--padding-md);
   box-shadow: var(--shadow);
   border: 1px solid var(--border);
 }
@@ -517,7 +579,9 @@ li.item-over {
 /* Sidebar toggles */
 .weight-sidebar {
   position: relative;
-  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  transition:
+    max-height 0.3s ease-in-out,
+    opacity 0.3s ease-in-out;
   max-height: 800px;
   opacity: 1;
 }
@@ -539,6 +603,11 @@ li.item-over {
   padding: 0;
   opacity: 0.6;
   transition: opacity 0.2s ease;
+  min-height: 36px;
+  min-width: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .toggle-sidebar:hover {
@@ -556,6 +625,10 @@ li.item-over {
 
 .weight-unit-selector {
   margin-right: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .weight-total,
@@ -563,6 +636,7 @@ li.item-over {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
 .weight-sections {
@@ -597,7 +671,7 @@ li.item-over {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  max-width: 24rem;
+  max-width: min(24rem, 90vw);
 }
 
 .toast {
@@ -609,7 +683,9 @@ li.item-over {
   border-left: 4px solid var(--accent);
   opacity: 0;
   transform: translateY(1rem);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
   max-width: 100%;
   word-break: break-word;
 }
@@ -646,9 +722,10 @@ li.item-over {
   padding: 0.5rem 2rem 0.5rem 0.5rem;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  font-size: 0.875rem;
+  font-size: 16px; /* Prevents zoom on iOS */
   background-color: var(--bg);
   color: var(--text);
+  min-height: 44px; /* Better tap target */
 }
 
 .clear-btn {
@@ -662,6 +739,11 @@ li.item-over {
   cursor: pointer;
   padding: 0;
   font-size: 1rem;
+  min-height: 36px;
+  min-width: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .filter-no-results {
@@ -692,10 +774,13 @@ mark {
   display: flex;
   align-items: center;
   margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .dialog-row label {
-  min-width: 150px;
+  min-width: 100px;
+  flex: 1 0 100px;
   display: inline-block;
   margin-right: 1rem;
 }
@@ -705,6 +790,13 @@ mark {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   flex: 1;
+  font-size: 16px; /* Prevents zoom on iOS */
+  min-height: 44px; /* Better tap target */
+}
+
+.dialog-row input[type="checkbox"] {
+  min-width: 24px;
+  min-height: 24px;
 }
 
 .dialog-buttons {
@@ -769,6 +861,7 @@ mark {
 .permit-info > div {
   margin-bottom: 0.5rem;
   display: flex;
+  flex-wrap: wrap;
 }
 
 .permit-info > div > span:first-child {
@@ -779,6 +872,7 @@ mark {
 
 .permit-url-container {
   display: flex;
+  flex-wrap: wrap;
 }
 
 a.disabled-link {
@@ -853,6 +947,80 @@ gmp-place-autocomplete {
 }
 /* --- End Google Maps Autocomplete Styles --- */
 
+/* --- Mobile First Media Queries --- */
+@media (min-width: 768px) {
+  body {
+    padding: var(--padding-lg);
+  }
+
+  .main-content {
+    flex-direction: row;
+  }
+
+  .main-content > *:first-child {
+    flex: 2;
+  }
+
+  .list-sidebar {
+    flex: 1;
+    min-width: 240px;
+  }
+
+  .dialog-row label {
+    min-width: 150px;
+  }
+
+  /* Show action buttons on desktop hover */
+  .actions {
+    opacity: 0;
+  }
+
+  li.item:hover .actions {
+    opacity: 1;
+  }
+
+  /* Make buttons smaller on desktop */
+  menu button,
+  button,
+  .addItem input[type="text"],
+  .addSection input[type="text"],
+  #filterInput {
+    min-height: unset;
+  }
+}
+
+/* For touch devices, always show actions */
+@media (hover: none) {
+  .actions {
+    opacity: 1;
+  }
+
+  h2 .btnEditSection,
+  h2 .btnDeleteSection {
+    visibility: visible;
+  }
+
+  li.item .handle,
+  h2 .sectionHandle {
+    width: auto;
+    margin-right: 0.5rem;
+    visibility: visible;
+  }
+}
+
+/* --- Dark mode tweaks --- */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --bg: #1a1a1a;
+    --card: #262626;
+    --accent: #48bb78;
+    --text: #f0f0f0;
+    --muted: #a0a0a0;
+    --border: #404040;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+}
+
 /* --- Print Styles --- */
 @media print {
   body {
@@ -865,16 +1033,16 @@ gmp-place-autocomplete {
     display: block;
   }
 
-  .list-sidebar, 
-  .controls, 
-  .actions, 
-  .addItem, 
-  .addSection, 
-  .filter-container, 
-  .btnDeleteSection, 
+  .list-sidebar,
+  .controls,
+  .actions,
+  .addItem,
+  .addSection,
+  .filter-container,
+  .btnDeleteSection,
   .btnEditSection,
   .weight-sidebar,
-  .handle, 
+  .handle,
   .sectionHandle {
     display: none !important;
   }
@@ -890,6 +1058,7 @@ gmp-place-autocomplete {
     text-align: center;
     font-size: 1.5rem;
     margin-bottom: 1rem;
+    font-family: var(--font-header);
   }
 
   h2 {
@@ -926,4 +1095,3 @@ gmp-place-autocomplete {
     margin: 2cm;
   }
 }
-/* --- End Print Styles --- */

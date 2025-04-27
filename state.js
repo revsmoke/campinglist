@@ -732,5 +732,6 @@ function getMeta() {
   return meta;
 }
 
-// Expose getMeta to window for cross-module access
+// Expose critical functions to window for cross-module access
 window.getMeta = getMeta;
+window.updateMetaState = updateMetaState; // Add updateMetaState to window

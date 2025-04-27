@@ -3,28 +3,77 @@
 // --- Google Maps API Callback ---
 // Define the callback function globally BEFORE imports to ensure it's available
 // when the Google Maps API script loads
-window.googleMapsApiLoaded = function () {
-  console.log("Google Maps API script loaded.");
-  window.googleMapsApiReady = true;
-  
-  // Dispatch a custom event that components can listen for
-  try {
-    const customEvent = new CustomEvent("googleMapsApiReady", { 
-      bubbles: true,
-      detail: { timestamp: Date.now() }
-    });
-    window.dispatchEvent(customEvent);
-    console.log("Dispatched googleMapsApiReady event");
-  } catch(e) {
-    console.error("Failed to dispatch googleMapsApiReady event", e);
+async function initMap() {
+  let destinationContainer = document.getElementById("destinationContainer");
+  let destinationInput = document.getElementById("destinationInput");
+  let destinationAddressInput = document.getElementById(
+    "destinationAddressInput"
+  );
+  let destinationPlaceIdHidden = document.getElementById(
+    "destinationPlaceIdHidden"
+  );
+  let destinationLatInput = document.getElementById("destinationLatInput");
+  let destinationLngInput = document.getElementById("destinationLngInput");
+  // Request needed libraries. (loaded in index.html)
+  await google.maps.importLibrary("places");
+  // Create the input HTML element, and append it.
+  //google.maps.places.PlaceAutocompleteElementOptions
+  //name - destinationAutocomplete
+  let options = {
+    name: "destinationAutocomplete",
+    id: "destinationAutocompleteInput",
+  };
+  const placeAutocomplete = new google.maps.places.PlaceAutocompleteElement(
+    options
+  );
+  //@ts-ignore
+  destinationContainer.appendChild(placeAutocomplete);
+  // Inject HTML UI.
+  //const selectedPlaceTitle = document.createElement("p");
+  //selectedPlaceTitle.textContent = "";
+  //destinationContainer.appendChild(selectedPlaceTitle);
+  //const selectedPlaceInfo = document.createElement("pre");
+  //selectedPlaceInfo.textContent = "";
+  //destinationContainer.appendChild(selectedPlaceInfo);
+  // Add the gmp-placeselect listener, and display the results.
+  //@ts-ignore
+  placeAutocomplete.addEventListener(
+    "gmp-select",
+    async ({ placePrediction }) => {
+      const place = placePrediction.toPlace();
+      await place.fetchFields({
+        fields: ["displayName", "formattedAddress", "location"],
+      });
+      /* {
+  "id": "EiRLIE8gQSBDYW1wZ3JvdW5kLCBZcHNpbGFudGksIE1JLCBVU0EiLiosChQKEglFhk3KQFg7iBETdgeQWa4jdBIUChIJrfq42W2oPIgRUTRKX0D3xvk",
+  "displayName": "K O A Campground",
+  "formattedAddress": "K O A Campground, Ypsilanti Township, MI 48197, USA",
+  "location": {
+    "lat": 42.192646,
+    "lng": -83.5659717
   }
-  
-  // The actual initialization will happen in initializeApp()
-};
+}*/
+      destinationInput.value = place.displayName;
+      destinationAddressInput.value = place.formattedAddress;
+      destinationPlaceIdHidden.value = place.id;
+      destinationLatInput.value = place.location.lat();
+      destinationLngInput.value = place.location.lng();
+      //selectedPlaceTitle.textContent = "Selected Place:";
+      //selectedPlaceInfo.textContent = JSON.stringify(
+      //  place.toJSON(),
+      //  /* replacer */ null,
+      //  /* space */ 2
+      //);
+      //console.log(place);
+    }
+  );
+}
+
 // --- End Google Maps API Callback ---
 
 // Import necessary functions from other modules
 import { loadAllState, theme } from "./state.js";
+
 import {
   renderMeta,
   renderList,
@@ -35,16 +84,9 @@ import {
   updatePermitRequiredItems,
   updatePermitInfo,
 } from "./ui.js";
+
 import { setupDragAndDrop } from "./drag.js";
 // Import the Google Maps initialization functions
-import {
-  initMap as initGoogleMapsAutocomplete,
-  reinitializePlaceAutocomplete,
-  setupFormSubmitSync,
-} from "./location.js";
-
-// Store API ready state
-let googleMapsApiReady = window.googleMapsApiReady || false;
 
 /***************** BOOT *****************/
 // Initial app bootstrap
@@ -69,21 +111,6 @@ async function initializeApp() {
   updatePermitRequiredItems();
   updatePermitInfo();
 
-  // 6. Check if Google Maps API loaded *before* DOMContentLoaded
-  //    and initialize if necessary. This handles race conditions.
-  // Get latest API ready state from window
-  googleMapsApiReady = window.googleMapsApiReady || googleMapsApiReady;
-  if (googleMapsApiReady) {
-    console.log(
-      "API was ready before initializeApp completed, calling initGoogleMapsAutocomplete()"
-    );
-    initGoogleMapsAutocomplete();
-    // Also set up form submission syncing
-    setupFormSubmitSync();
-  } else {
-    console.log("Google Maps API not ready yet, will initialize when it loads");
-  }
-
   // 7. Add a listener to reinitialize autocomplete when the dialog opens
   const metaDialog = document.getElementById("metaDialog");
   const editMetaButton = document.querySelector("#metaContainer button");
@@ -92,55 +119,16 @@ async function initializeApp() {
     editMetaButton.addEventListener("click", () => {
       console.log("Edit Trip Info button clicked");
       metaDialog.showModal(); // Ensure the dialog is shown
+    });
+  }
 
-      // Ensure maps API is ready before trying to reinit
-      googleMapsApiReady = window.googleMapsApiReady || googleMapsApiReady;
-      if (googleMapsApiReady) {
-        console.log("Google Maps API is ready, calling reinitializePlaceAutocomplete");
-        
-        // Use the dedicated reinitialize function for reliability
-        // Wait a bit longer to ensure dialog is fully rendered
-        setTimeout(reinitializePlaceAutocomplete, 200);
-        
-        // Add a fallback attempt in case the first one fails
-        setTimeout(() => {
-          console.log("Running second reinitializePlaceAutocomplete attempt");
-          reinitializePlaceAutocomplete();
-        }, 800);
-      } else {
-        console.warn("Meta dialog opened, but Google Maps API not ready yet");
-        
-        // Add listener for when API becomes ready
-        window.addEventListener("googleMapsApiReady", () => {
-          console.log("Google Maps API became ready after dialog opened");
-          setTimeout(reinitializePlaceAutocomplete, 200);
-        }, { once: true });
-      }
-    });
-  }
-  
-  // Also add a listener directly to the dialog for when it's shown
-  if (metaDialog) {
-    metaDialog.addEventListener("click", (e) => {
-      // Only proceed if we're clicking on the dialog itself, not its children
-      if (e.target === metaDialog) {
-        console.log("Dialog clicked, checking if we should reinitialize autocomplete");
-        googleMapsApiReady = window.googleMapsApiReady || googleMapsApiReady;
-        if (googleMapsApiReady && metaDialog.open) {
-          console.log("Dialog is open and API is ready, reinitializing");
-          reinitializePlaceAutocomplete();
-        }
-      }
-    });
-  }
+  await initMap();
 
   console.log("App Initialized");
 }
 
 // Run the initialization function when the DOM is ready
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initializeApp);
-} else {
-  // `DOMContentLoaded` has already fired
+
+document.addEventListener("DOMContentLoaded", () => {
   initializeApp();
-}
+});
