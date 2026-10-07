@@ -64,9 +64,11 @@ MSAL bridge page). Neither is required for the current features.
    work accounts is documented inconsistently by Microsoft).
 4. **Ads:** the AdSense account (`ca-pub-4491650261060374`) is connected: `ads.txt`, the
    `google-adsense-account` meta tag on every page and the AdSense script on the app page are
-   live. Both placements still show house cards because no ad-unit slot IDs are configured;
-   AdSense's site review, the Privacy & messaging setup and the slot IDs are pending (section
-   5). Keep Auto ads off. Display ads are not recommended at current traffic (see
+   live. Both placements still show house cards because no ad-unit slot IDs are configured,
+   and ad requests are paused client-side until slot IDs exist (verified on 2026-10-07: with
+   Auto ads on in the console, the script was already requesting ads on the app page).
+   AdSense's site review, the Privacy & messaging setup, switching Auto ads off and the slot
+   IDs are pending (section 5). Display ads are not recommended at current traffic (see
    `docs/MONETIZATION.md`).
 5. **App-managed storage / subscriptions** are evaluated, not built (needs a backend).
 6. The Replit workspace must now be treated as a deploy target only; edit on GitHub. It is
@@ -88,8 +90,9 @@ MSAL bridge page). Neither is required for the current features.
    set "Public directory = public" in the Publishing pane once.
 4. **AdSense (console):** add camplist.guide as a site (the connect check should pass via
    `ads.txt`, the meta tag or the script), request the review, enable Privacy & messaging for
-   the GDPR (EEA/UK/CH) and US-state messages, leave Auto ads off, then create two display ad
-   units (sidebar, footer) and put their slot IDs in `public/js/config.js → ads.slots`.
+   the GDPR (EEA/UK/CH) and US-state messages, switch Auto ads **off** for camplist.guide
+   (Ads → By site), then create two display ad units (sidebar, footer) and put their slot IDs
+   in `public/js/config.js → ads.slots`.
    Sponsors: edit `public/sponsors.json`.
 
 ## 6. Operating costs and maintenance

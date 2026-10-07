@@ -271,6 +271,8 @@ test.describe("AdSense account", () => {
       "From CampList"
     );
     await expect(page.locator("ins.adsbygoogle")).toHaveCount(0);
+    // Ad requests stay paused while no slot id is configured, so Auto ads cannot add units.
+    expect(await page.evaluate(() => window.adsbygoogle.pauseAdRequests)).toBe(1);
     const adsTxt = await page.request.get("/ads.txt");
     expect(adsTxt.status()).toBe(200);
     expect((await adsTxt.text()).trim()).toBe(
