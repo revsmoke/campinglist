@@ -63,8 +63,9 @@ MSAL bridge page). Neither is required for the current features.
    and `ads.txt` is added. Display ads are not recommended at current traffic (see
    `docs/MONETIZATION.md`).
 5. **App-managed storage / subscriptions** are evaluated, not built (needs a backend).
-6. The Replit workspace must now be treated as a deploy target only; edit on GitHub. It currently
-   holds commit `c5452e3` (the published build); docs-only commits after it do not need a republish.
+6. The Replit workspace must now be treated as a deploy target only; edit on GitHub. It is
+   synced from `main` (the rebuild PR, merged on 2026-10-07); the published build is `c5452e3`
+   and the docs-only commits after it need no republish.
 7. `www.camplist.guide` is not served (no certificate). Either add it as a second custom domain in
    Replit (plus DNS) or leave it; Google origins only need the hosts you actually serve.
 
@@ -75,9 +76,9 @@ MSAL bridge page). Neither is required for the current features.
    a real browser.
 2. **Microsoft Entra (optional, 10 minutes):** app registration per `docs/AUTH.md` §5; paste the
    client ID into `config.js → microsoft.clientId`.
-3. **Replit:** merge the PR into `main`, keep the workspace synced from GitHub before publishing
-   (`docs/DEPLOYMENT.md`). If Replit ever ignores `publicDir` from `.replit`, set "Public
-   directory = public" in the Publishing pane once.
+3. **Replit:** the rebuild PR is merged into `main`; keep the workspace synced from `main`
+   before publishing (`docs/DEPLOYMENT.md`). If Replit ever ignores `publicDir` from `.replit`,
+   set "Public directory = public" in the Publishing pane once.
 4. **Sponsors/ads (when ready):** edit `public/sponsors.json`; for AdSense set
    `ads.adsenseClient` + slot IDs and add `public/ads.txt`.
 
