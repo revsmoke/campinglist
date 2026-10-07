@@ -47,7 +47,7 @@ export async function blockGoogleIdentity(page) {
 export async function blockGoogleMaps(page) {
   await page.route("https://maps.googleapis.com/**", (route) => route.abort("failed"));
   await page.route(
-    /googletagmanager\.com|google-analytics\.com|analytics\.google\.com/,
+    /googletagmanager\.com|google-analytics\.com|analytics\.google\.com|googlesyndication\.com|doubleclick\.net|adtrafficquality\.google|googletagservices\.com/,
     (route) => route.abort("failed")
   );
 }

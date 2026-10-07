@@ -62,9 +62,12 @@ MSAL bridge page). Neither is required for the current features.
    They have unit/mock coverage only; the first real sign-in should be tested with a personal
    Microsoft account and a work account (the `Files.ReadWrite.AppFolder` scope's behaviour for
    work accounts is documented inconsistently by Microsoft).
-4. **Ads** stay off until an AdSense publisher ID is configured and `ads.txt` is added
-   (analytics is on; see `docs/MONETIZATION.md`). Display ads are not recommended at current
-   traffic (see `docs/MONETIZATION.md`).
+4. **Ads:** the AdSense account (`ca-pub-4491650261060374`) is connected: `ads.txt`, the
+   `google-adsense-account` meta tag on every page and the AdSense script on the app page are
+   live. Both placements still show house cards because no ad-unit slot IDs are configured;
+   AdSense's site review, the Privacy & messaging setup and the slot IDs are pending (section
+   5). Keep Auto ads off. Display ads are not recommended at current traffic (see
+   `docs/MONETIZATION.md`).
 5. **App-managed storage / subscriptions** are evaluated, not built (needs a backend).
 6. The Replit workspace must now be treated as a deploy target only; edit on GitHub. It is
    synced from `main` (the rebuild PR, merged on 2026-10-07); the published build is `c5452e3`
@@ -83,8 +86,11 @@ MSAL bridge page). Neither is required for the current features.
 3. **Replit:** the rebuild PR is merged into `main`; keep the workspace synced from `main`
    before publishing (`docs/DEPLOYMENT.md`). If Replit ever ignores `publicDir` from `.replit`,
    set "Public directory = public" in the Publishing pane once.
-4. **Sponsors/ads (when ready):** edit `public/sponsors.json`; for AdSense set
-   `ads.adsenseClient` + slot IDs and add `public/ads.txt`.
+4. **AdSense (console):** add camplist.guide as a site (the connect check should pass via
+   `ads.txt`, the meta tag or the script), request the review, enable Privacy & messaging for
+   the GDPR (EEA/UK/CH) and US-state messages, leave Auto ads off, then create two display ad
+   units (sidebar, footer) and put their slot IDs in `public/js/config.js → ads.slots`.
+   Sponsors: edit `public/sponsors.json`.
 
 ## 6. Operating costs and maintenance
 
