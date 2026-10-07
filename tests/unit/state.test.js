@@ -306,4 +306,25 @@ describe("state.js", () => {
     expect(out[0].items[0].id).toBe("ok-1");
     expect(out[0].items[1].id).toMatch(/^[A-Za-z0-9_-]+$/);
   });
+
+  it("reports a failed namespace copy instead of a partial success", async () => {
+    const state = await freshState();
+    await state.loadAllState();
+    state.addSectionState("Keep me");
+    const originalSetItem = Storage.prototype.setItem;
+    Storage.prototype.setItem = function (key, value) {
+      if (key.startsWith("campList.v2.full.")) {
+        const error = new DOMException("quota", "QuotaExceededError");
+        throw error;
+      }
+      return originalSetItem.call(this, key, value);
+    };
+    try {
+      expect(state.copyListsBetweenNamespaces("guest", "full")).toBe(false);
+      expect(state.namespaceHasData("full")).toBe(false);
+    } finally {
+      Storage.prototype.setItem = originalSetItem;
+    }
+    expect(state.copyListsBetweenNamespaces("guest", "ok")).toBe(1);
+  });
 });

@@ -966,19 +966,28 @@ function namespaceHasUserLists(ns) {
 /**
  * Copies the lists of one namespace into another (new ids; sync info is not copied).
  * With `skipUntouchedDefault`, the auto-created, never-edited default list is left out.
+ * Returns the number of lists copied, or `false` when any list could not be read or
+ * written (e.g. storage quota); callers must not delete the source in that case.
  */
 function copyListsBetweenNamespaces(fromNs, toNs, { skipUntouchedDefault = false } = {}) {
   const source = loadIndex(fromNs);
   if (!source) return 0;
   const target = loadIndex(toNs) || { active: null, lists: [] };
   let copied = 0;
+  let failed = false;
   for (const record of source.lists) {
     if (skipUntouchedDefault && isUntouchedDefault(record)) continue;
     const content = readListContent(fromNs, record.id);
-    if (!content) continue;
+    if (!content) {
+      failed = true;
+      continue;
+    }
     const id = makeId("list");
     const stamp = nowIso();
-    if (!writeListContent(toNs, id, { ...content, updatedAt: stamp })) continue;
+    if (!writeListContent(toNs, id, { ...content, updatedAt: stamp })) {
+      failed = true;
+      continue;
+    }
     target.lists.push({
       id,
       name: record.name,
@@ -991,7 +1000,7 @@ function copyListsBetweenNamespaces(fromNs, toNs, { skipUntouchedDefault = false
     if (!target.active) target.active = id;
     copied++;
   }
-  writeJSON(keyFor(toNs, "index"), target);
+  if (!writeJSON(keyFor(toNs, "index"), target) || failed) return false;
   return copied;
 }
 

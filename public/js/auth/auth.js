@@ -192,7 +192,16 @@ async function completeSignIn(identity) {
         cancelText: "Start fresh",
       }
     );
-    if (copy) copyListsBetweenNamespaces(GUEST_NS, ns, { skipUntouchedDefault: true });
+    if (
+      copy &&
+      copyListsBetweenNamespaces(GUEST_NS, ns, { skipUntouchedDefault: true }) === false
+    ) {
+      showToast(
+        "Not all lists could be copied (this browser's storage may be full). They remain available when you are signed out.",
+        8000,
+        "warning"
+      );
+    }
   }
   startSession(account.id, identity.provider);
   currentAccount = getAccount(account.id);
@@ -310,8 +319,9 @@ async function openAccountDialog() {
           (i) => i.provider === "microsoft" && i.providerId === identity.providerId
         )
       );
-      linkIdentityToAccount(a.id, identity, { absorbAccountId: existing?.id || null });
+      // Move the other account's lists first; linking removes that account's record.
       if (existing) mergeNamespace(existing.id, a.id);
+      linkIdentityToAccount(a.id, identity, { absorbAccountId: existing?.id || null });
       currentAccount = getAccount(a.id);
       dlg.close();
       showToast("Microsoft sign-in linked to this account.", 3500, "success");
@@ -330,11 +340,12 @@ async function linkSameEmailAccounts(target, others) {
   if (!ok) return;
   try {
     for (const other of others) {
+      // Lists first: if the copy fails, nothing is linked or deleted.
+      mergeNamespace(other.id, target.id);
       for (const identity of other.identities) {
         if (!identity.emailVerified) continue;
         linkIdentityToAccount(target.id, identity, { absorbAccountId: other.id });
       }
-      mergeNamespace(other.id, target.id);
     }
     currentAccount = getAccount(target.id);
     dlg?.close();
@@ -351,7 +362,13 @@ function mergeNamespace(fromAccountId, toAccountId) {
   const to = namespaceForAccount(toAccountId);
   // Copy everything the user made (edited lists, template lists, new lists) before the
   // source namespace is removed; only the untouched auto-created default is left behind.
-  copyListsBetweenNamespaces(from, to, { skipUntouchedDefault: true });
+  // A failed copy (e.g. storage quota) aborts the merge: nothing is deleted or linked.
+  const result = copyListsBetweenNamespaces(from, to, { skipUntouchedDefault: true });
+  if (result === false) {
+    throw new Error(
+      "Could not move all lists into this account (this browser's storage may be full). Nothing was changed."
+    );
+  }
   deleteNamespace(from);
   removeAccount(fromAccountId);
 }

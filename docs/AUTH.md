@@ -13,7 +13,7 @@ CampList is a static site. There is no CampList server, database or session stor
 | Account | `localStorage` key `campList.v2.auth.accounts` | One record per provider identity (`google:<sub>`, `microsoft:<oid>`), with optional linked identities. |
 | Session | `localStorage` key `campList.v2.auth.session` | 30-day sliding expiry (`config.js → session.maxAgeDays`). Expired sessions are explained and cleared. |
 | Lists | `localStorage` namespace per account (`campList.v2.<ns>.*`) | Guests use the `guest` namespace, which also mirrors the legacy `campChecklist_*` keys for rollback safety. |
-| Cloud tokens | Memory only | Google access tokens (≈1 h) and Microsoft tokens are never written to storage. Connection *metadata* (folder id, email) is stored, never credentials. |
+| Cloud tokens | Memory (Google); per-tab `sessionStorage` (Microsoft) | Google access tokens (≈1 h) live only in memory. MSAL keeps its token cache in `sessionStorage`, which is cleared when the tab closes and purged on sign-out. Connection *metadata* (folder id, email) is stored, never credentials. |
 | Files | The user's Google Drive / OneDrive | Only files CampList created (or the user picked) are visible to the app. |
 
 Signing in and connecting storage are two separate user decisions with separate consent screens.
