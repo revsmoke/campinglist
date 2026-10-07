@@ -76,7 +76,7 @@ MSAL bridge page). Neither is required for the current features.
 
 1. **Google Cloud (10 minutes):** re-enable or recreate the OAuth web client and set authorized
    JavaScript origins `https://camplist.guide`, `https://www.camplist.guide`,
-   `http://localhost:8787`; set the consent screen to "In production"; restrict the Maps key by
+   `http://localhost` and `http://localhost:8080`; set the consent screen to "In production"; restrict the Maps key by
    referrer and API. Paste the client ID into `public/js/config.js → google.clientId` (and
    `google.appId` if the project number changed) and set `features.googleSignIn` and
    `features.googleDrive` to `true`. Full steps: `docs/AUTH.md` §6. After that, redeploy and

@@ -83,7 +83,7 @@ MSAL v5 requires a dedicated redirect page because Microsoft now sends COOP head
    personal Microsoft accounts**.
 3. Platform: **Single-page application**. Redirect URI: `https://camplist.guide/auth/redirect.html`
    (add `https://www.camplist.guide/auth/redirect.html` if www is served, and
-   `http://localhost:8787/auth/redirect.html` for local testing).
+   `http://localhost:8080/auth/redirect.html` for local testing with `npm start`).
 4. API permissions (delegated): `openid`, `profile`, `email`, `Files.ReadWrite.AppFolder`.
 5. Token configuration → optional claims → ID token: add `email` and `xms_edov`.
 6. Copy the **Application (client) ID** into `public/js/config.js → microsoft.clientId`.
@@ -102,9 +102,14 @@ Steps (Google Cloud Console → APIs & Services):
 
 1. **Credentials** → if client `431848192736-…` is listed as disabled, try **Enable**. If it is gone,
    **Create credentials → OAuth client ID → Web application**, name `CampList web`.
-2. **Authorized JavaScript origins**: `https://camplist.guide` (and `https://www.camplist.guide`
-   only if that host is added to Replit; today it has no certificate), `http://localhost:8787`
-   (dev). No redirect URIs are needed (GIS popup flow).
+2. **Authorized JavaScript origins**: `https://camplist.guide`; for local testing with
+   `npm start` add both `http://localhost` and `http://localhost:8080` (Google requires the
+   bare `http://localhost` entry as well as the one with the port). Add
+   `https://camplist.replit.app` (the deployment's default Replit hostname) only if you test
+   sign-in there, and `https://www.camplist.guide` only once that host is served (today it has
+   no certificate). Origins never carry a path or trailing slash. **Authorized redirect URIs:
+   leave empty.** Sign-in and the Drive token both use Google's popup flows, which need no
+   redirect URI; the Playwright server on port 8787 mocks Google and needs nothing registered.
 3. **OAuth consent screen / Branding**: app name CampList, support email, logo
    (`public/images/camplist_logo_oauth.png`), privacy `https://camplist.guide/privacy.html`,
    terms `https://camplist.guide/terms.html`. **Publishing status must be "In production"**
