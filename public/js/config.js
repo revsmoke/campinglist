@@ -16,10 +16,11 @@ const defaults = {
   contactEmail: "hello@camplist.guide",
 
   google: {
-    // OAuth 2.0 Web client (Google Cloud Console → APIs & Services → Credentials).
-    clientId: "431848192736-nmejcnj9u2h73udiomh2vece28292dol.apps.googleusercontent.com",
+    // OAuth 2.0 Web client (Google Cloud Console → APIs & Services → Credentials). Recreated on
+    // 2026-10-07 after Google had disabled the unused original client.
+    clientId: "662895092391-fp3lbispslf7ihorelbfq4fr61oc7p5l.apps.googleusercontent.com",
     // Project number (first segment of the client ID); used by the Google Picker.
-    appId: "431848192736",
+    appId: "662895092391",
     // Browser key for Maps JavaScript / Places / Picker. Restrict it by referrer.
     mapsApiKey: "AIzaSyCdSdxIXIbaXoWV-V-VVHQ7HSIdFUANBY0",
     // Only files CampList creates or the user explicitly picks are visible with this scope.
@@ -61,12 +62,10 @@ const defaults = {
 
   features: {
     templates: true,
-    // Google sign-in and Drive stay OFF until the OAuth client is restored (docs/AUTH.md §6):
-    // Google currently reports the client above as disabled, and a visible sign-in that can
-    // only fail at Google's error page is worse than no sign-in. Flip both to true once the
-    // client works (the e2e tests enable them explicitly).
-    googleSignIn: false,
-    googleDrive: false,
+    // Google sign-in and Drive (docs/AUTH.md §6). Set both to false to hide the sign-in button
+    // and the storage connections, e.g. while the OAuth client is unavailable.
+    googleSignIn: true,
+    googleDrive: true,
     microsoftSignIn: false, // flipped on automatically when microsoft.clientId is set
     oneDrive: false,
   },

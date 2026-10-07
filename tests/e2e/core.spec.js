@@ -247,9 +247,17 @@ test.describe("core checklist", () => {
   });
 });
 
-test.describe("sign-in providers disabled (shipping default)", () => {
+test.describe("sign-in providers disabled (feature flags off)", () => {
   test("shows no sign-in button and explains local-only storage", async ({ page }) => {
     await blockGoogleMaps(page);
+    await page.addInitScript(() => {
+      window.CAMPLIST_CONFIG = Object.assign({}, window.CAMPLIST_CONFIG, {
+        features: Object.assign({}, window.CAMPLIST_CONFIG?.features, {
+          googleSignIn: false,
+          googleDrive: false,
+        }),
+      });
+    });
     await page.goto("/");
     await page.waitForSelector("body.app-ready");
     await expect(page.locator("#btnSignIn")).toHaveCount(0);
