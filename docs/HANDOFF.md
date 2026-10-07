@@ -28,7 +28,7 @@ Live: https://camplist.guide (Replit static deployment of `public/`).
   renders, Places autocomplete mounts and the CSP causes no violations.
 * Production verification: see section 3.
 
-## 3. Production verification (2026-10-07, deployment `b094d18f`, re-verified after republishing commit `b4c2b02`)
+## 3. Production verification (2026-10-07, deployment `b094d18f`, re-verified after republishing commit `823692d`)
 
 Checked from a headless Chromium session and curl against https://camplist.guide:
 
@@ -40,7 +40,7 @@ Checked from a headless Chromium session and curl against https://camplist.guide
 | Sponsor slot | House card renders with its "From CampList" label |
 | Security | `/keys.txt` 404, `/googledrive.html` 404, `/package.json` 404, `/docs/PLAN.md` 404 (only `public/` is served); CSP meta present; headers `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy` applied to every file |
 | Legal pages | `/terms.html` and `/privacy.html` render their full text with the visible "Last updated: 7 October 2026" line (the blank terms page from the first deployment is fixed) |
-| Google sign-in | Verified with the flags on (deployment `b094d18f`): Google's button renders and opens the real popup; Google answers **"Access blocked: The OAuth client was disabled. Error 401: disabled_client"** — the app side works, the client ID is the blocker (section 5). The current build (commit `b4c2b02`) ships the flags off: verified that the header shows no Sign in button and the Storage panel shows the "not available on this site yet" notice |
+| Google sign-in | Verified with the flags on (deployment `b094d18f`): Google's button renders and opens the real popup; Google answers **"Access blocked: The OAuth client was disabled. Error 401: disabled_client"** — the app side works, the client ID is the blocker (section 5). The current build (commit `823692d`) ships the flags off: verified that the header shows no Sign in button and the Storage panel shows the "not available on this site yet" notice |
 | Google Drive | Not verifiable until the client is restored (same popup) |
 | Hosts | `http://camplist.guide` → 301 to https; `https://www.camplist.guide` fails TLS (no www domain configured in Replit) |
 
@@ -68,7 +68,7 @@ MSAL bridge page). Neither is required for the current features.
    `docs/MONETIZATION.md`).
 5. **App-managed storage / subscriptions** are evaluated, not built (needs a backend).
 6. The Replit workspace must now be treated as a deploy target only; edit on GitHub. It currently
-   holds commit `b4c2b02` (the published build); docs-only commits after it do not need a republish.
+   holds commit `823692d` (the published build); docs-only commits after it do not need a republish.
 7. `www.camplist.guide` is not served (no certificate). Either add it as a second custom domain in
    Replit (plus DNS) or leave it; Google origins only need the hosts you actually serve.
 
