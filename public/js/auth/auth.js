@@ -17,6 +17,8 @@ import {
   upsertAccountFromIdentity,
   linkIdentityToAccount,
   findAccountsByEmail,
+  findAccountByIdentity,
+  normalizeEmail,
   getCurrentAccount,
   getAccount,
   startSession,
@@ -279,7 +281,13 @@ async function openAccountDialog() {
   const body = document.getElementById("accountDialogBody");
   if (!dlg || !body || !currentAccount) return;
   const a = getAccount(currentAccount.id) || currentAccount;
-  const linkable = findAccountsByEmail(a.email).filter((o) => o.id !== a.id);
+  // Linking is offered only between accounts that both hold a verified identity for the email.
+  const ownEmailVerified = a.identities.some(
+    (i) => i.emailVerified && normalizeEmail(i.email) === normalizeEmail(a.email)
+  );
+  const linkable = ownEmailVerified
+    ? findAccountsByEmail(a.email).filter((o) => o.id !== a.id)
+    : [];
   const methods = a.identities
     .map((i) => `${providerLabel(i.provider)} (${escapeText(i.email || "no email")})`)
     .join(", ");
@@ -314,16 +322,43 @@ async function openAccountDialog() {
         );
         return;
       }
-      const existing = findAccountsByEmail(identity.email).find((o) =>
-        o.identities.some(
-          (i) => i.provider === "microsoft" && i.providerId === identity.providerId
-        )
-      );
-      // Move the other account's lists first; linking removes that account's record.
-      if (existing) mergeNamespace(existing.id, a.id);
+      const existing = findAccountByIdentity(identity.provider, identity.providerId);
+      if (existing?.id === a.id) {
+        dlg.close();
+        showToast(
+          "That Microsoft sign-in is already linked to this account.",
+          3500,
+          "info"
+        );
+        return;
+      }
+      if (existing) {
+        // The other account's record disappears with the merge, so every one of its sign-in
+        // methods must be linkable; otherwise explain and change nothing.
+        const blocked = unlinkableMethods(existing, identity);
+        if (blocked.length) {
+          showErrorDialog(cannotAbsorbMessage(blocked));
+          return;
+        }
+        // Lists first: if the copy fails, nothing is linked or deleted.
+        mergeNamespace(existing.id, a.id);
+      }
       linkIdentityToAccount(a.id, identity, { absorbAccountId: existing?.id || null });
+      for (const other of existing?.identities || []) {
+        if (
+          other.provider === identity.provider &&
+          other.providerId === identity.providerId
+        )
+          continue;
+        linkIdentityToAccount(a.id, other, { absorbAccountId: existing.id });
+      }
       currentAccount = getAccount(a.id);
       dlg.close();
+      if (existing) {
+        // Reload even though the namespace is unchanged: the merged lists were written to storage.
+        await switchNamespace(namespaceForAccount(a.id), { reload: true });
+        renderAll();
+      }
       showToast("Microsoft sign-in linked to this account.", 3500, "success");
     } catch (error) {
       showErrorDialog(error.userMessage || error.message);
@@ -333,6 +368,13 @@ async function openAccountDialog() {
 
 async function linkSameEmailAccounts(target, others) {
   const dlg = document.getElementById("accountDialog");
+  // The other accounts' records disappear with the merge, so every one of their sign-in
+  // methods must be linkable; otherwise explain and change nothing.
+  const blocked = others.flatMap((o) => unlinkableMethods(o));
+  if (blocked.length) {
+    showErrorDialog(cannotAbsorbMessage(blocked));
+    return;
+  }
   const ok = await confirmDialog(
     `Link ${others.map((o) => providerLabel(o.primaryProvider)).join(" and ")} sign-in to this account and move their lists here? This only affects this browser.`,
     { title: "Link accounts", confirmText: "Link accounts" }
@@ -343,18 +385,40 @@ async function linkSameEmailAccounts(target, others) {
       // Lists first: if the copy fails, nothing is linked or deleted.
       mergeNamespace(other.id, target.id);
       for (const identity of other.identities) {
-        if (!identity.emailVerified) continue;
         linkIdentityToAccount(target.id, identity, { absorbAccountId: other.id });
       }
     }
     currentAccount = getAccount(target.id);
     dlg?.close();
-    await switchNamespace(namespaceForAccount(target.id));
+    // Reload even though the namespace is unchanged: the merged lists were written to storage.
+    await switchNamespace(namespaceForAccount(target.id), { reload: true });
     renderAll();
     showToast("Accounts linked.", 3000, "success");
   } catch (error) {
     showErrorDialog(error.message);
   }
+}
+
+function methodLabel(identity) {
+  return `${providerLabel(identity.provider)} (${identity.email || "no email"})`;
+}
+
+/**
+ * Sign-in methods of `account` that cannot be linked because their email is not verified by the
+ * provider. `fresh` is an identity just confirmed interactively; it supersedes the stored flag.
+ */
+function unlinkableMethods(account, fresh = null) {
+  return (account.identities || [])
+    .filter(
+      (i) =>
+        !(fresh && i.provider === fresh.provider && i.providerId === fresh.providerId)
+    )
+    .filter((i) => !i.emailVerified)
+    .map(methodLabel);
+}
+
+function cannotAbsorbMessage(methods) {
+  return `The other account signs in with ${methods.join(" and ")}, and that email address is not verified by the provider, so the account cannot be linked into this one. Sign in with that account and link this one from there, or export its lists and import them here.`;
 }
 
 function mergeNamespace(fromAccountId, toAccountId) {

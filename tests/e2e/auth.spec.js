@@ -116,6 +116,151 @@ test.describe("Google sign-in (mocked identity library)", () => {
     ).toBeNull();
   });
 
+  async function seedOtherAccount(page, { id, primaryProvider, identities, listTitle }) {
+    await page.evaluate(
+      ({ id, primaryProvider, identities, listTitle }) => {
+        const stamp = new Date().toISOString();
+        const accounts = JSON.parse(localStorage.getItem("campList.v2.auth.accounts"));
+        accounts.push({
+          id,
+          primaryProvider,
+          lastProvider: primaryProvider,
+          email: "casey@example.com",
+          name: "Casey Elsewhere",
+          givenName: "Casey",
+          picture: "",
+          createdAt: stamp,
+          lastSignInAt: stamp,
+          identities: identities.map((i) => ({
+            ...i,
+            name: "Casey Elsewhere",
+            linkedAt: stamp,
+          })),
+          storage: {},
+        });
+        localStorage.setItem("campList.v2.auth.accounts", JSON.stringify(accounts));
+        const ns = id.replace(/[^a-zA-Z0-9]/g, "_");
+        localStorage.setItem(
+          `campList.v2.${ns}.index`,
+          JSON.stringify({
+            active: "list-other",
+            lists: [
+              {
+                id: "list-other",
+                name: "Other trip",
+                createdAt: stamp,
+                updatedAt: stamp,
+                pristine: false,
+                sync: {},
+              },
+            ],
+          })
+        );
+        localStorage.setItem(
+          `campList.v2.${ns}.list.list-other`,
+          JSON.stringify({
+            data: [{ id: "sec-other", title: listTitle, items: [] }],
+            meta: {},
+            collapsed: [],
+            updatedAt: stamp,
+          })
+        );
+      },
+      { id, primaryProvider, identities, listTitle }
+    );
+  }
+
+  test("links a same-email account and shows its lists without a reload", async ({
+    page,
+  }) => {
+    await mockGoogleIdentity(page);
+    await page.goto("/");
+    await page.waitForSelector("body.app-ready");
+    await signInWithMock(page);
+    await seedOtherAccount(page, {
+      id: "google:200000000000000000002",
+      primaryProvider: "google",
+      identities: [
+        {
+          provider: "google",
+          providerId: "200000000000000000002",
+          email: "casey@example.com",
+          emailVerified: true,
+        },
+      ],
+      listTitle: "Packed elsewhere",
+    });
+    await page.click("#btnAccountMenu");
+    await page.click("#btnLinkSameEmail");
+    await expect(page.locator("#appDialogTitle")).toHaveText("Link accounts");
+    await page.click("#appDialogConfirm");
+    await expect(page.locator("#toastContainer")).toContainText("Accounts linked");
+    await page.selectOption("#listSelect", { label: "Other trip" });
+    await expect(page.locator('.sectionTitle:text-is("Packed elsewhere")')).toBeVisible();
+    const accounts = await page.evaluate(() =>
+      JSON.parse(localStorage.getItem("campList.v2.auth.accounts"))
+    );
+    expect(accounts).toHaveLength(1);
+    expect(accounts[0].identities.map((i) => i.providerId).sort()).toEqual([
+      "100000000000000000001",
+      "200000000000000000002",
+    ]);
+    expect(
+      await page.evaluate(() =>
+        localStorage.getItem("campList.v2.google_200000000000000000002.index")
+      )
+    ).toBeNull();
+    // The moved list survives a reload (it was written to the account's index).
+    await page.reload();
+    await page.waitForSelector("body.app-ready");
+    await expect(page.locator("#listSelect option")).toHaveCount(2);
+  });
+
+  test("refuses to absorb an account whose sign-in method cannot be linked", async ({
+    page,
+  }) => {
+    await mockGoogleIdentity(page);
+    await page.goto("/");
+    await page.waitForSelector("body.app-ready");
+    await signInWithMock(page);
+    const msId = "microsoft:11111111-2222-3333-4444-555555555555";
+    await seedOtherAccount(page, {
+      id: msId,
+      primaryProvider: "microsoft",
+      identities: [
+        {
+          provider: "microsoft",
+          providerId: "11111111-2222-3333-4444-555555555555",
+          email: "casey@example.com",
+          emailVerified: false,
+        },
+        {
+          provider: "google",
+          providerId: "200000000000000000002",
+          email: "casey@example.com",
+          emailVerified: true,
+        },
+      ],
+      listTitle: "Work laptop list",
+    });
+    await page.click("#btnAccountMenu");
+    await page.click("#btnLinkSameEmail");
+    await expect(page.locator("#errorMessage")).toContainText("not verified");
+    await expect(page.locator("#errorMessage")).toContainText("Microsoft");
+    // Nothing changed: both accounts and the other account's lists are still there.
+    const accounts = await page.evaluate(() =>
+      JSON.parse(localStorage.getItem("campList.v2.auth.accounts"))
+    );
+    expect(accounts).toHaveLength(2);
+    expect(
+      await page.evaluate(() =>
+        localStorage.getItem(
+          "campList.v2.microsoft_11111111_2222_3333_4444_555555555555.index"
+        )
+      )
+    ).not.toBeNull();
+  });
+
   test("rejects an ID token issued for another app", async ({ page }) => {
     await mockGoogleIdentity(page, { aud: "some-other-app" });
     await page.goto("/");

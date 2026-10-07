@@ -39,10 +39,15 @@ Implemented in `public/js/auth/accounts.js`, tested in `tests/unit/accounts.test
 2. Signing in with a new provider never merges automatically, even when the email matches.
    The user is told that another local account uses the same email and can link explicitly from
    the account menu.
-3. Linking requires the identity's email to be **verified by its provider**
-   (`email_verified` for Google; `xms_edov` or a consumer-account tenant for Microsoft).
-4. Linking is only offered while signed in to the target account; the absorbed account's lists are
-   copied into the target and its record removed.
+3. Linking requires a verified email on both sides: the identity being linked must be
+   **verified by its provider** (`email_verified` for Google; `xms_edov` or a consumer-account
+   tenant for Microsoft), and the signed-in account must itself hold a verified identity for
+   that email before linking is offered.
+4. Linking is only offered while signed in to the target account. The absorbed account's lists
+   are copied into the target first (all or nothing: a failed copy changes nothing), then every
+   one of its sign-in methods is linked and its record removed. An account with a sign-in method
+   whose email is unverified cannot be absorbed; the app explains this and suggests linking from
+   the other side or exporting and importing the lists instead.
 
 Because nothing exists server-side, "account takeover" would only expose an attacker's own
 browser data. The rules still matter: they keep the model correct if a backend is added later.

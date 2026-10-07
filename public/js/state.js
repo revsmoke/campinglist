@@ -967,28 +967,32 @@ function namespaceHasUserLists(ns) {
  * Copies the lists of one namespace into another (new ids; sync info is not copied).
  * With `skipUntouchedDefault`, the auto-created, never-edited default list is left out.
  * Returns the number of lists copied, or `false` when any list could not be read or
- * written (e.g. storage quota); callers must not delete the source in that case.
+ * written (e.g. storage quota). A failed copy commits nothing: the target index is left
+ * untouched and the files written by this call are removed, so a retry cannot create
+ * duplicates. Callers must not delete the source in that case.
  */
 function copyListsBetweenNamespaces(fromNs, toNs, { skipUntouchedDefault = false } = {}) {
   const source = loadIndex(fromNs);
   if (!source) return 0;
   const target = loadIndex(toNs) || { active: null, lists: [] };
-  let copied = 0;
+  const written = [];
+  const entries = [];
   let failed = false;
   for (const record of source.lists) {
     if (skipUntouchedDefault && isUntouchedDefault(record)) continue;
     const content = readListContent(fromNs, record.id);
     if (!content) {
       failed = true;
-      continue;
+      break;
     }
     const id = makeId("list");
     const stamp = nowIso();
     if (!writeListContent(toNs, id, { ...content, updatedAt: stamp })) {
       failed = true;
-      continue;
+      break;
     }
-    target.lists.push({
+    written.push(id);
+    entries.push({
       id,
       name: record.name,
       createdAt: stamp,
@@ -997,11 +1001,20 @@ function copyListsBetweenNamespaces(fromNs, toNs, { skipUntouchedDefault = false
       sync: {},
       copiedFrom: fromNs,
     });
-    if (!target.active) target.active = id;
-    copied++;
   }
-  if (!writeJSON(keyFor(toNs, "index"), target) || failed) return false;
-  return copied;
+  if (!failed) {
+    target.lists.push(...entries);
+    if (!target.active && entries.length) target.active = entries[0].id;
+    if (writeJSON(keyFor(toNs, "index"), target)) return entries.length;
+  }
+  for (const id of written) {
+    try {
+      localStorage.removeItem(listKey(toNs, id));
+    } catch {
+      /* best effort: the index never pointed at these files */
+    }
+  }
+  return false;
 }
 
 /** Removes every stored list of a namespace (used when an account is forgotten or merged). */
@@ -1019,9 +1032,12 @@ function deleteNamespace(ns) {
   return true;
 }
 
-/** Switches the whole collection to another namespace (e.g. after sign-in or sign-out). */
-async function switchNamespace(ns) {
-  if (ns === namespace) return;
+/**
+ * Switches the whole collection to another namespace (e.g. after sign-in or sign-out).
+ * `reload` re-reads the current namespace from storage (e.g. after lists were merged into it).
+ */
+async function switchNamespace(ns, { reload = false } = {}) {
+  if (ns === namespace && !reload) return;
   if (findListRecord(activeListId)) saveCollapsedState();
   await loadAllState({ namespace: ns });
 }

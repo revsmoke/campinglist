@@ -327,4 +327,51 @@ describe("state.js", () => {
     }
     expect(state.copyListsBetweenNamespaces("guest", "ok")).toBe(1);
   });
+
+  it("rolls back a partly failed namespace copy so a retry does not duplicate lists", async () => {
+    const state = await freshState();
+    await state.loadAllState();
+    state.addSectionState("Keep me");
+    state.createList({ name: "Second", data: [{ title: "B", items: [{ text: "y" }] }] });
+    const originalSetItem = Storage.prototype.setItem;
+    let listWrites = 0;
+    Storage.prototype.setItem = function (key, value) {
+      if (key.startsWith("campList.v2.full.list.") && ++listWrites === 2) {
+        throw new DOMException("quota", "QuotaExceededError");
+      }
+      return originalSetItem.call(this, key, value);
+    };
+    try {
+      expect(state.copyListsBetweenNamespaces("guest", "full")).toBe(false);
+    } finally {
+      Storage.prototype.setItem = originalSetItem;
+    }
+    const targetKeys = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key.startsWith("campList.v2.full.")) targetKeys.push(key);
+    }
+    expect(targetKeys).toEqual([]);
+    expect(state.namespaceHasData("full")).toBe(false);
+    // The retry succeeds and holds each list exactly once.
+    expect(state.copyListsBetweenNamespaces("guest", "full")).toBe(2);
+    const index = JSON.parse(localStorage.getItem("campList.v2.full.index"));
+    expect(index.lists.map((l) => l.name).sort()).toEqual(["My CampList", "Second"]);
+  });
+
+  it("reloads the current namespace on request so merged lists become visible", async () => {
+    const state = await freshState();
+    await state.loadAllState();
+    await state.switchNamespace("other");
+    state.createList({ name: "Theirs", data: [{ title: "B", items: [] }] });
+    await state.switchNamespace("guest");
+    expect(
+      state.copyListsBetweenNamespaces("other", "guest", { skipUntouchedDefault: true })
+    ).toBe(1);
+    expect(state.getLists().map((l) => l.name)).not.toContain("Theirs");
+    await state.switchNamespace("guest");
+    expect(state.getLists().map((l) => l.name)).not.toContain("Theirs");
+    await state.switchNamespace("guest", { reload: true });
+    expect(state.getLists().map((l) => l.name)).toContain("Theirs");
+  });
 });
