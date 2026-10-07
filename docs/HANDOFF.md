@@ -1,7 +1,7 @@
 # CampList handoff (2026-10-07)
 
-Branch `claude/inspiring-hamilton-kdrtea`, pull request
-[revsmoke/campinglist#1](https://github.com/revsmoke/campinglist/pull/1).
+Merged into `main` on 2026-10-07 via pull request
+[revsmoke/campinglist#1](https://github.com/revsmoke/campinglist/pull/1) (merge commit `fb64d02`).
 Live: https://camplist.guide (Replit static deployment of `public/`).
 
 ## 1. What changed and what is live
@@ -20,10 +20,12 @@ Live: https://camplist.guide (Replit static deployment of `public/`).
 
 ## 2. What was tested
 
-* `npm run lint`, `npm run templates:validate` (23/23), `npm test` (27), `npm run test:e2e`
-  (30: sign-in/out, session expiry, cancelled sign-in, library blocked, wrong audience, Drive
-  connect/save/autosave/conflict/open/upload/revoked/disconnect/declined consent, templates,
-  core flows, mobile viewport). Google Identity and Drive are mocked in these tests.
+* `npm run lint`, `npm run templates:validate` (23/23), `npm test` (34), `npm run test:e2e`
+  (38: sign-in/out, session expiry, cancelled sign-in, library blocked, wrong audience,
+  providers-disabled flags, same-email account linking and its refusal, Drive
+  connect/connecting state/failed connect/save/autosave/mid-upload edits/conflict/open/upload/
+  revoked/disconnect/declined consent, templates, core flows, legal pages, mobile viewport).
+  Google Identity and Drive are mocked in these tests.
 * Headless Chromium against a local server with the **real** Google libraries: the Google button
   renders, Places autocomplete mounts and the CSP causes no violations.
 * Production verification: see section 3.
