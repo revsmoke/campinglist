@@ -73,9 +73,9 @@ MSAL bridge page). Neither is required for the current features.
 
 1. **Google (5 minutes, from your own browser):** sign in on https://camplist.guide, connect
    Google Drive from the Storage panel, add an item and confirm the "Saved to Google Drive"
-   status, then open the `CampList` folder in Drive to see the file. In Google Cloud, delete the
-   old unrestricted Maps key (`AIzaSyCdSd…`), and add `https://docs.google.com/*` to the new
-   key's referrers if the Drive "Change folder" picker reports a key error.
+   status, then open the `CampList` folder in Drive to see the file. (The old unrestricted Maps
+   key is already invalid; the new key's referrers include `https://docs.google.com/*` for the
+   Drive "Change folder" picker.)
 2. **Microsoft Entra (optional, 10 minutes):** app registration per `docs/AUTH.md` §5; paste the
    client ID into `config.js → microsoft.clientId`.
 3. **Replit:** merge the PR into `main`, keep the workspace synced from GitHub before publishing

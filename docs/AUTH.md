@@ -119,10 +119,10 @@ Steps (Google Cloud Console → APIs & Services):
 4. **Enabled APIs**: Google Drive API, Google Picker API, Maps JavaScript API, Places API (New).
 5. **API key** (`AIzaSyAynl…`, used for Maps/Places/Picker): HTTP-referrer restricted. Verified
    on 2026-10-07: requests with a `camplist.guide` or `www.camplist.guide` referrer succeed,
-   other referrers and requests without one are rejected, and Places API (New) is allowed. Add
-   `https://docs.google.com/*` (the Picker iframe) if the Drive "Change folder" picker reports a
-   key error, and keep the allowed APIs to Maps JavaScript API, Places API (New) and Google
-   Picker API. Delete the old unrestricted key (`AIzaSyCdSd…`); nothing references it any more.
+   other referrers and requests without one are rejected, and Places API (New) is allowed. The
+   referrer list is `*.camplist.guide/*`, `camplist.guide/*`, `https://docs.google.com/*` (the
+   Picker iframe) and `localhost:8080/*`; keep the allowed APIs to Maps JavaScript API, Places
+   API (New) and Google Picker API. The old unrestricted key is already invalid.
 6. The client ID, `google.appId` (the project number) and the key live in
    `public/js/config.js`; `features.googleSignIn` / `features.googleDrive` are `true`. Set them
    to `false` to hide the sign-in button and the storage connections without touching anything
