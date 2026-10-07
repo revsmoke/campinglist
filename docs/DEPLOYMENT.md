@@ -14,8 +14,9 @@ npm run test:e2e     # Playwright journeys with mocked Google APIs
 npm run check        # all of the above plus template validation
 ```
 
-Google sign-in from localhost needs `http://localhost:8787` (the Playwright port) or
-`http://localhost:8080` listed as an authorized JavaScript origin in Google Cloud.
+Google sign-in from a local `npm start` (port 8080) needs both `http://localhost` and
+`http://localhost:8080` listed as authorized JavaScript origins in Google Cloud. The Playwright
+server (port 8787) mocks Google and needs nothing registered.
 
 ## Releasing
 
