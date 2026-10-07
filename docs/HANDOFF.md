@@ -16,7 +16,7 @@ Live: https://camplist.guide (Replit static deployment of `public/`).
 | Monetisation | None | Labelled sponsor/house slots (max 2), AdSense + Plausible behind flags, updated privacy/terms, economics doc |
 | Security | `keys.txt` served publicly; prototype pages deployed; CDN DOMPurify without SRI; no CSP | Only `public/` is deployed; secrets gitignored and absent; DOMPurify/MSAL vendored and pinned; CSP meta + Replit response headers (nosniff, X-Frame-Options, Referrer-Policy, Permissions-Policy on every file; Replit ignored the path-specific COOP and no-store rules, see §3) |
 | Maps | Autocomplete never initialised (`initMap` race) | Loaded lazily when Trip Info opens; manual entry fallback |
-| Engineering | No package.json/tests in repo | ESLint, Prettier, Vitest (34 tests), Playwright (37 journeys), template validator, docs |
+| Engineering | No package.json/tests in repo | ESLint, Prettier, Vitest (34 tests), Playwright (38 journeys), template validator, docs |
 
 ## 2. What was tested
 
@@ -28,7 +28,7 @@ Live: https://camplist.guide (Replit static deployment of `public/`).
   renders, Places autocomplete mounts and the CSP causes no violations.
 * Production verification: see section 3.
 
-## 3. Production verification (2026-10-07, deployment `b094d18f`, re-verified after republishing commit `9b93e13`)
+## 3. Production verification (2026-10-07, deployment `b094d18f`, re-verified after republishing commit `c5452e3`)
 
 Checked from a headless Chromium session and curl against https://camplist.guide:
 
@@ -64,7 +64,7 @@ MSAL bridge page). Neither is required for the current features.
    `docs/MONETIZATION.md`).
 5. **App-managed storage / subscriptions** are evaluated, not built (needs a backend).
 6. The Replit workspace must now be treated as a deploy target only; edit on GitHub. It currently
-   holds commit `9b93e13` (the published build); docs-only commits after it do not need a republish.
+   holds commit `c5452e3` (the published build); docs-only commits after it do not need a republish.
 7. `www.camplist.guide` is not served (no certificate). Either add it as a second custom domain in
    Replit (plus DNS) or leave it; Google origins only need the hosts you actually serve.
 
