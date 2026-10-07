@@ -93,13 +93,3 @@ export async function setupSponsors() {
     else container.hidden = true;
   }
 }
-
-export function setupAnalytics() {
-  const domain = CONFIG.analytics.plausibleDomain;
-  if (!domain) return;
-  const script = document.createElement("script");
-  script.defer = true;
-  script.dataset.domain = domain;
-  script.src = "https://plausible.io/js/script.js";
-  document.head.appendChild(script);
-}

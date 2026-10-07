@@ -40,9 +40,16 @@ export async function blockGoogleIdentity(page) {
   );
 }
 
-/** Blocks Google Maps so the Trip Info dialog exercises its fallback. */
+/**
+ * Blocks Google Maps (so the Trip Info dialog exercises its fallback) and the analytics tag,
+ * so no test talks to Google.
+ */
 export async function blockGoogleMaps(page) {
   await page.route("https://maps.googleapis.com/**", (route) => route.abort("failed"));
+  await page.route(
+    /googletagmanager\.com|google-analytics\.com|analytics\.google\.com/,
+    (route) => route.abort("failed")
+  );
 }
 
 export async function signInWithMock(page) {

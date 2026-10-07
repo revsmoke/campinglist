@@ -15,7 +15,12 @@ Research date: 2026-10-07 (full notes with sources: `docs/research/monetization-
   added to `public/` at that point (`google.com, pub-XXXX, DIRECT, f08c47fec0942fa0`).
   Consent for EEA/UK/CH visitors is handled by AdSense's own certified "Privacy & messaging"
   CMP (TCF v2.3), and US visitors should get restricted data processing enabled in AdSense.
-* **Analytics-ready, off until configured.** `analytics.plausibleDomain` enables Plausible
+* **Google Analytics 4 is on** (`analytics.gaMeasurementId` in `public/js/config.js`, loaded by
+  `public/js/analytics.js` on the app page and both legal pages). The tag is not loaded for
+  browsers that send Global Privacy Control, and visitors in the EEA, UK and Switzerland get
+  Consent Mode defaults of "denied" (cookieless pings) until a consent tool grants storage.
+  The privacy policy §3 discloses it. Set the id to `""` to switch it off.
+* **Plausible remains available as an alternative.** `analytics.plausibleDomain` enables Plausible
   (cookieless, no banner). Nothing is loaded otherwise.
 * **Disclosures.** The privacy policy explains sponsorships, affiliate links and that the app
   stores nothing server-side.

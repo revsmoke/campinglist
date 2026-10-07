@@ -52,6 +52,10 @@ const defaults = {
   },
 
   analytics: {
+    // Google Analytics 4 measurement ID. Loaded by js/analytics.js on every page; never loaded
+    // for browsers that send Global Privacy Control; cookieless (Consent Mode "denied") for
+    // visitors in the EEA, UK and Switzerland. Empty = the tag is not loaded.
+    gaMeasurementId: "G-YBTYHE8TK0",
     // Domain configured in Plausible (cookieless analytics). Empty = no analytics script is loaded.
     plausibleDomain: "",
   },
