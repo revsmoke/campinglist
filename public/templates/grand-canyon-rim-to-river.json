@@ -1,0 +1,112 @@
+{
+  "id": "grand-canyon-rim-to-river",
+  "name": "Grand Canyon Rim-to-River",
+  "category": "destination",
+  "tagline": "For backpackers hiking a corridor-trail rim-to-river route with nights at Bright Angel, Havasupai Gardens or Cottonwood campgrounds.",
+  "description": "Assumes a 2-3 night corridor backpacking trip on the Bright Angel, South Kaibab or North Kaibab trails in spring or fall for a small group holding a backcountry permit. Covers the permit lottery, heat and water logistics, the no-fire rule and critter-proof food storage. Summer trips need pre-dawn starts, more water and salty food; winter trips need traction devices. Check current trail and water closures before you leave.",
+  "season": "Mar-May and Sept-Nov best; summer extreme heat; winter ice near the rims",
+  "typicalDuration": "2-3 nights",
+  "considerations": [
+    "Backcountry permits run through a Recreation.gov early-access lottery (two-week window ending the 1st of the month, four months ahead) with remaining dates opening on the 1st; $10 application plus $15 per person per night below the rim (NPS, as of 2026).",
+    "Corridor campgrounds allow 2 nights per campground per hike (4 nights Nov 15-Feb 28) and 7 nights max per use area; the permit must be in the trip leader's possession.",
+    "Inner-canyon temperatures often exceed 105 F in summer; do not hike between 10 am and 4 pm, eat double your normal carbohydrates and salty food, and drink to thirst to avoid both dehydration and hyponatremia.",
+    "Corridor water depends on the Transcanyon Pipeline and shuts off with little notice. As of Sept 28, 2026 all inner-canyon water was off and Phantom Ranch, Bright Angel and Cottonwood campgrounds were closed by flash-flood damage; check Key Hiking Messages first.",
+    "Wood and charcoal fires are prohibited (stoves only); burning, burying or leaving toilet paper is prohibited, so pack it out.",
+    "Every corridor campsite has a metal food storage can and pack pole; ravens, ringtails and squirrels raid unsecured packs. Pets and drones are prohibited below the rim.",
+    "Climbing out gains about 5,000 ft; plan on twice as long to hike up as down. Hypothermia and heat illness have been treated on the same day."
+  ],
+  "reviewedOn": "2026-10-07",
+  "sources": [
+    {"title": "Backcountry Permit", "publisher": "National Park Service - Grand Canyon", "url": "https://www.nps.gov/grca/planyourvisit/backcountry-permit.htm", "accessed": "2026-10-07"},
+    {"title": "Hiking Tips", "publisher": "National Park Service - Grand Canyon", "url": "https://www.nps.gov/grca/planyourvisit/hike-tips.htm", "accessed": "2026-10-07"},
+    {"title": "Key Hiking Messages - Critical Updates and Closures", "publisher": "National Park Service - Grand Canyon", "url": "https://www.nps.gov/grca/planyourvisit/key-messages.htm", "accessed": "2026-10-07"},
+    {"title": "Corridor Campground Information", "publisher": "National Park Service - Grand Canyon", "url": "https://www.nps.gov/grca/planyourvisit/campsite-information.htm", "accessed": "2026-10-07"},
+    {"title": "Backcountry Rules and Regulations", "publisher": "National Park Service - Grand Canyon", "url": "https://home.nps.gov/grca/planyourvisit/backcountry-regs.htm", "accessed": "2026-10-07"},
+    {"title": "Hiking Into Grand Canyon (PDF)", "publisher": "National Park Service - Grand Canyon", "url": "https://www.nps.gov/grca/planyourvisit/upload/intro-bc-hike.pdf", "accessed": "2026-10-07"},
+    {"title": "Important Hiker Information (PDF)", "publisher": "National Park Service - Grand Canyon", "url": "https://www.nps.gov/grca/planyourvisit/upload/Hiker_Information_Sheet.pdf", "accessed": "2026-10-07"}
+  ],
+  "sections": [
+    {
+      "title": "Permits & Planning",
+      "items": [
+        {"text": "Backcountry permit covering every night and use area", "required": true, "note": "Early-access lottery on Recreation.gov four months ahead; cancellations bookable up to 5 days out (as of 2026).", "permitRequired": true},
+        {"text": "Permit printed and carried by the trip leader", "required": true, "permitRequired": false},
+        {"text": "Park entrance pass", "required": true, "permitRequired": false},
+        {"text": "Check Key Hiking Messages for closures, water status and heat risk", "required": true, "note": "Pipeline breaks and flash floods closed corridor campgrounds in 2026.", "permitRequired": false},
+        {"text": "Itinerary left with a contact; park 24-hour emergency number (928-638-7805) saved", "required": true, "permitRequired": false},
+        {"text": "Rim campground or lodging for the night before", "required": false, "permitRequired": true},
+        {"text": "Trailhead shuttle plan (e.g., down South Kaibab, up Bright Angel)", "required": false, "permitRequired": false},
+        {"text": "Phantom Ranch meals or lodging if wanted", "required": false, "note": "Reserved separately through the lodge concessioner; sells out far ahead.", "permitRequired": true}
+      ]
+    },
+    {
+      "title": "Water & Heat Management",
+      "items": [
+        {"text": "Capacity for 3-4 liters per person plus extra for dry stretches", "required": true, "permitRequired": false},
+        {"text": "Water filter or tablets in case the taps are off", "required": true, "note": "Natural sources are scarce; know where the next one is.", "permitRequired": false},
+        {"text": "Electrolyte mix or salt tablets", "required": true, "permitRequired": false},
+        {"text": "Salty snacks and double your normal calories", "required": true, "permitRequired": false},
+        {"text": "Spray bottle or bandana to wet down", "required": false, "permitRequired": false},
+        {"text": "Sun umbrella", "required": false, "permitRequired": false},
+        {"text": "Pre-dawn start plan; no hiking 10 am-4 pm in heat", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Shelter & Sleep",
+      "items": [
+        {"text": "Tent or tarp", "required": true, "note": "Campsites have picnic tables and pack poles.", "permitRequired": false},
+        {"text": "Sleeping bag suited to the season", "required": true, "note": "River nights run 74-104 F in summer and 38-59 F in winter.", "permitRequired": false},
+        {"text": "Sleeping pad", "required": true, "permitRequired": false},
+        {"text": "Lightweight tarp or emergency shelter for the day pack", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Clothing",
+      "items": [
+        {"text": "Broken-in boots or shoes with good soles", "required": true, "permitRequired": false},
+        {"text": "Light-colored, loose clothing (cotton is fine in summer heat)", "required": true, "permitRequired": false},
+        {"text": "Wide-brimmed hat and sunglasses", "required": true, "permitRequired": false},
+        {"text": "Fleece or puffy for cold rim mornings", "required": true, "permitRequired": false},
+        {"text": "Rain shell", "required": true, "permitRequired": false},
+        {"text": "Spare socks", "required": false, "permitRequired": false},
+        {"text": "Microspikes for icy upper trails (Nov-Apr)", "required": false, "permitRequired": false},
+        {"text": "Warm hat and gloves in winter", "required": false, "permitRequired": false},
+        {"text": "Camp sandals", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Food & Kitchen",
+      "items": [
+        {"text": "Backpacking stove and fuel (no wood or charcoal fires)", "required": true, "permitRequired": false},
+        {"text": "Pot and utensils", "required": false, "permitRequired": false},
+        {"text": "Meals for each day plus one extra", "required": true, "permitRequired": false},
+        {"text": "Use the metal food storage cans; keep packs zipped against ravens and squirrels", "required": true, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Navigation & Safety",
+      "items": [
+        {"text": "Map or trail guide", "required": true, "permitRequired": false},
+        {"text": "Headlamp with spare batteries", "required": true, "permitRequired": false},
+        {"text": "First aid kit with blister care and duct tape", "required": true, "permitRequired": false},
+        {"text": "Whistle, signal mirror and phone", "required": false, "note": "Emergency phones exist at corridor campgrounds; cell coverage is spotty.", "permitRequired": false},
+        {"text": "Sunscreen", "required": true, "permitRequired": false},
+        {"text": "Trekking poles", "required": false, "permitRequired": false},
+        {"text": "Satellite messenger", "required": false, "permitRequired": false},
+        {"text": "Pocket knife", "required": false, "permitRequired": false},
+        {"text": "Know the signs of heat illness and hyponatremia", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Leave No Trace / Pack-out",
+      "items": [
+        {"text": "Bags to pack out toilet paper", "required": true, "permitRequired": false},
+        {"text": "Use campground toilets; cathole only where none exist", "required": false, "permitRequired": false},
+        {"text": "Trash bag; carry out all trash", "required": true, "permitRequired": false},
+        {"text": "No fires of any kind; stove only", "required": true, "permitRequired": false},
+        {"text": "Stay on the trail; no shortcutting switchbacks", "required": false, "permitRequired": false},
+        {"text": "Leave pets and drones at home", "required": false, "permitRequired": false}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "id": "john-muir-trail-thru-hike",
+  "name": "John Muir Trail Thru-Hike",
+  "category": "destination",
+  "tagline": "For hikers thru-hiking the 211-mile John Muir Trail between Yosemite Valley and Mount Whitney over two to four weeks.",
+  "description": "Assumes a July-September thru-hike of about 18-25 days, southbound from Yosemite or northbound from Whitney Portal, with two to four resupplies. Covers the continuous-trip permit honored by Yosemite, Inyo National Forest and Sequoia-Kings Canyon, mandatory bear canisters, Whitney Zone waste rules and high-pass conditions. Adapt the resupply count, snow gear and insulation to your start date and pace.",
+  "season": "July-Sept (snow lingers on passes into July)",
+  "typicalDuration": "18-25 nights",
+  "considerations": [
+    "One continuous-trip wilderness permit is honored by every agency on the route and is issued by the agency where you start: Yosemite (Happy Isles 15/day, Lyell Canyon 30/day, with a 45/day Donohue Pass exit quota) or Inyo NF (Whitney Portal lottery Feb 1-Mar 15; as of 2026).",
+    "Allowed bear canisters are required in all of Yosemite, Donohue Pass to Reds Meadow, Duck Lake to Lake Virginia, Dusy Basin, Pinchot to Forester Pass, Kearsarge, Rock Creek/Cottonwood and the Whitney Zone; counter-balance hangs are legal only where canisters are not mandatory.",
+    "Whitney Zone: pack out solid human waste in the waste kit issued with your permit between Guitar Lake and Whitney Portal; Inyo charges $15/person for Whitney Zone permits plus a $6 fee (as of 2026).",
+    "Campfires are banned above 9,600 ft in Yosemite, 10,000 ft in the Ansel Adams Wilderness and SEKI, and 10,000-10,400 ft in the John Muir Wilderness, plus many lake basins; check current restrictions.",
+    "Resupply: General Delivery post offices in Yosemite Valley (year-round) and Tuolumne Meadows (mid-June to mid-Sept); commercial caches at Reds Meadow, Vermilion Valley Resort and Muir Trail Ranch need advance booking and fees (verify current terms).",
+    "Camping limits include 2-night maximums at Dusy Basin, Charlotte and Kearsarge Lakes, Woods Creek to Vidette Meadow (1 night per lake between Dollar Lake and Glen Pass) and Crabtree/Guitar Lake; no camping at Timberline Lake, Shadow Lake or within 1/4 mile of Thousand Island and Garnet Lake outlets.",
+    "Expect afternoon thunderstorms, altitude (Whitney is 14,505 ft), early-season snow and swift stream crossings, and mosquitoes through July; no surface water above about 12,400 ft on the Whitney Trail.",
+    "Inyo quota season is May 1-Nov 1; 60% of its permits release 6 months ahead and 40% two weeks ahead on Recreation.gov (as of 2026)."
+  ],
+  "reviewedOn": "2026-10-07",
+  "sources": [
+    {"title": "John Muir Trail", "publisher": "National Park Service - Yosemite", "url": "https://www.nps.gov/yose/planyourvisit/jmt.htm", "accessed": "2026-10-07"},
+    {"title": "Wilderness Permits", "publisher": "USDA Forest Service - Inyo National Forest", "url": "https://www.fs.usda.gov/r05/inyo/permits/wilderness-permits", "accessed": "2026-10-07"},
+    {"title": "John Muir Trail Minimum Impact Wilderness Regulations (PDF)", "publisher": "USDA Forest Service - Inyo National Forest", "url": "https://www.fs.usda.gov/media/123041", "accessed": "2026-10-07"},
+    {"title": "Hiking the Mt. Whitney Trail (PDF)", "publisher": "USDA Forest Service - Inyo National Forest", "url": "https://www.fs.usda.gov/media/122795", "accessed": "2026-10-07"},
+    {"title": "Wilderness Permits", "publisher": "National Park Service - Yosemite", "url": "https://www.nps.gov/yose/planyourvisit/wildpermits.htm", "accessed": "2026-10-07"},
+    {"title": "Allowed Bear-Resistant Containers", "publisher": "National Park Service - Yosemite", "url": "https://www.nps.gov/yose/planyourvisit/containers.htm", "accessed": "2026-10-07"}
+  ],
+  "sections": [
+    {
+      "title": "Permits & Logistics",
+      "items": [
+        {"text": "JMT wilderness permit from the agency where your hike starts", "required": true, "note": "Yosemite lottery for Happy Isles/Lyell Canyon with Donohue exit; Inyo lottery for Whitney Portal starts (as of 2026).", "permitRequired": true},
+        {"text": "Whitney Trail Crest exit or Whitney Portal start reserved on your permit", "required": true, "note": "Trail Crest exit quota is 25/day; Whitney Portal starts use the Feb 1-Mar 15 lottery (Inyo NF, 2026).", "permitRequired": true},
+        {"text": "Printed, signed permit and Whitney waste kit picked up at the permit station", "required": true, "permitRequired": false},
+        {"text": "Resupply plan: boxes sent to Tuolumne PO, Reds Meadow, VVR or Muir Trail Ranch", "required": true, "note": "Confirm current deadlines, fees and pickup hours with each location.", "permitRequired": false},
+        {"text": "Transport plan: YARTS/ESTA buses, shuttles or car shuttle between trailheads", "required": false, "permitRequired": false},
+        {"text": "Itinerary with daily mileage, camping limits and bailout trailheads shared with a contact", "required": true, "permitRequired": false},
+        {"text": "Acclimatization night at a mid-elevation campground before starting", "required": false, "note": "Whitney Portal, Onion Valley and Horseshoe Meadows campgrounds sit at 8,000-10,000 ft.", "permitRequired": true},
+        {"text": "Travel or rescue insurance", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Food Storage & Resupply",
+      "items": [
+        {"text": "Allowed bear canister sized for your longest carry", "required": true, "note": "Only models on the Yosemite/SEKI allowed list; store 50 ft from your sleeping area with the lid closed.", "permitRequired": false},
+        {"text": "Food for the longest leg plus one extra day, repackaged", "required": true, "permitRequired": false},
+        {"text": "Resupply buckets or boxes sealed, labeled with name and ETA", "required": true, "permitRequired": false},
+        {"text": "Cash or card for resupply pickup fees and store purchases", "required": false, "permitRequired": false},
+        {"text": "Fuel allocation per leg and a spare lighter", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Shelter & Sleep",
+      "items": [
+        {"text": "Lightweight tent or tarp with bug netting", "required": true, "permitRequired": false},
+        {"text": "Sleeping bag or quilt rated to 15-25 F", "required": true, "permitRequired": false},
+        {"text": "Insulated pad (R-value 3 or higher)", "required": true, "permitRequired": false},
+        {"text": "Pillow and earplugs", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Clothing",
+      "items": [
+        {"text": "Trail runners or boots, broken in", "required": true, "permitRequired": false},
+        {"text": "Wool or synthetic socks (3 pairs)", "required": false, "permitRequired": false},
+        {"text": "Rain shell plus rain or wind pants", "required": true, "permitRequired": false},
+        {"text": "Puffy jacket", "required": true, "permitRequired": false},
+        {"text": "Fleece or mid-layer", "required": false, "permitRequired": false},
+        {"text": "Sun hoodie and hiking shorts or pants", "required": true, "permitRequired": false},
+        {"text": "Warm hat and liner gloves", "required": true, "permitRequired": false},
+        {"text": "Sun hat and sunglasses (dark lenses for snow)", "required": true, "permitRequired": false},
+        {"text": "Camp or stream-crossing shoes", "required": false, "permitRequired": false},
+        {"text": "Town clothes in a resupply box", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Water & Kitchen",
+      "items": [
+        {"text": "Water filter plus backup chemical treatment", "required": true, "note": "Surface water can carry pathogens; filter, boil or treat everything.", "permitRequired": false},
+        {"text": "Capacity for 2-3 liters, 3 liters for Whitney summit day", "required": true, "note": "No water above about 12,400 ft on the Whitney Trail after snowmelt.", "permitRequired": false},
+        {"text": "Stove, fuel and lighter", "required": true, "permitRequired": false},
+        {"text": "Pot, spoon and mug", "required": false, "permitRequired": false},
+        {"text": "Electrolyte mix", "required": false, "permitRequired": false},
+        {"text": "Cook and wash 100 ft from water; strain and scatter dishwater", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Navigation & Safety",
+      "items": [
+        {"text": "JMT map set or app with offline maps", "required": true, "permitRequired": false},
+        {"text": "Compass or GPS device", "required": false, "permitRequired": false},
+        {"text": "Satellite messenger", "required": false, "note": "Strongly recommended; report overdue hikers to the Inyo County Sheriff (760-878-0383).", "permitRequired": false},
+        {"text": "Headlamp with spare batteries", "required": true, "permitRequired": false},
+        {"text": "First aid kit with blister care and altitude medication", "required": true, "permitRequired": false},
+        {"text": "Sunscreen and SPF lip balm", "required": true, "note": "Reapply often; UV is intense above 10,000 ft.", "permitRequired": false},
+        {"text": "Insect repellent and head net", "required": false, "permitRequired": false},
+        {"text": "Trekking poles", "required": false, "permitRequired": false},
+        {"text": "Microspikes or ice axe for early-season passes", "required": false, "permitRequired": false},
+        {"text": "Repair kit: tape, needle and thread, pad patches", "required": false, "permitRequired": false},
+        {"text": "Knife, whistle and signal mirror", "required": false, "permitRequired": false},
+        {"text": "Battery bank and cables (recharge at resupplies)", "required": false, "permitRequired": false},
+        {"text": "Pack liner or dry bags", "required": true, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Whitney Zone & High Passes",
+      "items": [
+        {"text": "Human waste kits: 1-2 per person per day in the Whitney Zone", "required": true, "note": "Pack out used kits and drop them in the bins at Whitney Portal.", "permitRequired": false},
+        {"text": "Summit-day plan: start early and turn around when storms build", "required": true, "permitRequired": false},
+        {"text": "Extra layers for wind and cold at 14,505 ft", "required": true, "permitRequired": false},
+        {"text": "Acclimatization schedule and knowledge of altitude sickness signs", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Leave No Trace / Pack-out",
+      "items": [
+        {"text": "Trowel; bury waste 6-8 in deep, 100 ft from water, trails and camps", "required": true, "note": "Except in the Whitney Zone, where everything is packed out.", "permitRequired": false},
+        {"text": "Pack out all toilet paper and hygiene products", "required": true, "permitRequired": false},
+        {"text": "Trash bag for all packaging; nothing burned or buried", "required": true, "permitRequired": false},
+        {"text": "Camp on durable surfaces 100 ft from water and obey posted camping limits", "required": true, "permitRequired": false},
+        {"text": "Fires only where allowed, in existing rings, drowned cold; prefer no fire", "required": false, "permitRequired": false},
+        {"text": "Hand sanitizer; urinate 100 ft from water and camps", "required": false, "permitRequired": false}
+      ]
+    }
+  ]
+}

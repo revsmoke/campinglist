@@ -1,13 +1,20 @@
-.history/
+# Dependencies and tool output
 node_modules/
-package-lock.json
-ROADMAP.md
-.prettierignore
-.prettierrc.json
-.releaserc.json
-.eslintrc.json
-vitest.config.js
+test-results/
+playwright-report/
+blob-report/
+.vite/
+coverage/
+
+# Local files that must never be committed or deployed
 keys.txt
-images/.DS_Store
+client_secret*.json
+.env
+.env.*
+
+# Editor / OS noise
+.history/
 .DS_Store
-client_secret_419953829018-q16ej8mm87b0vlfa5uekhn85kq138add.apps.googleusercontent.com.json
+**/.DS_Store
+.idea/
+.vscode/

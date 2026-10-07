@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Microsoft Authentication</title>
+    <!--
+      MSAL v5 redirect bridge. Microsoft sign-in returns to this page, which hands the response
+      back to the CampList window that started it. It must be served without a
+      Cross-Origin-Opener-Policy header and with Cache-Control: no-store (see .replit).
+    -->
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 2rem;
+        color: #222;
+      }
+    </style>
+  </head>
+  <body>
+    <p>
+      Finishing Microsoft sign-in… You can close this window if it does not close by
+      itself.
+    </p>
+    <script src="../vendor/msal-redirect-bridge.min.js"></script>
+    <script>
+      msalRedirectBridge.broadcastResponseToMainFrame().catch(function (error) {
+        document.body.textContent =
+          "Sign-in could not be completed: " +
+          (error && error.message ? error.message : error);
+      });
+    </script>
+  </body>
+</html>

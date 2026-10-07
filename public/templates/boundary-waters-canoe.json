@@ -1,0 +1,125 @@
+{
+  "id": "boundary-waters-canoe",
+  "name": "Boundary Waters Canoe Trip",
+  "category": "destination",
+  "tagline": "For paddlers taking a multi-day canoe-and-portage trip in the Boundary Waters Canoe Area Wilderness during the May-September quota season.",
+  "description": "Assumes a 3-6 night paddle-and-portage trip for a group of up to 9 people and 4 canoes entering on a quota permit from Superior National Forest. Covers permit pickup and the Leave No Trace video, the no-cans/no-bottles rule, designated campsites with fire grates and latrines, bear-resistant food storage and portage-friendly packing. Adapt for shoulder seasons (self-issued permits, cold water) and for current fire restrictions and wildfire closures.",
+  "season": "May-Sept (quota season May 1-Sept 30)",
+  "typicalDuration": "3-6 nights",
+  "considerations": [
+    "Overnight paddle permits are quota-limited May 1-Sept 30 (2026 reservations opened Jan 28 on Recreation.gov); fees were $16 per adult and $8 per youth per trip plus a $6 reservation fee in 2026, and the Forest Service has proposed higher fees from 2027.",
+    "Permits are valid only for the listed entry point and date; pick up on the entry date or the day before with photo ID, and your whole group must watch the BWCAW Leave No Trace video series.",
+    "Maximum 9 people and 4 watercraft together anywhere; one campsite per group at Forest Service designated sites with steel fire grates and latrines; 14-day limit per site.",
+    "Cans and glass bottles are illegal except for fuel, insect repellent and medicines; repackage food and drinks into reusable containers.",
+    "Bear-aware food storage order (April 1-Nov 30): hang food and scented items at least 12 ft up and 6 ft from the trunk, or use an IGBC-certified bear-resistant container (Superior NF rules, as of 2026).",
+    "Fires only in the steel grates using small dead-and-down wood; drown and stir before leaving camp or sleeping. Fire bans and wildfire closures happen; check current forest alerts.",
+    "Pack it in, pack it out: latrines are not trash cans; fish remains, bath and dish water go 200 ft from shore and camp; no out-of-state firewood; drones and fireworks are prohibited.",
+    "A Minnesota fishing license is required to fish; dump bait water before each portage and pack out unused live bait."
+  ],
+  "reviewedOn": "2026-10-07",
+  "sources": [
+    {"title": "Boundary Waters Canoe Area Wilderness Overnight Paddle Permits", "publisher": "Recreation.gov / USDA Forest Service", "url": "https://www.recreation.gov/permits/233396", "accessed": "2026-10-07"},
+    {"title": "Boundary Waters Canoe Area Wilderness Rules and Regulations", "publisher": "USDA Forest Service - Superior National Forest", "url": "https://www.fs.usda.gov/r09/superior/wilderness/boundary-waters-canoe-area-wilderness-rules-and-regulations", "accessed": "2026-10-07"},
+    {"title": "Rules and Regulations", "publisher": "USDA Forest Service - Superior National Forest", "url": "https://www.fs.usda.gov/r09/superior/safety-ethics/rules-and-regulations", "accessed": "2026-10-07"},
+    {"title": "Camping on the Superior National Forest - 2026 Fees (PDF)", "publisher": "USDA Forest Service - Superior National Forest", "url": "https://www.fs.usda.gov/media/266115", "accessed": "2026-10-07"}
+  ],
+  "sections": [
+    {
+      "title": "Permits & Planning",
+      "items": [
+        {"text": "BWCAW overnight paddle quota permit for your entry point and date", "required": true, "note": "Reserve on Recreation.gov; valid only for the listed entry point and date (quota season May 1-Sept 30).", "permitRequired": true},
+        {"text": "Photo ID for the permit holder or alternate at pickup", "required": true, "note": "Pickup is allowed on the entry date or one day prior at the listed issue station.", "permitRequired": false},
+        {"text": "Whole group watches the Leave No Trace video series", "required": true, "note": "Part 3 is shown at permit issue; a seasonal LNT card speeds later trips.", "permitRequired": false},
+        {"text": "Minnesota fishing license if anyone will fish", "required": false, "permitRequired": true},
+        {"text": "Route plan with campsites and portages shared with a contact", "required": true, "permitRequired": false},
+        {"text": "Outfitter canoe rental and shuttle booking", "required": false, "permitRequired": true},
+        {"text": "Check current fire restrictions and wildfire or entry-point closures", "required": true, "permitRequired": false},
+        {"text": "Campground or outfitter bunk for the night before entry", "required": false, "permitRequired": true}
+      ]
+    },
+    {
+      "title": "Canoe & Portage Gear",
+      "items": [
+        {"text": "Canoes (no more than 4 watercraft per group)", "required": true, "permitRequired": false},
+        {"text": "Life jacket (PFD) for every person, worn on the water", "required": true, "permitRequired": false},
+        {"text": "Paddles plus one spare per canoe", "required": true, "permitRequired": false},
+        {"text": "Portage yoke and pads", "required": false, "permitRequired": false},
+        {"text": "Canoe packs with waterproof liners", "required": true, "permitRequired": false},
+        {"text": "Dry bags for sleeping gear and electronics", "required": true, "permitRequired": false},
+        {"text": "Bailer, sponge and painter lines", "required": false, "permitRequired": false},
+        {"text": "Waterproof map case with BWCAW maps", "required": true, "permitRequired": false},
+        {"text": "Leave portage wheels home unless using one of the five permitted portages", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Food & Bear Storage",
+      "items": [
+        {"text": "Food repackaged: no cans or glass bottles", "required": true, "note": "Fuel, insect repellent and medicines may stay in original containers.", "permitRequired": false},
+        {"text": "IGBC-certified bear container or hang kit (50 ft rope, carabiner)", "required": true, "note": "Food storage order in effect April 1-Nov 30: 12 ft up and 6 ft out, or certified container.", "permitRequired": false},
+        {"text": "Reusable water bottles and a camp water container", "required": true, "permitRequired": false},
+        {"text": "Water filter or treatment", "required": true, "permitRequired": false},
+        {"text": "Stove and fuel", "required": true, "note": "Fire bans are common in dry spells; do not rely on the grate.", "permitRequired": false},
+        {"text": "Cook kit and utensils", "required": false, "permitRequired": false},
+        {"text": "Meals for each day plus one extra", "required": true, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Shelter & Sleep",
+      "items": [
+        {"text": "Tent with footprint", "required": true, "note": "Pitch on the vegetation-free tent pads at designated sites.", "permitRequired": false},
+        {"text": "Sleeping bag", "required": true, "permitRequired": false},
+        {"text": "Sleeping pad", "required": true, "permitRequired": false},
+        {"text": "Tarp and cord for a rain kitchen", "required": false, "permitRequired": false},
+        {"text": "Bug shelter or head nets", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Clothing",
+      "items": [
+        {"text": "Quick-dry layers and wool socks", "required": true, "permitRequired": false},
+        {"text": "Rain jacket and rain pants", "required": true, "permitRequired": false},
+        {"text": "Warm layer (fleece or puffy)", "required": true, "permitRequired": false},
+        {"text": "Water shoes or portage boots that can get wet", "required": true, "permitRequired": false},
+        {"text": "Dry camp shoes", "required": false, "permitRequired": false},
+        {"text": "Sun hat and sunglasses with retainer", "required": false, "permitRequired": false},
+        {"text": "Bug jacket or long sleeves for mosquito season", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Safety & Navigation",
+      "items": [
+        {"text": "Map and compass", "required": true, "permitRequired": false},
+        {"text": "First aid kit", "required": true, "permitRequired": false},
+        {"text": "Headlamp with spare batteries", "required": true, "permitRequired": false},
+        {"text": "Whistle clipped to each PFD", "required": true, "permitRequired": false},
+        {"text": "Repair kit: duct tape, canoe patch, cord", "required": false, "permitRequired": false},
+        {"text": "Satellite messenger", "required": false, "note": "No cell service in most of the wilderness.", "permitRequired": false},
+        {"text": "Sunscreen and insect repellent", "required": false, "permitRequired": false},
+        {"text": "EPA-registered bear spray", "required": false, "permitRequired": false},
+        {"text": "Folding saw for dead-and-down wood only", "required": false, "permitRequired": false},
+        {"text": "Lighter and matches in a waterproof case", "required": true, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Fishing (optional)",
+      "items": [
+        {"text": "Rod, reel and tackle in reusable containers", "required": false, "permitRequired": false},
+        {"text": "Live bait in a bucket you can drain before each portage", "required": false, "permitRequired": false},
+        {"text": "Fillet knife and a plan to dispose of remains 200 ft from shore", "required": false, "permitRequired": false},
+        {"text": "Current Minnesota regulations for the lakes you will fish", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Leave No Trace / Pack-out",
+      "items": [
+        {"text": "Trash bags; pack out everything, including food scraps", "required": true, "note": "Burning trash is illegal.", "permitRequired": false},
+        {"text": "Latrines for human waste only; pack out wipes and hygiene products", "required": true, "permitRequired": false},
+        {"text": "Bathe and wash dishes at least 200 ft from water", "required": false, "permitRequired": false},
+        {"text": "Fires only in the steel grate; drown and stir until cold", "required": true, "permitRequired": false},
+        {"text": "Final camp sweep; no new fire rings, trenches or cut vegetation", "required": false, "permitRequired": false},
+        {"text": "Clean, drain and dry gear; no out-of-state firewood", "required": true, "note": "Prevents spread of invasive species and emerald ash borer.", "permitRequired": false},
+        {"text": "Dispose of fish remains 200 ft from shore, camps and trails", "required": false, "permitRequired": false}
+      ]
+    }
+  ]
+}

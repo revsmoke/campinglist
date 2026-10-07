@@ -1,0 +1,130 @@
+{
+  "id": "dispersed-camping-blm-usfs",
+  "name": "Dispersed Camping (BLM / National Forest)",
+  "category": "style",
+  "tagline": "For self-sufficient campers using free, undeveloped sites on public land with no facilities.",
+  "description": "A starting point for 1-5 nights of dispersed camping on BLM or National Forest land, reached by vehicle on dirt roads, with no water, toilets, tables, or trash service. Assumes you bring all water, pack out all waste, and use existing sites and fire rings. Adapt for stay limits, fire restrictions, and road conditions, which vary by district and season.",
+  "season": "Spring-Fall (year-round at low elevations)",
+  "typicalDuration": "1-5 nights",
+  "considerations": [
+    "Check current stay limits with the field office or ranger district; BLM is commonly 14 days in a 28-day period, but forests vary.",
+    "Check current fire restrictions and whether a campfire permit is required (e.g., California) before lighting a stove or fire.",
+    "Use the Motor Vehicle Use Map; drive only on designated routes, and typically no more than 300 ft off the road to reach an existing site.",
+    "Camp at least 200 ft from water (some units specify 100-150 ft) and use existing sites and fire rings.",
+    "There is no potable water or trash service: bring all water and pack out everything, including human waste where required.",
+    "Check road conditions and weather; dirt roads can become impassable when wet and cell coverage is spotty."
+  ],
+  "reviewedOn": "2026-10-07",
+  "sources": [
+    {"title": "Camping on Public Lands", "publisher": "Bureau of Land Management", "url": "https://www.blm.gov/programs/recreation/camping", "accessed": "2026-10-07"},
+    {"title": "BLM Offers Summer Camping Tips for Visitors", "publisher": "Bureau of Land Management", "url": "https://blm.gov/press-release/blm-offers-summer-camping-tips-visitors", "accessed": "2026-10-07"},
+    {"title": "Dispersed Camping (Pacific Southwest Region)", "publisher": "USDA Forest Service", "url": "https://www.fs.usda.gov/r05/recreation/dispersed-camping", "accessed": "2026-10-07"},
+    {"title": "Motor Vehicle Use Map (MVUM)", "publisher": "USDA Forest Service, Willamette National Forest", "url": "https://www.fs.usda.gov/r06/willamette/maps-guides/motor-vehicle-use-map-mvum", "accessed": "2026-10-07"},
+    {"title": "Campfire Permits", "publisher": "USDA Forest Service, Stanislaus National Forest", "url": "https://www.fs.usda.gov/r05/stanislaus/permits/campfire-permits", "accessed": "2026-10-07"},
+    {"title": "Leave No Trace Seven Principles", "publisher": "National Park Service", "url": "https://www.nps.gov/articles/leave-no-trace-seven-principles.htm", "accessed": "2026-10-07"},
+    {"title": "Food Storage in Bear Country", "publisher": "National Park Service", "url": "https://home.nps.gov/articles/bearsafetyfood.htm", "accessed": "2026-10-07"}
+  ],
+  "sections": [
+    {
+      "title": "Planning, Rules & Permits",
+      "items": [
+        {"text": "Field office or ranger district contacted for stay limits, closures, and fire rules", "required": true, "permitRequired": false},
+        {"text": "Motor Vehicle Use Map or BLM travel map downloaded", "required": true, "permitRequired": false},
+        {"text": "Fire restrictions checked the day you leave", "required": true, "permitRequired": false},
+        {"text": "Trip plan with location, vehicle, and return date shared with someone", "required": true, "permitRequired": false},
+        {"text": "Paper map and compass, plus offline maps", "required": true, "permitRequired": false},
+        {"text": "Existing site chosen at least 200 ft from water, on bare or durable ground", "required": true, "permitRequired": false},
+        {"text": "Campfire permit where required (free online in California)", "required": false, "note": "In California it covers stoves and lanterns too, outside developed sites.", "permitRequired": true},
+        {"text": "Special-use permit for large groups", "required": false, "note": "Group-size thresholds vary by forest; check with the local office.", "permitRequired": true},
+        {"text": "Drone (only where allowed)", "required": false, "note": "Prohibited in Wilderness and some other areas; check rules for the land unit.", "permitRequired": true}
+      ]
+    },
+    {
+      "title": "Water & Waste (No Facilities)",
+      "items": [
+        {"text": "All drinking and cooking water: 1 gallon per person per day plus a reserve", "required": true, "permitRequired": false},
+        {"text": "Water containers (5-7 gallon)", "required": true, "permitRequired": false},
+        {"text": "Trash bags; pack out everything, including food scraps", "required": true, "permitRequired": false},
+        {"text": "Portable toilet or WAG bags", "required": true, "note": "Or dig catholes 6-8 in deep, 200 ft from water, where allowed; pack-out is required in some areas.", "permitRequired": false},
+        {"text": "Toilet paper (pack it out) and hand sanitizer", "required": true, "permitRequired": false},
+        {"text": "Water filter or treatment as backup", "required": false, "permitRequired": false},
+        {"text": "Trowel for catholes where allowed", "required": false, "permitRequired": false},
+        {"text": "Gray-water strainer; scatter wash water 200 ft from water", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Fire Safety",
+      "items": [
+        {"text": "Stove and fuel (preferred over fires)", "required": true, "permitRequired": false},
+        {"text": "Lighter and matches", "required": true, "permitRequired": false},
+        {"text": "Shovel (a round-point shovel is a condition of California campfire permits)", "required": true, "permitRequired": false},
+        {"text": "Several gallons of water set aside for putting out the fire", "required": true, "permitRequired": false},
+        {"text": "Existing fire ring used; fire pan if there is none", "required": false, "permitRequired": false},
+        {"text": "Local firewood only (do not transport firewood)", "required": false, "permitRequired": false},
+        {"text": "Fire extinguisher in the vehicle", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Shelter & Sleep",
+      "items": [
+        {"text": "Tent with stakes and guylines (or vehicle or rooftop setup)", "required": true, "permitRequired": false},
+        {"text": "Sleeping bag and pad", "required": true, "permitRequired": false},
+        {"text": "Groundsheet", "required": false, "permitRequired": false},
+        {"text": "Shade canopy or tarp", "required": false, "permitRequired": false},
+        {"text": "Camp chairs and table (no tables provided)", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Kitchen & Food Storage",
+      "items": [
+        {"text": "Cookware, utensils, and dishes", "required": true, "permitRequired": false},
+        {"text": "Cooler and food in sealed bins", "required": true, "permitRequired": false},
+        {"text": "Bear-resistant storage or a locked vehicle in bear country", "required": true, "note": "Check current food-storage orders for the area.", "permitRequired": false},
+        {"text": "Food plus 1-2 extra days", "required": true, "permitRequired": false},
+        {"text": "Wash bins and biodegradable soap", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Clothing",
+      "items": [
+        {"text": "Layers for hot days and cold nights, plus a rain shell", "required": true, "permitRequired": false},
+        {"text": "Sturdy shoes plus camp shoes", "required": true, "permitRequired": false},
+        {"text": "Sun hat and sunglasses", "required": true, "permitRequired": false},
+        {"text": "Warm hat and gloves", "required": false, "permitRequired": false},
+        {"text": "Work gloves", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Safety, First Aid & Comms",
+      "items": [
+        {"text": "First-aid kit", "required": true, "permitRequired": false},
+        {"text": "Headlamp or lantern with spare batteries", "required": true, "permitRequired": false},
+        {"text": "Knife or multi-tool", "required": true, "permitRequired": false},
+        {"text": "Sunscreen and insect repellent", "required": true, "permitRequired": false},
+        {"text": "Satellite messenger or PLB (no cell service)", "required": false, "permitRequired": false},
+        {"text": "Phone with offline maps and a battery bank", "required": false, "permitRequired": false},
+        {"text": "Emergency blanket", "required": false, "permitRequired": false},
+        {"text": "Bear spray where grizzlies are present", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Vehicle & Tools",
+      "items": [
+        {"text": "Full-size spare, jack, tire repair kit, and compressor", "required": true, "permitRequired": false},
+        {"text": "Jump starter or cables", "required": true, "permitRequired": false},
+        {"text": "Tow strap, shovel, and traction aids for mud or sand", "required": false, "permitRequired": false},
+        {"text": "Basic tool kit, duct tape, and zip ties", "required": false, "permitRequired": false},
+        {"text": "Extra fuel if far from services", "required": false, "permitRequired": false},
+        {"text": "Tire chains in shoulder seasons", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Leave No Trace Extras",
+      "items": [
+        {"text": "Small bag for micro-trash and litter left by others", "required": false, "permitRequired": false},
+        {"text": "Dog leash and waste bags", "required": false, "permitRequired": false},
+        {"text": "Site registration where posted", "required": false, "permitRequired": false}
+      ]
+    }
+  ]
+}

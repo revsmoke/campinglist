@@ -1,0 +1,145 @@
+{
+  "id": "overlanding-vehicle-remote",
+  "name": "Overlanding / Remote Vehicle Camping",
+  "category": "style",
+  "tagline": "For 4x4 travelers camping self-sufficiently for days at a time far from pavement and services.",
+  "description": "A starting point for multi-day vehicle-based trips on remote dirt roads where you carry all of your fuel, water, and recovery gear and may not see another vehicle. Assumes a capable 4x4 with rated recovery points, 1-4 people, and camping from the vehicle in a ground tent, rooftop tent, or trailer. Adapt water and fuel to distance and climate, and match recovery gear to your vehicle's weight and whether you travel solo.",
+  "season": "Year-round (route dependent)",
+  "typicalDuration": "3-7 nights",
+  "considerations": [
+    "Check current road and trail status on the Motor Vehicle Use Map and with the local ranger district or BLM field office; stay on designated routes.",
+    "Check current fire restrictions; many areas ban campfires seasonally and some states require a campfire permit even for stoves.",
+    "Check current dispersed-camping stay limits and distance-from-water rules for the land you are on.",
+    "Carry water and fuel for the whole loop plus a reserve; services can be 100 miles or more apart.",
+    "Cell coverage is unreliable; carry a satellite communicator and leave your route and return date with someone.",
+    "Check seasonal hazards: flash floods in washes, snow at elevation, and extreme heat in deserts."
+  ],
+  "reviewedOn": "2026-10-07",
+  "sources": [
+    {"title": "The Basic Overland Gear Everyone Should Have", "publisher": "Overland Journal", "url": "https://overlandjournal.com/pages/the-basic-overland-gear-everyone-should-have", "accessed": "2026-10-07"},
+    {"title": "Editors' Choice: Overland Recovery Gear and Accessories", "publisher": "Overland Expo", "url": "https://www.overlandexpo.com/?p=5947", "accessed": "2026-10-07"},
+    {"title": "10 Essentials for the Novice Overlander", "publisher": "Overland Expo", "url": "https://www.overlandexpo.com/compass/10-essentials-for-the-novice-overlander", "accessed": "2026-10-07"},
+    {"title": "The T.R.E.A.D. Principles", "publisher": "Tread Lightly!", "url": "https://treadlightly.org/learn/tread-principles/", "accessed": "2026-10-07"},
+    {"title": "Motor Vehicle Use Map (MVUM)", "publisher": "USDA Forest Service, Willamette National Forest", "url": "https://www.fs.usda.gov/r06/willamette/maps-guides/motor-vehicle-use-map-mvum", "accessed": "2026-10-07"},
+    {"title": "Safety", "publisher": "National Park Service, Mojave National Preserve", "url": "https://www.nps.gov/moja/planyourvisit/safety.htm", "accessed": "2026-10-07"},
+    {"title": "Camping on Public Lands", "publisher": "Bureau of Land Management", "url": "https://www.blm.gov/programs/recreation/camping", "accessed": "2026-10-07"}
+  ],
+  "sections": [
+    {
+      "title": "Planning, Permits & Navigation",
+      "items": [
+        {"text": "Route planned on the MVUM or BLM travel map; stay on designated routes", "required": true, "permitRequired": false},
+        {"text": "Paper maps of the area plus a compass", "required": true, "permitRequired": false},
+        {"text": "GPS or offline mapping app with route and campsites loaded", "required": true, "permitRequired": false},
+        {"text": "Trip plan left with someone: route, vehicle, plate, and return date", "required": true, "permitRequired": false},
+        {"text": "Pre-trip vehicle inspection: fluids, belts, hoses, battery, tires, brakes", "required": true, "permitRequired": false},
+        {"text": "Campfire permit where your state requires one (e.g., California)", "required": false, "note": "Free online in California; required outside developed sites, including for stoves.", "permitRequired": true},
+        {"text": "Land-use permits or passes (parks, OHV areas, tribal lands)", "required": false, "permitRequired": true},
+        {"text": "Daily five-minute vehicle walk-around", "required": false, "permitRequired": false},
+        {"text": "Drone (only where allowed)", "required": false, "note": "Prohibited in national parks and Wilderness without a permit; check rules for each land unit.", "permitRequired": true}
+      ]
+    },
+    {
+      "title": "Recovery & Tires",
+      "items": [
+        {"text": "Full-size spare tire (consider a second when traveling solo)", "required": true, "permitRequired": false},
+        {"text": "Tire repair kit (plugs and patches) and the skill to use it", "required": true, "permitRequired": false},
+        {"text": "12V air compressor and tire pressure gauge", "required": true, "note": "Airing down to 20 psi or less helps in sand; air back up before pavement.", "permitRequired": false},
+        {"text": "Traction boards", "required": true, "permitRequired": false},
+        {"text": "Shovel (full-size or D-handle)", "required": true, "permitRequired": false},
+        {"text": "Rated recovery points, front and rear, verified before the trip", "required": true, "permitRequired": false},
+        {"text": "Jack rated for the loaded vehicle, plus a base plate for soft ground", "required": true, "permitRequired": false},
+        {"text": "Jump starter or jumper cables", "required": true, "permitRequired": false},
+        {"text": "Ratchet or cam straps to secure all cargo", "required": true, "permitRequired": false},
+        {"text": "Automotive fire extinguisher, mounted within reach", "required": true, "permitRequired": false},
+        {"text": "Tire deflator", "required": false, "permitRequired": false},
+        {"text": "Kinetic recovery rope or snatch strap", "required": false, "note": "For assisted recovery; needs a second vehicle and rated recovery points on both.", "permitRequired": false},
+        {"text": "Soft shackles and rated bow shackles", "required": false, "permitRequired": false},
+        {"text": "Tree-trunk protector strap and winch extension", "required": false, "permitRequired": false},
+        {"text": "Snatch block or recovery ring", "required": false, "permitRequired": false},
+        {"text": "Winch (useful in treeless terrain or when solo)", "required": false, "permitRequired": false},
+        {"text": "Hitch-receiver shackle mount", "required": false, "permitRequired": false},
+        {"text": "Recovery gloves", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Tools & Spares",
+      "items": [
+        {"text": "Basic tool kit sized to your vehicle: sockets, wrenches, pliers, drivers", "required": true, "permitRequired": false},
+        {"text": "Duct tape, zip ties, bailing wire, and epoxy", "required": true, "permitRequired": false},
+        {"text": "Headlamp and work light", "required": true, "permitRequired": false},
+        {"text": "Spare fluids: engine oil, coolant, brake fluid", "required": false, "permitRequired": false},
+        {"text": "Spares for known failure points: belts, fuses, relays, hoses", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Fuel, Water & Power",
+      "items": [
+        {"text": "Fuel for the whole route plus a reserve; cans secured outside the cabin", "required": true, "permitRequired": false},
+        {"text": "Water: at least 1 gallon per person per day, more in heat, plus a vehicle reserve", "required": true, "permitRequired": false},
+        {"text": "Water containers secured against rollover; refill plan", "required": true, "permitRequired": false},
+        {"text": "Water filter or purifier for backcountry sources", "required": false, "permitRequired": false},
+        {"text": "Dual battery or portable power station", "required": false, "permitRequired": false},
+        {"text": "Solar panel", "required": false, "permitRequired": false},
+        {"text": "12V fridge or cooler with an ice plan", "required": false, "permitRequired": false},
+        {"text": "Chargers and cables for devices", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Communication",
+      "items": [
+        {"text": "Satellite messenger or PLB", "required": true, "note": "Register a PLB with NOAA (free). Have more than one way to call for help.", "permitRequired": false},
+        {"text": "GMRS, FRS, or ham radio for convoy travel", "required": false, "note": "GMRS and ham use require FCC licenses; FRS does not.", "permitRequired": true},
+        {"text": "Cell phone with offline maps and a battery bank", "required": false, "permitRequired": false},
+        {"text": "Emergency contact card and nearest medical facility noted", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Shelter & Sleep",
+      "items": [
+        {"text": "Ground tent, rooftop tent, or in-vehicle sleeping setup", "required": true, "permitRequired": false},
+        {"text": "Sleeping bag per person rated for the lows", "required": true, "permitRequired": false},
+        {"text": "Sleeping pad or mattress", "required": true, "permitRequired": false},
+        {"text": "Awning or shade shelter", "required": false, "permitRequired": false},
+        {"text": "Camp chairs and table", "required": false, "permitRequired": false},
+        {"text": "Pillows and blankets", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Kitchen & Food",
+      "items": [
+        {"text": "Stove and fuel", "required": true, "permitRequired": false},
+        {"text": "Lighter and matches", "required": true, "permitRequired": false},
+        {"text": "Cookware, utensils, plates, and cups", "required": true, "permitRequired": false},
+        {"text": "Food for all days plus two extra days", "required": true, "permitRequired": false},
+        {"text": "Food in sealed bins; bear-resistant storage where required", "required": true, "permitRequired": false},
+        {"text": "Trash bags; pack out all trash", "required": true, "permitRequired": false},
+        {"text": "Wash bins, biodegradable soap, and towels", "required": false, "permitRequired": false},
+        {"text": "Dutch oven or grill for fire cooking where fires are allowed", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Clothing & Personal",
+      "items": [
+        {"text": "Layers for the full temperature range, including a rain shell", "required": true, "permitRequired": false},
+        {"text": "Sturdy boots plus camp shoes", "required": true, "permitRequired": false},
+        {"text": "Sun hat, sunglasses, and sunscreen", "required": true, "permitRequired": false},
+        {"text": "Work gloves", "required": false, "permitRequired": false},
+        {"text": "Warm hat and gloves", "required": false, "permitRequired": false},
+        {"text": "Swimwear and towel", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Safety, First Aid & Hygiene",
+      "items": [
+        {"text": "Comprehensive first-aid kit with trauma supplies, plus training to use it", "required": true, "permitRequired": false},
+        {"text": "Bug-out bag: water and filter, warm layer, shelter, comms, navigation", "required": true, "note": "Grab-and-go kit in case you must leave the vehicle.", "permitRequired": false},
+        {"text": "Portable toilet or WAG bags, plus a trowel where catholes are allowed", "required": true, "permitRequired": false},
+        {"text": "Toilet paper and hand sanitizer", "required": true, "permitRequired": false},
+        {"text": "Insect repellent", "required": false, "permitRequired": false},
+        {"text": "Shower bag or wipes", "required": false, "permitRequired": false},
+        {"text": "Personal medications and spare glasses", "required": false, "permitRequired": false}
+      ]
+    }
+  ]
+}

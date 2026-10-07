@@ -1,0 +1,131 @@
+{
+  "id": "backpacking-three-season",
+  "name": "Three-Season Backpacking",
+  "category": "style",
+  "tagline": "For hikers carrying everything on their back for 2-5 nights in spring, summer, or fall.",
+  "description": "A starting point for multi-night backcountry trips on maintained trails in mild to cool conditions, for a solo hiker or small group. Assumes you will treat water from natural sources, cook on a stove, and sleep in a tent or tarp. Adapt quantities for trip length, group size, elevation, and bear-country rules; add bug protection in early summer and more insulation in the shoulder seasons.",
+  "season": "Spring-Fall",
+  "typicalDuration": "2-5 nights",
+  "considerations": [
+    "Check current permit and quota rules for your trailhead or wilderness area; many popular areas require advance reservations.",
+    "Check current fire restrictions; campfires and sometimes stoves are restricted seasonally.",
+    "Check current food-storage rules; hard-sided bear canisters are required in many parks and forests.",
+    "Confirm water sources on your route are flowing; late-season sources can dry up.",
+    "Check the forecast for overnight lows and afternoon storms; mountain weather changes fast.",
+    "Cell coverage is often absent; plan on a paper map and a way to call for help."
+  ],
+  "reviewedOn": "2026-10-07",
+  "sources": [
+    {"title": "The 10 Essentials", "publisher": "National Park Service", "url": "https://www.nps.gov/articles/10essentials.htm", "accessed": "2026-10-07"},
+    {"title": "The Ten Essentials", "publisher": "American Hiking Society", "url": "https://americanhiking.org/resources/10essentials/", "accessed": "2026-10-07"},
+    {"title": "Three-Season Hiking and Backpacking Gear List", "publisher": "Appalachian Mountain Club", "url": "https://www.outdoors.org/resources/amc-outdoors/outdoor-resources/three-season-hiking-and-backpacking-gear-list/", "accessed": "2026-10-07"},
+    {"title": "The Things We Carry: PCTA's Backpacking Checklist", "publisher": "Pacific Crest Trail Association", "url": "https://www.pcta.org/wp-content/uploads/2015/06/BackpackingGearChecklist.pdf", "accessed": "2026-10-07"},
+    {"title": "Leave No Trace Seven Principles", "publisher": "National Park Service", "url": "https://www.nps.gov/articles/leave-no-trace-seven-principles.htm", "accessed": "2026-10-07"},
+    {"title": "Food Storage in Bear Country", "publisher": "National Park Service", "url": "https://home.nps.gov/articles/bearsafetyfood.htm", "accessed": "2026-10-07"},
+    {"title": "U.S. 406 MHz Beacon Registration", "publisher": "NOAA SARSAT", "url": "https://beaconregistration.noaa.gov/RGDB/", "accessed": "2026-10-07"}
+  ],
+  "sections": [
+    {
+      "title": "Planning & Permits",
+      "items": [
+        {"text": "Backcountry or wilderness permit (reserve ahead where quotas apply)", "required": true, "note": "Check current quota and reservation rules for your trailhead.", "permitRequired": true},
+        {"text": "Trip plan left with a contact: route, trailhead, return time, who to call", "required": true, "permitRequired": false},
+        {"text": "Paper topo map of the route in a zip bag", "required": true, "permitRequired": false},
+        {"text": "Compass (and the skill to use it with the map)", "required": true, "permitRequired": false},
+        {"text": "Weather forecast checked for overnight lows and storms", "required": true, "permitRequired": false},
+        {"text": "Permits, ID, and car key stored where they stay dry", "required": true, "permitRequired": false},
+        {"text": "Route notes: water sources, campsites, bailout points", "required": false, "permitRequired": false},
+        {"text": "Campfire permit if your state requires one for stoves or fires", "required": false, "note": "Required in California outside developed sites; check your state and current fire restrictions.", "permitRequired": true},
+        {"text": "Trailhead parking pass or fee", "required": false, "note": "Check current trailhead requirements.", "permitRequired": true}
+      ]
+    },
+    {
+      "title": "Pack, Shelter & Sleep",
+      "items": [
+        {"text": "Backpack (40-70 L) with rain cover or pack liner", "required": true, "permitRequired": false},
+        {"text": "Tent, tarp, or bivy with stakes and guylines", "required": true, "permitRequired": false},
+        {"text": "Sleeping bag or quilt rated for the expected lows", "required": true, "permitRequired": false},
+        {"text": "Sleeping pad (check R-value for cold nights)", "required": true, "permitRequired": false},
+        {"text": "Tent footprint or groundsheet", "required": false, "permitRequired": false},
+        {"text": "Inflatable pillow or stuffable pillowcase", "required": false, "permitRequired": false},
+        {"text": "Tent-pole repair sleeve and pad patch kit", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Kitchen & Water",
+      "items": [
+        {"text": "Backpacking stove", "required": true, "permitRequired": false},
+        {"text": "Fuel for every meal plus a reserve", "required": true, "permitRequired": false},
+        {"text": "Lighter plus waterproof matches or firestarter", "required": true, "permitRequired": false},
+        {"text": "Pot with lid and pot grabber", "required": true, "permitRequired": false},
+        {"text": "Bowl or cup and spoon", "required": true, "permitRequired": false},
+        {"text": "Food measured per day plus one extra day's worth", "required": true, "permitRequired": false},
+        {"text": "Bear canister, hang kit, or other approved food storage", "required": true, "note": "Hard-sided canisters are required in many areas; check current rules for your route.", "permitRequired": false},
+        {"text": "Water bottles or bladder (2-3 L capacity)", "required": true, "permitRequired": false},
+        {"text": "Water filter or purifier", "required": true, "permitRequired": false},
+        {"text": "Trash bag to pack out all waste", "required": true, "permitRequired": false},
+        {"text": "Backup water treatment: chemical tablets or drops", "required": false, "permitRequired": false},
+        {"text": "Biodegradable soap, small sponge, and gray-water strainer", "required": false, "note": "Wash 200 ft from water and scatter strained gray water.", "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Clothing",
+      "items": [
+        {"text": "Hiking boots or trail shoes, broken in", "required": true, "permitRequired": false},
+        {"text": "Wool or synthetic hiking socks (2-3 pairs)", "required": true, "permitRequired": false},
+        {"text": "Moisture-wicking shirt and hiking pants or shorts (no cotton)", "required": true, "permitRequired": false},
+        {"text": "Insulating layer: fleece or puffy jacket", "required": true, "permitRequired": false},
+        {"text": "Rain jacket (and rain pants in wet climates)", "required": true, "permitRequired": false},
+        {"text": "Warm hat and lightweight gloves", "required": true, "permitRequired": false},
+        {"text": "Sun hat and sunglasses", "required": true, "permitRequired": false},
+        {"text": "Base layers for sleeping", "required": false, "permitRequired": false},
+        {"text": "Camp shoes or sandals (also for stream crossings)", "required": false, "permitRequired": false},
+        {"text": "Gaiters", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Safety, First Aid & Navigation",
+      "items": [
+        {"text": "First-aid kit with blister care, tape, and personal medications", "required": true, "permitRequired": false},
+        {"text": "Headlamp with fresh batteries plus spares", "required": true, "permitRequired": false},
+        {"text": "Whistle", "required": true, "permitRequired": false},
+        {"text": "Emergency shelter: space blanket or bivy", "required": true, "permitRequired": false},
+        {"text": "Knife or multi-tool", "required": true, "permitRequired": false},
+        {"text": "Sunscreen and SPF lip balm", "required": true, "permitRequired": false},
+        {"text": "Satellite messenger or PLB (register a PLB with NOAA, free)", "required": false, "note": "Most routes have no cell coverage.", "permitRequired": false},
+        {"text": "Phone with offline maps, in airplane mode, plus battery bank", "required": false, "permitRequired": false},
+        {"text": "Insect repellent and/or head net", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Hygiene & Waste",
+      "items": [
+        {"text": "Trowel for catholes 6-8 in deep, 200 ft from water, trails, and camp", "required": true, "permitRequired": false},
+        {"text": "Toilet paper in a zip bag (pack it out where required)", "required": true, "permitRequired": false},
+        {"text": "Hand sanitizer", "required": true, "permitRequired": false},
+        {"text": "WAG bags where human waste must be packed out", "required": false, "note": "Required in some high-use and alpine areas; check local rules.", "permitRequired": false},
+        {"text": "Toothbrush and travel toothpaste", "required": false, "permitRequired": false},
+        {"text": "Quick-dry towel", "required": false, "permitRequired": false},
+        {"text": "Menstrual products and sealable bag to pack out", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Tools & Repair",
+      "items": [
+        {"text": "Duct tape (wrapped around a bottle or trekking pole)", "required": false, "permitRequired": false},
+        {"text": "Cord (50 ft) for bear hangs, guylines, and repairs", "required": false, "permitRequired": false},
+        {"text": "Stove repair kit and spare parts", "required": false, "permitRequired": false},
+        {"text": "Needle and thread, zip ties, safety pins", "required": false, "permitRequired": false},
+        {"text": "Trekking poles", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Extras",
+      "items": [
+        {"text": "Camera, journal, or cards", "required": false, "permitRequired": false},
+        {"text": "Sit pad or ultralight chair", "required": false, "permitRequired": false},
+        {"text": "Earplugs", "required": false, "permitRequired": false}
+      ]
+    }
+  ]
+}

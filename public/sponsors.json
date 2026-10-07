@@ -1,0 +1,23 @@
+{
+  "_readme": "Cards shown in the two sponsor slots. kind: house | sponsor | affiliate. Paid cards are always labelled. Keep start/end as ISO dates. See docs/MONETIZATION.md.",
+  "cards": [
+    {
+      "id": "house-free",
+      "kind": "house",
+      "title": "CampList is free, with no account required",
+      "text": "Your lists stay in your browser or in storage you control. Tasteful sponsorships keep the site running.",
+      "url": "https://camplist.guide/privacy.html#sponsors",
+      "cta": "How CampList is funded",
+      "slots": ["sidebar", "footer"]
+    },
+    {
+      "id": "house-sponsor",
+      "kind": "house",
+      "title": "Sponsor a checklist template",
+      "text": "Outdoor brands and campgrounds can sponsor a template or this spot. Clearly labelled, never tracking-based.",
+      "url": "mailto:support@camplist.guide?subject=CampList%20sponsorship",
+      "cta": "Get in touch",
+      "slots": ["sidebar"]
+    }
+  ]
+}

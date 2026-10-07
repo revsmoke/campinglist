@@ -1,0 +1,115 @@
+{
+  "id": "bonnaroo",
+  "name": "Bonnaroo Camping",
+  "category": "event",
+  "tagline": "For festival-goers car camping or tent camping for four days on the Bonnaroo Farm in Manchester, Tennessee.",
+  "description": "Assumes a group of two to four arriving Wednesday or Thursday for Primitive Car Camping (about a 20 ft by 20 ft plot including the vehicle) during the mid-June festival (June 11-14 in 2026). Covers tickets and camping passes, the campground allowed and prohibited items list, Tennessee heat and storms, and shade and water logistics. Adapt for RV, glamping or Groop camping and re-check the official allowed-items list each year.",
+  "season": "Mid-June",
+  "typicalDuration": "3-5 nights",
+  "considerations": [
+    "Everyone needs a Centeroo ticket plus one camping and parking pass per vehicle; Primitive Car Camping plots are roughly 20 by 20 ft including the car. Vehicle re-entry is discouraged and carried a $40 fee in 2026.",
+    "Campground rules (2026 list): glass, wood fires, kegs, weapons, drones, fireworks, bikes and scooters, pets (except service animals), glow sticks and laser pointers are prohibited; allowed are grills with up to 40 lb of charcoal or one 20 lb propane tank, generators under 4 kW with up to 10 gallons of gas, and personal alcohol (2 cases of beer, 2 boxes of wine, 1 to 1.75 L of liquor per person per car). Verify the current list.",
+    "Centeroo (the venue) allows empty reusable bottles and hydration packs, blankets and point-and-shoot cameras but bans outside food and drink, chairs, wagons, bikes and backpacks with multiple pockets; check the current Centeroo list before packing a day bag.",
+    "June in Tennessee: 90 F heat with high humidity, strong sun and thunderstorms with lightning and mud; tents are hot by 8 am, so a canopy and a fan matter.",
+    "Free water refill stations are spread through Outeroo and Centeroo; showers at the plazas cost a small fee. Bring enough water for the drive in and the entry line.",
+    "Dates, camping tiers (Groop, Mars and Moon Colony tents, RV, Accessible) and policies change yearly; check bonnaroo.com and the Help Center before packing."
+  ],
+  "reviewedOn": "2026-10-07",
+  "sources": [
+    {"title": "Accommodations - Camping and Parking", "publisher": "Bonnaroo Music & Arts Festival", "url": "https://www.bonnaroo.com/accommodations", "accessed": "2026-10-07"},
+    {"title": "What items are allowed and prohibited", "publisher": "Bonnaroo Help Center", "url": "https://support.bonnaroo.com/hc/en-us/articles/4402712374420-What-items-are-allowed-and-prohibited", "accessed": "2026-10-07"},
+    {"title": "Staying Comfortable: Tips from Experienced Bonnaroovians", "publisher": "Bonnaroo Help Center", "url": "https://support.bonnaroo.com/hc/en-us/articles/4403016705044-Staying-Comfortable-Tips-from-Experienced-Bonnaroovians", "accessed": "2026-10-07"}
+  ],
+  "sections": [
+    {
+      "title": "Tickets & Planning",
+      "items": [
+        {"text": "Centeroo ticket or wristband for every person", "required": true, "permitRequired": true},
+        {"text": "Camping and parking pass for the vehicle (one per campsite)", "required": true, "note": "Covers everyone in the car; each person still needs a Centeroo ticket.", "permitRequired": true},
+        {"text": "Photo ID and a credit card", "required": true, "permitRequired": false},
+        {"text": "Arrival day (Wed or Thu) and campground map reviewed", "required": true, "permitRequired": false},
+        {"text": "Group meeting spot and a flag or landmark for your site", "required": false, "permitRequired": false},
+        {"text": "Read the current allowed and prohibited lists for Outeroo and Centeroo", "required": true, "permitRequired": false},
+        {"text": "Bonnaroo app downloaded for schedules and alerts", "required": false, "permitRequired": false},
+        {"text": "Vehicle packed for a quick search: no glass, alcohol within limits", "required": true, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Shelter & Shade",
+      "items": [
+        {"text": "Tent that fits a 20 by 20 ft plot beside the car", "required": true, "permitRequired": false},
+        {"text": "Pop-up canopy (10 by 10 ft) with weights or stakes", "required": true, "note": "Tents become ovens by 8 am; the canopy is the escape.", "permitRequired": false},
+        {"text": "Tarps or sidewalls for extra shade", "required": false, "permitRequired": false},
+        {"text": "Sleeping pad or air mattress with pump", "required": true, "permitRequired": false},
+        {"text": "Light sleeping bag or sheet", "required": false, "permitRequired": false},
+        {"text": "Battery-powered fan", "required": true, "permitRequired": false},
+        {"text": "Camp chairs", "required": false, "permitRequired": false},
+        {"text": "Rain fly, extra stakes and mallet for storms", "required": true, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Water & Hydration",
+      "items": [
+        {"text": "Reusable water bottle or hydration pack (empty when entering Centeroo)", "required": true, "permitRequired": false},
+        {"text": "Gallon jugs of water for camp", "required": true, "permitRequired": false},
+        {"text": "Electrolyte packets", "required": false, "permitRequired": false},
+        {"text": "Cooler with ice (ice is sold on site)", "required": false, "permitRequired": false},
+        {"text": "Personal misting fan", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Food & Kitchen",
+      "items": [
+        {"text": "Propane grill or stove with a 20 lb or smaller tank", "required": false, "note": "One tank per grill per vehicle, or two small Coleman-style canisters (2026 rules).", "permitRequired": false},
+        {"text": "Charcoal, 40 lb or less per grill", "required": false, "note": "No wood fires.", "permitRequired": false},
+        {"text": "Food and snacks for the stay", "required": true, "permitRequired": false},
+        {"text": "Alcohol within per-person limits, no glass", "required": false, "permitRequired": false},
+        {"text": "Utensils, plates and trash bags", "required": true, "permitRequired": false},
+        {"text": "Hand sanitizer and wipes", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Clothing & Sun",
+      "items": [
+        {"text": "Sunscreen SPF 30+ and lip balm", "required": true, "permitRequired": false},
+        {"text": "Hat and sunglasses", "required": true, "permitRequired": false},
+        {"text": "Comfortable broken-in shoes plus rain boots or sandals", "required": true, "permitRequired": false},
+        {"text": "Rain poncho or jacket", "required": true, "permitRequired": false},
+        {"text": "Light breathable clothes and bandanas", "required": false, "permitRequired": false},
+        {"text": "Warm layer for night", "required": false, "permitRequired": false},
+        {"text": "Earplugs and eye mask", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Health & Safety",
+      "items": [
+        {"text": "First aid kit", "required": true, "permitRequired": false},
+        {"text": "Prescriptions in original containers", "required": true, "permitRequired": false},
+        {"text": "Factory-sealed naloxone (Narcan) kit", "required": false, "permitRequired": false},
+        {"text": "Phone, battery bank and solar charger", "required": true, "permitRequired": false},
+        {"text": "Headlamp or flashlight and a lantern", "required": true, "permitRequired": false},
+        {"text": "Group totem under 7 ft", "required": false, "permitRequired": false},
+        {"text": "Locks for tent and car; valuables stashed out of sight", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Centeroo Day Bag",
+      "items": [
+        {"text": "Small bag that meets current Centeroo bag rules", "required": false, "note": "Backpacks with multiple pockets were banned inside Centeroo in 2026.", "permitRequired": false},
+        {"text": "Empty bottle, sunscreen, poncho, phone, ID and cash", "required": true, "permitRequired": false},
+        {"text": "Blanket or towel", "required": false, "permitRequired": false},
+        {"text": "Earplugs", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Leave No Trace / Pack-out",
+      "items": [
+        {"text": "Trash and recycling bags", "required": true, "permitRequired": false},
+        {"text": "Leave the campsite clean using the provided dumpsters and recycling", "required": true, "permitRequired": false},
+        {"text": "Take tents, canopies and chairs home instead of abandoning them", "required": true, "permitRequired": false},
+        {"text": "Portable ashtray for cigarette butts", "required": false, "permitRequired": false},
+        {"text": "No glass and no wood fires at camp", "required": true, "permitRequired": false}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "id": "appalachian-trail-section-hike",
+  "name": "A.T. Section Hike",
+  "category": "destination",
+  "tagline": "For hikers doing a 4-10 day section of the Appalachian Trail using shelters, designated campsites and trail-town resupplies.",
+  "description": "Assumes a spring-to-fall section hike of roughly 50-150 miles for one to four people, sleeping in or near A.T. shelters and resupplying in towns every 3-5 days. Covers the Appalachian Trail Conservancy's bear-canister recommendation and required-storage zones, the three permit areas (Smokies, Shenandoah, Baxter), regional camping and fire rules and wet-weather gear. Adapt insulation for early spring or late fall and add the permits specific to your section.",
+  "season": "Mar-Oct (varies by state)",
+  "typicalDuration": "4-10 nights",
+  "considerations": [
+    "Permits are required in Great Smoky Mountains NP ($8 per person per night plus $6, or the $44.50 thru-hiker permit, as of April 30, 2026), Shenandoah NP ($9 per person plus $6 on Recreation.gov up to 90 days ahead) and Baxter State Park (free long-distance hiker permit in person); AMC campsites in the Whites cost about $10 per night (ATC, as of 2026).",
+    "The ATC recommends a hard-sided bear canister for every overnight trip. Canisters are required March 1-June 1 between Jarrard Gap and Neel Gap in Georgia; the Smokies require hanging on provided cables; Shenandoah requires a canister, a provided box or pole, or a 12 ft hang. Bears have defeated hangs and shredded Ursacks in NC and TN.",
+    "Camping is limited to shelters and designated sites in the Smokies, New Jersey, New York and Connecticut; Connecticut and New Jersey ban campfires; Maine allows fires only at designated sites and no camping above treeline. Check the ATC camping-regulations page for your section.",
+    "Never sleep with food; cook and eat 200 ft from your tent and keep canisters out of shelters and about 70 steps from where you sleep.",
+    "Expect rain, mud, slick roots and rock, ticks (Lyme disease) and norovirus in shelters; treat all water and sanitize hands before eating.",
+    "Trail towns are typically 3-5 days apart; hostel, shuttle and post office hours change with the season, so confirm before you go."
+  ],
+  "reviewedOn": "2026-10-07",
+  "sources": [
+    {"title": "Understanding Camping Rules Along the Trail", "publisher": "Appalachian Trail Conservancy", "url": "https://appalachiantrail.org/explore/hike-the-a-t/thru-hiking/camping-regulations/", "accessed": "2026-10-07"},
+    {"title": "Bears and Food Storage", "publisher": "Appalachian Trail Conservancy", "url": "https://appalachiantrail.org/explore/plan-and-prepare/hiking-basics/safety/bears/", "accessed": "2026-10-07"},
+    {"title": "A.T. Permits and Fees", "publisher": "Appalachian Trail Conservancy", "url": "https://appalachiantrail.org/experience/hike-the-trail/at-basics/permits-fees/", "accessed": "2026-10-07"},
+    {"title": "Backcountry Camping", "publisher": "National Park Service - Great Smoky Mountains", "url": "https://www.nps.gov/grsm/planyourvisit/backcountry-camping.htm", "accessed": "2026-10-07"}
+  ],
+  "sections": [
+    {
+      "title": "Permits & Planning",
+      "items": [
+        {"text": "Permits for park sections you cross: Smokies, Shenandoah or Baxter", "required": false, "note": "Only needed if your section enters these parks; AMC/GMC site fees apply in NH and VT.", "permitRequired": true},
+        {"text": "Section plan with shelters, campsites, daily mileage and bailout roads", "required": true, "permitRequired": false},
+        {"text": "Resupply plan: towns, mail drops and hostel or shuttle bookings", "required": true, "permitRequired": false},
+        {"text": "Trailhead transport and overnight parking arranged", "required": true, "note": "Some trailheads require parking permits or have car break-in warnings.", "permitRequired": false},
+        {"text": "Guidebook or app with offline maps and water sources", "required": true, "permitRequired": false},
+        {"text": "Check ATC trail updates for closures and bear-activity camping bans", "required": true, "permitRequired": false},
+        {"text": "Emergency contact plan with expected check-ins", "required": true, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Food Storage & Bear Safety",
+      "items": [
+        {"text": "Hard-sided bear canister (ATC recommended; required in some zones)", "required": true, "note": "Required Mar 1-Jun 1 Jarrard Gap to Neel Gap (GA); Shenandoah accepts canisters or a 12 ft hang.", "permitRequired": false},
+        {"text": "Hang kit (50 ft cord, carabiner) for the PCT method where hanging is allowed", "required": false, "note": "Plan at least 45 minutes to hang properly; bears have learned to defeat hangs.", "permitRequired": false},
+        {"text": "All scented items (toothpaste, sunscreen, cookware) stored with food at night", "required": true, "permitRequired": false},
+        {"text": "Food to the next resupply plus one extra day", "required": true, "permitRequired": false},
+        {"text": "Cook and eat 200 ft from your tent; canister about 70 steps away", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Shelter & Sleep",
+      "items": [
+        {"text": "Tent, tarp or hammock (shelters fill; some areas require designated sites)", "required": true, "permitRequired": false},
+        {"text": "Sleeping bag or quilt for the season", "required": true, "permitRequired": false},
+        {"text": "Sleeping pad", "required": true, "permitRequired": false},
+        {"text": "Earplugs", "required": false, "permitRequired": false},
+        {"text": "Bug net and underquilt if hammocking", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Clothing",
+      "items": [
+        {"text": "Rain jacket", "required": true, "permitRequired": false},
+        {"text": "Rain pants or rain kilt", "required": false, "permitRequired": false},
+        {"text": "Insulating layer", "required": true, "permitRequired": false},
+        {"text": "Wool or synthetic socks (3 pairs) plus dry camp socks", "required": true, "permitRequired": false},
+        {"text": "Trail runners or boots", "required": true, "permitRequired": false},
+        {"text": "Warm hat and gloves", "required": false, "permitRequired": false},
+        {"text": "Town and sleep clothes", "required": false, "permitRequired": false},
+        {"text": "Gaiters", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Water & Kitchen",
+      "items": [
+        {"text": "Water filter plus backup tablets", "required": true, "permitRequired": false},
+        {"text": "Capacity for 2-3 liters (dry ridges and late-summer springs)", "required": true, "permitRequired": false},
+        {"text": "Stove and fuel", "required": true, "permitRequired": false},
+        {"text": "Pot and spoon", "required": false, "permitRequired": false},
+        {"text": "Lighter", "required": true, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Navigation & Safety",
+      "items": [
+        {"text": "Map or app with a paper backup", "required": true, "permitRequired": false},
+        {"text": "Headlamp with spare batteries", "required": true, "permitRequired": false},
+        {"text": "First aid kit with blister care", "required": true, "permitRequired": false},
+        {"text": "Tick removal tool and permethrin-treated clothing", "required": false, "permitRequired": false},
+        {"text": "Hand sanitizer (norovirus spreads through shelters)", "required": true, "permitRequired": false},
+        {"text": "Satellite messenger", "required": false, "permitRequired": false},
+        {"text": "Trekking poles", "required": false, "permitRequired": false},
+        {"text": "Whistle", "required": false, "permitRequired": false},
+        {"text": "Battery bank", "required": false, "permitRequired": false},
+        {"text": "Pack liner or dry bags", "required": true, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Resupply & Town",
+      "items": [
+        {"text": "ID, cash and card", "required": true, "permitRequired": false},
+        {"text": "Mail-drop boxes labeled with name and ETA", "required": false, "permitRequired": false},
+        {"text": "Phone and charger", "required": false, "permitRequired": false},
+        {"text": "Laundry and shower kit", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Leave No Trace / Pack-out",
+      "items": [
+        {"text": "Trowel for a 6-8 in cathole 200 ft from water", "required": true, "permitRequired": false},
+        {"text": "Pack out toilet paper and hygiene products", "required": true, "permitRequired": false},
+        {"text": "Trash bag for all packaging", "required": true, "permitRequired": false},
+        {"text": "Use privies where provided", "required": false, "permitRequired": false},
+        {"text": "Fires only where allowed and in existing rings (none in CT or NJ)", "required": false, "permitRequired": false},
+        {"text": "Leave shelters clean; never store food inside", "required": false, "permitRequired": false}
+      ]
+    }
+  ]
+}

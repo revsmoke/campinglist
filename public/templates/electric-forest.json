@@ -1,0 +1,107 @@
+{
+  "id": "electric-forest",
+  "name": "Electric Forest Camping",
+  "category": "event",
+  "tagline": "For attendees camping four days at Electric Forest at the Double JJ Resort in Rothbury, Michigan, with GA or Good Life wristbands.",
+  "description": "Assumes a group car camping in GA (one Car Camping Pass per campsite) during the late-June festival (June 25-28 in 2026) with Michigan weather that swings from 90 F days to 50 F nights and brings rain. Covers wristbands and passes, campground rules (camp stoves OK, no open flame, no external generators or fuel cans, limited sealed alcohol), water and shower logistics and pack-out. Adapt for RV, tent-only or Good Life camping and confirm current policies in the Electric Forest app and HQ support pages.",
+  "season": "Late June",
+  "typicalDuration": "4-5 nights",
+  "considerations": [
+    "You need a GA or Good Life wristband per person and one Car Camping or RV pass per campsite (not per person); vehicles arriving without a pass are sent to off-site parking (Electric Forest, 2026).",
+    "Campground prohibited items (2026): grills, open flame, candles, charcoal, tiki torches, fireworks, external generators and gas or fuel cans (small propane canisters for Coleman-style camp stoves are allowed; built-in RV generators and solar generators are exempt), glass, kegs and hard liquor, drones, laser pointers, weapons, bicycles and scooters, helium tanks. Verify the current list before packing.",
+    "Alcohol: attendees 21 and over may bring unopened beer and wine, limited to one case of beer and one box of wine per person, into the campgrounds only; nothing goes from camp into the venue.",
+    "Weather: mid-50s at night to 90 F plus in full sun, with rain expected at least once; bring rain gear, warm layers and a shelter that handles wind.",
+    "Free water refill stations, restrooms and showers are in the campgrounds; no outside food, drink, chairs or tents are allowed inside the venue.",
+    "Campgrounds stay open 24 hours until 4 pm ET on the Monday after the festival (2026); arrival schedules are published close to the dates."
+  ],
+  "reviewedOn": "2026-10-07",
+  "sources": [
+    {"title": "Festival Info", "publisher": "Electric Forest", "url": "https://electricforestfestival.com/festival-info", "accessed": "2026-10-07"},
+    {"title": "Forest Prep Guide", "publisher": "Electric Forest", "url": "https://electricforestfestival.com/forest-prep-guide", "accessed": "2026-10-07"},
+    {"title": "Know Before You Buy", "publisher": "Electric Forest", "url": "https://electricforestfestival.com/know-before-you-buy", "accessed": "2026-10-07"}
+  ],
+  "sections": [
+    {
+      "title": "Wristbands, Passes & Rules",
+      "items": [
+        {"text": "GA or Good Life wristband for every person", "required": true, "permitRequired": true},
+        {"text": "Car Camping or RV pass (one per campsite)", "required": true, "note": "Tent-only camping needs just the wristband; vehicles without a pass park off site.", "permitRequired": true},
+        {"text": "Photo ID", "required": true, "permitRequired": false},
+        {"text": "Electric Forest app installed; arrival schedule checked", "required": true, "permitRequired": false},
+        {"text": "Read the current prohibited items lists for campgrounds and venue", "required": true, "permitRequired": false},
+        {"text": "Shuttle, early-arrival or Good Life add-ons if purchased", "required": false, "permitRequired": true},
+        {"text": "Group plan for one shared campsite and one vehicle", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Shelter & Sleep",
+      "items": [
+        {"text": "Tent with rain fly and stakes for wind", "required": true, "permitRequired": false},
+        {"text": "Pop-up canopy with weights", "required": true, "permitRequired": false},
+        {"text": "Sleeping bag rated to about 40-50 F", "required": true, "permitRequired": false},
+        {"text": "Sleeping pad or air mattress", "required": true, "permitRequired": false},
+        {"text": "Tarp for groundsheet or rain cover", "required": false, "permitRequired": false},
+        {"text": "Camp chairs", "required": false, "permitRequired": false},
+        {"text": "Hangout shade area separate from the sleeping tent", "required": false, "permitRequired": false},
+        {"text": "Battery lantern or string lights", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Water & Food",
+      "items": [
+        {"text": "Reusable water bottle or hydration pack", "required": true, "note": "Free refill stations throughout the campgrounds.", "permitRequired": false},
+        {"text": "Water jugs for camp", "required": false, "permitRequired": false},
+        {"text": "Coleman-style camp stove with small propane canisters", "required": false, "note": "No grills, charcoal, candles or open flame; propane canisters up to about 1 lb only.", "permitRequired": false},
+        {"text": "Cooler with ice (ice sold in the campgrounds)", "required": false, "permitRequired": false},
+        {"text": "Food and snacks", "required": true, "permitRequired": false},
+        {"text": "Sealed beer or wine within limits; no glass, kegs or liquor", "required": false, "permitRequired": false},
+        {"text": "Utensils and reusable dishes", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Clothing & Weather",
+      "items": [
+        {"text": "Rain jacket or poncho", "required": true, "permitRequired": false},
+        {"text": "Warm layers for 50 F nights", "required": true, "permitRequired": false},
+        {"text": "Wool socks plus extra dry socks", "required": true, "permitRequired": false},
+        {"text": "Comfortable shoes plus boots for mud", "required": true, "permitRequired": false},
+        {"text": "Sunscreen, hat and sunglasses", "required": true, "permitRequired": false},
+        {"text": "Costumes and outfits", "required": false, "permitRequired": false},
+        {"text": "Bandana or dust mask", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Health & Safety",
+      "items": [
+        {"text": "First aid kit", "required": true, "permitRequired": false},
+        {"text": "Prescriptions", "required": true, "permitRequired": false},
+        {"text": "Earplugs", "required": false, "permitRequired": false},
+        {"text": "Flashlight or headlamp (not your phone light)", "required": true, "permitRequired": false},
+        {"text": "Phone and battery bank", "required": true, "permitRequired": false},
+        {"text": "Hand sanitizer and wipes", "required": false, "permitRequired": false},
+        {"text": "Bug spray for Michigan mosquitoes", "required": false, "permitRequired": false},
+        {"text": "Locate water stations and medical tents in daylight on day one", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Venue Day Bag",
+      "items": [
+        {"text": "Empty hydration pack or bottle", "required": true, "permitRequired": false},
+        {"text": "Totem or flag for finding your group", "required": false, "permitRequired": false},
+        {"text": "Poncho, sunscreen and lip balm", "required": false, "permitRequired": false},
+        {"text": "Cash or card, ID and wristband on", "required": true, "permitRequired": false},
+        {"text": "Leave outside food, drink, chairs and tents at camp (not allowed in venue)", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Leave No Trace / Pack-out",
+      "items": [
+        {"text": "Trash and recycling bags", "required": true, "permitRequired": false},
+        {"text": "Use designated dumpsters; donate usable gear to the Camp Gear Donation Program", "required": false, "permitRequired": false},
+        {"text": "Take tents and canopies home", "required": true, "permitRequired": false},
+        {"text": "No glass and no open flame at camp", "required": true, "permitRequired": false},
+        {"text": "Site cleared before the campground closes Monday afternoon", "required": false, "permitRequired": false}
+      ]
+    }
+  ]
+}

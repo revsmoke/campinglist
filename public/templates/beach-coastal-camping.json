@@ -1,0 +1,129 @@
+{
+  "id": "beach-coastal-camping",
+  "name": "Beach / Coastal Camping",
+  "category": "style",
+  "tagline": "For campers pitching on sand or just above the shore at a seashore campground or wilderness beach.",
+  "description": "A starting point for 1-4 nights at a coastal campground or beach site, car-accessible or a short walk in. Assumes wind, salt, sand, strong sun, biting insects, and tides that change where you can safely camp. Adapt for wilderness coasts (permits, bear canisters, headland tide timing) versus developed seashores (reservations, beach-driving permits), and for cold-water versus hot-weather coasts.",
+  "season": "Spring-Fall",
+  "typicalDuration": "1-4 nights",
+  "considerations": [
+    "Check NOAA tide predictions and the marine forecast; camp well above the highest high tide and expect storms and wave setup to push water higher.",
+    "Check current permit rules: wilderness coasts often require permits and bear canisters, and some seashores require beach-driving permits.",
+    "Check current fire rules; many beaches allow fires only below the high-tide line or ban them seasonally.",
+    "Expect wind: bring a sturdy tent, long sand stakes, and guy everything out.",
+    "Biting insects (mosquitoes, flies, no-see-ums, ticks) can be severe; bring repellent and screens.",
+    "Check drinking-water availability; many beach sites have none."
+  ],
+  "reviewedOn": "2026-10-07",
+  "sources": [
+    {"title": "Hiking the Wilderness Coast", "publisher": "National Park Service, Olympic National Park", "url": "https://home.nps.gov/olym/planyourvisit/wilderness-coast.htm", "accessed": "2026-10-07"},
+    {"title": "Camping", "publisher": "National Park Service, Cape Lookout National Seashore", "url": "https://home.nps.gov/calo/planyourvisit/camping.htm", "accessed": "2026-10-07"},
+    {"title": "Camping", "publisher": "National Park Service, Padre Island National Seashore", "url": "https://www.nps.gov/pais/planyourvisit/camping.htm", "accessed": "2026-10-07"},
+    {"title": "Camping at Assateague (Maryland District)", "publisher": "National Park Service, Assateague Island National Seashore", "url": "https://www.nps.gov/asis/planyourvisit/marylandcamping.htm", "accessed": "2026-10-07"},
+    {"title": "Tide Predictions", "publisher": "NOAA Tides and Currents", "url": "https://tidesandcurrents.noaa.gov/tide_predictions.html", "accessed": "2026-10-07"},
+    {"title": "8 Best Beach Camping Tips", "publisher": "NEMO Equipment", "url": "https://www.nemoequipment.com/best-beach-camping-tips/", "accessed": "2026-10-07"},
+    {"title": "Leave No Trace Seven Principles", "publisher": "National Park Service", "url": "https://www.nps.gov/articles/leave-no-trace-seven-principles.htm", "accessed": "2026-10-07"}
+  ],
+  "sections": [
+    {
+      "title": "Planning, Tides & Permits",
+      "items": [
+        {"text": "Tide table for your beach saved or printed, with high-tide times noted", "required": true, "note": "Use NOAA tide predictions; a storm can push water well above the predicted level.", "permitRequired": false},
+        {"text": "Marine and weather forecast: wind, surf, storms", "required": true, "permitRequired": false},
+        {"text": "Campsite reservation or wilderness permit where required", "required": true, "note": "Check current rules; some seashores need no permit but charge entrance fees.", "permitRequired": true},
+        {"text": "Trip plan shared with someone", "required": true, "permitRequired": false},
+        {"text": "Fire rules checked (location, size, seasonal bans)", "required": true, "permitRequired": false},
+        {"text": "Beach-driving (ORV) permit if driving on sand", "required": false, "permitRequired": true},
+        {"text": "Map with headlands and escape routes marked (wilderness coast)", "required": false, "note": "Round headlands only at the tide levels the map shows as safe.", "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Shelter & Sleep",
+      "items": [
+        {"text": "Sturdy wind-rated tent with full rainfly", "required": true, "permitRequired": false},
+        {"text": "Sand stakes (12 in or longer, or corkscrew) or buried deadman anchors", "required": true, "permitRequired": false},
+        {"text": "Extra guylines, with every guy-out used", "required": true, "permitRequired": false},
+        {"text": "Sleeping bag (coastal nights are damp and cool)", "required": true, "permitRequired": false},
+        {"text": "Sleeping pad", "required": true, "permitRequired": false},
+        {"text": "Groundsheet or footprint", "required": false, "permitRequired": false},
+        {"text": "Shade canopy or screen tent with sand anchors", "required": false, "permitRequired": false},
+        {"text": "Pillows", "required": false, "permitRequired": false},
+        {"text": "Tarp or mat at the door for de-sanding feet", "required": false, "permitRequired": false},
+        {"text": "Dustpan and brush", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Kitchen & Water",
+      "items": [
+        {"text": "Drinking water: 1 gallon or more per person per day (many beaches have none)", "required": true, "permitRequired": false},
+        {"text": "Water containers and bottles", "required": true, "permitRequired": false},
+        {"text": "Stove and fuel (fires may be banned or limited to below the tide line)", "required": true, "permitRequired": false},
+        {"text": "Lighter and matches in a waterproof container", "required": true, "permitRequired": false},
+        {"text": "Cookware, utensils, and dishes", "required": true, "permitRequired": false},
+        {"text": "Cooler with ice, food in sealed containers", "required": true, "permitRequired": false},
+        {"text": "Trash bags; pack out everything, no burying", "required": true, "permitRequired": false},
+        {"text": "Windscreen for the stove", "required": false, "permitRequired": false},
+        {"text": "Water filter (only if fresh sources exist; iodine alone misses crypto)", "required": false, "permitRequired": false},
+        {"text": "Bear canister (required on some wilderness coasts; also stops raccoons)", "required": false, "note": "Check current food-storage rules for the beach you are visiting.", "permitRequired": false},
+        {"text": "Wash bins and biodegradable soap", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Clothing",
+      "items": [
+        {"text": "Sun hat and sunglasses", "required": true, "permitRequired": false},
+        {"text": "Sun shirt or rash guard and long pants", "required": true, "permitRequired": false},
+        {"text": "Windbreaker or rain jacket", "required": true, "permitRequired": false},
+        {"text": "Warm layers for evening: fleece and beanie", "required": true, "permitRequired": false},
+        {"text": "Water shoes or sandals with heel straps", "required": true, "permitRequired": false},
+        {"text": "Swimsuit and quick-dry towel", "required": false, "permitRequired": false},
+        {"text": "Spare dry clothes in a dry bag", "required": false, "permitRequired": false},
+        {"text": "Light long-sleeve layer for bugs at dusk", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Sun, Bugs & Safety",
+      "items": [
+        {"text": "Sunscreen SPF 30+ (reapply) and lip balm", "required": true, "permitRequired": false},
+        {"text": "Insect repellent plus a head net", "required": true, "permitRequired": false},
+        {"text": "First-aid kit with tweezers, antihistamine, and blister care", "required": true, "permitRequired": false},
+        {"text": "Headlamp or flashlight with spare batteries", "required": true, "permitRequired": false},
+        {"text": "Knife or multi-tool", "required": true, "permitRequired": false},
+        {"text": "Whistle", "required": false, "permitRequired": false},
+        {"text": "Emergency blanket", "required": false, "permitRequired": false},
+        {"text": "Phone and battery bank; satellite messenger on wilderness coasts", "required": false, "permitRequired": false},
+        {"text": "Life jackets for kids and paddling; know rip-current safety", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Hygiene & Waste",
+      "items": [
+        {"text": "Toilet paper and hand sanitizer", "required": true, "permitRequired": false},
+        {"text": "WAG bags or portable toilet where there are no toilets", "required": false, "note": "Sand catholes get exposed; many beaches require packing out human waste.", "permitRequired": false},
+        {"text": "Trowel (intertidal catholes allowed on some wilderness coasts)", "required": false, "permitRequired": false},
+        {"text": "Toothbrush and toothpaste", "required": false, "permitRequired": false},
+        {"text": "Fresh-water rinse jug or solar shower", "required": false, "permitRequired": false},
+        {"text": "Baby powder (removes sand from skin)", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Tools & Repair",
+      "items": [
+        {"text": "Mallet for stakes", "required": false, "permitRequired": false},
+        {"text": "Duct tape, cord, and tent repair kit", "required": false, "permitRequired": false},
+        {"text": "Shovel (anchors, fire pit, vehicle recovery)", "required": false, "permitRequired": false},
+        {"text": "Traction boards, tire gauge, and compressor if driving on sand", "required": false, "permitRequired": false},
+        {"text": "Dry bags for electronics", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Beach Fun",
+      "items": [
+        {"text": "Beach toys and frisbee", "required": false, "permitRequired": false},
+        {"text": "Binoculars and field guide (birds, tide pools)", "required": false, "permitRequired": false},
+        {"text": "Low-profile camp chairs", "required": false, "permitRequired": false},
+        {"text": "Firewood bought locally or gathered from the beach only where allowed", "required": false, "permitRequired": false}
+      ]
+    }
+  ]
+}

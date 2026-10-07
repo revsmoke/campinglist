@@ -1,82 +1,52 @@
-# Camping Checklist
+# CampList (camplist.guide)
 
-A comprehensive web application for planning camping trips. Manage your camping gear, calculate equipment weight, track costs, and keep important trip details all in one place.
+A free camping checklist planner. Organise gear in sections, track weight, cost and permits,
+start from researched templates, and keep your lists in your browser or in storage you control
+(Google Drive, OneDrive). No account is required; signing in is optional.
+
+Static site: no build step, no server. Deployed on Replit as a static deployment.
 
 ## Features
 
-- Organize camping gear in customizable sections
-- Track item weight, cost, and packed status
-- Manage trip details with Google Maps location integration
-- Monitor permits and regulations deadlines
-- Light and dark theme support
-- Drag-and-drop reordering
-- Undo/redo functionality
-- Search and filter capabilities
-- Offline-capable with local storage
-
-## Setup
-
-### Prerequisites
-
-- Modern web browser
-- Google Maps API key (for location features)
-
-### API Keys
-
-1. Create a `keys.txt` file in the project root with your API keys:
-
-GOOGLE_MAPS_API_KEY = "your-google-maps-api-key-here"
-OPENWEATHERMAP_API_KEY = "your-openweathermap-api-key-here"
-
-**Note:** The `keys.txt` file is ignored by Git to keep your API keys secure.
-
-### Google Maps API
-
-To get a Google Maps API key:
-
-1. Go to the [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project
-3. Enable the Google Maps JavaScript API and Places API
-4. Create an API key and restrict it to your domains
-5. Add the key to your `keys.txt` file
-
-### Installation
-
-1. Clone this repository
-2. Create your `keys.txt` file with API keys
-3. Open `index.html` in your browser or serve it with a local web server
+- Multiple lists per device (and per signed-in account), undo/redo, drag-and-drop ordering
+- 23 researched templates (camping styles, destinations, events) with sources and review dates
+- Weight calculator (g/kg/oz/lb), cost summary, permit reminders, "optional" item tags
+- Trip info with Google Places destination search (loaded on demand)
+- Sign in with Google (Microsoft ready once configured); explicit, verified-email account linking
+- Save/open lists and upload trip files in your own Google Drive (OneDrive ready once configured)
+  with conflict protection and clear "saved / unsaved / reconnect" status
+- Import/export JSON, print view, light/dark theme, mobile-friendly, keyboard accessible
+- Clearly labelled sponsor slots; no ads or analytics scripts unless configured
 
 ## Development
 
-### Scripts
+```bash
+npm install
+npm start           # http://localhost:8080
+npm run lint
+npm test            # unit tests (Vitest)
+npm run test:e2e    # browser journeys (Playwright, mocked Google APIs)
+npm run check       # everything
+```
 
-- `npm test` - Run tests with Vitest
-- `npm run lint` - Run ESLint
-- `npm run format` - Format code with Prettier
+## Project layout
 
-### Project Structure
+```
+public/            deployable site (index.html, js/, css/, templates/, images/, vendor/)
+public/js/config.js public configuration: client IDs, Maps key, feature flags
+public/templates/  checklist templates + generated index.json
+scripts/           template validator/index builder, vendor copier
+tests/unit         Vitest; tests/e2e Playwright
+docs/              PLAN, AUTH, MONETIZATION, TEMPLATES, DEPLOYMENT, HANDOFF, research notes
+```
 
-- `index.html` - Main HTML file
-- `camplist.js` - Application entry point
-- `state.js` - State management
-- `ui.js` - UI rendering and interactions
-- `drag.js` - Drag-and-drop functionality
-- `location.js` - Google Maps integration
-- `config.js` - API key configuration
-- `camplist.css` - Styles
-- `camplist.json` - Default checklist template
+## Configuration
+
+Everything configurable is in `public/js/config.js` and is public by nature (OAuth client IDs,
+a referrer-restricted Maps key, feature flags). See `docs/AUTH.md` for the Google Cloud and
+Microsoft Entra setup, `docs/MONETIZATION.md` for sponsors/ads, `docs/TEMPLATES.md` for adding
+templates and `docs/DEPLOYMENT.md` for releasing.
 
 ## License
 
 ISC
-
-// Add this to reinitializePlaceAutocomplete in location.js
-document.addEventListener('gmp-placechange', (event) => {
-  console.log('Document-level gmp-placechange captured:', event);
-  
-  if (event.target.id === 'destinationAutocompleteElement') {
-    const place = event.detail.place;
-    console.log('Place selected:', place);
-    // Process place...
-  }
-}, true); // Use capture phase

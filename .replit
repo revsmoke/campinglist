@@ -1,0 +1,54 @@
+entrypoint = "public/index.html"
+modules = ["web", "nodejs-20"]
+
+[nix]
+channel = "stable-24_11"
+packages = ["static-web-server"]
+
+# Static deployment: only the public/ directory is published. Secrets, docs, tests and
+# node_modules never reach the CDN.
+[deployment]
+publicDir = "public"
+deploymentTarget = "static"
+
+# Security headers for every file. CSP is also set as a <meta> tag in index.html as a fallback.
+[[deployment.responseHeaders]]
+path = "/*"
+name = "X-Content-Type-Options"
+value = "nosniff"
+
+[[deployment.responseHeaders]]
+path = "/*"
+name = "Referrer-Policy"
+value = "strict-origin-when-cross-origin"
+
+[[deployment.responseHeaders]]
+path = "/*"
+name = "X-Frame-Options"
+value = "DENY"
+
+[[deployment.responseHeaders]]
+path = "/*"
+name = "Permissions-Policy"
+value = "camera=(), microphone=(), geolocation=(self), payment=()"
+
+# Note: Replit static deployments applied only the "/*" rules above when verified on
+# 2026-10-07; path-specific rules (e.g. Cache-Control: no-store for /auth/redirect.html or
+# Cross-Origin-Opener-Policy for /) were ignored, so they are not listed. Do not add a COOP
+# "same-origin" header: it would break the Google sign-in and Drive popups.
+
+[workflows]
+runButton = "Serve static"
+
+[[workflows.workflow]]
+name = "Serve static"
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "static-web-server --port 80 --root ./public --log-level info"
+waitForPort = 80
+
+[[ports]]
+localPort = 80
+externalPort = 80

@@ -1,0 +1,139 @@
+{
+  "id": "bikepacking",
+  "name": "Bikepacking",
+  "category": "style",
+  "tagline": "For riders carrying camp on the bike for multi-day routes over dirt, gravel, and pavement.",
+  "description": "A starting point for 2-7 night self-supported bikepacking trips on mixed surfaces, resupplying in towns every day or two. Assumes a tubeless-ready bike with frame, seat, and handlebar bags, camping at dispersed sites or campgrounds, and cooking simple meals. Adapt spares to the terrain, water and food capacity to the longest gap between resupply points, and insulation to the season.",
+  "season": "Spring-Fall",
+  "typicalDuration": "2-7 nights",
+  "considerations": [
+    "Research the route: water sources, resupply towns, surfaces, and climbing; load GPX tracks on a GPS unit and your phone.",
+    "Check current land rules along the route; bikes are prohibited in designated Wilderness and on some trails.",
+    "Check current fire restrictions and whether dispersed camping is allowed where you plan to stop.",
+    "Check hunting seasons along the route and carry blaze orange where needed.",
+    "Cell coverage is spotty; carry a satellite messenger on remote routes and tell someone your plan.",
+    "Check current bear-country food-storage rules along the route."
+  ],
+  "reviewedOn": "2026-10-07",
+  "sources": [
+    {"title": "Bikepacking 101: What to Pack", "publisher": "BIKEPACKING.com", "url": "https://bikepacking.com/bikepacking-101/pack-list/", "accessed": "2026-10-07"},
+    {"title": "The 10 Essentials", "publisher": "National Park Service", "url": "https://www.nps.gov/articles/10essentials.htm", "accessed": "2026-10-07"},
+    {"title": "Leave No Trace Seven Principles", "publisher": "National Park Service", "url": "https://www.nps.gov/articles/leave-no-trace-seven-principles.htm", "accessed": "2026-10-07"},
+    {"title": "Food Storage in Bear Country", "publisher": "National Park Service", "url": "https://home.nps.gov/articles/bearsafetyfood.htm", "accessed": "2026-10-07"}
+  ],
+  "sections": [
+    {
+      "title": "Planning & Navigation",
+      "items": [
+        {"text": "Route GPX loaded on a GPS unit and phone with offline maps", "required": true, "permitRequired": false},
+        {"text": "Backup paper map or printed cue sheet", "required": true, "permitRequired": false},
+        {"text": "Resupply and water plan by day", "required": true, "permitRequired": false},
+        {"text": "Trip plan shared with someone at home", "required": true, "permitRequired": false},
+        {"text": "Battery bank (10,000 mAh or more) and cables, or a dynamo hub", "required": true, "permitRequired": false},
+        {"text": "Permits or reservations for campgrounds and parks on the route", "required": false, "note": "Check current rules for each land unit you cross.", "permitRequired": true},
+        {"text": "Handlebar mount for GPS or phone", "required": false, "permitRequired": false},
+        {"text": "Wall charger for town stops", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Bike & Bags",
+      "items": [
+        {"text": "Bike tuned up: brakes, drivetrain, bearings, and tires checked", "required": true, "permitRequired": false},
+        {"text": "Helmet", "required": true, "permitRequired": false},
+        {"text": "Frame, seat, and handlebar bags (or racks and panniers)", "required": true, "permitRequired": false},
+        {"text": "Front light and rear blinker", "required": true, "permitRequired": false},
+        {"text": "Bottle cages or other water mounts", "required": true, "permitRequired": false},
+        {"text": "Bell for warning hikers", "required": false, "permitRequired": false},
+        {"text": "Lightweight lock for town stops", "required": false, "permitRequired": false},
+        {"text": "Extra cargo straps and dry bags", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Repair Kit & Spares",
+      "items": [
+        {"text": "Mini pump (high volume)", "required": true, "permitRequired": false},
+        {"text": "Multi-tool with the Allen and Torx bits your bike needs, plus chain breaker", "required": true, "permitRequired": false},
+        {"text": "Tire levers", "required": true, "permitRequired": false},
+        {"text": "Spare tube(s), 1-2", "required": true, "permitRequired": false},
+        {"text": "Tubeless plugs and extra sealant (if tubeless)", "required": true, "permitRequired": false},
+        {"text": "Patch kit and tire boot", "required": true, "permitRequired": false},
+        {"text": "Quick links that match your chain", "required": true, "permitRequired": false},
+        {"text": "Spare derailleur hanger", "required": true, "permitRequired": false},
+        {"text": "Chain lube and a rag", "required": true, "permitRequired": false},
+        {"text": "Zip ties and duct tape", "required": true, "permitRequired": false},
+        {"text": "Spare brake pads", "required": false, "note": "Bring a set or two on longer, wetter, or steeper routes.", "permitRequired": false},
+        {"text": "Spare bolts (rack, cleat, seatpost)", "required": false, "permitRequired": false},
+        {"text": "Spare spokes, nipples, and spoke wrench", "required": false, "permitRequired": false},
+        {"text": "Shock pump (if suspension)", "required": false, "permitRequired": false},
+        {"text": "Needle, thread, and super glue", "required": false, "permitRequired": false},
+        {"text": "Spare shifter or brake cable", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Shelter & Sleep",
+      "items": [
+        {"text": "Ultralight tent, tarp, or bivy", "required": true, "permitRequired": false},
+        {"text": "Sleeping bag or quilt rated for the lows", "required": true, "permitRequired": false},
+        {"text": "Sleeping pad (inflatable or foam)", "required": true, "permitRequired": false},
+        {"text": "Inflatable pillow", "required": false, "permitRequired": false},
+        {"text": "Groundsheet", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Kitchen & Water",
+      "items": [
+        {"text": "Stove (canister or alcohol) and fuel", "required": true, "note": "Going stoveless is an option on routes with frequent towns.", "permitRequired": false},
+        {"text": "Pot (0.7-1 L) and spork", "required": true, "permitRequired": false},
+        {"text": "Lighter", "required": true, "permitRequired": false},
+        {"text": "Water capacity (2-6 L) sized to the longest dry stretch", "required": true, "permitRequired": false},
+        {"text": "Water filter or purification tablets", "required": true, "permitRequired": false},
+        {"text": "Food for the days between resupply, plus snacks", "required": true, "permitRequired": false},
+        {"text": "Mug and coffee kit", "required": false, "permitRequired": false},
+        {"text": "Bear hang kit or canister where required", "required": false, "note": "Check current food-storage rules for each land unit on the route.", "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Clothing",
+      "items": [
+        {"text": "Riding shorts or bibs and a jersey or wool tee", "required": true, "permitRequired": false},
+        {"text": "Cycling gloves and sunglasses", "required": true, "permitRequired": false},
+        {"text": "Shoes matched to your pedals", "required": true, "permitRequired": false},
+        {"text": "Wool socks (2 pairs)", "required": true, "permitRequired": false},
+        {"text": "Lightweight rain jacket", "required": true, "permitRequired": false},
+        {"text": "Insulating jacket (down or synthetic)", "required": true, "permitRequired": false},
+        {"text": "Off-bike shorts or pants and shirt", "required": false, "permitRequired": false},
+        {"text": "Merino leggings or sleep layer", "required": false, "permitRequired": false},
+        {"text": "Beanie and neck gaiter", "required": false, "permitRequired": false},
+        {"text": "Rain pants and warm gloves for cold or wet routes", "required": false, "permitRequired": false},
+        {"text": "Camp sandals", "required": false, "permitRequired": false},
+        {"text": "High-visibility vest for hunting season or paved sections", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Safety & First Aid",
+      "items": [
+        {"text": "First-aid kit: gauze, tape, closure strips, antiseptic, pain and allergy meds", "required": true, "permitRequired": false},
+        {"text": "Headlamp", "required": true, "permitRequired": false},
+        {"text": "Sunscreen and lip balm", "required": true, "permitRequired": false},
+        {"text": "ID, cash, cards, and insurance info", "required": true, "permitRequired": false},
+        {"text": "Satellite messenger for remote routes", "required": false, "permitRequired": false},
+        {"text": "Whistle", "required": false, "permitRequired": false},
+        {"text": "Bear spray on routes through grizzly country", "required": false, "permitRequired": false},
+        {"text": "Emergency blanket", "required": false, "permitRequired": false},
+        {"text": "Small knife", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Hygiene",
+      "items": [
+        {"text": "Toilet paper and lightweight trowel", "required": true, "permitRequired": false},
+        {"text": "Hand sanitizer", "required": true, "permitRequired": false},
+        {"text": "Chamois cream", "required": false, "permitRequired": false},
+        {"text": "Toothbrush and toothpaste", "required": false, "permitRequired": false},
+        {"text": "Small soap and quick-dry towel", "required": false, "permitRequired": false},
+        {"text": "Earplugs", "required": false, "permitRequired": false},
+        {"text": "WAG bag where human waste must be packed out", "required": false, "permitRequired": false}
+      ]
+    }
+  ]
+}

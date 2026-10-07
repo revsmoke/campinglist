@@ -1,0 +1,106 @@
+{
+  "id": "joshua-tree-desert-camping",
+  "name": "Joshua Tree Camping",
+  "category": "destination",
+  "tagline": "For campers and backpackers visiting Joshua Tree National Park, where you bring every drop of water yourself.",
+  "description": "Covers a 2-4 night cool-season trip (October-May) for a small group at a park campground or in a backcountry zone on a Recreation.gov backpacking permit. Assumes no water inside the park except at Black Rock and Cottonwood campgrounds, big day-night temperature swings and little or no cell service. Summer visitors should plan around extreme heat; backpackers can drop the campground-only items.",
+  "season": "Oct-May (summer brings extreme heat)",
+  "typicalDuration": "2-4 nights",
+  "considerations": [
+    "Black Rock, Cottonwood, Indian Cove, Jumbo Rocks, Ryan and Sheep Pass campgrounds are reservation-only up to 6 months ahead; Hidden Valley, White Tank and Belle are first-come and are usually full by Friday afternoon from October to May (NPS, as of 2026).",
+    "Only Black Rock and Cottonwood campgrounds have water. The park recommends at least 1 gallon per person per day and more when hiking in heat; keep extra water in the vehicle.",
+    "Backcountry camping requires a $6 Recreation.gov permit (1-12 people, up to 14 nights) in one of 15 zones, at least 1 mile from a trailhead, half a mile from roads and 200 ft from trails. Campfires are illegal in the backcountry.",
+    "Campground fires are allowed only in the provided rings with wood brought from outside the park; a seasonal campfire ban has run from about June 15 to October 1 in recent years. Check current fire restrictions.",
+    "Temperatures top 85 F from April to September; hike before 10 am or after 4 pm in heat. Flash floods can occur even on sunny days during summer monsoon season.",
+    "Cell service is extremely limited; download offline maps and the NPS app and share your itinerary. Search and rescue can take hours or days to reach you.",
+    "Campsite limits: 6 people, 3 tents and usually 2 vehicles; generators only 7-9 am, noon-2 pm and 5-7 pm; first-come sites must be paid within an hour."
+  ],
+  "reviewedOn": "2026-10-07",
+  "sources": [
+    {"title": "Backpacking", "publisher": "National Park Service - Joshua Tree", "url": "https://www.nps.gov/jotr/planyourvisit/backpacking.htm", "accessed": "2026-10-07"},
+    {"title": "Campgrounds", "publisher": "National Park Service - Joshua Tree", "url": "https://www.nps.gov/jotr/planyourvisit/campgrounds.htm", "accessed": "2026-10-07"},
+    {"title": "Safety Guidelines for Your Visit to Joshua Tree National Park", "publisher": "National Park Service - Joshua Tree", "url": "https://home.nps.gov/jotr/planyourvisit/safety-guidelines-for-your-visit-to-joshua-tree-national-park.htm", "accessed": "2026-10-07"}
+  ],
+  "sections": [
+    {
+      "title": "Permits & Planning",
+      "items": [
+        {"text": "Campground reservation on Recreation.gov (up to 6 months ahead)", "required": true, "note": "Or a first-come plan for Hidden Valley, White Tank or Belle with an early arrival.", "permitRequired": true},
+        {"text": "Backcountry permit if backpacking ($6, 1-12 people, up to 14 nights)", "required": false, "note": "Book on Recreation.gov up to 6 months ahead; choose one of 15 zones (as of 2026).", "permitRequired": true},
+        {"text": "Park entrance pass", "required": true, "permitRequired": false},
+        {"text": "Check current fire restrictions and the heat or storm forecast", "required": true, "permitRequired": false},
+        {"text": "Itinerary shared with someone at home (no cell service)", "required": true, "permitRequired": false},
+        {"text": "Offline maps and the NPS app downloaded before arrival", "required": false, "permitRequired": false},
+        {"text": "Firewood bought outside the park (no gathering)", "required": false, "permitRequired": false},
+        {"text": "Cash or card for first-come site fees", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Water",
+      "items": [
+        {"text": "At least 1 gallon of water per person per day; 2 gallons in heat", "required": true, "note": "Only Black Rock and Cottonwood campgrounds have water.", "permitRequired": false},
+        {"text": "Large camp water jugs (5-7 gallons)", "required": true, "permitRequired": false},
+        {"text": "Extra water left in the vehicle for emergencies", "required": true, "permitRequired": false},
+        {"text": "Bottles or bladder for 3 liters on hikes", "required": true, "permitRequired": false},
+        {"text": "Electrolyte mix", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Shelter & Sleep",
+      "items": [
+        {"text": "Tent with sturdy stakes for wind and rocky ground", "required": true, "permitRequired": false},
+        {"text": "Sleeping bag warm enough for near-freezing nights", "required": true, "note": "Fall, winter and spring nights get cold even after hot days.", "permitRequired": false},
+        {"text": "Sleeping pad", "required": true, "permitRequired": false},
+        {"text": "Shade canopy or tarp", "required": false, "permitRequired": false},
+        {"text": "Rock-proof stakes and mallet", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Clothing",
+      "items": [
+        {"text": "Sun hat and sunglasses", "required": true, "permitRequired": false},
+        {"text": "Long-sleeve sun shirt and pants", "required": false, "permitRequired": false},
+        {"text": "Warm layers and beanie for cold nights", "required": true, "permitRequired": false},
+        {"text": "Sturdy closed-toe shoes", "required": true, "permitRequired": false},
+        {"text": "Windbreaker", "required": false, "permitRequired": false},
+        {"text": "Gloves for scrambling and cholla", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Kitchen & Food",
+      "items": [
+        {"text": "Stove and fuel", "required": true, "note": "Fire bans are common; a stove is the reliable option.", "permitRequired": false},
+        {"text": "Cooler and ice", "required": false, "permitRequired": false},
+        {"text": "Cook kit and utensils", "required": false, "permitRequired": false},
+        {"text": "Food in sealed containers or the vehicle (ravens, rodents, coyotes)", "required": true, "permitRequired": false},
+        {"text": "Trash bags", "required": true, "permitRequired": false},
+        {"text": "Camp chairs and table", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Navigation & Safety",
+      "items": [
+        {"text": "Paper map of the park", "required": true, "permitRequired": false},
+        {"text": "Compass or GPS", "required": false, "permitRequired": false},
+        {"text": "First aid kit", "required": true, "permitRequired": false},
+        {"text": "Headlamp with spare batteries", "required": true, "permitRequired": false},
+        {"text": "Sunscreen SPF 30+ and lip balm", "required": true, "permitRequired": false},
+        {"text": "Whistle and signal mirror", "required": false, "permitRequired": false},
+        {"text": "Comb and tweezers for cholla spines", "required": false, "permitRequired": false},
+        {"text": "Satellite messenger", "required": false, "permitRequired": false},
+        {"text": "Vehicle with full tank, good spare tire and extra water", "required": true, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Leave No Trace / Pack-out",
+      "items": [
+        {"text": "Backcountry: WAG bags, or bury waste 200 ft from water (no water nearby anyway)", "required": true, "permitRequired": false},
+        {"text": "Pack out all trash", "required": true, "permitRequired": false},
+        {"text": "Pack out toilet paper", "required": true, "permitRequired": false},
+        {"text": "No fires in the backcountry; campground rings only", "required": false, "permitRequired": false},
+        {"text": "Stay on trails; do not climb or damage Joshua trees", "required": false, "permitRequired": false},
+        {"text": "Respect generator hours and quiet hours", "required": false, "permitRequired": false}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "id": "smokies-backcountry",
+  "name": "Smokies Backcountry Camping",
+  "category": "destination",
+  "tagline": "For backpackers spending one to four nights at designated backcountry campsites and shelters in Great Smoky Mountains National Park.",
+  "description": "Assumes a spring-to-fall backpacking loop for up to 8 people using reserved backcountry campsites or shelters. Covers the Recreation.gov permit (new $6 fee and system as of April 30, 2026), mandatory bear-cable food storage, shelter rules and the park's famously wet weather. Appalachian Trail thru-hikers use a different permit; winter trips need more insulation and traction.",
+  "season": "Mar-Nov (peak Apr-May and Oct); wet year-round",
+  "typicalDuration": "1-4 nights",
+  "considerations": [
+    "All backcountry camping requires an advance reservation on Recreation.gov (from April 30, 2026): $8 per person per night plus a $6 non-refundable permit fee with no cap; reservations open 30 days ahead. The A.T. thru-hiker permit is $44.50.",
+    "Camp only at designated sites and shelters; max party 8; no more than 3 consecutive nights at a site and no consecutive nights at shelters or site 113. If your itinerary includes a shelter you must sleep inside it, and hammocks may not be used inside.",
+    "All odorous items (food, trash, toothpaste, lip balm) must hang on the bear cable system at every site; stay 50 yards from bears; use bear spray only if a bear is within 20 yards.",
+    "Fires only in existing rings at designated sites using dead-and-down wood or certified heat-treated firewood; never burn trash.",
+    "Expect rain in any month, slick roots and rock, and fast-moving cold fronts; hypothermia is a risk even in summer at elevation.",
+    "No soap of any kind in water sources; wash and bathe away from water and camp. Bury human waste 6 in deep at least 100 ft from water, camps and trails.",
+    "Check Trail Cautions and Closures for storm damage and bear-activity closures before you go."
+  ],
+  "reviewedOn": "2026-10-07",
+  "sources": [
+    {"title": "Backcountry Camping", "publisher": "National Park Service - Great Smoky Mountains", "url": "https://www.nps.gov/grsm/planyourvisit/backcountry-camping.htm", "accessed": "2026-10-07"},
+    {"title": "Black Bears", "publisher": "National Park Service - Great Smoky Mountains", "url": "https://www.nps.gov/grsm/learn/nature/black-bears.htm", "accessed": "2026-10-07"},
+    {"title": "A.T. Permits and Fees", "publisher": "Appalachian Trail Conservancy", "url": "https://appalachiantrail.org/experience/hike-the-trail/at-basics/permits-fees/", "accessed": "2026-10-07"}
+  ],
+  "sections": [
+    {
+      "title": "Permits & Planning",
+      "items": [
+        {"text": "Backcountry permit and reservation for every night", "required": true, "note": "Recreation.gov from April 30, 2026; $8/person/night plus $6 fee; reservable 30 days ahead.", "permitRequired": true},
+        {"text": "Permit printed or saved and carried on the trail", "required": true, "permitRequired": false},
+        {"text": "Parking tag for any vehicle left in the park", "required": true, "note": "$5 daily, $15 weekly or $40 annual (as of 2026).", "permitRequired": true},
+        {"text": "Itinerary matching reserved sites, shared with a contact", "required": true, "permitRequired": false},
+        {"text": "Check Trail Cautions and Closures and the forecast", "required": true, "permitRequired": false},
+        {"text": "Shuttle or car shuttle for point-to-point routes", "required": false, "permitRequired": false},
+        {"text": "Group of 8 or fewer; no two affiliated groups at one site", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Food Storage & Bear Safety",
+      "items": [
+        {"text": "Stuff sack and clip ready for the bear cables", "required": true, "note": "Cables are provided at every site; hang your whole food bag, pack or canister.", "permitRequired": false},
+        {"text": "All smellables hung: toothpaste, lip balm, sunscreen, trash", "required": true, "permitRequired": false},
+        {"text": "Bear canister (optional in the Smokies; ATC recommends one)", "required": false, "permitRequired": false},
+        {"text": "Cook and eat away from the sleeping area", "required": false, "permitRequired": false},
+        {"text": "Bear spray", "required": false, "note": "Use only if a bear is within 20 yards.", "permitRequired": false},
+        {"text": "Meals repackaged, plus one extra day", "required": true, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Shelter & Sleep",
+      "items": [
+        {"text": "Tent with full rainfly and footprint", "required": true, "note": "Needed for campsite nights; shelter nights require sleeping inside the shelter.", "permitRequired": false},
+        {"text": "Sleeping bag rated for the forecast", "required": true, "permitRequired": false},
+        {"text": "Sleeping pad", "required": true, "permitRequired": false},
+        {"text": "Earplugs (shelters are shared)", "required": false, "permitRequired": false},
+        {"text": "Hammock with straps for campsite nights only", "required": false, "note": "Hammocks may not be used inside shelters.", "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Clothing",
+      "items": [
+        {"text": "Rain jacket and rain pants", "required": true, "permitRequired": false},
+        {"text": "Non-cotton layers plus fleece or puffy", "required": true, "permitRequired": false},
+        {"text": "Wool socks (3 pairs) and dry camp socks", "required": true, "permitRequired": false},
+        {"text": "Boots or trail shoes with grip for wet roots and rock", "required": true, "permitRequired": false},
+        {"text": "Warm hat and gloves", "required": false, "permitRequired": false},
+        {"text": "Camp shoes", "required": false, "permitRequired": false},
+        {"text": "Pack cover and pack liner", "required": true, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Water & Kitchen",
+      "items": [
+        {"text": "Water filter or treatment", "required": true, "permitRequired": false},
+        {"text": "Capacity for 2 liters", "required": true, "permitRequired": false},
+        {"text": "Stove and fuel", "required": true, "permitRequired": false},
+        {"text": "Cook kit", "required": false, "permitRequired": false},
+        {"text": "Lighter plus backup fire starter", "required": false, "permitRequired": false},
+        {"text": "Wash dishes well away from streams; no soap in water", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Navigation & Safety",
+      "items": [
+        {"text": "Park trail map", "required": true, "permitRequired": false},
+        {"text": "Headlamp with spare batteries", "required": true, "permitRequired": false},
+        {"text": "First aid kit", "required": true, "permitRequired": false},
+        {"text": "Whistle", "required": false, "permitRequired": false},
+        {"text": "Trekking poles", "required": false, "permitRequired": false},
+        {"text": "Satellite messenger", "required": false, "permitRequired": false},
+        {"text": "Tick and insect repellent; nightly tick check", "required": false, "permitRequired": false},
+        {"text": "Sunscreen", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Leave No Trace / Pack-out",
+      "items": [
+        {"text": "Trowel for a 6 in cathole 100 ft from water, camp and trail", "required": true, "permitRequired": false},
+        {"text": "Pack out all trash and food scraps; never burn them", "required": true, "permitRequired": false},
+        {"text": "Pack out toilet paper or bury it deep in the cathole", "required": false, "permitRequired": false},
+        {"text": "Fires only in existing rings with dead-and-down or heat-treated wood", "required": false, "permitRequired": false},
+        {"text": "Leave shelters clean with no food stored inside", "required": true, "permitRequired": false}
+      ]
+    }
+  ]
+}
