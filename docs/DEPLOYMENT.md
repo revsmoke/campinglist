@@ -25,8 +25,9 @@ Google sign-in from localhost needs `http://localhost:8787` (the Playwright port
    "sync the workspace to the latest commit of GitHub branch main".
 3. Publish from the Replit **Publishing** pane (or the Replit MCP `publish_app` tool). The
    `.replit` file already sets `publicDir = "public"`, `deploymentTarget = "static"` and the
-   response headers (CSP fallback is in `index.html`; `.replit` adds COOP, no-store for the
-   Microsoft bridge page, nosniff, referrer policy, X-Frame-Options).
+   response headers (CSP is a `<meta>` tag in `index.html`; `.replit` adds nosniff, referrer
+   policy, X-Frame-Options and Permissions-Policy for every file). Replit applied only
+   `path = "/*"` rules when this was verified; path-specific rules were ignored.
 4. Verify: `https://camplist.guide/templates/index.json` returns the new index,
    `https://camplist.guide/keys.txt` is 404, and the browser console is clean.
 

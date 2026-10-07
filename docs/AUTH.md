@@ -96,8 +96,9 @@ Steps (Google Cloud Console → APIs & Services):
 
 1. **Credentials** → if client `431848192736-…` is listed as disabled, try **Enable**. If it is gone,
    **Create credentials → OAuth client ID → Web application**, name `CampList web`.
-2. **Authorized JavaScript origins**: `https://camplist.guide`, `https://www.camplist.guide`,
-   `http://localhost:8787` (dev). No redirect URIs are needed (GIS popup flow).
+2. **Authorized JavaScript origins**: `https://camplist.guide` (and `https://www.camplist.guide`
+   only if that host is added to Replit; today it has no certificate), `http://localhost:8787`
+   (dev). No redirect URIs are needed (GIS popup flow).
 3. **OAuth consent screen / Branding**: app name CampList, support email, logo
    (`public/images/camplist_logo_oauth.png`), privacy `https://camplist.guide/privacy.html`,
    terms `https://camplist.guide/terms.html`. **Publishing status must be "In production"**

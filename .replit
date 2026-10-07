@@ -32,32 +32,10 @@ path = "/*"
 name = "Permissions-Policy"
 value = "camera=(), microphone=(), geolocation=(self), payment=()"
 
-# Google sign-in and the Drive token popup need window.opener to stay reachable: never
-# "same-origin" here. Microsoft's redirect bridge must not carry COOP at all (see below).
-[[deployment.responseHeaders]]
-path = "/index.html"
-name = "Cross-Origin-Opener-Policy"
-value = "same-origin-allow-popups"
-
-[[deployment.responseHeaders]]
-path = "/"
-name = "Cross-Origin-Opener-Policy"
-value = "same-origin-allow-popups"
-
-[[deployment.responseHeaders]]
-path = "/auth/redirect.html"
-name = "Cache-Control"
-value = "no-store"
-
-[[deployment.responseHeaders]]
-path = "/templates/*"
-name = "Cache-Control"
-value = "public, max-age=300"
-
-[[deployment.responseHeaders]]
-path = "/vendor/*"
-name = "Cache-Control"
-value = "public, max-age=86400"
+# Note: Replit static deployments applied only the "/*" rules above when verified on
+# 2026-10-07; path-specific rules (e.g. Cache-Control: no-store for /auth/redirect.html or
+# Cross-Origin-Opener-Policy for /) were ignored, so they are not listed. Do not add a COOP
+# "same-origin" header: it would break the Google sign-in and Drive popups.
 
 [workflows]
 runButton = "Serve static"
