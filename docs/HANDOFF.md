@@ -16,7 +16,7 @@ Live: https://camplist.guide (Replit static deployment of `public/`).
 | Monetisation | None | Labelled sponsor/house slots (max 2), AdSense + Plausible behind flags, updated privacy/terms, economics doc |
 | Security | `keys.txt` served publicly; prototype pages deployed; CDN DOMPurify without SRI; no CSP | Only `public/` is deployed; secrets gitignored and absent; DOMPurify/MSAL vendored and pinned; CSP meta + Replit response headers (nosniff, X-Frame-Options, Referrer-Policy, Permissions-Policy on every file; Replit ignored the path-specific COOP and no-store rules, see §3) |
 | Maps | Autocomplete never initialised (`initMap` race) | Loaded lazily when Trip Info opens; manual entry fallback |
-| Engineering | No package.json/tests in repo | ESLint, Prettier, Vitest (27 tests), Playwright (30 journeys), template validator, docs |
+| Engineering | No package.json/tests in repo | ESLint, Prettier, Vitest (32 tests), Playwright (35 journeys), template validator, docs |
 
 ## 2. What was tested
 
@@ -28,7 +28,7 @@ Live: https://camplist.guide (Replit static deployment of `public/`).
   renders, Places autocomplete mounts and the CSP causes no violations.
 * Production verification: see section 3.
 
-## 3. Production verification (2026-10-07, after publishing deployment `b094d18f`)
+## 3. Production verification (2026-10-07, deployment `b094d18f`, re-verified after republishing commit `b4c2b02`)
 
 Checked from a headless Chromium session and curl against https://camplist.guide:
 
@@ -39,7 +39,8 @@ Checked from a headless Chromium session and curl against https://camplist.guide
 | Trip info / Maps | Places autocomplete element mounts on production (key accepted) |
 | Sponsor slot | House card renders with its "From CampList" label |
 | Security | `/keys.txt` 404, `/googledrive.html` 404, `/package.json` 404, `/docs/PLAN.md` 404 (only `public/` is served); CSP meta present; headers `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy` applied to every file |
-| Google sign-in | Verified with the flags on (deployment `b094d18f`): Google's button renders and opens the real popup; Google answers **"Access blocked: The OAuth client was disabled. Error 401: disabled_client"** — the app side works, the client ID is the blocker (section 5). The follow-up deployment ships the flags off, so the button is hidden until the client is fixed |
+| Legal pages | `/terms.html` and `/privacy.html` render their full text with the visible "Last updated: 7 October 2026" line (the blank terms page from the first deployment is fixed) |
+| Google sign-in | Verified with the flags on (deployment `b094d18f`): Google's button renders and opens the real popup; Google answers **"Access blocked: The OAuth client was disabled. Error 401: disabled_client"** — the app side works, the client ID is the blocker (section 5). The current build (commit `b4c2b02`) ships the flags off: verified that the header shows no Sign in button and the Storage panel shows the "not available on this site yet" notice |
 | Google Drive | Not verifiable until the client is restored (same popup) |
 | Hosts | `http://camplist.guide` → 301 to https; `https://www.camplist.guide` fails TLS (no www domain configured in Replit) |
 
@@ -67,7 +68,7 @@ MSAL bridge page). Neither is required for the current features.
    `docs/MONETIZATION.md`).
 5. **App-managed storage / subscriptions** are evaluated, not built (needs a backend).
 6. The Replit workspace must now be treated as a deploy target only; edit on GitHub. It currently
-   holds commit `15f7368`; the docs-only follow-up commit on the branch does not need a republish.
+   holds commit `b4c2b02` (the published build); docs-only commits after it do not need a republish.
 7. `www.camplist.guide` is not served (no certificate). Either add it as a second custom domain in
    Replit (plus DNS) or leave it; Google origins only need the hosts you actually serve.
 
