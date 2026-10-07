@@ -41,7 +41,7 @@ Checked from a headless Chromium session and curl against https://camplist.guide
 | Security | `/keys.txt` 404, `/googledrive.html` 404, `/package.json` 404, `/docs/PLAN.md` 404 (only `public/` is served); CSP meta present; headers `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy` applied to every file |
 | Legal pages | `/terms.html` and `/privacy.html` render their full text with the visible "Last updated: 7 October 2026" line (the blank terms page from the first deployment is fixed) |
 | Google sign-in | With the recreated client (`662895092391-…`, build `9b93e13`): Google's button renders in the sign-in dialog with no origin or client errors, and clicking it opens Google's real sign-in page "Sign in to continue to CampList.Guide" with the privacy and terms links. Completing a sign-in needs a real Google account, so that last step was not exercised here. (An earlier build with the old client showed `Error 401: disabled_client`.) |
-| Google Drive | Connect, save and open against a real Drive were not exercised (they need a signed-in Google account in a browser); the flows are covered by the mocked journeys |
+| Google Drive | Owner-confirmed on 2026-10-07 from a real browser: sign-in, Drive connect and a list save worked. The connect flow now shows a "Connecting…" state and a "Connected" badge (the idle Connect button had made a successful connect look as if nothing happened) |
 | Hosts | `http://camplist.guide` → 301 to https; `https://www.camplist.guide` fails TLS (no www domain configured in Replit) |
 
 Not applied by Replit: path-specific response-header rules (COOP for `/`, `no-store` for the
@@ -49,13 +49,12 @@ MSAL bridge page). Neither is required for the current features.
 
 ## 4. Limitations and disabled integrations
 
-1. **Google sign-in is switched on** with the recreated client (the original client had been
-   disabled by Google after six months without use). Not yet exercised in production: a complete
-   sign-in and a Drive connect/save with a real Google account (section 5, item 1). The flags
-   `features.googleSignIn` / `features.googleDrive` in `public/js/config.js` remain the kill
-   switch.
-2. **Google Drive** therefore has mocked end-to-end coverage only; do the first real connect from
-   your own browser (section 5, item 1).
+1. **Google sign-in and Drive are switched on** with the recreated client (the original client
+   had been disabled by Google after six months without use) and were confirmed by the owner
+   from a real browser (sign-in, connect, save). The flags `features.googleSignIn` /
+   `features.googleDrive` in `public/js/config.js` remain the kill switch.
+2. **Google Drive** "Open from Drive", trip-file uploads, the folder picker and conflict handling
+   have mocked end-to-end coverage; try them once in a real browser when convenient.
 3. **Microsoft sign-in / OneDrive** are hidden until an Entra client ID exists (section 5).
    They have unit/mock coverage only; the first real sign-in should be tested with a personal
    Microsoft account and a work account (the `Files.ReadWrite.AppFolder` scope's behaviour for
@@ -71,11 +70,9 @@ MSAL bridge page). Neither is required for the current features.
 
 ## 5. What is needed from you
 
-1. **Google (5 minutes, from your own browser):** sign in on https://camplist.guide, connect
-   Google Drive from the Storage panel, add an item and confirm the "Saved to Google Drive"
-   status, then open the `CampList` folder in Drive to see the file. (The old unrestricted Maps
-   key is already invalid; the new key's referrers include `https://docs.google.com/*` for the
-   Drive "Change folder" picker.)
+1. **Google:** done (client recreated, key restricted, real sign-in and Drive save confirmed).
+   Optional: try "Open from Google Drive…", "Trip files…" and "Change…" (folder picker) once in
+   a real browser.
 2. **Microsoft Entra (optional, 10 minutes):** app registration per `docs/AUTH.md` §5; paste the
    client ID into `config.js → microsoft.clientId`.
 3. **Replit:** merge the PR into `main`, keep the workspace synced from GitHub before publishing

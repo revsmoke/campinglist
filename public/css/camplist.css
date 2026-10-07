@@ -1287,6 +1287,20 @@ button.danger {
   font-size: 0.875rem;
   margin: 0.4rem 0;
 }
+.storage-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 0.05rem 0.45rem;
+}
+.storage-connect .storage-status {
+  margin-top: 0.25rem;
+}
 .status-saved {
   color: var(--accent);
 }

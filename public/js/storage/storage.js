@@ -263,7 +263,10 @@ async function connect(providerId) {
   }
   if (busyProvider) return;
   busyProvider = providerId;
-  setStatus(providerId, "working", "Waiting for authorisation…");
+  // Show the connecting state at once: the authorisation window, folder setup and first save
+  // can take a while, and an idle "Connect" button would look as if nothing happened.
+  setStatus(providerId, "working", `Waiting for ${adapter.name} to authorise CampList…`);
+  renderStoragePanel();
   try {
     const existing = getAccountStorage(account.id, providerId);
     await adapter.ensureToken({
@@ -271,6 +274,8 @@ async function connect(providerId) {
       consent: !existing?.connected,
       hint: hintFor(account),
     });
+    setStatus(providerId, "working", `Setting up your ${adapter.name} folder…`);
+    renderStoragePanel();
     const who = await adapter.whoAmI();
     const folder = await adapter.ensureFolder(existing?.folderId || null);
     updateAccountStorage(account.id, providerId, {
@@ -846,7 +851,7 @@ export function renderStoragePanel() {
     const conn = connection(adapter.id);
     const st = statusFor(adapter.id) || { state: "idle", message: "" };
     html += `<div class="storage-provider" data-provider="${adapter.id}">
-      <div class="storage-head"><strong>${escapeText(adapter.name)}</strong>${conn.email ? `<span class="muted small">${escapeText(conn.email)}</span>` : ""}</div>
+      <div class="storage-head"><strong>${escapeText(adapter.name)}</strong><span class="storage-badge">Connected</span>${conn.email ? `<span class="muted small">${escapeText(conn.email)}</span>` : ""}</div>
       <div class="small">Folder: ${conn.folderLink ? `<a href="${escapeText(conn.folderLink)}" target="_blank" rel="noopener noreferrer">${escapeText(conn.folderName)}</a>` : escapeText(conn.folderName)}
         ${adapter.canPickFolder ? `<button type="button" class="link-button" data-action="folder">Change…</button>` : ""}</div>
       <div class="storage-status status-${st.state}" role="status"><span aria-hidden="true">${STATUS_ICON[st.state] || ""}</span> ${escapeText(st.message || (st.state === "saved" ? "Saved." : ""))}</div>
@@ -854,18 +859,20 @@ export function renderStoragePanel() {
         ${st.state === "reauth" ? `<button type="button" data-action="reconnect">Reconnect</button>` : `<button type="button" data-action="save"${st.state === "working" ? " disabled" : ""}>Save now</button>`}
         <button type="button" class="secondary" data-action="open">Open from ${escapeText(adapter.name)}…</button>
         <button type="button" class="secondary" data-action="files">Trip files…</button>
-        <button type="button" class="secondary" data-action="disconnect">Disconnect</button>
+        <button type="button" class="secondary" data-action="disconnect">Disconnect ${escapeText(adapter.name)}</button>
       </div>
       <label class="checkbox-row small"><input type="checkbox" data-action="autosync" ${autosync ? "checked" : ""}> Save changes automatically while connected</label>
     </div>`;
   }
-  if (unconnected.length) {
-    html += `<div class="controls-buttons">${unconnected
-      .map(
-        (a) =>
-          `<button type="button" class="secondary" data-action="connect" data-provider="${a.id}">Connect ${escapeText(a.name)}</button>`
-      )
-      .join("")}</div>`;
+  for (const a of unconnected) {
+    const st = status[a.id];
+    const connecting = busyProvider === a.id && st?.state === "working";
+    const failed = st?.state === "error" && st.message ? st.message : "";
+    html += `<div class="storage-connect" data-provider="${a.id}">
+      <div class="controls-buttons"><button type="button" class="secondary" data-action="connect" data-provider="${a.id}"${connecting ? " disabled" : ""}>${connecting ? `Connecting to ${escapeText(a.name)}…` : `Connect ${escapeText(a.name)}`}</button></div>
+      ${connecting ? `<div class="storage-status status-working" role="status"><span aria-hidden="true">${STATUS_ICON.working}</span> ${escapeText(st.message)}</div>` : ""}
+      ${failed ? `<div class="storage-status status-error" role="status"><span aria-hidden="true">${STATUS_ICON.error}</span> Could not connect: ${escapeText(failed)}</div>` : ""}
+    </div>`;
   }
   html += `<p class="small muted">Nothing is stored on CampList's servers. <a href="privacy.html#storage">How storage works</a></p>`;
   panel.innerHTML = html;

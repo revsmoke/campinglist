@@ -41,6 +41,9 @@ test.describe("Google Drive storage (mocked APIs)", () => {
     );
     await connectDrive(page);
     await expect(page.locator("#toastContainer")).toContainText("Google Drive connected");
+    // A connected provider shows a Connected badge and never a Connect button.
+    await expect(page.locator("#storagePanel .storage-badge")).toHaveText("Connected");
+    await expect(page.locator('#storagePanel [data-action="connect"]')).toHaveCount(0);
     const folders = drive
       .files()
       .filter((f) => f.mimeType === "application/vnd.google-apps.folder");
@@ -70,6 +73,7 @@ test.describe("Google Drive storage (mocked APIs)", () => {
     await page.reload();
     await page.waitForSelector("body.app-ready");
     await expect(page.locator("#storagePanel .storage-provider")).toBeVisible();
+    await expect(page.locator('#storagePanel [data-action="connect"]')).toHaveCount(0);
     await page.fill("#newSectionTitle", "After reload");
     await page.click("#addSectionForm button[type=submit]");
     await expect(page.locator("#storagePanel .storage-status")).toContainText(
@@ -234,9 +238,52 @@ test.describe("Google Drive storage (mocked APIs)", () => {
     await page.click('#storagePanel [data-action="disconnect"]');
     await page.click("#appDialogConfirm");
     await expect(page.locator('#storagePanel [data-action="connect"]')).toBeVisible();
+    await expect(page.locator("#storagePanel .storage-badge")).toHaveCount(0);
     const events = await page.evaluate(() => window.__gisMock.events);
     expect(events.some((e) => e.startsWith("revoke:"))).toBe(true);
     expect(drive.listFiles()).toHaveLength(1); // files are never deleted on disconnect
+  });
+
+  test("shows progress while connecting and explains a failed connection", async ({
+    page,
+  }) => {
+    await signInWithMock(page);
+    // Slow the first Drive call down so the connecting state is observable.
+    await page.route("https://www.googleapis.com/drive/v3/about**", async (route) => {
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await route.fallback();
+    });
+    await page.click('#storagePanel [data-action="connect"][data-provider="google"]');
+    const button = page.locator('#storagePanel [data-action="connect"]');
+    await expect(button).toBeDisabled();
+    await expect(button).toContainText("Connecting to Google Drive");
+    await expect(page.locator("#storagePanel")).toContainText(/authorise|Setting up/);
+    await expect(page.locator("#storagePanel .storage-badge")).toHaveText("Connected", {
+      timeout: 10000,
+    });
+    await expect(button).toHaveCount(0);
+    await page.unroute("https://www.googleapis.com/drive/v3/about**");
+    // Disconnect, then make the next Drive call fail: the panel says why, and the
+    // Connect button is usable again.
+    await page.click('#storagePanel [data-action="disconnect"]');
+    await page.click("#appDialogConfirm");
+    await expect(button).toBeVisible();
+    // Fail the folder lookup (the adapter remembers who the user is, and 5xx responses
+    // would be retried; a 400 is final).
+    await page.route("https://www.googleapis.com/drive/v3/files**", (route) =>
+      route.fulfill({
+        status: 400,
+        contentType: "application/json",
+        body: JSON.stringify({
+          error: { code: 400, message: "Forced 400", errors: [{ reason: "badRequest" }] },
+        }),
+      })
+    );
+    await page.click('#storagePanel [data-action="connect"][data-provider="google"]');
+    await expect(page.locator("#errorMessage")).toContainText("Google Drive");
+    await page.click('#errorDialog button[value="close"]');
+    await expect(page.locator("#storagePanel")).toContainText("Could not connect");
+    await expect(button).toBeEnabled();
   });
 
   test("a declined Drive consent is reported gently", async ({ page }) => {
