@@ -21,8 +21,9 @@ const defaults = {
     clientId: "662895092391-fp3lbispslf7ihorelbfq4fr61oc7p5l.apps.googleusercontent.com",
     // Project number (first segment of the client ID); used by the Google Picker.
     appId: "662895092391",
-    // Browser key for Maps JavaScript / Places / Picker. Restrict it by referrer.
-    mapsApiKey: "AIzaSyCdSdxIXIbaXoWV-V-VVHQ7HSIdFUANBY0",
+    // Browser key for Maps JavaScript / Places / Picker (created 2026-10-07; restricted by
+    // referrer and API in Google Cloud, which is what protects it).
+    mapsApiKey: "AIzaSyAynlVBTFm9z9F8L4FTMy0K2lxR11RrNZg",
     // Only files CampList creates or the user explicitly picks are visible with this scope.
     driveScope: "https://www.googleapis.com/auth/drive.file",
     driveFolderName: "CampList",
