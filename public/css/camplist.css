@@ -27,7 +27,7 @@
   --muted: #a0a0a0;
   --border: #404040;
   --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --logo-color: #154122;
+  --logo-color: #9ae6b4;
 }
 
 /* For system preference - only when theme isn't explicitly set */
@@ -40,7 +40,7 @@
     --muted: #a0a0a0;
     --border: #404040;
     --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    --logo-color: #154122;
+    --logo-color: #9ae6b4;
   }
 }
 
@@ -1288,7 +1288,7 @@ button.danger {
   margin: 0.4rem 0;
 }
 .status-saved {
-  color: #2f855a;
+  color: var(--accent);
 }
 .status-unsaved,
 .status-conflict,

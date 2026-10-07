@@ -14,7 +14,7 @@ Live: https://camplist.guide (Replit static deployment of `public/`).
 | Microsoft | None | MSAL v5 sign-in + OneDrive app folder, vendored; enabled by setting `microsoft.clientId` |
 | Templates | One default list | 23 researched templates with sources and review dates; browser dialog; create or append |
 | Monetisation | None | Labelled sponsor/house slots (max 2), AdSense + Plausible behind flags, updated privacy/terms, economics doc |
-| Security | `keys.txt` served publicly; prototype pages deployed; CDN DOMPurify without SRI; no CSP | Only `public/` is deployed; secrets gitignored and absent; DOMPurify/MSAL vendored and pinned; CSP meta + Replit response headers (COOP for popups, nosniff, X-Frame-Options, no-store for the MSAL bridge) |
+| Security | `keys.txt` served publicly; prototype pages deployed; CDN DOMPurify without SRI; no CSP | Only `public/` is deployed; secrets gitignored and absent; DOMPurify/MSAL vendored and pinned; CSP meta + Replit response headers (nosniff, X-Frame-Options, Referrer-Policy, Permissions-Policy on every file; Replit ignored the path-specific COOP and no-store rules, see §3) |
 | Maps | Autocomplete never initialised (`initMap` race) | Loaded lazily when Trip Info opens; manual entry fallback |
 | Engineering | No package.json/tests in repo | ESLint, Prettier, Vitest (27 tests), Playwright (30 journeys), template validator, docs |
 
@@ -39,7 +39,7 @@ Checked from a headless Chromium session and curl against https://camplist.guide
 | Trip info / Maps | Places autocomplete element mounts on production (key accepted) |
 | Sponsor slot | House card renders with its "From CampList" label |
 | Security | `/keys.txt` 404, `/googledrive.html` 404, `/package.json` 404, `/docs/PLAN.md` 404 (only `public/` is served); CSP meta present; headers `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy` applied to every file |
-| Google sign-in | Google's button renders and opens the real popup; Google answers **"Access blocked: The OAuth client was disabled. Error 401: disabled_client"** — the app side works, the client ID is the blocker (section 5) |
+| Google sign-in | Verified with the flags on (deployment `b094d18f`): Google's button renders and opens the real popup; Google answers **"Access blocked: The OAuth client was disabled. Error 401: disabled_client"** — the app side works, the client ID is the blocker (section 5). The follow-up deployment ships the flags off, so the button is hidden until the client is fixed |
 | Google Drive | Not verifiable until the client is restored (same popup) |
 | Hosts | `http://camplist.guide` → 301 to https; `https://www.camplist.guide` fails TLS (no www domain configured in Replit) |
 
@@ -48,11 +48,14 @@ MSAL bridge page). Neither is required for the current features.
 
 ## 4. Limitations and disabled integrations
 
-1. **Google sign-in cannot complete in production yet.** Google reports the deployed OAuth
-   client `431848192736-…` as `disabled_client` and `419953829018-…` as `deleted_client`
-   (Google disables OAuth clients unused for six months). The button renders and opens Google's
-   popup, which shows "Access blocked: the OAuth client was disabled". Everything behind it is
-   built and tested with a mocked library. Fix: section 5, item 1.
+1. **Google sign-in is shipped switched off.** Google reports the deployed OAuth client
+   `431848192736-…` as `disabled_client` and `419953829018-…` as `deleted_client` (Google
+   disables OAuth clients unused for six months). Rather than show visitors a sign-in that can
+   only end on Google's "Access blocked" page, `features.googleSignIn` and `features.googleDrive`
+   are `false` in `public/js/config.js`, so the header shows no Sign in button and the Storage
+   panel explains that cloud storage is not available yet. Everything behind the flags is built
+   and covered by the mocked end-to-end tests (which enable the flags explicitly). Fix: section
+   5, item 1.
 2. **Google Drive** therefore also cannot be exercised end to end in production yet (same
    client). Drive code paths are covered by the mocked journeys.
 3. **Microsoft sign-in / OneDrive** are hidden until an Entra client ID exists (section 5).
@@ -74,8 +77,9 @@ MSAL bridge page). Neither is required for the current features.
    JavaScript origins `https://camplist.guide`, `https://www.camplist.guide`,
    `http://localhost:8787`; set the consent screen to "In production"; restrict the Maps key by
    referrer and API. Paste the client ID into `public/js/config.js → google.clientId` (and
-   `google.appId` if the project number changed). Full steps: `docs/AUTH.md` §6. After that,
-   redeploy and run the same browser check; the popup should show the account chooser.
+   `google.appId` if the project number changed) and set `features.googleSignIn` and
+   `features.googleDrive` to `true`. Full steps: `docs/AUTH.md` §6. After that, redeploy and
+   run the same browser check; the popup should show the account chooser.
 2. **Microsoft Entra (optional, 10 minutes):** app registration per `docs/AUTH.md` §5; paste the
    client ID into `config.js → microsoft.clientId`.
 3. **Replit:** merge the PR into `main`, keep the workspace synced from GitHub before publishing

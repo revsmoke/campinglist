@@ -10,7 +10,7 @@
     "Top-down day and overnight trips require a wilderness permit: advance reservations open on the 5th of each month at 10 am MT for dates three months out, a daily lottery runs two days ahead, and walk-ups are issued the day before. Day permits cost $6 plus $10 per person; overnight permits $20 plus $7 per person per night; all are picked up in person at the Wilderness Desk (NPS, as of 2026).",
     "Top-down trips are not permitted when flow exceeds 120 cfs and the whole Narrows closes above 150 cfs and for at least two hours after a flash flood warning lifts; spring snowmelt closed it from April 11 to May 19 in 2024. Check the flow and the NWS flash flood potential rating every morning.",
     "Flash flood signs: cloud buildup, thunder, a sudden drop in water clarity, floating debris, stronger current or rising water. Climb to high ground immediately; never try to outrun it.",
-    "Toxic cyanobacteria has been found in the Virgin River and no known filtration removes the toxin; carry all your water (about 1 gallon per person per day) or treat per NPS guidance (boil, or 1-micron filter plus chlorine or iodine and a 30-minute wait).",
+    "Toxic cyanobacteria has been found in the Virgin River and NPS states that no filtration or disinfection method makes river water safe to drink; carry all your drinking water (about 1 gallon per person per day). NPS guidance on treating spring water (boil, or 1-micron filter plus chlorine or iodine with a 30-minute wait) applies to springs only; check current advisories.",
     "Wilderness permit groups must carry at least one human waste disposal bag per person; pack out all solid waste and toilet paper. Campfires are prohibited everywhere in the Zion wilderness.",
     "Only 12 designated campsites exist for the one-night top-down trip and multi-night Narrows trips are not permitted; you must arrange your own transport to Chamberlain's Ranch.",
     "Hypothermia is the leading killer of outdoor recreationists even in summer; wear quick-drying layers, never cotton, and use neoprene socks or a dry suit in cool months."
@@ -64,7 +64,7 @@
       "title": "Water & Food",
       "items": [
         {"text": "Water carried in: about 1 gallon per person per day", "required": true, "note": "Do not drink river water untreated; cyanobacteria toxins pass through filters.", "permitRequired": false},
-        {"text": "Backup treatment per NPS guidance (boil, or 1-micron filter plus chemical)", "required": false, "permitRequired": false},
+        {"text": "Backup treatment for spring water only (boil, or 1-micron filter plus chemical)", "required": false, "note": "Never for river water: filters and boiling do not remove cyanotoxins. Check current NPS advisories.", "permitRequired": false},
         {"text": "High-energy snacks and meals", "required": true, "permitRequired": false},
         {"text": "Electrolyte mix", "required": false, "permitRequired": false}
       ]

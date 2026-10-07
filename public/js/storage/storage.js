@@ -7,6 +7,7 @@ import {
   getLists,
   getListSnapshot,
   getContentDigest,
+  digestOfSnapshot,
   getListSync,
   setListSync,
   createList,
@@ -32,6 +33,15 @@ const AUTOSYNC_KEY = "campList.v2.storage.autosync";
 const AUTOSAVE_DELAY = 2500;
 
 /***************** GOOGLE DRIVE ADAPTER *****************/
+// 403 reasons that are not about permissions: show them instead of asking to reconnect.
+const NON_AUTH_403 = new Set([
+  "storageQuotaExceeded",
+  "rateLimitExceeded",
+  "userRateLimitExceeded",
+  "dailyLimitExceeded",
+  "sharingRateLimitExceeded",
+  "numChildrenInNonRootLimitExceeded",
+]);
 function createGoogleAdapter() {
   let token = null;
   let expiresAt = 0;
@@ -143,7 +153,8 @@ function createGoogleAdapter() {
       return ok;
     },
     isAuthError: (error) =>
-      error instanceof DriveError && (error.unauthorized || error.forbidden),
+      error instanceof DriveError &&
+      (error.unauthorized || (error.forbidden && !NON_AUTH_403.has(error.reason))),
     isNotFound: (error) => error instanceof DriveError && error.notFound,
     describeError: (error) =>
       error instanceof DriveError ? error.message : error?.message || "Unknown error",
@@ -169,6 +180,7 @@ const status = {}; // providerId -> { state, message, at }
 let autosaveTimer = null;
 let autosync = true;
 let busyProvider = null;
+let resaveRequested = false;
 
 function listAdapters() {
   return Object.values(adapters).filter((a) => a.available());
@@ -287,6 +299,8 @@ async function connect(providerId) {
         "warning"
       );
     }
+    // The connect step is done; release the busy flag so the first save can run.
+    busyProvider = null;
     await saveActiveList(providerId, { interactive: true, silent: true });
   } catch (error) {
     reportError(adapter, error, "connect");
@@ -331,7 +345,12 @@ async function saveActiveList(providerId, { interactive = true, silent = false }
   const conn = connection(providerId, account);
   const list = getActiveList();
   if (!adapter || !conn || !list) return "skipped";
-  if (busyProvider && !silent) return "skipped";
+  if (busyProvider) {
+    // Never overlap two saves of the same device: the older upload could finish last.
+    // A silent save that arrives while one is running is retried once this one completes.
+    if (silent) resaveRequested = true;
+    return "skipped";
+  }
   if (!adapter.hasValidToken() && !interactive) {
     setStatus(
       providerId,
@@ -368,6 +387,9 @@ async function saveActiveList(providerId, { interactive = true, silent = false }
         }
         const snapshot = getListSnapshot(list.id);
         const content = JSON.stringify(snapshot, null, 2);
+        // Digest of what is actually uploaded; edits made during the upload must not
+        // count as saved (they trigger another save below).
+        const uploadedDigest = digestOfSnapshot(snapshot);
         const name = `${safeFileName(list.name)}${LIST_SUFFIX}`;
         const file = await adapter.uploadText({
           fileId: remote?.id || null,
@@ -381,9 +403,10 @@ async function saveActiveList(providerId, { interactive = true, silent = false }
           fileName: file.name,
           modifiedTime: file.modifiedTime,
           webViewLink: file.webViewLink,
-          digest: getContentDigest(list.id),
+          digest: uploadedDigest,
           savedAt: new Date().toISOString(),
         });
+        if (getContentDigest(list.id) !== uploadedDigest) resaveRequested = true;
         return "saved";
       },
       { interactive }
@@ -406,6 +429,10 @@ async function saveActiveList(providerId, { interactive = true, silent = false }
     return "error";
   } finally {
     busyProvider = null;
+    if (resaveRequested) {
+      resaveRequested = false;
+      scheduleAutosave();
+    }
   }
 }
 
@@ -794,12 +821,17 @@ export function renderStoragePanel() {
   if (!panel) return;
 
   if (!account) {
-    panel.innerHTML = `<h3>Storage</h3>
-      <p class="small">Your lists are saved in this browser only. Sign in to connect storage you control (${available.map((a) => a.name).join(" or ") || "cloud storage"}) and open your lists on other devices.</p>
-      <button type="button" class="secondary" id="btnStorageSignIn">Sign in to connect storage</button>`;
-    document
-      .getElementById("btnStorageSignIn")
-      ?.addEventListener("click", openSignInDialog);
+    if (available.length === 0) {
+      panel.innerHTML = `<h3>Storage</h3>
+        <p class="small">Your lists are saved in this browser only. Cloud storage connections are not available on this site yet; use <strong>Export JSON</strong> in Controls to keep a backup.</p>`;
+    } else {
+      panel.innerHTML = `<h3>Storage</h3>
+        <p class="small">Your lists are saved in this browser only. Sign in to connect storage you control (${available.map((a) => a.name).join(" or ")}) and open your lists on other devices.</p>
+        <button type="button" class="secondary" id="btnStorageSignIn">Sign in to connect storage</button>`;
+      document
+        .getElementById("btnStorageSignIn")
+        ?.addEventListener("click", openSignInDialog);
+    }
     if (compact) compact.textContent = "Stored in this browser";
     return;
   }

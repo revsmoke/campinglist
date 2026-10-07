@@ -148,7 +148,8 @@ export class DriveClient {
   }
 
   async listListFiles(folderId) {
-    const q = `'${escapeQuery(folderId)}' in parents and trashed=false and name contains '${escapeQuery(LIST_SUFFIX)}'`;
+    // Drive's "name contains" only prefix-matches, so rely on the app property set on upload.
+    const q = `'${escapeQuery(folderId)}' in parents and trashed=false and appProperties has { key='camplist' and value='list' }`;
     return (await this.list(q)).filter((f) => f.name.endsWith(LIST_SUFFIX));
   }
 

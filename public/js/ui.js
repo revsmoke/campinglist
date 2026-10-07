@@ -40,11 +40,14 @@ const $ = (id) => document.getElementById(id);
 // DOMPurify (vendored) turns any user-entered string into safe HTML for innerHTML.
 const sanitize = (s) =>
   DOMPurify.sanitize(String(s ?? ""), { USE_PROFILES: { html: true } });
-const escapeText = (s) => {
-  const div = document.createElement("div");
-  div.textContent = String(s ?? "");
-  return div.innerHTML;
-};
+// Escapes text for safe interpolation into HTML *and* quoted attributes.
+const escapeText = (s) =>
+  String(s ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 
 /***************** ERROR DIALOG *****************/
 function showErrorDialog(message) {
@@ -78,9 +81,9 @@ function renderMeta() {
   container.innerHTML = `<section class="sidebar-section trip-info" aria-labelledby="tripInfoHeading">
     <h2 id="tripInfoHeading" class="plain">Trip Info</h2>
     <div class="meta-grid">
-      <div class="label">Destination</div><div>${sanitize(destination)}${address ? `<div class="muted small">${sanitize(address)}</div>` : ""}${mapLink ? `<div class="small">${mapLink}</div>` : ""}</div>
+      <div class="label">Destination</div><div>${escapeText(destination)}${address ? `<div class="muted small">${escapeText(address)}</div>` : ""}${mapLink ? `<div class="small">${mapLink}</div>` : ""}</div>
       <div class="label">Dates</div><div>${m.startDate ? formatDate(m.startDate) : "–"}${m.endDate ? ` → ${formatDate(m.endDate)}` : ""}${tripLength(m.startDate, m.endDate)}</div>
-      <div class="label">Notes</div><div class="pre-line">${sanitize(m.notes) || "–"}</div>
+      <div class="label">Notes</div><div class="pre-line">${escapeText(m.notes) || "–"}</div>
     </div>
     <button id="editMetaBtn" class="secondary" type="button">Edit Trip Info</button>
   </section>`;
@@ -230,7 +233,7 @@ function calculateAndDisplayWeights() {
     total += sectionTotal;
     packed += sectionPacked;
     if (sectionTotal > 0) {
-      html += `<div class="weight-section"><div class="weight-section-title">${sanitize(section.title)}</div>
+      html += `<div class="weight-section"><div class="weight-section-title">${escapeText(section.title)}</div>
         <div class="weight-section-value"><span>Total: ${formatWeight(convertWeightFromGrams(sectionTotal, unit), unit)}</span>
         <span>Packed: ${formatWeight(convertWeightFromGrams(sectionPacked, unit), unit)}</span></div></div>`;
     }
@@ -244,7 +247,7 @@ function calculateAndDisplayWeights() {
 /***************** RENDER: CHECKLIST *****************/
 function noteHTML(n) {
   return n
-    ? `<details class="details-note"><summary>Notes</summary><div>${sanitize(n)}</div></details>`
+    ? `<details class="details-note"><summary>Notes</summary><div>${escapeText(n)}</div></details>`
     : "";
 }
 
@@ -260,7 +263,7 @@ function renderItem(it) {
     <span class="handle" draggable="true" aria-hidden="true" title="Drag to reorder">☰</span>
     <input type="checkbox" id="${cbId}" ${it.checked ? "checked" : ""}>
     <div class="item-body">
-      <label for="${cbId}">${sanitize(it.text)}${it.optional ? ` <span class="tag tag-optional">optional</span>` : ""}${it.permitRequired ? ` <span class="tag tag-permit">permit</span>` : ""}</label>
+      <label for="${cbId}">${escapeText(it.text)}${it.optional ? ` <span class="tag tag-optional">optional</span>` : ""}${it.permitRequired ? ` <span class="tag tag-permit">permit</span>` : ""}</label>
       ${noteHTML(it.note)}
     </div>
     <span class="actions">
@@ -289,7 +292,7 @@ function renderList() {
       return `<section class="card" data-group="${escapeText(g.id)}">
         <h2>
           <span class="sectionHandle" draggable="true" aria-hidden="true" title="Drag to reorder section">☰</span>
-          <span class="sectionTitle">${sanitize(g.title)}</span>
+          <span class="sectionTitle">${escapeText(g.title)}</span>
           <span class="section-count muted small" aria-label="${done} of ${g.items.length} done">${done}/${g.items.length}</span>
           <button type="button" class="btnEditSection" aria-label="Rename section ${safeTitle}" title="Rename section">✎</button>
           <button type="button" class="btnDeleteSection" aria-label="Delete section ${safeTitle}" title="Delete section">✕</button>
@@ -858,8 +861,8 @@ function filterItems(query) {
     const text = ctx.item.text;
     const note = ctx.item.note || "";
     let isMatch = true;
-    let labelHTML = sanitize(text);
-    let noteHTMLOut = sanitize(note);
+    let labelHTML = escapeText(text);
+    let noteHTMLOut = escapeText(note);
     if (searchTerm) {
       const escaped = searchTerm.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&");
       const regex = new RegExp(escaped, "ig");
@@ -1006,7 +1009,7 @@ function updatePermitInfo() {
     permitDeadlineText.textContent = "None";
   }
 
-  if (m.fireRules) fireRulesText.innerHTML = sanitize(m.fireRules);
+  if (m.fireRules) fireRulesText.textContent = m.fireRules;
   else fireRulesText.textContent = "None specified";
 }
 

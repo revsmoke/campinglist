@@ -4,7 +4,7 @@ import {
   getNamespace,
   switchNamespace,
   namespaceHasData,
-  namespaceHasEditedLists,
+  namespaceHasUserLists,
   copyListsBetweenNamespaces,
   deleteNamespace,
   GUEST_NS,
@@ -181,7 +181,7 @@ async function completeSignIn(identity) {
     created &&
     !namespaceHasData(ns) &&
     getNamespace() === GUEST_NS &&
-    namespaceHasEditedLists(GUEST_NS)
+    namespaceHasUserLists(GUEST_NS)
   ) {
     closeSignInDialog();
     const copy = await confirmDialog(
@@ -192,7 +192,7 @@ async function completeSignIn(identity) {
         cancelText: "Start fresh",
       }
     );
-    if (copy) copyListsBetweenNamespaces(GUEST_NS, ns);
+    if (copy) copyListsBetweenNamespaces(GUEST_NS, ns, { skipUntouchedDefault: true });
   }
   startSession(account.id, identity.provider);
   currentAccount = getAccount(account.id);
@@ -236,6 +236,11 @@ export function renderAccountArea() {
   const area = document.getElementById("accountArea");
   if (!area) return;
   if (!currentAccount) {
+    if (!isGoogleSignInConfigured() && !isMicrosoftConfigured()) {
+      // No sign-in provider is enabled on this site: show nothing rather than a dead end.
+      area.innerHTML = "";
+      return;
+    }
     area.innerHTML = `<button type="button" id="btnSignIn" class="secondary account-button">Sign in</button>`;
     document.getElementById("btnSignIn")?.addEventListener("click", openSignInDialog);
     return;
@@ -344,7 +349,9 @@ async function linkSameEmailAccounts(target, others) {
 function mergeNamespace(fromAccountId, toAccountId) {
   const from = namespaceForAccount(fromAccountId);
   const to = namespaceForAccount(toAccountId);
-  if (namespaceHasEditedLists(from)) copyListsBetweenNamespaces(from, to);
+  // Copy everything the user made (edited lists, template lists, new lists) before the
+  // source namespace is removed; only the untouched auto-created default is left behind.
+  copyListsBetweenNamespaces(from, to, { skipUntouchedDefault: true });
   deleteNamespace(from);
   removeAccount(fromAccountId);
 }

@@ -185,7 +185,7 @@ export function createOneDriveAdapter() {
     async uploadText({ fileId, name, content }) {
       const path = fileId
         ? `/me/drive/items/${encodeURIComponent(fileId)}/content`
-        : `/me/drive/special/approot:/${encodeURIComponent(name)}:/content`;
+        : `/me/drive/special/approot:/${encodeURIComponent(name)}:/content?@microsoft.graph.conflictBehavior=rename`;
       const item = await request(path, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },

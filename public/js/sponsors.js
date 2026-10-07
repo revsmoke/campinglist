@@ -10,7 +10,8 @@ const SLOTS = ["sidebar", "footer"];
 function isActive(card, now = Date.now()) {
   if (!card || typeof card !== "object") return false;
   if (card.start && Date.parse(card.start) > now) return false;
-  if (card.end && Date.parse(card.end) < now) return false;
+  // `end` is inclusive: the card stays up through the end of that UTC day.
+  if (card.end && Date.parse(card.end) + 86_400_000 <= now) return false;
   return Boolean(card.title && card.url);
 }
 
@@ -33,7 +34,7 @@ export function pickCard(cards, slot, now = Date.now()) {
 }
 
 function renderCard(container, card) {
-  const safeUrl = /^https?:\/\//i.test(card.url) ? card.url : "#";
+  const safeUrl = /^(https?:\/\/|mailto:)/i.test(card.url) ? card.url : "#";
   const rel =
     card.kind === "sponsor" || card.kind === "affiliate"
       ? "sponsored noopener noreferrer"

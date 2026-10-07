@@ -1,9 +1,10 @@
 import { test, expect } from "@playwright/test";
-import { blockGoogleMaps } from "./helpers.js";
+import { blockGoogleMaps, enableGoogleFeatures } from "./helpers.js";
 
 test.describe("core checklist", () => {
   test.beforeEach(async ({ page }) => {
     await blockGoogleMaps(page);
+    await enableGoogleFeatures(page);
     await page.goto("/");
     await page.waitForSelector("body.app-ready");
   });
@@ -11,6 +12,8 @@ test.describe("core checklist", () => {
   test("loads the default template and shows no console errors", async ({ page }) => {
     const errors = [];
     page.on("pageerror", (e) => errors.push(String(e)));
+    await page.reload();
+    await page.waitForSelector("body.app-ready");
     await expect(page.locator("#checklistContainer section.card")).toHaveCount(11);
     await expect(page.locator("#checklistContainer li.item")).toHaveCount(85);
     await expect(page.locator("#listSelect option")).toHaveCount(1);
@@ -241,5 +244,19 @@ test.describe("core checklist", () => {
     expect(hasHorizontalScroll).toBe(false);
     await page.locator("#btnReset").scrollIntoViewIfNeeded();
     await expect(page.locator("#btnReset")).toBeVisible();
+  });
+});
+
+test.describe("sign-in providers disabled (shipping default)", () => {
+  test("shows no sign-in button and explains local-only storage", async ({ page }) => {
+    await blockGoogleMaps(page);
+    await page.goto("/");
+    await page.waitForSelector("body.app-ready");
+    await expect(page.locator("#btnSignIn")).toHaveCount(0);
+    await expect(page.locator("#storagePanel")).toContainText(
+      "not available on this site yet"
+    );
+    await expect(page.locator("#storagePanel button")).toHaveCount(0);
+    await expect(page.locator("#checklistContainer li.item")).toHaveCount(85);
   });
 });

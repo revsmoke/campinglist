@@ -89,8 +89,9 @@ MSAL v5 requires a dedicated redirect page because Microsoft now sends COOP head
 (`431848192736-…`) as `disabled_client`, and the second one found in the repo
 (`419953829018-…`) as `deleted_client`. Google automatically disables and later deletes OAuth
 clients that stay unused for six months, which matches a sign-in button that never worked.
-Until a working client ID is configured, the Google button renders but Google refuses the
-sign-in with "The OAuth client was disabled".
+Until a working client ID is configured, the Google features are switched off by the
+`features.googleSignIn` / `features.googleDrive` flags; with the flags on, the button renders
+but Google refuses the sign-in with "The OAuth client was disabled".
 
 Steps (Google Cloud Console → APIs & Services):
 
@@ -109,7 +110,8 @@ Steps (Google Cloud Console → APIs & Services):
    (the Picker iframe) and restrict APIs to the four above. Today the key is unrestricted
    (it worked from localhost during testing).
 6. Paste the client ID into `public/js/config.js → google.clientId` and, if the project number
-   changed, `google.appId`. Redeploy.
+   changed, `google.appId`; set `features.googleSignIn` and `features.googleDrive` to `true`
+   (they ship as `false` so visitors never see a sign-in that cannot succeed). Redeploy.
 
 ## 7. Why direct integrations instead of WorkOS
 

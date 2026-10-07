@@ -49,7 +49,8 @@ export async function getMsalClient() {
         redirectUri: CONFIG.microsoft.redirectUri,
         postLogoutRedirectUri: location.origin + "/",
       },
-      cache: { cacheLocation: "localStorage" },
+      // Per-tab cache only: tokens never survive the tab, matching the "memory only" promise.
+      cache: { cacheLocation: "sessionStorage" },
       system: { allowPlatformBroker: false },
     });
     await pca.initialize();
@@ -125,18 +126,39 @@ export async function signInWithMicrosoft() {
   }
 }
 
+function hasMsalCacheEntries() {
+  try {
+    const stores = [window.sessionStorage, window.localStorage];
+    return stores.some((store) => Object.keys(store).some((k) => k.startsWith("msal.")));
+  } catch {
+    return false;
+  }
+}
+
+function purgeMsalStorage() {
+  for (const store of [window.sessionStorage, window.localStorage]) {
+    try {
+      for (const key of Object.keys(store))
+        if (key.startsWith("msal.")) store.removeItem(key);
+    } catch {
+      /* ignore */
+    }
+  }
+}
+
 /** Clears cached Microsoft tokens for this app without signing the user out of Microsoft itself. */
 export async function signOutMicrosoft() {
-  if (!clientPromise) return;
-  const pca = await getMsalClient();
-  const account = pca.getActiveAccount();
+  if (!isMicrosoftConfigured() || (!clientPromise && !hasMsalCacheEntries())) return;
   try {
-    if (typeof pca.clearCache === "function")
-      await pca.clearCache(account ? { account } : undefined);
+    const pca = await getMsalClient();
+    for (const account of pca.getAllAccounts()) {
+      if (typeof pca.clearCache === "function") await pca.clearCache({ account });
+    }
+    pca.setActiveAccount(null);
   } catch (error) {
     console.warn("MSAL clearCache failed:", error);
   }
-  pca.setActiveAccount(null);
+  purgeMsalStorage();
 }
 
 /**

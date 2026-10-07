@@ -5,8 +5,21 @@ import { fileURLToPath } from "node:url";
 const here = dirname(fileURLToPath(import.meta.url));
 const gisMockSource = readFileSync(join(here, "mocks", "gis-mock.js"), "utf8");
 
-/** Serves the GIS mock instead of Google's library. */
+/** Turns the Google features on (they ship disabled until the OAuth client is restored). */
+export async function enableGoogleFeatures(page) {
+  await page.addInitScript(() => {
+    window.CAMPLIST_CONFIG = Object.assign({}, window.CAMPLIST_CONFIG, {
+      features: Object.assign({}, window.CAMPLIST_CONFIG?.features, {
+        googleSignIn: true,
+        googleDrive: true,
+      }),
+    });
+  });
+}
+
+/** Serves the GIS mock instead of Google's library (and enables the Google features). */
 export async function mockGoogleIdentity(page, options = {}) {
+  await enableGoogleFeatures(page);
   await page.addInitScript((opts) => {
     window.__gisMock = Object.assign({}, opts);
   }, options);
@@ -21,6 +34,7 @@ export async function mockGoogleIdentity(page, options = {}) {
 
 /** Makes the GIS script fail to load (offline / blocked by an extension). */
 export async function blockGoogleIdentity(page) {
+  await enableGoogleFeatures(page);
   await page.route("https://accounts.google.com/gsi/client", (route) =>
     route.abort("failed")
   );
@@ -105,6 +119,8 @@ export async function mockDriveApi(page, { userEmail = "casey@example.com" } = {
       if (parent) files = files.filter((f) => (f.parents || []).includes(parent[1]));
       const name = q.match(/name='([^']+)'/);
       if (name) files = files.filter((f) => f.name === name[1]);
+      const ap = q.match(/appProperties has \{ key='([^']+)' and value='([^']+)' \}/);
+      if (ap) files = files.filter((f) => f.appProperties?.[ap[1]] === ap[2]);
       const contains = q.match(/name contains '([^']+)'/);
       if (contains) files = files.filter((f) => f.name.includes(contains[1]));
       if (q.includes("mimeType='application/vnd.google-apps.folder'"))
@@ -149,6 +165,8 @@ export async function mockDriveApi(page, { userEmail = "casey@example.com" } = {
     if (uploadMatch) {
       const uploadType = url.searchParams.get("uploadType");
       if (uploadType === "multipart") {
+        if (state.uploadDelayMs)
+          await new Promise((r) => setTimeout(r, state.uploadDelayMs));
         const raw = request.postDataBuffer()?.toString("utf8") || "";
         const parts = raw.split(/--camplist_[a-z0-9]+(?:--)?/).filter((p) => p.trim());
         const metaPart = parts[0] || "";

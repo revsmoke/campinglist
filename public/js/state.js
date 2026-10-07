@@ -145,10 +145,15 @@ function digestString(str) {
 }
 
 /***************** NORMALISATION *****************/
+// Ids end up in HTML attributes and CSS selectors: only accept a conservative charset.
+const SAFE_ID = /^[A-Za-z0-9_-]{1,80}$/;
+const safeId = (value) =>
+  typeof value === "string" && SAFE_ID.test(value) ? value : null;
+
 function normalizeItem(item, groupId) {
   if (!item || typeof item !== "object") return null;
   const normalized = {
-    id: typeof item.id === "string" && item.id ? item.id : makeId(groupId || "item"),
+    id: safeId(item.id) || makeId(groupId || "item"),
     text: clamp(String(item.text ?? ""), MAX_TEXT),
     checked: Boolean(item.checked),
     note: clamp(typeof item.note === "string" ? item.note : "", MAX_NOTE),
@@ -170,7 +175,7 @@ function normalizeItem(item, groupId) {
 
 function normalizeSection(group) {
   if (!group || typeof group !== "object") return null;
-  const id = typeof group.id === "string" && group.id ? group.id : makeId("section");
+  const id = safeId(group.id) || makeId("section");
   const items = Array.isArray(group.items)
     ? group.items.map((it) => normalizeItem(it, id)).filter(Boolean)
     : [];
@@ -864,12 +869,16 @@ function getListSnapshot(id = activeListId) {
 }
 
 /** Digest of the active list content (ignores view state). */
-function getContentDigest(id = activeListId) {
-  const snap = getListSnapshot(id);
+/** Digest of a snapshot's content (name, sections, meta). Stable for identical content. */
+function digestOfSnapshot(snap) {
   if (!snap) return "";
   return digestString(
     JSON.stringify({ name: snap.name, data: snap.data, meta: snap.meta })
   );
+}
+
+function getContentDigest(id = activeListId) {
+  return digestOfSnapshot(getListSnapshot(id));
 }
 
 /**
@@ -938,13 +947,33 @@ function namespaceHasEditedLists(ns) {
   return Boolean(stored && stored.lists.some((l) => l.pristine === false));
 }
 
-/** Copies every list of one namespace into another (new ids; sync info is not copied). */
-function copyListsBetweenNamespaces(fromNs, toNs) {
+/** The auto-created default list, never touched: safe to leave behind when copying. */
+function isUntouchedDefault(record) {
+  return (
+    record.pristine === true &&
+    !record.source &&
+    !record.migratedFromLegacy &&
+    record.name === "My CampList"
+  );
+}
+
+/** True when the namespace holds anything the user made (edits, templates, new lists). */
+function namespaceHasUserLists(ns) {
+  const stored = loadIndex(ns);
+  return Boolean(stored && stored.lists.some((l) => !isUntouchedDefault(l)));
+}
+
+/**
+ * Copies the lists of one namespace into another (new ids; sync info is not copied).
+ * With `skipUntouchedDefault`, the auto-created, never-edited default list is left out.
+ */
+function copyListsBetweenNamespaces(fromNs, toNs, { skipUntouchedDefault = false } = {}) {
   const source = loadIndex(fromNs);
   if (!source) return 0;
   const target = loadIndex(toNs) || { active: null, lists: [] };
   let copied = 0;
   for (const record of source.lists) {
+    if (skipUntouchedDefault && isUntouchedDefault(record)) continue;
     const content = readListContent(fromNs, record.id);
     if (!content) continue;
     const id = makeId("list");
@@ -1046,6 +1075,7 @@ export {
   deleteList,
   getListSnapshot,
   getContentDigest,
+  digestOfSnapshot,
   parseImportedList,
   getListSync,
   setListSync,
@@ -1053,6 +1083,7 @@ export {
   getNamespace,
   namespaceHasData,
   namespaceHasEditedLists,
+  namespaceHasUserLists,
   copyListsBetweenNamespaces,
   deleteNamespace,
   switchNamespace,

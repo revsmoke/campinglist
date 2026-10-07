@@ -259,4 +259,51 @@ describe("state.js", () => {
     expect(events).toContain("content:load");
     expect(events).toContain("content:save");
   });
+
+  it("copies template and new lists between namespaces, leaving only the untouched default", async () => {
+    const state = await freshState();
+    await state.loadAllState();
+    expect(state.namespaceHasUserLists("guest")).toBe(false);
+    state.createList({
+      name: "From template",
+      data: [{ title: "A", items: [{ text: "x" }] }],
+      pristine: true,
+      source: { type: "template", templateId: "t" },
+    });
+    state.createList({ name: "Empty new list", data: [], pristine: true });
+    expect(state.namespaceHasUserLists("guest")).toBe(true);
+    expect(state.namespaceHasEditedLists("guest")).toBe(false);
+    expect(
+      state.copyListsBetweenNamespaces("guest", "acct", { skipUntouchedDefault: true })
+    ).toBe(2);
+    expect(state.copyListsBetweenNamespaces("guest", "acct2")).toBe(3);
+  });
+
+  it("digestOfSnapshot matches getContentDigest and ignores view state", async () => {
+    const state = await freshState();
+    await state.loadAllState();
+    const snap = state.getListSnapshot();
+    expect(state.digestOfSnapshot(snap)).toBe(state.getContentDigest());
+    state.updateCollapsedState(state.data[0].id, true);
+    expect(state.getContentDigest()).toBe(state.digestOfSnapshot(snap));
+    state.addSectionState("Changed");
+    expect(state.getContentDigest()).not.toBe(state.digestOfSnapshot(snap));
+  });
+
+  it("regenerates ids that are unsafe for attributes and selectors", async () => {
+    const state = await freshState();
+    const out = state.normalizeData([
+      {
+        id: 'g"><img src=x>',
+        title: "T",
+        items: [
+          { id: "ok-1", text: "a" },
+          { id: "bad id'", text: "b" },
+        ],
+      },
+    ]);
+    expect(out[0].id).toMatch(/^section-/);
+    expect(out[0].items[0].id).toBe("ok-1");
+    expect(out[0].items[1].id).toMatch(/^[A-Za-z0-9_-]+$/);
+  });
 });

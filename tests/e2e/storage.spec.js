@@ -84,6 +84,40 @@ test.describe("Google Drive storage (mocked APIs)", () => {
     expect(events2).toContain("token.request:");
   });
 
+  test("edits made during an upload are not reported as saved and get saved next", async ({
+    page,
+  }) => {
+    await signInWithMock(page);
+    await connectDrive(page);
+    await expect(page.locator("#storagePanel .storage-status")).toContainText(/Saved/);
+    drive.state.uploadDelayMs = 1500;
+    await page.click('#storagePanel [data-action="save"]');
+    await expect(page.locator("#storagePanel .storage-status")).toContainText(/Saving/);
+    // Edit while the upload is in flight.
+    await page.fill("#newSectionTitle", "Edited mid-upload");
+    await page.click("#addSectionForm button[type=submit]");
+    await page.waitForTimeout(1800);
+    drive.state.uploadDelayMs = 0;
+    // The first upload finished without the edit, so the status must not claim it is saved...
+    const afterFirst = JSON.parse(drive.listFiles()[0].content);
+    expect(afterFirst.data.some((g) => g.title === "Edited mid-upload")).toBe(false);
+    // ...and a follow-up save must land automatically.
+    await expect
+      .poll(
+        () =>
+          JSON.parse(drive.listFiles()[0].content).data.some(
+            (g) => g.title === "Edited mid-upload"
+          ),
+        {
+          timeout: 15000,
+        }
+      )
+      .toBe(true);
+    await expect(page.locator("#storagePanel .storage-status")).toContainText(
+      /Saved to Google Drive/
+    );
+  });
+
   test("detects remote changes and never overwrites silently", async ({ page }) => {
     await signInWithMock(page);
     await connectDrive(page);
@@ -127,6 +161,7 @@ test.describe("Google Drive storage (mocked APIs)", () => {
       mimeType: "application/json",
       modifiedTime: new Date().toISOString(),
       parents: [folder.id],
+      appProperties: { camplist: "list", listId: "remote-x" },
       content: JSON.stringify({
         schema: 2,
         name: "Boundary Waters",
@@ -153,13 +188,11 @@ test.describe("Google Drive storage (mocked APIs)", () => {
     await connectDrive(page);
     await page.click('#storagePanel [data-action="files"]');
     await expect(page.locator("#filesList")).toContainText("No files yet");
-    await page
-      .locator("#filesInput")
-      .setInputFiles({
-        name: "permit.pdf",
-        mimeType: "application/pdf",
-        buffer: Buffer.from("%PDF-1.4 fake"),
-      });
+    await page.locator("#filesInput").setInputFiles({
+      name: "permit.pdf",
+      mimeType: "application/pdf",
+      buffer: Buffer.from("%PDF-1.4 fake"),
+    });
     await expect(page.locator("#filesList")).toContainText("permit.pdf", {
       timeout: 10000,
     });

@@ -87,6 +87,8 @@ describe("sponsor cards", () => {
   it("prefers active paid cards in their slots and falls back to house cards", () => {
     expect(pickCard(cards, "sidebar", day).id).toBe("s");
     expect(pickCard(cards, "footer", day).id).toBe("h");
+    expect(pickCard(cards, "sidebar", Date.parse("2026-10-31T23:00:00Z")).id).toBe("s");
+    expect(pickCard(cards, "sidebar", Date.parse("2026-11-01T00:00:00Z")).id).toBe("h");
     expect(pickCard(cards, "sidebar", Date.parse("2026-12-01")).id).toBe("h");
     expect(pickCard([], "sidebar", day)).toBeNull();
     expect(

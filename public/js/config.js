@@ -61,8 +61,12 @@ const defaults = {
 
   features: {
     templates: true,
-    googleSignIn: true,
-    googleDrive: true,
+    // Google sign-in and Drive stay OFF until the OAuth client is restored (docs/AUTH.md §6):
+    // Google currently reports the client above as disabled, and a visible sign-in that can
+    // only fail at Google's error page is worse than no sign-in. Flip both to true once the
+    // client works (the e2e tests enable them explicitly).
+    googleSignIn: false,
+    googleDrive: false,
     microsoftSignIn: false, // flipped on automatically when microsoft.clientId is set
     oneDrive: false,
   },
