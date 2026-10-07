@@ -90,18 +90,20 @@ MSAL v5 requires a dedicated redirect page because Microsoft now sends COOP head
 
 ## 6. Google Cloud configuration (what is needed now)
 
-**Status on 2026-10-07:** Google reports the client ID that was deployed
-(`431848192736-…`) as `disabled_client`, and the second one found in the repo
-(`419953829018-…`) as `deleted_client`. Google automatically disables and later deletes OAuth
-clients that stay unused for six months, which matches a sign-in button that never worked.
-Until a working client ID is configured, the Google features are switched off by the
-`features.googleSignIn` / `features.googleDrive` flags; with the flags on, the button renders
-but Google refuses the sign-in with "The OAuth client was disabled".
+**Status on 2026-10-07 (evening):** the owner recreated the OAuth web client
+(`662895092391-…`, brand verified, consent screen "In production") and a restricted Maps browser
+key (`AIzaSyAynl…`); both are in `public/js/config.js` and the Google features ship switched on.
+Verified against https://camplist.guide: Google's button renders for this origin and the popup
+reaches Google's sign-in page for "CampList.Guide" (the previous client, `431848192736-…`, still
+answers `disabled_client`). A complete sign-in and a Drive save still have to be tried once from
+a real browser with a Google account. The feature flags remain the kill switch should Google
+ever disable the client again.
 
 Steps (Google Cloud Console → APIs & Services):
 
-1. **Credentials** → if client `431848192736-…` is listed as disabled, try **Enable**. If it is gone,
-   **Create credentials → OAuth client ID → Web application**, name `CampList web`.
+1. **Credentials** → the web client `662895092391-…` exists (created 2026-10-07). If Google ever
+   disables it again (clients unused for six months), **Enable** it or create a new
+   **OAuth client ID → Web application** and paste the new ID into `config.js`.
 2. **Authorized JavaScript origins**: `https://camplist.guide`; for local testing with
    `npm start` add both `http://localhost` and `http://localhost:8080` (Google requires the
    bare `http://localhost` entry as well as the one with the port). Add
@@ -115,13 +117,16 @@ Steps (Google Cloud Console → APIs & Services):
    terms `https://camplist.guide/terms.html`. **Publishing status must be "In production"**
    (Testing caps sign-ins at 100 listed test users).
 4. **Enabled APIs**: Google Drive API, Google Picker API, Maps JavaScript API, Places API (New).
-5. **API key** (`AIzaSyCdSd…`, used for Maps/Places/Picker): restrict to HTTP referrers
-   `https://camplist.guide/*`, `https://www.camplist.guide/*`, `https://docs.google.com/*`
-   (the Picker iframe) and restrict APIs to the four above. Today the key is unrestricted
-   (it worked from localhost during testing).
-6. Paste the client ID into `public/js/config.js → google.clientId` and, if the project number
-   changed, `google.appId`; set `features.googleSignIn` and `features.googleDrive` to `true`
-   (they ship as `false` so visitors never see a sign-in that cannot succeed). Redeploy.
+5. **API key** (`AIzaSyAynl…`, used for Maps/Places/Picker): HTTP-referrer restricted. Verified
+   on 2026-10-07: requests with a `camplist.guide` or `www.camplist.guide` referrer succeed,
+   other referrers and requests without one are rejected, and Places API (New) is allowed. Add
+   `https://docs.google.com/*` (the Picker iframe) if the Drive "Change folder" picker reports a
+   key error, and keep the allowed APIs to Maps JavaScript API, Places API (New) and Google
+   Picker API. Delete the old unrestricted key (`AIzaSyCdSd…`); nothing references it any more.
+6. The client ID, `google.appId` (the project number) and the key live in
+   `public/js/config.js`; `features.googleSignIn` / `features.googleDrive` are `true`. Set them
+   to `false` to hide the sign-in button and the storage connections without touching anything
+   else, then redeploy.
 
 ## 7. Why direct integrations instead of WorkOS
 
