@@ -1298,8 +1298,14 @@ button.danger {
   border-radius: 999px;
   padding: 0.05rem 0.45rem;
 }
+.storage-badge-off {
+  color: var(--muted);
+}
 .storage-connect .storage-status {
   margin-top: 0.25rem;
+}
+.storage-connect p.small {
+  margin: 0.25rem 0 0.5rem;
 }
 .status-saved {
   color: var(--accent);
