@@ -1,0 +1,145 @@
+{
+  "id": "desert-camping-hot-dry",
+  "name": "Desert Camping",
+  "category": "style",
+  "tagline": "For campers heading into hot, dry, remote desert country where water and shade are scarce.",
+  "description": "A starting point for 1-4 nights of vehicle-based or short walk-in camping in hot, arid, remote terrain such as the US Southwest. Assumes no reliable water sources, intense sun, big day-to-night temperature swings, limited cell coverage, and long drives on rough roads. Adapt water quantities to heat and activity, avoid midday exertion in summer, and plan around flash floods in monsoon season.",
+  "season": "Fall-Spring (summer only with extreme care)",
+  "typicalDuration": "1-4 nights",
+  "considerations": [
+    "Carry at least 1 gallon of water per person per day, 2 gallons for hikers and cyclists in heat, plus a vehicle reserve.",
+    "Check the forecast for heat and monsoon storms; flash floods arrive from rain you may never see, so never camp in washes.",
+    "In hot months plan activity before 10 am and after 4 pm, and acclimatize over several days before hard efforts.",
+    "Check current road conditions and carry a full-size spare; cell coverage is limited and towing is slow and costly.",
+    "Watch for rattlesnakes, scorpions, bees, and cactus; shake out shoes and never put hands where you cannot see.",
+    "Check current fire restrictions; wood is scarce and fires are often banned."
+  ],
+  "reviewedOn": "2026-10-07",
+  "sources": [
+    {"title": "Safety", "publisher": "National Park Service, Mojave National Preserve", "url": "https://www.nps.gov/moja/planyourvisit/safety.htm", "accessed": "2026-10-07"},
+    {"title": "Safety Guidelines for Your Visit to Joshua Tree National Park", "publisher": "National Park Service", "url": "https://home.nps.gov/jotr/planyourvisit/safety-guidelines-for-your-visit-to-joshua-tree-national-park.htm", "accessed": "2026-10-07"},
+    {"title": "Backcountry Preparation and Safety", "publisher": "National Park Service, Big Bend National Park", "url": "https://www.nps.gov/bibe/planyourvisit/bc_safety.htm", "accessed": "2026-10-07"},
+    {"title": "Safety", "publisher": "National Park Service, Death Valley National Park", "url": "https://www.nps.gov/deva/planyourvisit/safety.htm", "accessed": "2026-10-07"},
+    {"title": "Prevention and Treatment of Heat Illness: Guidelines From the Wilderness Medical Society (summary)", "publisher": "American Family Physician", "url": "https://www.aafp.org/afp/2025/1200/practice-guidelines-heat-illness", "accessed": "2026-10-07"},
+    {"title": "Camping on Public Lands", "publisher": "Bureau of Land Management", "url": "https://www.blm.gov/programs/recreation/camping", "accessed": "2026-10-07"}
+  ],
+  "sections": [
+    {
+      "title": "Planning & Permits",
+      "items": [
+        {"text": "Trip plan with route, vehicle description, plate, and return date left with someone", "required": true, "permitRequired": false},
+        {"text": "Weather forecast checked for heat index and flash-flood risk", "required": true, "permitRequired": false},
+        {"text": "Paper map and compass; NPS app or offline maps downloaded", "required": true, "permitRequired": false},
+        {"text": "Vehicle checked: tires, hoses, belts, battery, coolant", "required": true, "permitRequired": false},
+        {"text": "Backcountry permit where required", "required": false, "note": "Check current rules for the park or BLM unit.", "permitRequired": true},
+        {"text": "Campfire permit where your state requires one", "required": false, "permitRequired": true},
+        {"text": "Several days of moderate activity in heat before hard efforts (acclimatize)", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Water & Hydration",
+      "items": [
+        {"text": "Water: at least 1 gallon per person per day (2 for hikers in heat)", "required": true, "permitRequired": false},
+        {"text": "Extra vehicle reserve water (several gallons)", "required": true, "permitRequired": false},
+        {"text": "Hard water containers (5-7 gallon) stored out of the sun", "required": true, "permitRequired": false},
+        {"text": "Personal bottles or bladder (about 3 L) for day hikes", "required": true, "permitRequired": false},
+        {"text": "Electrolyte mix or salty snacks", "required": true, "note": "Drink to thirst and replace salt; overdrinking plain water can also be dangerous.", "permitRequired": false},
+        {"text": "Water filter or treatment for the rare source", "required": false, "permitRequired": false},
+        {"text": "Insulated bottles to keep water cool", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Sun & Heat Protection",
+      "items": [
+        {"text": "Wide-brim hat", "required": true, "permitRequired": false},
+        {"text": "UV sunglasses", "required": true, "permitRequired": false},
+        {"text": "Sunscreen SPF 30+ and lip balm, reapplied often", "required": true, "note": "Sunburn impairs sweating for days; cover up instead of relying on sunscreen alone.", "permitRequired": false},
+        {"text": "Lightweight long-sleeve sun shirt and long pants", "required": true, "permitRequired": false},
+        {"text": "Shade shelter: canopy, awning, or tarp with poles", "required": true, "permitRequired": false},
+        {"text": "Cooling towel or bandana to wet", "required": false, "permitRequired": false},
+        {"text": "Hiking umbrella", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Shelter & Sleep",
+      "items": [
+        {"text": "Tent with lots of mesh for ventilation and a fly for wind and dust", "required": true, "permitRequired": false},
+        {"text": "Stakes that hold in sand or rock, and all guylines used", "required": true, "permitRequired": false},
+        {"text": "Sleeping bag for cold nights (desert lows drop sharply)", "required": true, "permitRequired": false},
+        {"text": "Sleeping pad", "required": true, "permitRequired": false},
+        {"text": "Groundsheet or footprint (thorns and sharp rock)", "required": false, "permitRequired": false},
+        {"text": "Cot for airflow", "required": false, "permitRequired": false},
+        {"text": "Pillow", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Kitchen & Food",
+      "items": [
+        {"text": "Stove and fuel (fires are often banned)", "required": true, "permitRequired": false},
+        {"text": "Lighter and matches", "required": true, "permitRequired": false},
+        {"text": "Cookware, utensils, and dishes", "required": true, "permitRequired": false},
+        {"text": "Cooler with block ice, kept in shade", "required": true, "permitRequired": false},
+        {"text": "Food in sealed containers (rodents, ants, bees)", "required": true, "permitRequired": false},
+        {"text": "Salty snacks, fruit, and 1-2 extra days of food", "required": true, "permitRequired": false},
+        {"text": "Wash bins, soap, and trash bags (pack it all out)", "required": true, "permitRequired": false},
+        {"text": "Lidded bins to keep sand out", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Clothing",
+      "items": [
+        {"text": "Light-colored, loose, breathable clothing", "required": true, "permitRequired": false},
+        {"text": "Warm layers for night: fleece, puffy, and hat", "required": true, "permitRequired": false},
+        {"text": "Sturdy closed-toe shoes or boots (thorns, rock, snakes)", "required": true, "permitRequired": false},
+        {"text": "Camp sandals", "required": false, "permitRequired": false},
+        {"text": "Bandana or neck gaiter for dust and sun", "required": false, "permitRequired": false},
+        {"text": "Rain shell for monsoon storms", "required": false, "permitRequired": false},
+        {"text": "Gaiters for sand", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Safety, First Aid & Navigation",
+      "items": [
+        {"text": "First-aid kit with tweezers and a comb for cactus spines, plus blister care", "required": true, "permitRequired": false},
+        {"text": "Headlamp with spare batteries", "required": true, "permitRequired": false},
+        {"text": "Satellite messenger or PLB", "required": true, "permitRequired": false},
+        {"text": "Emergency blanket or shelter", "required": true, "permitRequired": false},
+        {"text": "Knife or multi-tool", "required": true, "permitRequired": false},
+        {"text": "Whistle and signal mirror", "required": false, "permitRequired": false},
+        {"text": "Phone with offline maps and a battery bank", "required": false, "permitRequired": false},
+        {"text": "Nearest hospital located and route saved (snakebite plan: no cutting or suction)", "required": false, "permitRequired": false},
+        {"text": "Epinephrine auto-injector if allergic to bee stings", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Vehicle & Recovery",
+      "items": [
+        {"text": "Full-size spare, jack, and lug wrench", "required": true, "permitRequired": false},
+        {"text": "Tire repair kit, 12V compressor, and pressure gauge", "required": true, "permitRequired": false},
+        {"text": "Jump starter or cables", "required": true, "permitRequired": false},
+        {"text": "Shovel and traction boards for sand", "required": false, "permitRequired": false},
+        {"text": "Extra fuel where services are far apart", "required": false, "permitRequired": false},
+        {"text": "Tow strap and rated shackles", "required": false, "permitRequired": false},
+        {"text": "Basic tools, fuses, and duct tape", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Hygiene & Waste",
+      "items": [
+        {"text": "WAG bags or portable toilet (waste decomposes very slowly in desert soil)", "required": true, "permitRequired": false},
+        {"text": "Toilet paper and hand sanitizer", "required": true, "permitRequired": false},
+        {"text": "Trowel where catholes are allowed (6-8 in deep, 200 ft from water)", "required": false, "permitRequired": false},
+        {"text": "Wet wipes (pack out)", "required": false, "permitRequired": false},
+        {"text": "Lotion and lip balm for dry air", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Extras",
+      "items": [
+        {"text": "Camp chairs and table", "required": false, "permitRequired": false},
+        {"text": "Binoculars and a star chart for dark skies", "required": false, "permitRequired": false},
+        {"text": "Dust goggles or scarf for windstorms", "required": false, "permitRequired": false}
+      ]
+    }
+  ]
+}

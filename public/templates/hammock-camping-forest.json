@@ -1,0 +1,124 @@
+{
+  "id": "hammock-camping-forest",
+  "name": "Hammock Camping",
+  "category": "style",
+  "tagline": "For campers sleeping off the ground between trees in three-season forest conditions.",
+  "description": "A starting point for 1-4 nights of hammock camping in forested terrain from spring through fall, on foot or near the car. Assumes suitable live trees are available, nights can be cool enough to need bottom insulation, and bugs may be out. Adapt insulation to the forecast lows, carry a ground backup where trees are uncertain, and confirm hammocks are allowed where you are going.",
+  "season": "Spring-Fall",
+  "typicalDuration": "1-4 nights",
+  "considerations": [
+    "Check that hammocks are allowed; some state and local parks prohibit hanging anything from trees.",
+    "Plan on live, healthy trees at least 6 inches in diameter with no dead branches overhead; never hang from dead trees.",
+    "Expect to need bottom insulation (underquilt or pad) once nights drop below roughly 70 F.",
+    "Camp at least 200 feet from water on an existing site; hammocks still need a durable spot underneath.",
+    "Check current fire restrictions and bear food-storage rules just as you would for tent camping.",
+    "Check the forecast for wind and rain; tarp size and pitch matter more in a hammock than in a tent."
+  ],
+  "reviewedOn": "2026-10-07",
+  "sources": [
+    {"title": "2025 Leave No Trace Hammock Camping Guidelines", "publisher": "Leave No Trace", "url": "https://lnt.org/wp-content/uploads/2026/01/2025-LNT-Hammock-Camping-Guidelines.pdf", "accessed": "2026-10-07"},
+    {"title": "Hammock Camping Guide", "publisher": "Eagles Nest Outfitters (ENO)", "url": "https://eaglesnestoutfittersinc.com/blogs/product-education/eno-hammock-camping", "accessed": "2026-10-07"},
+    {"title": "Beat the Chill! Practical Ways to Stay Warm While Hammock Camping", "publisher": "Hammock Gear", "url": "https://hammockgear.com/news/beat-the-chill-practical-ways-to-stay-warm-while-hammock-camping/", "accessed": "2026-10-07"},
+    {"title": "The 10 Essentials", "publisher": "National Park Service", "url": "https://www.nps.gov/articles/10essentials.htm", "accessed": "2026-10-07"},
+    {"title": "Leave No Trace Seven Principles", "publisher": "National Park Service", "url": "https://www.nps.gov/articles/leave-no-trace-seven-principles.htm", "accessed": "2026-10-07"}
+  ],
+  "sections": [
+    {
+      "title": "Planning & Site Selection",
+      "items": [
+        {"text": "Confirmed with the land manager that hammocks are permitted", "required": true, "permitRequired": false},
+        {"text": "Trip plan shared with someone", "required": true, "permitRequired": false},
+        {"text": "Map and compass, with likely hang sites noted", "required": true, "permitRequired": false},
+        {"text": "Forecast checked for lows, wind, and rain", "required": true, "permitRequired": false},
+        {"text": "Backcountry or campground permit where required", "required": false, "permitRequired": true},
+        {"text": "Ground backup (pad and bivy or tent) where trees are uncertain", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Hammock System",
+      "items": [
+        {"text": "Camping hammock (gathered-end or bridge style)", "required": true, "permitRequired": false},
+        {"text": "Tree straps of 1-inch or wider webbing (no rope or cord on bark)", "required": true, "note": "Wrap once, hang loose, hang under 5 ft high, and never nail or screw anything into trees.", "permitRequired": false},
+        {"text": "Suspension hardware: whoopie slings, buckles, or carabiners", "required": true, "permitRequired": false},
+        {"text": "Bug net, integrated or separate", "required": true, "note": "Essential in mosquito and tick season.", "permitRequired": false},
+        {"text": "Rain tarp long enough to cover the hammock with overhang", "required": true, "permitRequired": false},
+        {"text": "Tarp guylines, stakes, and tensioners", "required": true, "permitRequired": false},
+        {"text": "Underquilt rated for the expected low", "required": true, "note": "A pad can substitute but shifts when you lie diagonally.", "permitRequired": false},
+        {"text": "Top quilt or sleeping bag rated for the expected low", "required": true, "permitRequired": false},
+        {"text": "Structural ridgeline", "required": false, "permitRequired": false},
+        {"text": "Drip lines on the suspension so rain does not run into the hammock", "required": false, "permitRequired": false},
+        {"text": "Tarp with doors or a larger winter tarp for wind", "required": false, "permitRequired": false},
+        {"text": "Sleeping pad as backup insulation and for ground camping", "required": false, "permitRequired": false},
+        {"text": "Gear sling or ridgeline organizer", "required": false, "permitRequired": false},
+        {"text": "Pillow", "required": false, "permitRequired": false},
+        {"text": "Snakeskins or stuff sacks for a fast pack-up", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Kitchen & Water",
+      "items": [
+        {"text": "Stove and fuel", "required": true, "permitRequired": false},
+        {"text": "Lighter plus waterproof matches", "required": true, "permitRequired": false},
+        {"text": "Pot, spoon, and mug", "required": true, "permitRequired": false},
+        {"text": "Water bottles or bladder", "required": true, "permitRequired": false},
+        {"text": "Water filter or treatment", "required": true, "permitRequired": false},
+        {"text": "Food plus one extra day", "required": true, "permitRequired": false},
+        {"text": "Bear canister or hang kit per local rules", "required": true, "note": "Check current food-storage rules; never keep food in the hammock.", "permitRequired": false},
+        {"text": "Trash bag", "required": true, "permitRequired": false},
+        {"text": "Biodegradable soap", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Clothing",
+      "items": [
+        {"text": "Non-cotton base layers and hiking clothes", "required": true, "permitRequired": false},
+        {"text": "Insulating jacket", "required": true, "permitRequired": false},
+        {"text": "Rain jacket", "required": true, "permitRequired": false},
+        {"text": "Warm hat and gloves (hammocks run cold)", "required": true, "permitRequired": false},
+        {"text": "Dry socks and a sleep layer", "required": true, "permitRequired": false},
+        {"text": "Trail footwear plus camp shoes", "required": false, "permitRequired": false},
+        {"text": "Sun hat and sunglasses", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Safety & First Aid",
+      "items": [
+        {"text": "First-aid kit", "required": true, "permitRequired": false},
+        {"text": "Headlamp with spare batteries", "required": true, "permitRequired": false},
+        {"text": "Whistle", "required": true, "permitRequired": false},
+        {"text": "Knife or multi-tool", "required": true, "permitRequired": false},
+        {"text": "Emergency blanket or bivy", "required": true, "permitRequired": false},
+        {"text": "Sunscreen and lip balm", "required": false, "permitRequired": false},
+        {"text": "Insect repellent (consider permethrin-treated clothing)", "required": false, "permitRequired": false},
+        {"text": "Satellite messenger", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Hygiene & Waste",
+      "items": [
+        {"text": "Trowel for catholes 6-8 in deep, 200 ft from water", "required": true, "permitRequired": false},
+        {"text": "Toilet paper in a zip bag", "required": true, "permitRequired": false},
+        {"text": "Hand sanitizer", "required": true, "permitRequired": false},
+        {"text": "Toothbrush and toothpaste", "required": false, "permitRequired": false},
+        {"text": "Wipes (pack out)", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Tools & Repair",
+      "items": [
+        {"text": "Extra cord and a spare guyline", "required": false, "permitRequired": false},
+        {"text": "Repair tape, needle and thread, spare buckle", "required": false, "permitRequired": false},
+        {"text": "Extra stakes", "required": false, "permitRequired": false},
+        {"text": "Trekking poles (double as tarp porch poles)", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Extras",
+      "items": [
+        {"text": "Sit pad or camp chair", "required": false, "permitRequired": false},
+        {"text": "Book or cards", "required": false, "permitRequired": false},
+        {"text": "Camera", "required": false, "permitRequired": false}
+      ]
+    }
+  ]
+}

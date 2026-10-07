@@ -1,0 +1,138 @@
+{
+  "id": "burning-man",
+  "name": "Burning Man (Black Rock City)",
+  "category": "event",
+  "tagline": "For first-time or returning Burners camping a week in Black Rock City's alkali desert, where you bring everything in and take everything home.",
+  "description": "Assumes 5-8 nights in a tent or vehicle camp during the late August to Labor Day event (Aug 30-Sept 7 in 2026) for a small camp that is self-reliant for water, shade, food and trash. Built from the official 2026 Survival Guide checklists and Leave No Trace rules. Adapt quantities to your camp size, add generator and fuel containment if you bring power, and re-read the Survival Guide each year because dates, ticketing and rules change.",
+  "season": "Late Aug-early Sept (Labor Day week)",
+  "typicalDuration": "5-8 nights",
+  "considerations": [
+    "Tickets and vehicle passes are sold only in advance; every vehicle except motorcycles must display a vehicle pass and everyone inside needs a ticket. In 2026 the Gate opened 12:01 am Sunday Aug 30 and the event ends 6 pm Monday Sept 7; check the current Survival Guide for next year's dates.",
+    "Bring 1.5 gallons of water per person per day for drinking, washing and cleaning; there is no water for sale in Black Rock City and gray water may not touch the playa.",
+    "Vehicles are searched at the Gate; you may be denied entry for stowaways, animals, explosives or fireworks, firearms, hand-held lasers, unregistered drones or Mutant Vehicles, plants, and anything that creates MOOP such as wood chips, loose feathers or confetti (2026 guide).",
+    "Dust storms can bring winds over 75 mph and instant whiteouts; daytime highs routinely exceed 100 F while overnight lows reach the 40s; rain turns the playa to mud and stops all driving.",
+    "No driving inside the city except licensed Mutant Vehicles; walk or bike, light yourself and your bike at night (glow sticks do not count), and keep e-bikes to the 5 mph limit.",
+    "Fire: keep an ABC extinguisher in every camp and every RV or trailer; no fires on the bare playa (burn barrels elevated 6 in); fuel containers no more than 80% full in secondary containment holding 110% of the largest container.",
+    "Leave No Trace: there is no trash service, so pack out all MOOP, mark and remove every stake and rebar (now the top MOOP item) and do line sweeps before you leave. Glitter is not allowed.",
+    "The event runs under a federal BLM permit with active law enforcement; marijuana and other drugs remain illegal on site."
+  ],
+  "reviewedOn": "2026-10-07",
+  "sources": [
+    {"title": "Black Rock City Survival Guide 2026 (PDF)", "publisher": "Burning Man Project", "url": "https://survival.burningman.org/wp-content/uploads/2026/06/BMSG-2026-fin.pdf", "accessed": "2026-10-07"},
+    {"title": "Personal Survival Checklist", "publisher": "Burning Man Project - Survival Guide", "url": "https://survival.burningman.org/survival-health-and-safety/survival/", "accessed": "2026-10-07"},
+    {"title": "Water (Camping Tips)", "publisher": "Burning Man Project", "url": "https://burningman.org/black-rock-city/preparation/camping-tips/water/", "accessed": "2026-10-07"},
+    {"title": "Survival Guide", "publisher": "Burning Man Project", "url": "https://survival.burningman.org/", "accessed": "2026-10-07"}
+  ],
+  "sections": [
+    {
+      "title": "Tickets, Passes & Rules",
+      "items": [
+        {"text": "Event ticket for every person (or Will Call ID and confirmation number)", "required": true, "note": "No tickets are sold at the Gate; Will Call closed Saturday noon in 2026.", "permitRequired": true},
+        {"text": "Vehicle pass displayed in every vehicle (motorcycles exempt)", "required": true, "permitRequired": true},
+        {"text": "Photo ID for Will Call and age checks", "required": true, "permitRequired": false},
+        {"text": "Read the current Survival Guide and the terms on your ticket", "required": true, "permitRequired": false},
+        {"text": "Theme camp placement registration if your camp applied", "required": false, "permitRequired": true},
+        {"text": "Mutant Vehicle license if bringing an art car", "required": false, "note": "Unregistered Mutant Vehicles are turned away at the Gate.", "permitRequired": true},
+        {"text": "Vehicle check: registration, plate light, headlights, brake lights, insurance", "required": true, "permitRequired": false},
+        {"text": "Fire Art Safety approval for burn barrels, flame effects or burning art", "required": false, "permitRequired": true},
+        {"text": "Early arrival pass if entering before the Gate opens", "required": false, "permitRequired": true}
+      ]
+    },
+    {
+      "title": "Water & Gray Water",
+      "items": [
+        {"text": "1.5 gallons of potable water per person per day in new or sanitized containers", "required": true, "note": "Never store drinking water in garbage bags; keep containers out of direct sun.", "permitRequired": false},
+        {"text": "Reusable water bottle carried everywhere", "required": true, "permitRequired": false},
+        {"text": "Utility water for washing and misting", "required": false, "permitRequired": false},
+        {"text": "Gray water containment: evaporation pan or sealed jugs hauled out", "required": true, "note": "Gray water cannot touch the playa; the less you make, the less you haul.", "permitRequired": false},
+        {"text": "Electrolyte mix", "required": false, "permitRequired": false},
+        {"text": "Handled jug for collecting camp MOOP and water", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Shelter & Shade",
+      "items": [
+        {"text": "Sturdy tent or vehicle sleeping setup with weighted interior corners", "required": true, "permitRequired": false},
+        {"text": "12 in stakes, rebar or lag bolts with capped or bent ends", "required": true, "note": "Cap rebar with tennis balls or bottles; uncapped rebar causes injuries.", "permitRequired": false},
+        {"text": "Shade structure rated for high wind", "required": true, "permitRequired": false},
+        {"text": "Ratchet straps, rope and tie-downs", "required": true, "permitRequired": false},
+        {"text": "Warm sleeping bag and bedding (lows in the 40s)", "required": true, "permitRequired": false},
+        {"text": "Sleeping pad or cot", "required": false, "permitRequired": false},
+        {"text": "Tarp or rug flooring to catch MOOP", "required": false, "permitRequired": false},
+        {"text": "Camp marker: flag, banner or something distinctive", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Dust & Weather Protection",
+      "items": [
+        {"text": "Goggles for dust storms", "required": true, "permitRequired": false},
+        {"text": "Particle or dust mask", "required": true, "permitRequired": false},
+        {"text": "Sunscreen and sunglasses", "required": true, "note": "At nearly 4,000 ft the sun burns faster; reapply every morning.", "permitRequired": false},
+        {"text": "Wide-brim hat with chinstrap", "required": false, "permitRequired": false},
+        {"text": "Lip balm and lotion", "required": false, "permitRequired": false},
+        {"text": "Rain gear and closed footwear for mud", "required": true, "permitRequired": false},
+        {"text": "Warm clothing for cold nights", "required": true, "permitRequired": false},
+        {"text": "Bandana or scarf; vinegar foot soak for alkaline playa foot", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Lighting, Bikes & Getting Around",
+      "items": [
+        {"text": "Lights on your person at night (not glow sticks)", "required": true, "permitRequired": false},
+        {"text": "Headlamp or flashlight with spare batteries", "required": true, "permitRequired": false},
+        {"text": "Working bicycle with balloon tires, decorated", "required": false, "note": "Mountain bikes or cruisers work best; e-bikes must stay at 5 mph.", "permitRequired": false},
+        {"text": "Front and rear bike lights", "required": true, "permitRequired": false},
+        {"text": "Bike lock and tag with name, playa address and contact", "required": true, "permitRequired": false},
+        {"text": "Bike repair kit: pump, tubes, spare parts", "required": false, "permitRequired": false},
+        {"text": "Battery AM/FM radio for BMIR 94.5 and Gate radio 95.1", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Kitchen & Food",
+      "items": [
+        {"text": "Food and beverages for the whole stay", "required": true, "permitRequired": false},
+        {"text": "Camp stove or BBQ elevated off the playa", "required": false, "note": "No fires on the bare playa; all fires contained and elevated at least 6 in.", "permitRequired": false},
+        {"text": "Cooler and ice plan", "required": false, "permitRequired": false},
+        {"text": "Reusable plates, cups, mug and utensils", "required": false, "permitRequired": false},
+        {"text": "Mesh bag to dry food waste in the sun", "required": false, "permitRequired": false},
+        {"text": "Prescriptions in original containers", "required": true, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Health & Safety",
+      "items": [
+        {"text": "Extensive first aid kit", "required": true, "permitRequired": false},
+        {"text": "Hand sanitizer (60% or more alcohol)", "required": true, "permitRequired": false},
+        {"text": "ABC fire extinguisher in camp and one in each RV or trailer", "required": true, "permitRequired": false},
+        {"text": "Fire blanket", "required": false, "permitRequired": false},
+        {"text": "Earplugs and eye mask", "required": false, "permitRequired": false},
+        {"text": "Duct tape and multi-tool", "required": true, "permitRequired": false},
+        {"text": "Spare car keys", "required": false, "permitRequired": false},
+        {"text": "Emergency toilet: 5-gallon bucket with liners", "required": false, "permitRequired": false},
+        {"text": "Waterproof bags for electronics", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Power & Fuel (if bringing any)",
+      "items": [
+        {"text": "Generator sound-insulated and placed away from neighbors", "required": false, "permitRequired": false},
+        {"text": "Fuel in approved containers, max 80% full, inside secondary containment", "required": false, "note": "Containment must hold 110% of the largest container; never set fuel on the playa.", "permitRequired": false},
+        {"text": "Drip pan or tarp under vehicles to catch oil leaks", "required": false, "permitRequired": false},
+        {"text": "Solar panel or battery bank for phones and lights", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Leave No Trace / Pack-out",
+      "items": [
+        {"text": "Garbage and recycling bags; sort and crush cans", "required": true, "permitRequired": false},
+        {"text": "MOOP bag carried everywhere; pocket ashtray if you smoke", "required": true, "permitRequired": false},
+        {"text": "Stake inventory: mark and count every stake and rebar for removal", "required": true, "permitRequired": false},
+        {"text": "Magnet bar or rake for the final sweep", "required": false, "permitRequired": false},
+        {"text": "No feathers, glitter, confetti, loose sequins, hay or wood chips", "required": true, "permitRequired": false},
+        {"text": "Load covered and strapped for Exodus; no dumping trash in nearby towns", "required": true, "permitRequired": false},
+        {"text": "Line-sweep schedule before setup, during the week and before leaving", "required": false, "permitRequired": false},
+        {"text": "Daily check under vehicles for fluid leaks", "required": false, "permitRequired": false}
+      ]
+    }
+  ]
+}

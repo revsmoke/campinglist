@@ -1,0 +1,76 @@
+entrypoint = "public/index.html"
+modules = ["web", "nodejs-20"]
+
+[nix]
+channel = "stable-24_11"
+packages = ["static-web-server"]
+
+# Static deployment: only the public/ directory is published. Secrets, docs, tests and
+# node_modules never reach the CDN.
+[deployment]
+publicDir = "public"
+deploymentTarget = "static"
+
+# Security headers for every file. CSP is also set as a <meta> tag in index.html as a fallback.
+[[deployment.responseHeaders]]
+path = "/*"
+name = "X-Content-Type-Options"
+value = "nosniff"
+
+[[deployment.responseHeaders]]
+path = "/*"
+name = "Referrer-Policy"
+value = "strict-origin-when-cross-origin"
+
+[[deployment.responseHeaders]]
+path = "/*"
+name = "X-Frame-Options"
+value = "DENY"
+
+[[deployment.responseHeaders]]
+path = "/*"
+name = "Permissions-Policy"
+value = "camera=(), microphone=(), geolocation=(self), payment=()"
+
+# Google sign-in and the Drive token popup need window.opener to stay reachable: never
+# "same-origin" here. Microsoft's redirect bridge must not carry COOP at all (see below).
+[[deployment.responseHeaders]]
+path = "/index.html"
+name = "Cross-Origin-Opener-Policy"
+value = "same-origin-allow-popups"
+
+[[deployment.responseHeaders]]
+path = "/"
+name = "Cross-Origin-Opener-Policy"
+value = "same-origin-allow-popups"
+
+[[deployment.responseHeaders]]
+path = "/auth/redirect.html"
+name = "Cache-Control"
+value = "no-store"
+
+[[deployment.responseHeaders]]
+path = "/templates/*"
+name = "Cache-Control"
+value = "public, max-age=300"
+
+[[deployment.responseHeaders]]
+path = "/vendor/*"
+name = "Cache-Control"
+value = "public, max-age=86400"
+
+[workflows]
+runButton = "Serve static"
+
+[[workflows.workflow]]
+name = "Serve static"
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "static-web-server --port 80 --root ./public --log-level info"
+waitForPort = 80
+
+[[ports]]
+localPort = 80
+externalPort = 80

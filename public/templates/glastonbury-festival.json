@@ -1,0 +1,106 @@
+{
+  "id": "glastonbury-festival",
+  "name": "Glastonbury Festival Camping",
+  "category": "event",
+  "tagline": "For ticket holders tent camping five nights at Worthy Farm in Somerset, carrying everything in from the car parks or coach station.",
+  "description": "Assumes general camping for the five-night festival (next edition Wednesday 23 to Sunday 27 June 2027; 2026 is a fallow year) for a small group arriving on the Wednesday. Covers tickets and ID, the banned-items list, the Love the Farm, Leave No Trace rules, English summer weather from mud to heatwave and a carry-everything packing approach. Adapt for campervan fields, accessible camping or family fields, and re-check the official info pages when 2027 details are published.",
+  "season": "Late June (next festival 23-27 June 2027)",
+  "typicalDuration": "5 nights (Wed-Mon)",
+  "considerations": [
+    "There is no festival in 2026 (fallow year); the next runs Wednesday 23 to Sunday 27 June 2027. Tickets require advance registration and sell out; bring your ticket and the original photo ID you registered with (Glastonbury Festivals, as of 2026).",
+    "Banned items (2025 list): glass of any kind, knives, disposable vapes, gazebos, generators, sound systems and drums, sky or paper lanterns, kites, fireworks, flares, wax candles, nitrous oxide, body glitter, drones and animals other than assistance dogs. Check the 2027 list when it is published.",
+    "Everything you bring must be carried a long way from the car park or coach station and taken home again, tent included; label bags with your name and mobile number and only pack what you can carry.",
+    "Weather is unpredictable: pack wellies or sturdy boots, waterproofs and warm layers for cold nights as well as sun cream and a hat; deep mud and dust are both common.",
+    "Free mains-quality water comes from 850 or more taps and bottle-filling stations; use the compost and long-drop toilets, never the ground; disposable wipes are discouraged even if labelled biodegradable.",
+    "Fire safety: never change gas canisters inside or near tents; no barbecues, generators or candles in general camping (small raised barbecues only where permitted, 3 m from vehicles); note the numbered Fire Point nearest your pitch.",
+    "Use the free 24-hour property lock-ups for valuables and medication; tents are easy to enter, so keep phone, cash and keys on you."
+  ],
+  "reviewedOn": "2026-10-07",
+  "sources": [
+    {"title": "Information", "publisher": "Glastonbury Festivals Ltd", "url": "https://www.glastonburyfestivals.co.uk/info/", "accessed": "2026-10-07"},
+    {"title": "Think Before You Pack for This Year's Festival (2025)", "publisher": "Glastonbury Festivals Ltd", "url": "https://www.glastonburyfestivals.co.uk/news/think-before-you-pack-for-this-years-festival-25/", "accessed": "2026-10-07"},
+    {"title": "Think Before You Pack", "publisher": "Glastonbury Festivals Ltd", "url": "https://www.glastonburyfestivals.co.uk/think-before-you-pack", "accessed": "2026-10-07"}
+  ],
+  "sections": [
+    {
+      "title": "Tickets & Planning",
+      "items": [
+        {"text": "Festival ticket for every person", "required": true, "note": "Registration is open now; the 2027 general sale was expected in late 2026.", "permitRequired": true},
+        {"text": "Original photo ID matching your ticket registration", "required": true, "permitRequired": false},
+        {"text": "Coach ticket or car park pass", "required": true, "permitRequired": true},
+        {"text": "Campervan or caravan pitch booking if using those fields", "required": false, "note": "Only vehicles with fitted sleeping, washing or cooking facilities are allowed (2027 terms).", "permitRequired": true},
+        {"text": "Cash and cards; phone with a battery pack", "required": true, "permitRequired": false},
+        {"text": "Luggage tags with name and mobile number on every bag", "required": true, "permitRequired": false},
+        {"text": "Folding trolley or cart for the long walk from the car park", "required": false, "permitRequired": false},
+        {"text": "Site map studied; family or accessible camping fields noted if needed", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Tent & Sleep",
+      "items": [
+        {"text": "Sturdy tent with all poles, pegs and groundsheet", "required": true, "note": "Bring one that will last; abandoned tents are the biggest waste problem.", "permitRequired": false},
+        {"text": "Sleeping bag warm enough for cold nights", "required": true, "permitRequired": false},
+        {"text": "Roll mat or air bed with pump", "required": true, "permitRequired": false},
+        {"text": "Pillow", "required": false, "permitRequired": false},
+        {"text": "Flag or marker to find your tent among thousands", "required": false, "permitRequired": false},
+        {"text": "Spare pegs and a mallet", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Clothing & Weather",
+      "items": [
+        {"text": "Wellies or waterproof boots", "required": true, "permitRequired": false},
+        {"text": "Waterproof jacket", "required": true, "permitRequired": false},
+        {"text": "Waterproof over-trousers or poncho", "required": false, "permitRequired": false},
+        {"text": "Warm layers: fleece or hoodie and a hat", "required": true, "permitRequired": false},
+        {"text": "Spare dry shoes and socks", "required": true, "permitRequired": false},
+        {"text": "Sun hat and sunglasses", "required": false, "permitRequired": false},
+        {"text": "Sun cream", "required": true, "permitRequired": false},
+        {"text": "Bin bags for muddy clothes", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Water, Food & Drink",
+      "items": [
+        {"text": "Reusable water bottle (850+ free taps and refill points)", "required": true, "permitRequired": false},
+        {"text": "Snacks and camp food", "required": false, "permitRequired": false},
+        {"text": "Alcohol for personal use only, in cans or plastic (no glass)", "required": false, "permitRequired": false},
+        {"text": "Camping stove and gas, with canisters changed away from tents", "required": false, "note": "Camping shops on site sell gas; no barbecues inside or near tents.", "permitRequired": false},
+        {"text": "Reusable cup, plate and cutlery", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Toiletries & Health",
+      "items": [
+        {"text": "Toilet roll", "required": true, "permitRequired": false},
+        {"text": "Hand sanitiser", "required": true, "permitRequired": false},
+        {"text": "Toothbrush, toothpaste, soap bar and washcloth instead of wipes", "required": false, "permitRequired": false},
+        {"text": "Medication, with spares kept in a lock-up", "required": true, "permitRequired": false},
+        {"text": "Ear plugs", "required": false, "permitRequired": false},
+        {"text": "Basic first aid kit and blister plasters", "required": false, "permitRequired": false},
+        {"text": "Spectacles or contact lenses, contraceptives", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Safety & Comfort",
+      "items": [
+        {"text": "Torch or head torch with spare batteries", "required": true, "permitRequired": false},
+        {"text": "Power bank", "required": true, "permitRequired": false},
+        {"text": "Small day bag", "required": false, "permitRequired": false},
+        {"text": "UV pen to mark valuables with your postcode", "required": false, "permitRequired": false},
+        {"text": "Valuables kept on you or in the free 24-hour lock-ups", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Leave No Trace / Pack-out",
+      "items": [
+        {"text": "Take your tent and all gear home", "required": true, "permitRequired": false},
+        {"text": "Remove every tent peg (metal left behind injures livestock)", "required": true, "permitRequired": false},
+        {"text": "Use the recycling bins and carry rubbish to them", "required": true, "permitRequired": false},
+        {"text": "No glass, no body glitter, no disposable wipes", "required": true, "permitRequired": false},
+        {"text": "Leave the gazebo at home (not allowed)", "required": false, "permitRequired": false},
+        {"text": "Remove excess packaging before you travel", "required": false, "permitRequired": false}
+      ]
+    }
+  ]
+}

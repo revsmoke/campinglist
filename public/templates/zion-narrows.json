@@ -1,0 +1,106 @@
+{
+  "id": "zion-narrows",
+  "name": "Zion Narrows",
+  "category": "destination",
+  "tagline": "For hikers wading the Virgin River Narrows bottom-up as a day hike or top-down (16 miles) on a day or one-night wilderness permit.",
+  "description": "Covers wading the Virgin River in Zion Canyon from late spring through fall. A bottom-up day hike from the Temple of Sinawava needs no permit, while the top-down route from Chamberlain's Ranch requires a wilderness permit, a shuttle to the trailhead and, for overnights, a designated campsite. Assumes a small group, flow below the closure threshold and dry weather. Add dry suits or dry bibs in cold months and skip the overnight section for day trips.",
+  "season": "Late May-Oct (spring runoff closures; closed above 150 cfs)",
+  "typicalDuration": "Day hike or 1 night",
+  "considerations": [
+    "Top-down day and overnight trips require a wilderness permit: advance reservations open on the 5th of each month at 10 am MT for dates three months out, a daily lottery runs two days ahead, and walk-ups are issued the day before. Day permits cost $6 plus $10 per person; overnight permits $20 plus $7 per person per night; all are picked up in person at the Wilderness Desk (NPS, as of 2026).",
+    "Top-down trips are not permitted when flow exceeds 120 cfs and the whole Narrows closes above 150 cfs and for at least two hours after a flash flood warning lifts; spring snowmelt closed it from April 11 to May 19 in 2024. Check the flow and the NWS flash flood potential rating every morning.",
+    "Flash flood signs: cloud buildup, thunder, a sudden drop in water clarity, floating debris, stronger current or rising water. Climb to high ground immediately; never try to outrun it.",
+    "Toxic cyanobacteria has been found in the Virgin River and no known filtration removes the toxin; carry all your water (about 1 gallon per person per day) or treat per NPS guidance (boil, or 1-micron filter plus chlorine or iodine and a 30-minute wait).",
+    "Wilderness permit groups must carry at least one human waste disposal bag per person; pack out all solid waste and toilet paper. Campfires are prohibited everywhere in the Zion wilderness.",
+    "Only 12 designated campsites exist for the one-night top-down trip and multi-night Narrows trips are not permitted; you must arrange your own transport to Chamberlain's Ranch.",
+    "Hypothermia is the leading killer of outdoor recreationists even in summer; wear quick-drying layers, never cotton, and use neoprene socks or a dry suit in cool months."
+  ],
+  "reviewedOn": "2026-10-07",
+  "sources": [
+    {"title": "The Narrows", "publisher": "National Park Service - Zion", "url": "https://www.nps.gov/zion/planyourvisit/thenarrows.htm", "accessed": "2026-10-07"},
+    {"title": "Virgin River Narrows Permits", "publisher": "National Park Service - Zion", "url": "https://www.nps.gov/zion/planyourvisit/narrowspermits.htm", "accessed": "2026-10-07"},
+    {"title": "16-Mile Through-Hike, Virgin River Narrows (top-down)", "publisher": "National Park Service - Zion", "url": "https://www.nps.gov/zion/planyourvisit/virgin-river-narrows-information.htm", "accessed": "2026-10-07"},
+    {"title": "Wilderness Permits", "publisher": "National Park Service - Zion", "url": "https://www.nps.gov/zion/planyourvisit/wildernesspermitinfo.htm", "accessed": "2026-10-07"},
+    {"title": "Wilderness Safety and Regulations", "publisher": "National Park Service - Zion", "url": "https://www.nps.gov/zion/planyourvisit/wilderness-safety.htm", "accessed": "2026-10-07"},
+    {"title": "Leave No Trace", "publisher": "National Park Service - Zion", "url": "https://home.nps.gov/zion/getinvolved/supportyourpark/leavenotrace.htm", "accessed": "2026-10-07"}
+  ],
+  "sections": [
+    {
+      "title": "Permits & Planning",
+      "items": [
+        {"text": "Wilderness permit for a top-down day hike or overnight", "required": true, "note": "Not needed for bottom-up day hikes. Reserve on Recreation.gov or enter the daily lottery (as of 2026).", "permitRequired": true},
+        {"text": "Designated campsite assignment for overnight trips (12 sites)", "required": false, "permitRequired": true},
+        {"text": "In-person permit pickup at the Wilderness Desk (allow 20 minutes)", "required": false, "note": "The reservation holder must collect it; permits are non-transferable.", "permitRequired": false},
+        {"text": "Shuttle or vehicle drop at Chamberlain's Ranch booked (top-down only)", "required": false, "note": "The park does not provide this transport; outfitters in Springdale run shuttles.", "permitRequired": true},
+        {"text": "Park entrance pass and Zion Canyon shuttle timetable", "required": true, "permitRequired": false},
+        {"text": "Check river flow (cfs), forecast and NWS flash flood potential the morning of", "required": true, "permitRequired": false},
+        {"text": "Turnaround time and bailout plan agreed with the group", "required": true, "permitRequired": false},
+        {"text": "Outfitter rental booked: canyon shoes, neoprene socks, dry bibs or dry suit", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "River Gear",
+      "items": [
+        {"text": "Closed-toe canyoneering shoes or sturdy boots that can get wet", "required": true, "permitRequired": false},
+        {"text": "Neoprene socks", "required": true, "permitRequired": false},
+        {"text": "Sturdy hiking stick or trekking pole", "required": true, "note": "Essential for balance on slick, uneven cobbles.", "permitRequired": false},
+        {"text": "Dry bags or a dry pack liner", "required": true, "permitRequired": false},
+        {"text": "Dry suit or dry bibs in cool months (about Oct-mid May)", "required": false, "permitRequired": false},
+        {"text": "Waterproof phone case", "required": false, "permitRequired": false},
+        {"text": "Spare socks and clothes sealed in a dry bag", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Clothing",
+      "items": [
+        {"text": "Quick-dry synthetic or wool layers; no cotton", "required": true, "permitRequired": false},
+        {"text": "Fleece or insulating layer", "required": false, "permitRequired": false},
+        {"text": "Rain shell or wind layer", "required": false, "permitRequired": false},
+        {"text": "Hat and sunglasses", "required": false, "permitRequired": false},
+        {"text": "Warm, dry clothes for after the hike", "required": true, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Water & Food",
+      "items": [
+        {"text": "Water carried in: about 1 gallon per person per day", "required": true, "note": "Do not drink river water untreated; cyanobacteria toxins pass through filters.", "permitRequired": false},
+        {"text": "Backup treatment per NPS guidance (boil, or 1-micron filter plus chemical)", "required": false, "permitRequired": false},
+        {"text": "High-energy snacks and meals", "required": true, "permitRequired": false},
+        {"text": "Electrolyte mix", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Overnight Gear (top-down campers)",
+      "items": [
+        {"text": "Tent or bivy", "required": true, "note": "Overnight trips only.", "permitRequired": false},
+        {"text": "Sleeping bag and pad", "required": true, "note": "Overnight trips only; canyon bottoms stay cool.", "permitRequired": false},
+        {"text": "Stove and fuel (no campfires anywhere in the wilderness)", "required": true, "permitRequired": false},
+        {"text": "Camp only at your assigned site on durable ground", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Navigation & Safety",
+      "items": [
+        {"text": "NPS Narrows map with landmarks and campsites", "required": true, "permitRequired": false},
+        {"text": "Headlamp with spare batteries", "required": true, "note": "Top-down takes 10-14 hours; finishing in the dark is common.", "permitRequired": false},
+        {"text": "First aid kit", "required": true, "permitRequired": false},
+        {"text": "Whistle", "required": false, "permitRequired": false},
+        {"text": "Emergency blanket", "required": true, "permitRequired": false},
+        {"text": "Sunscreen", "required": false, "permitRequired": false},
+        {"text": "Satellite messenger (no cell service in the canyon)", "required": false, "permitRequired": false},
+        {"text": "Everyone knows the flash flood signs and the plan to climb to high ground", "required": true, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Leave No Trace / Pack-out",
+      "items": [
+        {"text": "Human waste disposal bags: at least one per person", "required": true, "note": "Required for wilderness permit holders; sold at the Zion Forever store and outfitters.", "permitRequired": false},
+        {"text": "Pack out toilet paper and hygiene products", "required": true, "permitRequired": false},
+        {"text": "Trash bag; pack out everything including food scraps", "required": true, "permitRequired": false},
+        {"text": "No campfires", "required": true, "permitRequired": false},
+        {"text": "Avoid trampling vegetation at campsites and river edges", "required": false, "permitRequired": false},
+        {"text": "Use the restrooms at the Temple of Sinawava before starting", "required": false, "permitRequired": false}
+      ]
+    }
+  ]
+}

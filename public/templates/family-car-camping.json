@@ -1,0 +1,141 @@
+{
+  "id": "family-car-camping",
+  "name": "Family Car Camping",
+  "category": "style",
+  "tagline": "For parents taking kids to a developed campground with a car full of gear.",
+  "description": "A starting point for a 1-4 night stay at a developed campground with your vehicle at the site, for a family with young or school-age children. Assumes picnic tables, fire rings, restrooms, and potable water are usually available, and that comfort and keeping kids happy matter more than weight. Adapt for the forecast, your kids' ages, and whether the campground has food lockers, showers, or a camp store.",
+  "season": "Spring-Fall",
+  "typicalDuration": "1-4 nights",
+  "considerations": [
+    "Check current reservation rules; popular campgrounds book months ahead on Recreation.gov or state park systems.",
+    "Check current campfire rules and firewood restrictions; buy wood locally to avoid spreading pests.",
+    "Confirm what the campground provides (water, tables, fire rings, food lockers, showers) before you pack.",
+    "Check current wildlife and food-storage rules; bear lockers may be required and coolers must be put away.",
+    "Check the forecast for daytime heat and overnight cold; kids chill and overheat faster than adults.",
+    "Know the campground's quiet hours, pet rules, and generator rules."
+  ],
+  "reviewedOn": "2026-10-07",
+  "sources": [
+    {"title": "What to Bring (Camping)", "publisher": "National Park Service", "url": "https://www.nps.gov/subjects/camping/what-to-bring.htm", "accessed": "2026-10-07"},
+    {"title": "Camping with Kids", "publisher": "National Park Service", "url": "https://www.nps.gov/subjects/camping/camping-with-kids.htm", "accessed": "2026-10-07"},
+    {"title": "Pitch Perfect: A Beginner's Guide to Camping Adventures", "publisher": "Bureau of Land Management", "url": "https://www.blm.gov/blog/2025-08-22/pitch-perfect-beginners-guide-camping-adventures", "accessed": "2026-10-07"},
+    {"title": "Camping With Kids: Checklist, Packing Essentials, Where to Camp and More", "publisher": "Kampgrounds of America (KOA)", "url": "https://koa.com/blog/camping-with-kids-checklist-packing-essentials-where-to-camp-more/", "accessed": "2026-10-07"},
+    {"title": "About Carbon Monoxide Poisoning", "publisher": "Centers for Disease Control and Prevention", "url": "https://www.cdc.gov/carbon-monoxide/about/index.html", "accessed": "2026-10-07"},
+    {"title": "Leave No Trace Seven Principles", "publisher": "National Park Service", "url": "https://www.nps.gov/articles/leave-no-trace-seven-principles.htm", "accessed": "2026-10-07"},
+    {"title": "Food Storage in Bear Country", "publisher": "National Park Service", "url": "https://home.nps.gov/articles/bearsafetyfood.htm", "accessed": "2026-10-07"}
+  ],
+  "sections": [
+    {
+      "title": "Planning & Reservations",
+      "items": [
+        {"text": "Campsite reservation confirmation (printed or saved offline)", "required": true, "note": "Check current booking windows; weekend sites can fill the minute they open.", "permitRequired": true},
+        {"text": "Campground rules checked: check-in time, quiet hours, pets, fires", "required": true, "permitRequired": false},
+        {"text": "Park entrance pass or fee", "required": false, "permitRequired": true},
+        {"text": "Firewood bought locally or at the campground", "required": false, "note": "Many areas ban imported firewood to stop pests; check current rules.", "permitRequired": false},
+        {"text": "Meal plan with meals prepped at home", "required": false, "permitRequired": false},
+        {"text": "Trip details and campsite number shared with someone at home", "required": false, "permitRequired": false},
+        {"text": "Tent pitched once at home so setup is quick on arrival", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Shelter & Sleep",
+      "items": [
+        {"text": "Family tent with rainfly, stakes, and guylines (room to stand helps)", "required": true, "permitRequired": false},
+        {"text": "Sleeping bag per person rated for the overnight lows", "required": true, "permitRequired": false},
+        {"text": "Sleeping pads, cots, or air mattress with pump", "required": true, "permitRequired": false},
+        {"text": "Ground tarp or footprint", "required": false, "permitRequired": false},
+        {"text": "Mallet for stakes", "required": false, "permitRequired": false},
+        {"text": "Pillows", "required": false, "permitRequired": false},
+        {"text": "Kids' comfort items: favorite blanket or stuffed animal", "required": false, "permitRequired": false},
+        {"text": "Extra blankets for cold nights", "required": false, "permitRequired": false},
+        {"text": "Screen tent or shade canopy", "required": false, "permitRequired": false},
+        {"text": "Doormat or tarp at the tent door to keep dirt out", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Camp Kitchen & Water",
+      "items": [
+        {"text": "Two-burner camp stove", "required": true, "permitRequired": false},
+        {"text": "Fuel (propane canisters)", "required": true, "permitRequired": false},
+        {"text": "Lighter and matches", "required": true, "permitRequired": false},
+        {"text": "Cooler with ice; raw meat kept separate from ready-to-eat food", "required": true, "permitRequired": false},
+        {"text": "Water jug (5 gallons or more) and a refillable bottle per person", "required": true, "permitRequired": false},
+        {"text": "Pots, skillet, tongs, spatula, and cooking spoon", "required": true, "permitRequired": false},
+        {"text": "Plates, bowls, cups, and cutlery per person", "required": true, "permitRequired": false},
+        {"text": "Knife and cutting board", "required": true, "permitRequired": false},
+        {"text": "Three wash bins, biodegradable soap, sponge, and dish towels", "required": true, "permitRequired": false},
+        {"text": "Trash bags and recycling bags", "required": true, "permitRequired": false},
+        {"text": "Sealed food containers; use bear lockers where provided", "required": true, "note": "Never leave food, coolers, or scented items out or in the tent.", "permitRequired": false},
+        {"text": "Kid snacks: grab-and-go, plus kid-approved meals", "required": false, "permitRequired": false},
+        {"text": "Roasting sticks for marshmallows and hot dogs", "required": false, "permitRequired": false},
+        {"text": "Coffee maker", "required": false, "permitRequired": false},
+        {"text": "Tablecloth with clips, paper towels, foil", "required": false, "permitRequired": false},
+        {"text": "Cooking grate or foil packets for fire cooking", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Clothing",
+      "items": [
+        {"text": "Layers per person: shirts, pants, warm fleece or jacket", "required": true, "permitRequired": false},
+        {"text": "Rain jackets for everyone", "required": true, "permitRequired": false},
+        {"text": "Sturdy closed-toe shoes plus sandals or water shoes", "required": true, "permitRequired": false},
+        {"text": "Extra outfits for kids (they get wet and muddy)", "required": true, "permitRequired": false},
+        {"text": "Warm sleepwear and hats for cold nights", "required": true, "permitRequired": false},
+        {"text": "Sun hats and swimsuits", "required": false, "permitRequired": false},
+        {"text": "Extra socks", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Safety & First Aid",
+      "items": [
+        {"text": "First-aid kit with child-dose medicines, bandages, tweezers", "required": true, "permitRequired": false},
+        {"text": "Kid-friendly sunscreen and lip balm", "required": true, "permitRequired": false},
+        {"text": "Insect repellent and after-bite relief", "required": true, "permitRequired": false},
+        {"text": "Headlamp or flashlight per person, plus a lantern and spare batteries", "required": true, "permitRequired": false},
+        {"text": "Whistle for each child (teach: stay put and blow three times)", "required": true, "permitRequired": false},
+        {"text": "Bucket of water or sand and a shovel kept beside the fire", "required": true, "permitRequired": false},
+        {"text": "Fuel-burning gear (stoves, grills, heaters, lanterns) stays outside tents", "required": true, "note": "Carbon monoxide builds up in tents and campers and can kill; per CDC guidance.", "permitRequired": false},
+        {"text": "Glow sticks or clip-on lights for kids after dark", "required": false, "permitRequired": false},
+        {"text": "Phone, charger, and battery bank", "required": false, "permitRequired": false},
+        {"text": "Emergency contacts, insurance cards, and kids' medical info", "required": false, "permitRequired": false},
+        {"text": "Life jackets for kids if the site is near water", "required": false, "note": "Required by law for children on boats in most states; check local rules.", "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Hygiene",
+      "items": [
+        {"text": "Toilet paper (campground supplies run out)", "required": true, "permitRequired": false},
+        {"text": "Hand sanitizer and soap", "required": true, "permitRequired": false},
+        {"text": "Toothbrushes and toothpaste", "required": true, "permitRequired": false},
+        {"text": "Wet wipes", "required": false, "permitRequired": false},
+        {"text": "Towels and shower supplies", "required": false, "permitRequired": false},
+        {"text": "Diapers, wipes, and sealable bags, or a potty seat for toddlers", "required": false, "permitRequired": false},
+        {"text": "Hairbrush, lotion, and other personal items", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Camp Comfort & Tools",
+      "items": [
+        {"text": "Multi-tool or knife", "required": true, "permitRequired": false},
+        {"text": "Camp chairs (kid-sized too)", "required": false, "permitRequired": false},
+        {"text": "Folding table if the site has none", "required": false, "permitRequired": false},
+        {"text": "Duct tape, cord, and extra stakes", "required": false, "permitRequired": false},
+        {"text": "Hatchet or saw (only where gathering wood is allowed)", "required": false, "permitRequired": false},
+        {"text": "Broom and dustpan for the tent", "required": false, "permitRequired": false},
+        {"text": "String lights or lantern for the table", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Fun for Kids",
+      "items": [
+        {"text": "Binoculars and nature guides", "required": false, "permitRequired": false},
+        {"text": "Bikes or scooters with helmets", "required": false, "permitRequired": false},
+        {"text": "Balls, frisbee, and sidewalk chalk", "required": false, "permitRequired": false},
+        {"text": "Board games, cards, and books for rain", "required": false, "permitRequired": false},
+        {"text": "Junior Ranger booklet (national parks)", "required": false, "permitRequired": false},
+        {"text": "Child carrier backpack for toddlers on hikes", "required": false, "permitRequired": false},
+        {"text": "Kids' daypack with water and snacks", "required": false, "permitRequired": false}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,433 @@
+{
+  "id": "camplist-classic",
+  "name": "Classic CampList (all-round car camping)",
+  "category": "general",
+  "tagline": "The original CampList: a complete pre-trip script plus gear for a typical drive-in campground trip.",
+  "description": "A general-purpose list for a weekend to a week of car camping at a developed or semi-developed campground. It covers planning tasks, shelter, kitchen, clothing, first aid, hygiene, navigation, tools and campfire gear. Trim sections you do not need and add trip-specific items from the other templates.",
+  "season": "Spring-Fall",
+  "typicalDuration": "2-7 nights",
+  "considerations": [
+    "Check the campground's current fire restrictions and firewood rules before you buy or bring wood.",
+    "Confirm reservation, quiet-hours and check-in rules for your specific campground; they vary by season.",
+    "Review the weather forecast 48 hours before departure and adjust clothing and shelter accordingly.",
+    "Food-storage rules (bears, raccoons) differ by region; follow posted guidance at your site."
+  ],
+  "reviewedOn": "2026-10-07",
+  "sources": [
+    {
+      "title": "CampList original default checklist",
+      "publisher": "camplist.guide",
+      "url": "https://camplist.guide/",
+      "accessed": "2026-10-07"
+    },
+    {
+      "title": "Camping Checklist",
+      "publisher": "REI Co-op Expert Advice",
+      "url": "https://www.rei.com/learn/expert-advice/family-camping-checklist.html",
+      "accessed": "2026-10-07"
+    }
+  ],
+  "tags": [
+    "car camping",
+    "campground",
+    "beginner",
+    "family"
+  ],
+  "sections": [
+    {
+      "title": "Pre-Trip Planning Script",
+      "items": [
+        {
+          "text": "Pick destination & reserve campsite",
+          "required": true
+        },
+        {
+          "text": "Check permit rules (fires, fishing, drones)",
+          "required": true
+        },
+        {
+          "text": "Verify seasonal hazards (bears, fire bans, bugs)",
+          "required": true
+        },
+        {
+          "text": "Inspect/repair tent, stakes, zippers",
+          "required": true
+        },
+        {
+          "text": "Test camp-stove & fuel canisters",
+          "required": true
+        },
+        {
+          "text": "Create shared food plan & divide groceries",
+          "required": true
+        },
+        {
+          "text": "Check 7-day weather forecast & adjust clothing",
+          "required": true
+        },
+        {
+          "text": "Download offline maps & GPX route",
+          "required": true
+        },
+        {
+          "text": "Charge power banks, camera batteries, headlamps",
+          "required": true
+        },
+        {
+          "text": "Freeze one gallon of drinking water (acts as ice)",
+          "required": false
+        },
+        {
+          "text": "Pre-pack cooler & label meal bags",
+          "required": true
+        },
+        {
+          "text": "Put house on away-mode (thermostat, trash, mail)",
+          "required": true
+        },
+        {
+          "text": "Turn off stove, lock doors, set alarm",
+          "required": true
+        }
+      ]
+    },
+    {
+      "title": "Shelter & Sleep",
+      "items": [
+        {
+          "text": "Tent (poles, stakes, groundsheet)",
+          "required": true
+        },
+        {
+          "text": "Footprint or tarp",
+          "required": true
+        },
+        {
+          "text": "Sleeping bag (temp-rated)",
+          "required": true
+        },
+        {
+          "text": "Sleeping pad / air mattress & repair kit",
+          "required": true
+        },
+        {
+          "text": "Pillow or stuff-sack pillowcase",
+          "required": true
+        },
+        {
+          "text": "Extra guy lines & stake hammer",
+          "required": true
+        }
+      ]
+    },
+    {
+      "title": "Camp Kitchen",
+      "items": [
+        {
+          "text": "Stove + full fuel canisters",
+          "required": true
+        },
+        {
+          "text": "Lighter + stormproof matches",
+          "required": true
+        },
+        {
+          "text": "Cook pot / pan & lid",
+          "required": true
+        },
+        {
+          "text": "Utensils (spatula, long spoon, knife)",
+          "required": true
+        },
+        {
+          "text": "Cutting board (thin plastic)",
+          "required": true
+        },
+        {
+          "text": "Insulated mugs & bowls",
+          "required": true
+        },
+        {
+          "text": "Eating utensils / spork",
+          "required": true
+        },
+        {
+          "text": "Biodegradable soap & scrub pad",
+          "required": true
+        },
+        {
+          "text": "Collapsible sink / wash basin",
+          "required": true
+        },
+        {
+          "text": "Cooler & ice packs / frozen water jugs",
+          "required": true
+        },
+        {
+          "text": "Water filter / purification tablets",
+          "required": true
+        },
+        {
+          "text": "Refillable water bottles / hydration bladder",
+          "required": true
+        },
+        {
+          "text": "Bear-proof canister or hang-kit",
+          "required": true
+        },
+        {
+          "text": "Trash bags & zip-locks",
+          "required": true
+        }
+      ]
+    },
+    {
+      "title": "Power",
+      "items": [
+        {
+          "text": "Solar charger",
+          "required": false
+        },
+        {
+          "text": "Battery pack",
+          "required": false
+        },
+        {
+          "text": "Phone charger",
+          "required": false
+        },
+        {
+          "text": "Headlamp",
+          "required": false
+        },
+        {
+          "text": "Lantern",
+          "required": false
+        },
+        {
+          "text": "Radio",
+          "required": false
+        }
+      ]
+    },
+    {
+      "title": "Clothing & Footwear",
+      "items": [
+        {
+          "text": "Moisture-wicking base layers (top & bottom)",
+          "required": true
+        },
+        {
+          "text": "Insulating mid-layer (fleece or puffy)",
+          "required": true
+        },
+        {
+          "text": "Rain jacket (waterproof/breathable)",
+          "required": true
+        },
+        {
+          "text": "Rain pants",
+          "required": true
+        },
+        {
+          "text": "Extra hiking socks",
+          "required": true
+        },
+        {
+          "text": "Sun hat / brimmed cap",
+          "required": true
+        },
+        {
+          "text": "Warm hat/beanie",
+          "required": true
+        },
+        {
+          "text": "Light gloves / mittens",
+          "required": true
+        },
+        {
+          "text": "Camp shoes / sandals",
+          "required": true
+        }
+      ]
+    },
+    {
+      "title": "First Aid & Health",
+      "items": [
+        {
+          "text": "First aid kit",
+          "required": true
+        },
+        {
+          "text": "Personal medications & copies of prescriptions",
+          "required": true
+        },
+        {
+          "text": "EpiPen / allergy meds (if needed)",
+          "required": true
+        },
+        {
+          "text": "Blister treatment (moleskin, leukotape)",
+          "required": true
+        },
+        {
+          "text": "Insect repellent",
+          "required": true
+        },
+        {
+          "text": "Sunscreen SPF 30+ & lip balm",
+          "required": true
+        },
+        {
+          "text": "Electrolyte tablets / rehydration salts",
+          "required": true
+        }
+      ]
+    },
+    {
+      "title": "Hygiene & Sanitation",
+      "items": [
+        {
+          "text": "Toilet paper & zip-lock bag to pack out",
+          "required": true
+        },
+        {
+          "text": "Trowel / cathole digger",
+          "required": true
+        },
+        {
+          "text": "Hand sanitizer",
+          "required": true
+        },
+        {
+          "text": "Toothbrush & toothpaste",
+          "required": true
+        },
+        {
+          "text": "Quick-dry camp towel",
+          "required": true
+        },
+        {
+          "text": "Feminine hygiene products (if needed)",
+          "required": true
+        },
+        {
+          "text": "Biodegradable wet wipes",
+          "required": true
+        }
+      ]
+    },
+    {
+      "title": "Navigation & Safety",
+      "items": [
+        {
+          "text": "Paper map of area",
+          "required": true
+        },
+        {
+          "text": "Compass",
+          "required": true
+        },
+        {
+          "text": "GPS device / smartphone with offline maps",
+          "required": true
+        },
+        {
+          "text": "Emergency whistle",
+          "required": true
+        },
+        {
+          "text": "Signal mirror",
+          "required": true
+        },
+        {
+          "text": "Personal locator beacon / satellite messenger",
+          "required": true
+        }
+      ]
+    },
+    {
+      "title": "Tools & Repair",
+      "items": [
+        {
+          "text": "Multi-tool / knife",
+          "required": true
+        },
+        {
+          "text": "Duct tape / gear repair tape",
+          "required": true
+        },
+        {
+          "text": "50 ft paracord",
+          "required": true
+        },
+        {
+          "text": "Sewing kit / safety pins",
+          "required": true
+        },
+        {
+          "text": "Zip ties",
+          "required": true
+        },
+        {
+          "text": "Spare AA/AAA batteries",
+          "required": true
+        }
+      ]
+    },
+    {
+      "title": "Campfire",
+      "items": [
+        {
+          "text": "Fire permit (if required)",
+          "required": true
+        },
+        {
+          "text": "Fire starter cubes / cotton-vaseline balls",
+          "required": true
+        },
+        {
+          "text": "Dry tinder in waterproof bag",
+          "required": true
+        },
+        {
+          "text": "Hatchet or folding saw",
+          "required": true
+        },
+        {
+          "text": "Heat-resistant gloves",
+          "required": true
+        }
+      ]
+    },
+    {
+      "title": "Recreation & Comfort",
+      "items": [
+        {
+          "text": "Camp chair / stool",
+          "required": false
+        },
+        {
+          "text": "Hammock & straps",
+          "required": false
+        },
+        {
+          "text": "Cards / travel games",
+          "required": false
+        },
+        {
+          "text": "Journal & pen",
+          "required": false
+        },
+        {
+          "text": "Binoculars",
+          "required": false
+        },
+        {
+          "text": "Camera & accessories",
+          "required": false
+        }
+      ]
+    }
+  ]
+}

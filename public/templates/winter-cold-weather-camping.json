@@ -1,0 +1,142 @@
+{
+  "id": "winter-cold-weather-camping",
+  "name": "Winter / Cold-Weather Camping",
+  "category": "style",
+  "tagline": "For experienced campers sleeping on snow or in sub-freezing temperatures.",
+  "description": "A starting point for 1-3 nights of tent or snow-shelter camping in snow and below-freezing temperatures, reached on skis, snowshoes, or foot. Assumes you have winter travel experience, will melt snow for water, and may cross avalanche terrain. Adapt insulation, fuel, and avalanche gear to the route, forecast, and group, and take an avalanche course before entering avalanche terrain.",
+  "season": "Winter",
+  "typicalDuration": "1-3 nights",
+  "considerations": [
+    "Check the current avalanche forecast for your zone; avoid avalanche terrain unless everyone is trained and carrying rescue gear.",
+    "Check current winter permit rules; some parks require wilderness permits and set campsite distances from roads and water.",
+    "Check current road and trailhead status; winter closures add miles and can strand vehicles, so carry a car emergency kit.",
+    "Expect short days and little or no cell coverage; carry a satellite communicator and leave a detailed trip plan.",
+    "Plan fuel for melting snow; it takes far more than summer trips, and liquid-fuel stoves work better in deep cold.",
+    "Check current human-waste rules; many snow zones require pack-out bags."
+  ],
+  "reviewedOn": "2026-10-07",
+  "sources": [
+    {"title": "Winter Backpacking Gear Checklist", "publisher": "National Park Service, Rocky Mountain National Park", "url": "https://www.nps.gov/romo/planyourvisit/winter-backpacking-gear-checklist.htm", "accessed": "2026-10-07"},
+    {"title": "Winter Camping Gear List (v. 2022-11)", "publisher": "The Mountaineers, Tacoma Branch", "url": "https://www.mountaineers.org/locations-lodges/tacoma-branch/committees/tacoma-snowshoeing-committee/course-templates/winter-camping-the-mountaineers/course-materials/winter-camping-gear-list.pdf", "accessed": "2026-10-07"},
+    {"title": "How to Sleep Warm Outside This Winter", "publisher": "NOLS", "url": "https://www.nols.edu/?p=746048", "accessed": "2026-10-07"},
+    {"title": "Avalanche Safety: Get the Gear", "publisher": "Avalanche.org (American Avalanche Association / USFS National Avalanche Center)", "url": "https://avalanche.org/avalanche-tutorial/get-the-gear.php", "accessed": "2026-10-07"},
+    {"title": "Winter Weather Safety", "publisher": "National Park Service", "url": "https://www.nps.gov/articles/winterweather.htm", "accessed": "2026-10-07"},
+    {"title": "Winter Camping", "publisher": "National Park Service, Mount Rainier National Park", "url": "https://www.nps.gov/mora/planyourvisit/winter-camping.htm", "accessed": "2026-10-07"},
+    {"title": "10 Essentials for Winter Camping", "publisher": "Outdoor Research", "url": "https://www.outdoorresearch.com/blog/10-essentials-for-winter-camping", "accessed": "2026-10-07"}
+  ],
+  "sections": [
+    {
+      "title": "Planning, Permits & Avalanche Safety",
+      "items": [
+        {"text": "Wilderness or winter camping permit where required", "required": true, "note": "Check current rules; some parks require permits and campsite setbacks year-round.", "permitRequired": true},
+        {"text": "Avalanche forecast checked for your zone on the day you go", "required": true, "permitRequired": false},
+        {"text": "Avalanche course for everyone traveling in avalanche terrain", "required": true, "note": "Gear only helps if the group is trained; see avalanche.org.", "permitRequired": false},
+        {"text": "Avalanche transceiver worn on the body with fresh batteries", "required": true, "note": "Carry all three: transceiver, probe, and shovel.", "permitRequired": false},
+        {"text": "Avalanche probe (about 270 cm or longer)", "required": true, "permitRequired": false},
+        {"text": "Metal-blade avalanche shovel", "required": true, "permitRequired": false},
+        {"text": "Detailed trip plan left with a contact, including vehicle and parking spot", "required": true, "permitRequired": false},
+        {"text": "Paper topo map and compass; route planned around hazard zones", "required": true, "permitRequired": false},
+        {"text": "GPS or phone with offline maps and a recorded track", "required": false, "permitRequired": false},
+        {"text": "Car emergency kit: shovel, scraper, chains or traction, jumper cables, blankets", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Snow Travel",
+      "items": [
+        {"text": "Snowshoes or skis with climbing skins", "required": true, "permitRequired": false},
+        {"text": "Poles with snow baskets", "required": true, "permitRequired": false},
+        {"text": "Microspikes or crampons for icy trails", "required": false, "permitRequired": false},
+        {"text": "Pulk sled for hauling gear", "required": false, "permitRequired": false},
+        {"text": "Snow saw for shelters and wind walls", "required": false, "permitRequired": false},
+        {"text": "Wands or route markers", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Shelter & Sleep",
+      "items": [
+        {"text": "Four-season tent with full fly, or a planned snow shelter", "required": true, "permitRequired": false},
+        {"text": "Snow stakes or deadman anchors (stuff sacks, skis, poles)", "required": true, "permitRequired": false},
+        {"text": "Sleeping bag rated 10-20 F below the expected low", "required": true, "permitRequired": false},
+        {"text": "Two pads: closed-cell foam plus insulated inflatable (combined R-value 4+)", "required": true, "permitRequired": false},
+        {"text": "Groundsheet or footprint", "required": false, "permitRequired": false},
+        {"text": "Sleeping bag liner or vapor barrier liner", "required": false, "permitRequired": false},
+        {"text": "Pee bottle, wide mouth, clearly marked", "required": false, "permitRequired": false},
+        {"text": "Inflatable pad repair kit", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Kitchen & Water",
+      "items": [
+        {"text": "Liquid-fuel stove or cold-rated canister stove with windscreen", "required": true, "note": "White gas is more reliable in deep cold; inverted-canister stoves also work.", "permitRequired": false},
+        {"text": "Extra fuel for melting snow (test your burn rate at home)", "required": true, "note": "Snow melting can double or triple fuel use compared with summer.", "permitRequired": false},
+        {"text": "Two lighters plus waterproof matches (piezo igniters fail in cold)", "required": true, "permitRequired": false},
+        {"text": "Large pot (2 L or more) with lid for melting snow", "required": true, "permitRequired": false},
+        {"text": "Insulated mug, bowl, and long-handled spoon", "required": true, "permitRequired": false},
+        {"text": "Two wide-mouth hard bottles with insulated covers", "required": true, "note": "Store upside down so ice forms at the bottom, not the lid.", "permitRequired": false},
+        {"text": "High-calorie food plus one extra day's worth", "required": true, "permitRequired": false},
+        {"text": "Stove base (foam square or shovel blade) so the stove does not sink", "required": false, "permitRequired": false},
+        {"text": "Thermos for hot drinks", "required": false, "permitRequired": false},
+        {"text": "Water treatment for liquid sources (filters can freeze and crack)", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Clothing (No Cotton)",
+      "items": [
+        {"text": "Wool or synthetic base layers, top and bottom", "required": true, "permitRequired": false},
+        {"text": "Fleece or softshell mid-layer", "required": true, "permitRequired": false},
+        {"text": "Insulated puffy jacket with hood (down or synthetic)", "required": true, "permitRequired": false},
+        {"text": "Waterproof-breathable shell jacket with hood", "required": true, "permitRequired": false},
+        {"text": "Shell pants (full zip is easiest over boots)", "required": true, "permitRequired": false},
+        {"text": "Insulated waterproof boots, roomy enough for thick socks", "required": true, "permitRequired": false},
+        {"text": "Wool socks (2-3 pairs) plus dry sleeping socks", "required": true, "permitRequired": false},
+        {"text": "Glove system: liners, insulated gloves, waterproof shell mitts", "required": true, "permitRequired": false},
+        {"text": "Warm hat plus balaclava or neck gaiter", "required": true, "permitRequired": false},
+        {"text": "Sunglasses and goggles (snow glare, wind, blowing snow)", "required": true, "permitRequired": false},
+        {"text": "Spare dry base layer sealed in a bag", "required": false, "permitRequired": false},
+        {"text": "Gaiters", "required": false, "permitRequired": false},
+        {"text": "Puffy pants and down booties for camp", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Safety & First Aid",
+      "items": [
+        {"text": "First-aid kit with blister care plus hand and foot warmers", "required": true, "permitRequired": false},
+        {"text": "Headlamp with lithium batteries plus spares (long nights)", "required": true, "permitRequired": false},
+        {"text": "Satellite messenger or PLB", "required": true, "permitRequired": false},
+        {"text": "Sunscreen and SPF lip balm (snow reflects UV)", "required": true, "permitRequired": false},
+        {"text": "Emergency bivy or space blanket", "required": true, "permitRequired": false},
+        {"text": "Whistle", "required": false, "permitRequired": false},
+        {"text": "Knife or multi-tool", "required": false, "permitRequired": false},
+        {"text": "Extra chemical hand warmers", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Hygiene & Waste",
+      "items": [
+        {"text": "Human-waste pack-out bags", "required": true, "note": "Required in many snow zones; check local rules.", "permitRequired": false},
+        {"text": "Toilet paper in a zip bag", "required": true, "permitRequired": false},
+        {"text": "Hand sanitizer kept inside your jacket so it does not freeze", "required": true, "permitRequired": false},
+        {"text": "Toothbrush and toothpaste", "required": false, "permitRequired": false},
+        {"text": "Wet wipes (pack out)", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Tools & Repair",
+      "items": [
+        {"text": "Repair kit: duct tape, zip ties, ski straps, cord, tenacious tape, glue", "required": false, "permitRequired": false},
+        {"text": "Stove repair kit and spare parts", "required": false, "permitRequired": false},
+        {"text": "Binding, ski, or snowshoe repair parts and a multi-tool with bits", "required": false, "permitRequired": false},
+        {"text": "Extra cord for guylines and deadman anchors", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Extras",
+      "items": [
+        {"text": "Closed-cell sit pad", "required": false, "permitRequired": false},
+        {"text": "Thermometer", "required": false, "permitRequired": false},
+        {"text": "Cards or a book for long nights", "required": false, "permitRequired": false},
+        {"text": "Camera with spare batteries kept warm", "required": false, "permitRequired": false}
+      ]
+    }
+  ]
+}

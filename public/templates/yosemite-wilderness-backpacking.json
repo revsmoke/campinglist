@@ -1,0 +1,115 @@
+{
+  "id": "yosemite-wilderness-backpacking",
+  "name": "Yosemite Wilderness Backpacking",
+  "category": "destination",
+  "tagline": "For backpackers taking a multi-night wilderness trip in Yosemite National Park on a trailhead-quota permit.",
+  "description": "Covers a 2-5 night summer backpacking trip from a Yosemite trailhead such as Happy Isles, Lyell Canyon or Cathedral Lakes for a small group. Assumes July-September conditions with snow mostly gone, afternoon thunderstorms possible and bear canister rules in force. Adapt insulation and traction for early-season snow, and add Half Dome gear only if your permit includes the cables.",
+  "season": "Late May-Oct (peak July-Sept)",
+  "typicalDuration": "2-5 nights",
+  "considerations": [
+    "Wilderness permits are quota-limited: 60% are reserved by lottery 24 weeks ahead and 40% release 7 days ahead on Recreation.gov; walk-up permits are scarce late April to mid-October (NPS, as of 2026).",
+    "Approved bear-resistant canisters are mandatory throughout the Yosemite wilderness and hanging food is illegal; only models on the park's allowed list count (NPS list current as of July 2026).",
+    "Camp at least 100 ft from water and trails, 4 trail miles from Yosemite Valley, Tuolumne Meadows or Glacier Point, and 1 mile from any road; group limit 15 on trail, 8 off-trail.",
+    "Campfires are allowed only in existing rings below 9,600 ft and are banned in listed basins and on Half Dome; check current fire restrictions before you go.",
+    "Pack out all toilet paper; bury human waste 4-6 in deep at least 100 ft from water, trails and camp.",
+    "Half Dome cables require a separate permit even for backpackers (request it with your wilderness permit); nearly all fatal cable falls happened on wet rock.",
+    "Snow typically covers high trails November through May; expect afternoon thunderstorms and mosquitoes in early summer. Check current trail conditions and the 14-night May 1-Sept 15 stay limit."
+  ],
+  "reviewedOn": "2026-10-07",
+  "sources": [
+    {"title": "Wilderness Permits", "publisher": "National Park Service - Yosemite", "url": "https://www.nps.gov/yose/planyourvisit/wildpermits.htm", "accessed": "2026-10-07"},
+    {"title": "Wilderness Regulations", "publisher": "National Park Service - Yosemite", "url": "https://www.nps.gov/yose/planyourvisit/wildregs.htm", "accessed": "2026-10-07"},
+    {"title": "Bear Canisters and Food Storage", "publisher": "National Park Service - Yosemite", "url": "https://www.nps.gov/yose/planyourvisit/bearcanisters.htm", "accessed": "2026-10-07"},
+    {"title": "Allowed Bear-Resistant Containers", "publisher": "National Park Service - Yosemite", "url": "https://www.nps.gov/yose/planyourvisit/containers.htm", "accessed": "2026-10-07"},
+    {"title": "Half Dome Day Hike and Permits", "publisher": "National Park Service - Yosemite", "url": "https://www.nps.gov/yose/planyourvisit/halfdome.htm", "accessed": "2026-10-07"},
+    {"title": "Backpacking in Yosemite", "publisher": "National Park Service - Yosemite", "url": "https://www.nps.gov/yose/planyourvisit/backpacking.htm", "accessed": "2026-10-07"}
+  ],
+  "sections": [
+    {
+      "title": "Permits & Planning",
+      "items": [
+        {"text": "Yosemite wilderness permit for your trailhead and entry date", "required": true, "note": "Lottery opens 24 weeks ahead; 40% of each quota releases 7 days ahead on Recreation.gov (as of 2026).", "permitRequired": true},
+        {"text": "Half Dome permit if your route includes the cables", "required": false, "note": "Needed even for backpackers when the cables are up; request it with the wilderness permit.", "permitRequired": true},
+        {"text": "Photo ID and permit confirmation for pickup at a wilderness center", "required": true, "permitRequired": false},
+        {"text": "Park entry reservation if one is in effect for your dates", "required": false, "note": "Yosemite has used peak-period entry reservations in recent years; check the current rules.", "permitRequired": true},
+        {"text": "Itinerary with a legal first-night camp (4 trail miles from developed areas)", "required": true, "note": "Share it with an emergency contact along with your exit date.", "permitRequired": false},
+        {"text": "Check current trail, snow and river-crossing conditions", "required": true, "permitRequired": false},
+        {"text": "Check current fire restrictions and air quality (wildfire smoke)", "required": true, "permitRequired": false},
+        {"text": "Topographic map and route plan with bailout trailheads", "required": true, "permitRequired": false},
+        {"text": "Lodging or campsite plan for the night before your start", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Food Storage & Bear Safety",
+      "items": [
+        {"text": "Approved bear-resistant canister (about one per 1-2 people)", "required": true, "note": "Hanging food is illegal park-wide. Garcia 812 rentals only at the Valley Welcome Center; Ursack is not on the allowed list.", "permitRequired": false},
+        {"text": "All food, trash and scented toiletries fit inside the canister", "required": true, "note": "Includes sunscreen, bug spray, lip balm, medications and feminine products.", "permitRequired": false},
+        {"text": "Store the canister 25-50 ft from camp on level ground, away from cliffs and water", "required": true, "permitRequired": false},
+        {"text": "Food repackaged into bags to save canister space", "required": false, "permitRequired": false},
+        {"text": "Bear-aware routine: cook away from the tent and never leave food unattended", "required": true, "note": "Food must be stored unless within arm's reach of an awake person.", "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Shelter & Sleep",
+      "items": [
+        {"text": "Tent with rainfly and footprint", "required": true, "permitRequired": false},
+        {"text": "Sleeping bag rated to about 20-30 F", "required": true, "permitRequired": false},
+        {"text": "Insulated sleeping pad", "required": true, "permitRequired": false},
+        {"text": "Extra guylines and stakes for granite slabs and wind", "required": false, "permitRequired": false},
+        {"text": "Pillow and earplugs", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Clothing",
+      "items": [
+        {"text": "Broken-in boots or trail shoes", "required": true, "permitRequired": false},
+        {"text": "Wool or synthetic socks (3 pairs)", "required": true, "permitRequired": false},
+        {"text": "Rain jacket", "required": true, "note": "Afternoon thunderstorms are common in summer.", "permitRequired": false},
+        {"text": "Insulating layer (fleece or puffy)", "required": true, "permitRequired": false},
+        {"text": "Base layers, hiking pants or shorts, sun shirt", "required": true, "permitRequired": false},
+        {"text": "Warm hat and gloves", "required": false, "permitRequired": false},
+        {"text": "Sun hat and sunglasses", "required": false, "permitRequired": false},
+        {"text": "Camp shoes or sandals for stream crossings", "required": false, "permitRequired": false},
+        {"text": "Grippy gloves for the Half Dome cables (pack them out)", "required": false, "note": "Discarded gloves pile up at the base of the cables; carry yours out.", "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Water & Kitchen",
+      "items": [
+        {"text": "Water filter or purification treatment", "required": true, "note": "Treat all backcountry water.", "permitRequired": false},
+        {"text": "Bottles or bladder for 2-3 liters", "required": true, "permitRequired": false},
+        {"text": "Stove and enough fuel for the trip", "required": true, "note": "Wood-burning stoves are not allowed where campfires are prohibited.", "permitRequired": false},
+        {"text": "Pot, spoon and mug", "required": false, "permitRequired": false},
+        {"text": "Meals for every day plus one extra day", "required": true, "permitRequired": false},
+        {"text": "Snacks and electrolyte mix", "required": false, "permitRequired": false},
+        {"text": "Small bottle of biodegradable soap, used 100 ft from water", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Navigation & Safety",
+      "items": [
+        {"text": "Map and compass, or GPS app with offline maps", "required": true, "permitRequired": false},
+        {"text": "Headlamp with spare batteries", "required": true, "permitRequired": false},
+        {"text": "First aid kit with blister care", "required": true, "permitRequired": false},
+        {"text": "Satellite messenger or PLB", "required": false, "note": "No reliable cell service in the wilderness.", "permitRequired": false},
+        {"text": "Sunscreen SPF 30+ and lip balm (stored in the canister at night)", "required": true, "permitRequired": false},
+        {"text": "Insect repellent and head net (early summer)", "required": false, "permitRequired": false},
+        {"text": "Whistle, knife and repair tape", "required": false, "permitRequired": false},
+        {"text": "Trekking poles", "required": false, "permitRequired": false},
+        {"text": "Microspikes or ice axe for early-season passes", "required": false, "permitRequired": false},
+        {"text": "Thunderstorm plan: summit early and avoid exposed rock when storms build", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Leave No Trace / Pack-out",
+      "items": [
+        {"text": "Trowel for a 4-6 in cathole 100 ft from water, trails and camp", "required": true, "permitRequired": false},
+        {"text": "Bags to pack out all toilet paper and hygiene products", "required": true, "note": "Toilet paper may not be buried or burned in Yosemite.", "permitRequired": false},
+        {"text": "Trash bag; pack out everything you bring in", "required": true, "permitRequired": false},
+        {"text": "Camp on durable surfaces at least 100 ft from water and trails", "required": true, "permitRequired": false},
+        {"text": "Fires only in existing rings below 9,600 ft; drown ashes cold", "required": false, "note": "Prefer a stove; check current fire restrictions.", "permitRequired": false},
+        {"text": "Leave drones and pets at home (prohibited in the wilderness)", "required": false, "permitRequired": false}
+      ]
+    }
+  ]
+}

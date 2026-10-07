@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; script-src 'self' https://accounts.google.com/gsi/client https://apis.google.com https://*.googleapis.com https://*.gstatic.com https://*.google.com https://pagead2.googlesyndication.com https://plausible.io; style-src 'self' 'unsafe-inline' https://use.typekit.net https://p.typekit.net https://accounts.google.com/gsi/style https://fonts.googleapis.com; font-src 'self' data: https://use.typekit.net https://p.typekit.net https://fonts.gstatic.com; img-src 'self' data: blob: https://*.googleusercontent.com https://*.gstatic.com https://*.googleapis.com https://*.google.com https://p.typekit.net; connect-src 'self' https://accounts.google.com/gsi/ https://www.googleapis.com https://*.googleapis.com https://*.google.com https://*.gstatic.com https://login.microsoftonline.com https://graph.microsoft.com https://*.1drv.com https://*.sharepoint.com https://plausible.io https://performance.typekit.net data: blob:; frame-src https://accounts.google.com/gsi/ https://docs.google.com https://*.google.com https://login.microsoftonline.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com; worker-src 'self' blob:; manifest-src 'self'"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta
+      name="description"
+      content="CampList: a free camping checklist planner with researched templates, weight and cost tracking, permit reminders, and optional saving to your own Google Drive or OneDrive."
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="CampList" />
+    <link rel="apple-touch-icon" href="images/icon-192x192.png" />
+    <link rel="icon" href="favicon.ico" sizes="any" />
+    <link rel="icon" href="images/camplist_logo.svg" type="image/svg+xml" />
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#f7f5f0" />
+    <title>CampList · Camping checklists you control</title>
+    <link rel="stylesheet" href="css/camplist.css" />
+    <link rel="stylesheet" href="https://use.typekit.net/xsc8giw.css" />
+    <script src="vendor/purify.min.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#checklistContainer">Skip to checklist</a>
+
+    <header class="app-header">
+      <h1>
+        <img src="images/camplist_logo.svg" alt="" class="logo" width="52" height="68" />
+        <span class="wordmark">CampList<span class="tld">.guide</span></span>
+      </h1>
+      <div class="header-actions">
+        <button type="button" id="btnTemplates" class="secondary">Templates</button>
+        <div id="accountArea" class="account-area"></div>
+      </div>
+    </header>
+
+    <div id="mainContent" class="main-content">
+      <div id="listColumn">
+        <section class="list-bar card" aria-label="Your lists">
+          <label class="list-select-label" for="listSelect"
+            ><span>List</span>
+            <select id="listSelect" aria-label="Choose a list"></select>
+          </label>
+          <div class="list-bar-actions">
+            <button type="button" id="btnNewList" class="secondary small-button">
+              New
+            </button>
+            <button type="button" id="btnRenameList" class="secondary small-button">
+              Rename
+            </button>
+            <button type="button" id="btnDeleteList" class="secondary small-button">
+              Delete
+            </button>
+          </div>
+          <div id="storageStatus" class="storage-status" role="status">
+            Stored in this browser
+          </div>
+        </section>
+
+        <div id="metaContainer"></div>
+
+        <div class="filter-container">
+          <label class="visually-hidden" for="filterInput">Search items</label>
+          <input
+            type="search"
+            id="filterInput"
+            placeholder="Search items..."
+            autocomplete="off"
+          />
+          <button
+            type="button"
+            id="btnClearFilter"
+            class="clear-btn"
+            hidden
+            aria-label="Clear search"
+          >
+            ✕
+          </button>
+          <p id="filterMessage" class="filter-no-results" hidden role="status"></p>
+        </div>
+
+        <div id="checklistContainer" aria-label="Checklist">Loading…</div>
+
+        <form id="addSectionForm" class="addSection">
+          <label class="visually-hidden" for="newSectionTitle">New section title</label>
+          <input
+            type="text"
+            id="newSectionTitle"
+            placeholder="New section title..."
+            required
+            maxlength="500"
+            autocomplete="off"
+          />
+          <button type="submit">Add Section</button>
+        </form>
+
+        <div
+          class="ad-slot ad-slot-footer"
+          data-slot="footer"
+          aria-label="Sponsor message"
+        ></div>
+      </div>
+
+      <aside id="listSidebar" class="list-sidebar" aria-label="Trip tools">
+        <section
+          id="storagePanel"
+          class="sidebar-section storage-panel"
+          aria-live="polite"
+        >
+          <h3>Storage</h3>
+          <p class="small">Loading…</p>
+        </section>
+
+        <section
+          id="weightSidebar"
+          class="weight-sidebar sidebar-section"
+          aria-labelledby="weightHeading"
+        >
+          <h3 id="weightHeading">Weight Calculator</h3>
+          <button
+            type="button"
+            id="btnToggleWeightSidebar"
+            class="toggle-sidebar"
+            title="Collapse weight panel"
+            aria-label="Collapse weight panel"
+            aria-expanded="true"
+          >
+            ⚖️
+          </button>
+          <div class="weight-summary">
+            <div class="weight-unit-selector">
+              <label for="weightUnit">Unit:</label>
+              <select id="weightUnit">
+                <option value="g">g</option>
+                <option value="kg">kg</option>
+                <option value="oz">oz</option>
+                <option value="lb">lb</option>
+              </select>
+            </div>
+            <div class="weight-total">
+              <span>Total weight:</span> <strong id="totalWeight">0 g</strong>
+            </div>
+            <div class="weight-packed">
+              <span>Packed weight:</span> <strong id="packedWeight">0 g</strong>
+            </div>
+          </div>
+          <div id="weightBySection" class="weight-sections"></div>
+        </section>
+
+        <section class="sidebar-section cost-summary" aria-labelledby="costHeading">
+          <h3 id="costHeading">Cost Summary</h3>
+          <div class="cost-total">
+            <span>Total cost: <span id="totalCost">$0.00</span></span>
+          </div>
+          <div id="costBySection" class="cost-sections"></div>
+        </section>
+
+        <section class="sidebar-section permits-section" aria-labelledby="permitsHeading">
+          <h3 id="permitsHeading">Permits &amp; Regulations</h3>
+          <div id="permitInfo" class="permit-info">
+            <div class="permit-url-container">
+              <span>Permit:</span>
+              <a
+                id="permitUrlLink"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="disabled-link"
+                aria-disabled="true"
+                >None specified</a
+              >
+            </div>
+            <div class="permit-deadline">
+              <span>Deadline:</span> <span id="permitDeadlineText">None</span>
+            </div>
+            <div class="fire-rules">
+              <span>Fire rules:</span>
+              <div id="fireRulesText" class="fire-rules-text">None specified</div>
+            </div>
+          </div>
+          <div id="permitRequiredItems" class="permit-required-items">
+            <h4>Items requiring permits</h4>
+            <ul id="permitItemsList"></ul>
+          </div>
+        </section>
+
+        <div
+          class="ad-slot ad-slot-sidebar"
+          data-slot="sidebar"
+          aria-label="Sponsor message"
+        ></div>
+
+        <section class="controls sidebar-section" aria-labelledby="controlsHeading">
+          <h3 id="controlsHeading">Controls</h3>
+          <div class="controls-buttons">
+            <button
+              type="button"
+              id="btnUndo"
+              class="secondary"
+              disabled
+              title="Undo (Ctrl+Z)"
+              aria-label="Undo"
+            >
+              ↶ Undo
+            </button>
+            <button
+              type="button"
+              id="btnRedo"
+              class="secondary"
+              disabled
+              title="Redo (Ctrl+Y)"
+              aria-label="Redo"
+            >
+              ↷ Redo
+            </button>
+            <button
+              type="button"
+              id="btnTheme"
+              class="secondary"
+              title="Toggle theme"
+              aria-label="Toggle theme"
+            >
+              🌙
+            </button>
+            <button type="button" id="btnPrint" class="secondary">Print / PDF</button>
+            <button type="button" id="btnExport" class="secondary">Export JSON</button>
+            <button type="button" id="btnImport" class="secondary">Import JSON</button>
+            <button type="button" id="btnReset" class="secondary danger-text">
+              Reset list
+            </button>
+          </div>
+        </section>
+
+        <section class="sidebar-section privacy-terms-section small">
+          <h3>About</h3>
+          <p>
+            CampList keeps your lists in this browser unless you connect storage you
+            control. No account is required.
+          </p>
+          <p>
+            <a href="privacy.html">Privacy Policy</a> ·
+            <a href="terms.html">Terms of Service</a> ·
+            <a href="mailto:support@camplist.guide">Contact</a>
+          </p>
+        </section>
+      </aside>
+    </div>
+
+    <!-- Trip info -->
+    <dialog id="metaDialog" aria-labelledby="metaDialogTitle">
+      <h3 id="metaDialogTitle">Edit Trip Info</h3>
+      <form id="metaForm" method="dialog">
+        <div class="destination-block">
+          <label for="destinationAutocomplete">Search for a destination (optional)</label>
+          <div id="destinationContainer" class="destination-container"></div>
+          <p id="destinationSearchStatus" class="small muted" aria-live="polite"></p>
+        </div>
+        <label
+          >Destination name
+          <input
+            type="text"
+            name="destination"
+            id="destinationInput"
+            maxlength="500"
+            autocomplete="off"
+          />
+        </label>
+        <button type="button" id="btnClearDestination" class="link-button small">
+          Clear destination details
+        </button>
+        <input type="hidden" name="destinationAddress" id="destinationAddressInput" />
+        <input type="hidden" name="destinationPlaceId" id="destinationPlaceIdHidden" />
+        <input type="hidden" name="destinationLat" id="destinationLatInput" />
+        <input type="hidden" name="destinationLng" id="destinationLngInput" />
+        <div class="row">
+          <label>Start date <input type="date" name="startDate" /></label>
+          <label>End date <input type="date" name="endDate" /></label>
+        </div>
+        <label>Notes <textarea name="notes" maxlength="4000"></textarea></label>
+        <h4 class="dialog-section-title">Permits &amp; Regulations</h4>
+        <label
+          >Permit link
+          <input
+            type="url"
+            name="permitUrl"
+            placeholder="https://www.recreation.gov/..."
+            inputmode="url"
+        /></label>
+        <div class="row">
+          <label>Permit deadline <input type="date" name="permitDeadline" /></label>
+        </div>
+        <label
+          >Fire rules
+          <textarea
+            name="fireRules"
+            placeholder="Current fire restrictions, firewood rules..."
+            maxlength="4000"
+          ></textarea>
+        </label>
+        <menu>
+          <button type="button" value="cancel" class="secondary" id="metaCancelBtn">
+            Cancel
+          </button>
+          <button value="save" type="submit">Save</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <dialog id="errorDialog" aria-labelledby="errorDialogTitle">
+      <h3 id="errorDialogTitle">Something needs attention</h3>
+      <p id="errorMessage"></p>
+      <form method="dialog">
+        <menu><button value="close">Close</button></menu>
+      </form>
+    </dialog>
+
+    <dialog id="noteDialog" aria-labelledby="noteDialogTitle">
+      <h3 id="noteDialogTitle">Edit Note</h3>
+      <p>Item: <strong id="noteDialogItemText"></strong></p>
+      <form id="noteForm" method="dialog">
+        <input type="hidden" name="itemId" />
+        <label
+          >Note <textarea name="noteText" rows="4" maxlength="4000"></textarea>
+        </label>
+        <menu>
+          <button type="button" value="cancel" class="secondary" id="noteCancelBtn">
+            Cancel
+          </button>
+          <button value="save" type="submit">Save Note</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <dialog id="weightDialog" class="modal" aria-labelledby="weightDialogTitle">
+      <h3 id="weightDialogTitle">Item details</h3>
+      <div id="weightDialogItemText" class="dialog-item-text"></div>
+      <form id="weightForm" method="dialog">
+        <div class="dialog-row">
+          <label for="itemWeight">Weight (grams):</label
+          ><input
+            type="number"
+            name="itemWeight"
+            id="itemWeight"
+            min="0"
+            step="any"
+            inputmode="decimal"
+          />
+        </div>
+        <div class="dialog-row cost-row">
+          <label for="itemCost">Cost:</label>
+          <div class="cost-input-wrapper">
+            <span class="currency-symbol">$</span
+            ><input
+              type="number"
+              name="itemCost"
+              id="itemCost"
+              min="0"
+              step="0.01"
+              placeholder="0.00"
+              inputmode="decimal"
+            />
+          </div>
+        </div>
+        <div class="dialog-row">
+          <label for="itemPacked">Packed:</label
+          ><input type="checkbox" name="itemPacked" id="itemPacked" />
+        </div>
+        <div class="dialog-row">
+          <label for="itemOptional">Optional item:</label
+          ><input type="checkbox" name="itemOptional" id="itemOptional" />
+        </div>
+        <h4 class="dialog-section-title">Permits &amp; Regulations</h4>
+        <div class="dialog-row">
+          <label for="itemPermitRequired">Permit required:</label
+          ><input type="checkbox" name="permitRequired" id="itemPermitRequired" />
+        </div>
+        <div class="dialog-row">
+          <label for="itemRegulationNotes">Regulation notes:</label
+          ><textarea
+            name="regulationNotes"
+            id="itemRegulationNotes"
+            placeholder="Special regulations or restrictions..."
+            maxlength="4000"
+          ></textarea>
+        </div>
+        <input type="hidden" name="itemId" />
+        <div class="dialog-buttons">
+          <button type="button" class="secondary btn-cancel-dialog">Cancel</button
+          ><button type="submit">Save</button>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- Templates -->
+    <dialog id="templatesDialog" class="wide-dialog" aria-labelledby="templatesTitle">
+      <div class="dialog-header">
+        <h3 id="templatesTitle">Checklist templates</h3>
+        <button type="button" class="secondary small-button" id="templatesClose">
+          Close
+        </button>
+      </div>
+      <div id="templateBrowser">
+        <p class="small muted">
+          Researched starting points for specific trips. Each one lists its sources and
+          review date; always check current rules for your dates.
+        </p>
+        <div class="template-toolbar">
+          <div
+            id="templateTabs"
+            class="tabs"
+            role="tablist"
+            aria-label="Template categories"
+          ></div>
+          <label class="visually-hidden" for="templateSearch">Search templates</label>
+          <input
+            type="search"
+            id="templateSearch"
+            placeholder="Search templates…"
+            autocomplete="off"
+          />
+        </div>
+        <ul id="templateList" class="template-list"></ul>
+      </div>
+      <div id="templateDetail" hidden></div>
+    </dialog>
+
+    <!-- Sign-in -->
+    <dialog id="signInDialog" aria-labelledby="signInTitle">
+      <h3 id="signInTitle">Sign in to CampList</h3>
+      <p class="small">
+        Signing in keeps your lists separate from other people who use this browser and
+        unlocks saving to storage you control (Google Drive or OneDrive). Signing in does
+        <strong>not</strong> give CampList access to your files: connecting storage is a
+        separate choice you make later.
+      </p>
+      <div id="googleSignInSlot" class="signin-slot"></div>
+      <div id="microsoftSignInSlot" class="signin-slot" hidden>
+        <button type="button" id="btnMicrosoftSignIn" class="secondary ms-button">
+          Sign in with Microsoft
+        </button>
+      </div>
+      <p id="signInStatus" class="small muted" aria-live="polite"></p>
+      <p class="small muted">
+        CampList has no server: your account lives in this browser.
+        <a href="privacy.html#accounts">How accounts work</a>
+      </p>
+      <menu>
+        <button type="button" class="secondary" id="signInCancel">Not now</button>
+      </menu>
+    </dialog>
+
+    <dialog id="accountDialog" aria-labelledby="accountTitle">
+      <div class="dialog-header">
+        <h3 id="accountTitle">Your account</h3>
+        <button type="button" class="secondary small-button" id="accountDialogClose">
+          Close
+        </button>
+      </div>
+      <div id="accountDialogBody"></div>
+      <menu>
+        <button type="button" class="secondary danger-text" id="btnForgetAccount">
+          Forget on this device
+        </button>
+        <button type="button" id="btnSignOut">Sign out</button>
+      </menu>
+    </dialog>
+
+    <div id="toastContainer" role="status" aria-live="polite"></div>
+
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>

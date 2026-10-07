@@ -1,0 +1,147 @@
+{
+  "id": "canoe-kayak-camping",
+  "name": "Canoe / Kayak Camping",
+  "category": "style",
+  "tagline": "For paddlers carrying camp in a boat on multi-day lake, river, or sheltered-coast trips.",
+  "description": "A starting point for 2-6 night paddle-in trips by canoe or kayak on flatwater, mild rivers, or protected coastal routes. Assumes portages or long carries are possible, everything must survive a capsize, and cold water is a hazard even in summer. Adapt for whitewater, open coast, or tidal trips (more rescue gear, immersion wear, VHF radio) and for area rules such as group-size limits and container bans.",
+  "season": "Late Spring-Early Fall",
+  "typicalDuration": "2-6 nights",
+  "considerations": [
+    "Check current entry permits and quotas; popular wilderness routes such as the Boundary Waters require reserved permits in peak season.",
+    "Check water temperature, not just air temperature; dress for immersion whenever the water is cold.",
+    "Check wind and weather daily, plus tide and current tables on coastal routes, and plan bailout landings.",
+    "Check current container, fire, and campsite rules; some areas ban cans and glass bottles or require designated sites.",
+    "Check current fishing license rules for the state or province if you plan to fish.",
+    "Lake and river water must be filtered or boiled; plan treatment capacity for the whole group."
+  ],
+  "reviewedOn": "2026-10-07",
+  "sources": [
+    {"title": "Paddler's Safety Checklist", "publisher": "American Canoe Association", "url": "https://americancanoe.org/download/5030/sei-educational-resources/24125/paddlers_safety_checklist.pdf", "accessed": "2026-10-07"},
+    {"title": "How to Plan and Pack for Multiday Kayaking Trips", "publisher": "NRS", "url": "https://www.nrs.com/learn/multiday-kayak-trips", "accessed": "2026-10-07"},
+    {"title": "Boundary Waters Canoe Area Wilderness", "publisher": "USDA Forest Service, Superior National Forest", "url": "https://www.fs.usda.gov/r09/superior/recreation/boundary-waters-canoe-area-wilderness", "accessed": "2026-10-07"},
+    {"title": "Boundary Waters Canoe Area Wilderness Permits", "publisher": "USDA Forest Service, Superior National Forest", "url": "https://www.fs.usda.gov/r09/superior/passes/boundary-waters-canoe-area-wilderness-permits", "accessed": "2026-10-07"},
+    {"title": "Leave No Trace Seven Principles", "publisher": "National Park Service", "url": "https://www.nps.gov/articles/leave-no-trace-seven-principles.htm", "accessed": "2026-10-07"},
+    {"title": "Fishing Regulations", "publisher": "National Park Service", "url": "https://www.nps.gov/subjects/fishing/fishing-regulations.htm", "accessed": "2026-10-07"}
+  ],
+  "sections": [
+    {
+      "title": "Planning & Permits",
+      "items": [
+        {"text": "Entry or overnight permit for the route (quota permits in peak season)", "required": true, "note": "Check current quota dates and reservation rules for the area.", "permitRequired": true},
+        {"text": "Float plan filed with someone: route, campsites, return date, who to call", "required": true, "permitRequired": false},
+        {"text": "Waterproof map or chart in a map case, plus compass", "required": true, "permitRequired": false},
+        {"text": "Weather and wind forecast; tide and current tables for coastal trips", "required": true, "permitRequired": false},
+        {"text": "Fishing license for the state or province", "required": false, "note": "Carry it on the water; check current regulations for the area.", "permitRequired": true},
+        {"text": "Shuttle, put-in, and take-out logistics arranged", "required": false, "permitRequired": false},
+        {"text": "Group-size and watercraft limits checked (e.g., 9 people and 4 boats in the BWCAW)", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Boat & Paddling Gear",
+      "items": [
+        {"text": "Canoe or kayak suited to the water, with adequate flotation", "required": true, "permitRequired": false},
+        {"text": "Paddle per person plus one spare per boat", "required": true, "permitRequired": false},
+        {"text": "PFD (life jacket) per person, properly fitted and worn", "required": true, "permitRequired": false},
+        {"text": "Whistle attached to each PFD", "required": true, "permitRequired": false},
+        {"text": "Throw bag or rescue rope", "required": true, "permitRequired": false},
+        {"text": "Bilge pump and/or bailer, plus sponge", "required": true, "permitRequired": false},
+        {"text": "Bow and stern painters and tie-down straps for the car", "required": true, "permitRequired": false},
+        {"text": "Boat repair kit: duct tape, sealant or epoxy putty, spare parts", "required": true, "permitRequired": false},
+        {"text": "Spray skirt (kayak)", "required": false, "permitRequired": false},
+        {"text": "Paddle float and rescue sling for kayak self-rescue", "required": false, "note": "Essential for sea kayaking; practice re-entry before the trip.", "permitRequired": false},
+        {"text": "Tow line", "required": false, "permitRequired": false},
+        {"text": "Portage yoke and portage pack (canoe)", "required": false, "permitRequired": false},
+        {"text": "Deck compass and strobe or light for low light", "required": false, "permitRequired": false},
+        {"text": "River knife clipped to the PFD", "required": false, "permitRequired": false},
+        {"text": "Helmet for whitewater", "required": false, "permitRequired": false},
+        {"text": "VHF radio or satellite messenger for coastal or remote trips", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Dry Storage",
+      "items": [
+        {"text": "Dry bags: several small ones labeled by category", "required": true, "permitRequired": false},
+        {"text": "Food barrel or bear-resistant container with harness", "required": true, "note": "Bear-resistant storage is required in some areas; check current rules.", "permitRequired": false},
+        {"text": "Trash bags to pack out everything", "required": true, "permitRequired": false},
+        {"text": "Waterproof phone case", "required": false, "permitRequired": false},
+        {"text": "Pack liners for sleeping bag and clothes", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Shelter & Sleep",
+      "items": [
+        {"text": "Tent with fly and stakes, plus cord for rocky sites", "required": true, "permitRequired": false},
+        {"text": "Sleeping bag rated for the expected lows", "required": true, "permitRequired": false},
+        {"text": "Sleeping pad", "required": true, "permitRequired": false},
+        {"text": "Tarp with rope for a rain kitchen", "required": false, "permitRequired": false},
+        {"text": "Groundsheet", "required": false, "permitRequired": false},
+        {"text": "Pillow", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Kitchen & Water",
+      "items": [
+        {"text": "Camp stove and fuel (fires may be restricted)", "required": true, "permitRequired": false},
+        {"text": "Lighter plus waterproof matches", "required": true, "permitRequired": false},
+        {"text": "Pots, pan, and cooking utensils", "required": true, "permitRequired": false},
+        {"text": "Plates or bowls, cups, and cutlery", "required": true, "permitRequired": false},
+        {"text": "Water filter or purifier plus backup tablets", "required": true, "permitRequired": false},
+        {"text": "Water bottles or bladder; extra capacity on salt water", "required": true, "permitRequired": false},
+        {"text": "Food, repackaged out of cans and glass where banned", "required": true, "permitRequired": false},
+        {"text": "Biodegradable soap and scrubber (wash 200 ft from water)", "required": false, "permitRequired": false},
+        {"text": "Fire gloves and small saw or hatchet where fires are allowed", "required": false, "permitRequired": false},
+        {"text": "Soft cooler for the first day or two", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Clothing",
+      "items": [
+        {"text": "Quick-dry paddling clothes (no cotton)", "required": true, "permitRequired": false},
+        {"text": "Wetsuit or drysuit when the water is cold", "required": true, "note": "Dress for the water temperature, not the air; cold water can incapacitate in minutes.", "permitRequired": false},
+        {"text": "Rain jacket and rain pants", "required": true, "permitRequired": false},
+        {"text": "Warm layer (fleece or puffy) kept in a dry bag", "required": true, "permitRequired": false},
+        {"text": "Dry camp clothes and sleep layers", "required": true, "permitRequired": false},
+        {"text": "Water shoes or sandals with heel straps for wet landings", "required": true, "permitRequired": false},
+        {"text": "Sun hat with brim, plus a warm hat", "required": true, "permitRequired": false},
+        {"text": "Sunglasses with a retainer strap", "required": true, "permitRequired": false},
+        {"text": "Camp shoes", "required": false, "permitRequired": false},
+        {"text": "Paddling gloves", "required": false, "permitRequired": false},
+        {"text": "Bug shirt or head net", "required": false, "permitRequired": false},
+        {"text": "Swimsuit", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Safety & First Aid",
+      "items": [
+        {"text": "First-aid kit in a dry bag, with blister and burn care and medications", "required": true, "permitRequired": false},
+        {"text": "Headlamp with spare batteries", "required": true, "permitRequired": false},
+        {"text": "Sunscreen and SPF lip balm", "required": true, "permitRequired": false},
+        {"text": "Emergency blanket or bivy", "required": true, "permitRequired": false},
+        {"text": "Knife or multi-tool", "required": true, "permitRequired": false},
+        {"text": "Insect repellent", "required": false, "permitRequired": false},
+        {"text": "Signal mirror and flares for coastal trips", "required": false, "permitRequired": false},
+        {"text": "Spare glasses or contacts", "required": false, "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Hygiene & Waste",
+      "items": [
+        {"text": "Trowel for catholes, or use provided latrines; stay 200 ft from water", "required": true, "permitRequired": false},
+        {"text": "Toilet paper in a zip bag", "required": true, "permitRequired": false},
+        {"text": "Hand sanitizer", "required": true, "permitRequired": false},
+        {"text": "Toothbrush and toothpaste", "required": false, "permitRequired": false},
+        {"text": "Quick-dry towel", "required": false, "permitRequired": false},
+        {"text": "WAG bags or portable toilet where required", "required": false, "note": "Many river corridors require packing out human waste; check current rules.", "permitRequired": false}
+      ]
+    },
+    {
+      "title": "Extras",
+      "items": [
+        {"text": "Fishing gear", "required": false, "permitRequired": false},
+        {"text": "Lightweight camp chair", "required": false, "permitRequired": false},
+        {"text": "Camera in a waterproof case", "required": false, "permitRequired": false},
+        {"text": "Cards or a book", "required": false, "permitRequired": false}
+      ]
+    }
+  ]
+}
