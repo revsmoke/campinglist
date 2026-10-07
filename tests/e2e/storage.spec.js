@@ -238,7 +238,9 @@ test.describe("Google Drive storage (mocked APIs)", () => {
     await page.click('#storagePanel [data-action="disconnect"]');
     await page.click("#appDialogConfirm");
     await expect(page.locator('#storagePanel [data-action="connect"]')).toBeVisible();
-    await expect(page.locator("#storagePanel .storage-badge")).toHaveCount(0);
+    await expect(page.locator("#storagePanel .storage-badge")).toHaveText(
+      "Not connected"
+    );
     const events = await page.evaluate(() => window.__gisMock.events);
     expect(events.some((e) => e.startsWith("revoke:"))).toBe(true);
     expect(drive.listFiles()).toHaveLength(1); // files are never deleted on disconnect
@@ -284,6 +286,41 @@ test.describe("Google Drive storage (mocked APIs)", () => {
     await page.click('#errorDialog button[value="close"]');
     await expect(page.locator("#storagePanel")).toContainText("Could not connect");
     await expect(button).toBeEnabled();
+  });
+
+  test("a connect that Google rejects after consent is reported, not swallowed", async ({
+    page,
+  }) => {
+    await signInWithMock(page);
+    await expect(page.locator("#storagePanel .storage-badge")).toHaveText(
+      "Not connected"
+    );
+    // e.g. the Drive API is not enabled in the Google Cloud project: Google answers 403.
+    await page.route("https://www.googleapis.com/drive/v3/files**", (route) =>
+      route.fulfill({
+        status: 403,
+        contentType: "application/json",
+        body: JSON.stringify({
+          error: {
+            code: 403,
+            message:
+              "Google Drive API has not been used in project 662895092391 before or it is disabled.",
+            errors: [{ reason: "accessNotConfigured" }],
+          },
+        }),
+      })
+    );
+    await page.click('#storagePanel [data-action="connect"][data-provider="google"]');
+    await expect(page.locator("#errorMessage")).toContainText(
+      "has not been used in project"
+    );
+    await page.click('#errorDialog button[value="close"]');
+    await expect(page.locator("#storagePanel")).toContainText("Could not connect");
+    await expect(page.locator("#storagePanel")).toContainText(
+      "has not been used in project"
+    );
+    await expect(page.locator('#storagePanel [data-action="connect"]')).toBeEnabled();
+    await expect(page.locator('#storagePanel [data-action="reconnect"]')).toHaveCount(0);
   });
 
   test("a declined Drive consent is reported gently", async ({ page }) => {

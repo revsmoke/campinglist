@@ -755,7 +755,7 @@ function reportError(adapter, error, action, { silent = false } = {}) {
       showToast(error.message, 5000, code === "popup_closed" ? "info" : "warning");
     return;
   }
-  if (adapter.isAuthError(error)) {
+  if (adapter.isAuthError(error) && action !== "connect") {
     setStatus(
       adapter.id,
       "reauth",
@@ -868,8 +868,10 @@ export function renderStoragePanel() {
     const st = status[a.id];
     const connecting = busyProvider === a.id && st?.state === "working";
     const failed = st?.state === "error" && st.message ? st.message : "";
-    html += `<div class="storage-connect" data-provider="${a.id}">
-      <div class="controls-buttons"><button type="button" class="secondary" data-action="connect" data-provider="${a.id}"${connecting ? " disabled" : ""}>${connecting ? `Connecting to ${escapeText(a.name)}…` : `Connect ${escapeText(a.name)}`}</button></div>
+    html += `<div class="storage-provider storage-connect" data-provider="${a.id}">
+      <div class="storage-head"><strong>${escapeText(a.name)}</strong><span class="storage-badge storage-badge-off">Not connected</span></div>
+      <p class="small muted">Signing in did not connect ${escapeText(a.name)}: that is a separate permission you grant here.</p>
+      <div class="controls-buttons"><button type="button" data-action="connect" data-provider="${a.id}"${connecting ? " disabled" : ""}>${connecting ? `Connecting to ${escapeText(a.name)}…` : `Connect ${escapeText(a.name)}`}</button></div>
       ${connecting ? `<div class="storage-status status-working" role="status"><span aria-hidden="true">${STATUS_ICON.working}</span> ${escapeText(st.message)}</div>` : ""}
       ${failed ? `<div class="storage-status status-error" role="status"><span aria-hidden="true">${STATUS_ICON.error}</span> Could not connect: ${escapeText(failed)}</div>` : ""}
     </div>`;
@@ -977,6 +979,11 @@ export function setupStorage() {
   });
   window.addEventListener("online", () => renderStoragePanel());
   window.addEventListener("offline", () => renderStoragePanel());
+  // Another tab of this site signed in, connected or disconnected storage: show its state here
+  // too instead of a stale panel.
+  window.addEventListener("storage", (e) => {
+    if (!e.key || e.key.startsWith("campList.v2.auth.")) renderStoragePanel();
+  });
   window.addEventListener("beforeunload", (e) => {
     const pending = connectedAdapters().some((a) => statusFor(a.id)?.state === "unsaved");
     if (pending && autosaveTimer) {
