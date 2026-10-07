@@ -57,8 +57,17 @@ function renderAdsense(container, slotId) {
   }
 }
 
+function configuredSlots() {
+  return SLOTS.filter((slot) => Boolean(CONFIG.ads.slots?.[slot]));
+}
+
 function loadAdsense() {
   if (document.querySelector('script[data-camplist="adsense"]')) return;
+  // Without ad-unit ids the script is here only so AdSense can verify the site: pause all ad
+  // requests, otherwise Auto ads (when switched on in the AdSense console) would insert units
+  // outside the two labelled placements.
+  window.adsbygoogle = window.adsbygoogle || [];
+  if (configuredSlots().length === 0) window.adsbygoogle.pauseAdRequests = 1;
   const script = document.createElement("script");
   script.async = true;
   script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(CONFIG.ads.adsenseClient)}`;
