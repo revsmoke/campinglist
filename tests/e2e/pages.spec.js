@@ -13,6 +13,10 @@ test.describe("static pages", () => {
       await page.goto(path);
       await expect(page.locator("h1")).toHaveText(heading);
       await expect(page.locator("body")).toContainText("Last updated: 7 October 2026");
+      await expect(page.locator('meta[name="google-adsense-account"]')).toHaveAttribute(
+        "content",
+        "ca-pub-4491650261060374"
+      );
       const text = await page.locator("body").innerText();
       expect(text.length).toBeGreaterThan(1500);
     });

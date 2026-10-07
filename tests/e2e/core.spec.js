@@ -247,6 +247,38 @@ test.describe("core checklist", () => {
   });
 });
 
+test.describe("AdSense account", () => {
+  test("declares the account on the page, loads the script, and keeps the labelled house cards", async ({
+    page,
+  }) => {
+    await blockGoogleMaps(page);
+    const requested = [];
+    await page.route("https://pagead2.googlesyndication.com/**", (route) => {
+      requested.push(route.request().url());
+      route.fulfill({ status: 200, contentType: "application/javascript", body: "" });
+    });
+    await page.goto("/");
+    await page.waitForSelector("body.app-ready");
+    await expect(page.locator('meta[name="google-adsense-account"]')).toHaveAttribute(
+      "content",
+      "ca-pub-4491650261060374"
+    );
+    expect(requested).toEqual([
+      "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4491650261060374",
+    ]);
+    // No slot IDs configured: both placements keep their labelled house cards, no ad units.
+    await expect(page.locator('.ad-slot[data-slot="sidebar"]')).toContainText(
+      "From CampList"
+    );
+    await expect(page.locator("ins.adsbygoogle")).toHaveCount(0);
+    const adsTxt = await page.request.get("/ads.txt");
+    expect(adsTxt.status()).toBe(200);
+    expect((await adsTxt.text()).trim()).toBe(
+      "google.com, pub-4491650261060374, DIRECT, f08c47fec0942fa0"
+    );
+  });
+});
+
 test.describe("analytics tag", () => {
   test("loads Google Analytics with consent defaults, and not under Global Privacy Control", async ({
     page,

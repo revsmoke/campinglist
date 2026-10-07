@@ -10,7 +10,12 @@ Research date: 2026-10-07 (full notes with sources: `docs/research/monetization-
   carry `rel="sponsored"`. Cards have start/end dates, rotate deterministically per day, and
   the slots are fixed-height so nothing jumps. No pop-ups, interstitials, sticky units or
   tracking.
-* **AdSense-ready, off until configured.** Setting `ads.adsenseClient` and slot IDs in
+* **AdSense account connected** (publisher `ca-pub-4491650261060374`): `public/ads.txt`, the
+  `google-adsense-account` meta tag on every page and the AdSense script on the app page are
+  live, which satisfies AdSense's "connect your site" check. Both placements keep showing the
+  labelled house cards until `ads.slots.sidebar` / `ads.slots.footer` hold ad-unit IDs. Keep
+  **Auto ads off** in the AdSense console: it would add formats outside the two labelled
+  placements (anchors, vignettes). Setting `ads.adsenseClient` and slot IDs in
   `public/js/config.js` switches a placement to a labelled AdSense unit. An `ads.txt` must be
   added to `public/` at that point (`google.com, pub-XXXX, DIRECT, f08c47fec0942fa0`).
   Consent for EEA/UK/CH visitors is handled by AdSense's own certified "Privacy & messaging"
