@@ -5,7 +5,7 @@ import { setupDragAndDrop } from "./drag.js";
 import { resolveInitialNamespace, setupAuth } from "./auth/auth.js";
 import { setupStorage } from "./storage/storage.js";
 import { setupTemplates } from "./templates.js";
-import { setupSponsors, setupAnalytics } from "./sponsors.js";
+import { setupSponsors } from "./sponsors.js";
 
 let reportedError = false;
 function reportUnexpected(error) {
@@ -39,7 +39,6 @@ async function initializeApp() {
   await setupAuth();
   setupStorage();
   setupSponsors();
-  setupAnalytics();
   document.body.classList.add("app-ready");
 }
 

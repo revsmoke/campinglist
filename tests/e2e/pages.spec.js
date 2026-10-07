@@ -1,6 +1,10 @@
 import { test, expect } from "@playwright/test";
+import { blockGoogleMaps } from "./helpers.js";
 
 test.describe("static pages", () => {
+  test.beforeEach(async ({ page }) => {
+    await blockGoogleMaps(page);
+  });
   for (const [path, heading] of [
     ["/privacy.html", "Privacy Policy"],
     ["/terms.html", "Terms of Service"],
@@ -17,6 +21,8 @@ test.describe("static pages", () => {
   test("/auth/redirect.html is served (MSAL bridge page)", async ({ page }) => {
     const response = await page.goto("/auth/redirect.html");
     expect(response.status()).toBe(200);
-    await expect(page.locator("body")).toContainText(/Microsoft sign-in|could not be completed/);
+    await expect(page.locator("body")).toContainText(
+      /Microsoft sign-in|could not be completed/
+    );
   });
 });

@@ -13,7 +13,7 @@ Live: https://camplist.guide (Replit static deployment of `public/`).
 | Storage | "Export to Drive" into the hidden app-data folder; no status, no conflict handling | Google Drive with `drive.file` only: visible `CampList` folder (or any folder via the Picker), per-list files, trip-file uploads, conflict protection, reauth/revoked states, autosave, status line. OneDrive built, hidden until configured |
 | Microsoft | None | MSAL v5 sign-in + OneDrive app folder, vendored; enabled by setting `microsoft.clientId` |
 | Templates | One default list | 23 researched templates with sources and review dates; browser dialog; create or append |
-| Monetisation | None | Labelled sponsor/house slots (max 2), AdSense + Plausible behind flags, updated privacy/terms, economics doc |
+| Monetisation | None | Labelled sponsor/house slots (max 2), Google Analytics 4 on (GPC respected, cookieless in the EEA/UK/CH), AdSense behind flags, updated privacy/terms, economics doc |
 | Security | `keys.txt` served publicly; prototype pages deployed; CDN DOMPurify without SRI; no CSP | Only `public/` is deployed; secrets gitignored and absent; DOMPurify/MSAL vendored and pinned; CSP meta + Replit response headers (nosniff, X-Frame-Options, Referrer-Policy, Permissions-Policy on every file; Replit ignored the path-specific COOP and no-store rules, see §3) |
 | Maps | Autocomplete never initialised (`initMap` race) | Loaded lazily when Trip Info opens; manual entry fallback |
 | Engineering | No package.json/tests in repo | ESLint, Prettier, Vitest (34 tests), Playwright (38 journeys), template validator, docs |
@@ -62,9 +62,9 @@ MSAL bridge page). Neither is required for the current features.
    They have unit/mock coverage only; the first real sign-in should be tested with a personal
    Microsoft account and a work account (the `Files.ReadWrite.AppFolder` scope's behaviour for
    work accounts is documented inconsistently by Microsoft).
-4. **Ads/analytics** stay off until an AdSense publisher ID / Plausible domain is configured
-   and `ads.txt` is added. Display ads are not recommended at current traffic (see
-   `docs/MONETIZATION.md`).
+4. **Ads** stay off until an AdSense publisher ID is configured and `ads.txt` is added
+   (analytics is on; see `docs/MONETIZATION.md`). Display ads are not recommended at current
+   traffic (see `docs/MONETIZATION.md`).
 5. **App-managed storage / subscriptions** are evaluated, not built (needs a backend).
 6. The Replit workspace must now be treated as a deploy target only; edit on GitHub. It is
    synced from `main` (the rebuild PR, merged on 2026-10-07); the published build is `c5452e3`

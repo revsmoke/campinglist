@@ -247,6 +247,35 @@ test.describe("core checklist", () => {
   });
 });
 
+test.describe("analytics tag", () => {
+  test("loads Google Analytics with consent defaults, and not under Global Privacy Control", async ({
+    page,
+  }) => {
+    const requested = [];
+    await page.route("https://www.googletagmanager.com/**", (route) => {
+      requested.push(route.request().url());
+      route.fulfill({ status: 200, contentType: "application/javascript", body: "" });
+    });
+    await page.goto("/");
+    await page.waitForSelector("body.app-ready");
+    expect(requested).toEqual([
+      "https://www.googletagmanager.com/gtag/js?id=G-YBTYHE8TK0",
+    ]);
+    const calls = await page.evaluate(() => window.dataLayer.map((a) => Array.from(a)));
+    expect(calls[0].slice(0, 2)).toEqual(["consent", "default"]);
+    expect(calls[0][2].analytics_storage).toBe("denied");
+    expect(calls[2]).toEqual(["config", "G-YBTYHE8TK0"]);
+    // A browser that sends Global Privacy Control gets no tag at all.
+    await page.addInitScript(() => {
+      Object.defineProperty(navigator, "globalPrivacyControl", { get: () => true });
+    });
+    await page.goto("/");
+    await page.waitForSelector("body.app-ready");
+    expect(requested).toHaveLength(1);
+    expect(await page.evaluate(() => typeof window.dataLayer)).toBe("undefined");
+  });
+});
+
 test.describe("sign-in providers disabled (feature flags off)", () => {
   test("shows no sign-in button and explains local-only storage", async ({ page }) => {
     await blockGoogleMaps(page);
