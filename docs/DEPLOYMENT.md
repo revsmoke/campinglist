@@ -55,15 +55,17 @@ server (port 8787) mocks Google and needs nothing registered.
   `X-Frame-Options: DENY`, `Permissions-Policy` (CSP stays a `<meta>` tag in each page; no
   COOP, which would break the Google popups). Weak ETags with `304`;
   `Cache-Control: no-cache` for pages, scripts and data (the URLs carry no cache busting),
-  a day for pictures, `no-store` for `/auth/redirect.html` and the API; gzip for text when
+  a day for pictures (Replit's proxy rewrites that `public` to `private`, which browsers
+  honour the same way), `no-store` for `/auth/redirect.html` and the API; gzip for text when
   the client accepts it.
 - `POST /api/judge`: accepts only the wizard's own requests (the questions are rebuilt
   server-side from `public/js/wizard/` and compared), rate-limits (30 calls a minute per
   visitor, 1,200 an hour per instance), then calls TypeSafe with the key. `GET /api/health`
   reports whether the key is set and the visitor address the limiter sees.
 - Environment: `PORT` (3000), `TYPESAFE_API_KEY`, `TYPESAFE_MODEL` (`jev-latest`),
-  `TRUSTED_PROXIES` (2: the `X-Forwarded-For` entries Replit's edge and the Cloud Run front
-  end append; the visitor is counted from the end so a client-supplied header changes nothing),
+  `TRUSTED_PROXIES` (4: the `X-Forwarded-For` entries Replit's proxies and Google's front ends
+  append, as observed on the live deployment; `/api/health` shows the count as `hops`. The
+  visitor is counted from the end, so a client-supplied header changes nothing),
   `SERVE_STATIC=0` and `ALLOW_ORIGIN` for an API-only host.
 
 ## Rollback

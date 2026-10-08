@@ -10,8 +10,8 @@
 //   TYPESAFE_API_KEY=… node server/index.mjs    http://localhost:3000, judge on
 //   node server/index.mjs                        judge off: /api/judge answers 503, the wizard asks
 //   PORT (default 3000), TYPESAFE_MODEL (default jev-latest), SERVE_STATIC=0 (API only),
-//   TRUSTED_PROXIES (default 2: X-Forwarded-For entries the hosting proxies append; Replit's
-//   edge and the Cloud Run front end each add one),
+//   TRUSTED_PROXIES (default 4: the X-Forwarded-For entries Replit's proxies and Google's
+//   front ends append, as observed live; GET /api/health shows the count as "hops"),
 //   ALLOW_ORIGIN (CORS, only for an API-only host that serves another origin)
 import { createServer } from "node:http";
 import { createReadStream, statSync } from "node:fs";
@@ -30,7 +30,7 @@ const TYPESAFE_URL = process.env.TYPESAFE_URL || "https://api.typesafe.ai/v1/sys
 const MODEL = process.env.TYPESAFE_MODEL || "jev-latest";
 const SERVE_STATIC = process.env.SERVE_STATIC !== "0";
 const ALLOW_ORIGIN = process.env.ALLOW_ORIGIN || "";
-const TRUSTED_PROXIES = Math.max(1, Number(process.env.TRUSTED_PROXIES) || 2);
+const TRUSTED_PROXIES = Math.max(1, Number(process.env.TRUSTED_PROXIES) || 4);
 
 export const LIMITS = {
   bodyBytes: 16_384,
