@@ -273,8 +273,9 @@ function renderList() {
   const container = $("checklistContainer");
   if (!container) return;
   if (data.length === 0) {
-    container.innerHTML = `<section class="card empty-state"><p>This list is empty. Add a section below, or start from a template.</p>
-      <button type="button" class="secondary" id="btnEmptyTemplates">Browse templates</button></section>`;
+    container.innerHTML = `<section class="card empty-state"><p>This list is empty. Add a section below, start from a template, or let the trip wizard build one.</p>
+      <div class="controls-buttons"><button type="button" class="secondary" id="btnEmptyTemplates">Browse templates</button>
+      <a href="plan/" class="button-link" id="linkEmptyPlan">Plan a trip</a></div></section>`;
     $("btnEmptyTemplates")?.addEventListener("click", () => $("btnTemplates")?.click());
     return;
   }

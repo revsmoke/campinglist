@@ -1,60 +1,260 @@
 {
   "_readme": "Structure of the 'How to use' guide. Text lives in locales/<lang>.json under guide.steps.<id>; pictures and callout boxes come from shots/<lang>.json (scripts/capture-guide-shots.mjs). 'callouts' lists the shot anchors to number, in order.",
   "quick": [
-    { "id": "make", "icon": "list" },
-    { "id": "check", "icon": "check" },
-    { "id": "save", "icon": "cloud" }
+    {
+      "id": "make",
+      "icon": "list"
+    },
+    {
+      "id": "check",
+      "icon": "check"
+    },
+    {
+      "id": "save",
+      "icon": "cloud"
+    }
   ],
   "groups": [
     {
       "id": "basics",
       "icon": "list",
       "steps": [
-        { "id": "overview", "shot": "overview", "callouts": ["lists", "trip", "checklist", "tools", "templates", "signin"] },
-        { "id": "check-off", "shot": "check-off", "callouts": ["check", "progress", "collapse", "optional"] },
-        { "id": "add-items", "shot": "add-items", "callouts": ["item", "add", "section", "addSection"] },
-        { "id": "item-actions", "shot": "item-actions", "callouts": ["drag", "note", "details", "rename", "delete"] },
-        { "id": "item-details", "shot": "item-details", "callouts": ["weight", "cost", "packed", "optional", "permit", "save"] },
-        { "id": "search", "shot": "search", "callouts": ["type", "clear"] }
+        {
+          "id": "overview",
+          "shot": "overview",
+          "callouts": [
+            "lists",
+            "trip",
+            "checklist",
+            "tools",
+            "templates",
+            "signin"
+          ]
+        },
+        {
+          "id": "check-off",
+          "shot": "check-off",
+          "callouts": [
+            "check",
+            "progress",
+            "collapse",
+            "optional"
+          ]
+        },
+        {
+          "id": "add-items",
+          "shot": "add-items",
+          "callouts": [
+            "item",
+            "add",
+            "section",
+            "addSection"
+          ]
+        },
+        {
+          "id": "item-actions",
+          "shot": "item-actions",
+          "callouts": [
+            "drag",
+            "note",
+            "details",
+            "rename",
+            "delete"
+          ]
+        },
+        {
+          "id": "item-details",
+          "shot": "item-details",
+          "callouts": [
+            "weight",
+            "cost",
+            "packed",
+            "optional",
+            "permit",
+            "save"
+          ]
+        },
+        {
+          "id": "search",
+          "shot": "search",
+          "callouts": [
+            "type",
+            "clear"
+          ]
+        }
       ]
     },
     {
       "id": "trip",
       "icon": "pin",
       "steps": [
-        { "id": "trip-info-dialog", "shot": "trip-info-dialog", "callouts": ["search", "destination", "dates", "notes", "permit", "deadline", "fire", "save"] },
-        { "id": "trip-info-panel", "shot": "trip-info-panel", "callouts": ["edit"] },
-        { "id": "weight-cost", "shot": "weight-cost", "callouts": ["unit", "total", "packed", "cost"] },
-        { "id": "permits", "shot": "permits", "callouts": ["link", "deadline", "fire", "items"] }
+        {
+          "id": "trip-info-dialog",
+          "shot": "trip-info-dialog",
+          "callouts": [
+            "search",
+            "destination",
+            "dates",
+            "notes",
+            "permit",
+            "deadline",
+            "fire",
+            "save"
+          ]
+        },
+        {
+          "id": "trip-info-panel",
+          "shot": "trip-info-panel",
+          "callouts": [
+            "edit"
+          ]
+        },
+        {
+          "id": "weight-cost",
+          "shot": "weight-cost",
+          "callouts": [
+            "unit",
+            "total",
+            "packed",
+            "cost"
+          ]
+        },
+        {
+          "id": "permits",
+          "shot": "permits",
+          "callouts": [
+            "link",
+            "deadline",
+            "fire",
+            "items"
+          ]
+        }
       ]
     },
     {
       "id": "lists",
       "icon": "grid",
       "steps": [
-        { "id": "lists", "shot": "lists", "callouts": ["select", "new", "rename", "delete", "status"] },
-        { "id": "empty-list", "shot": "empty-list", "callouts": ["templates"], "link": "templates.html" },
-        { "id": "templates-browse", "shot": "templates-browse", "callouts": ["tabs", "search", "card"], "link": "templates.html" }
+        {
+          "id": "lists",
+          "shot": "lists",
+          "callouts": [
+            "select",
+            "new",
+            "rename",
+            "delete",
+            "status"
+          ]
+        },
+        {
+          "id": "empty-list",
+          "shot": "empty-list",
+          "callouts": [
+            "templates"
+          ],
+          "link": "templates.html"
+        },
+        {
+          "id": "templates-browse",
+          "shot": "templates-browse",
+          "callouts": [
+            "tabs",
+            "search",
+            "card"
+          ],
+          "link": "templates.html"
+        },
+        {
+          "id": "plan",
+          "shot": "plan-where",
+          "callouts": [
+            "input",
+            "reading",
+            "chips",
+            "next"
+          ],
+          "link": "../plan/"
+        }
       ]
     },
     {
       "id": "save",
       "icon": "cloud",
       "steps": [
-        { "id": "sign-in", "shot": "sign-in", "callouts": ["google", "later"] },
-        { "id": "storage-not-connected", "shot": "storage-not-connected", "callouts": ["badge", "connect"] },
-        { "id": "storage-connected", "shot": "storage-connected", "callouts": ["badge", "status", "save", "open", "files", "disconnect", "autosave"] },
-        { "id": "controls", "shot": "controls", "callouts": ["undo", "theme", "print", "export", "import", "reset"] },
-        { "id": "print", "shot": "print", "callouts": [] }
+        {
+          "id": "sign-in",
+          "shot": "sign-in",
+          "callouts": [
+            "google",
+            "later"
+          ]
+        },
+        {
+          "id": "storage-not-connected",
+          "shot": "storage-not-connected",
+          "callouts": [
+            "badge",
+            "connect"
+          ]
+        },
+        {
+          "id": "storage-connected",
+          "shot": "storage-connected",
+          "callouts": [
+            "badge",
+            "status",
+            "save",
+            "open",
+            "files",
+            "disconnect",
+            "autosave"
+          ]
+        },
+        {
+          "id": "controls",
+          "shot": "controls",
+          "callouts": [
+            "undo",
+            "theme",
+            "print",
+            "export",
+            "import",
+            "reset"
+          ]
+        },
+        {
+          "id": "print",
+          "shot": "print",
+          "callouts": []
+        }
       ]
     },
     {
       "id": "more",
       "icon": "phone",
       "steps": [
-        { "id": "header-account", "shot": "header-account", "callouts": ["account"] },
-        { "id": "dark-theme", "shot": "dark-theme", "callouts": ["theme"] },
-        { "id": "mobile", "shot": "mobile", "callouts": ["templates", "check"] }
+        {
+          "id": "header-account",
+          "shot": "header-account",
+          "callouts": [
+            "account"
+          ]
+        },
+        {
+          "id": "dark-theme",
+          "shot": "dark-theme",
+          "callouts": [
+            "theme"
+          ]
+        },
+        {
+          "id": "mobile",
+          "shot": "mobile",
+          "callouts": [
+            "templates",
+            "check"
+          ]
+        }
       ]
     }
   ]

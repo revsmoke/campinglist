@@ -1,0 +1,388 @@
+{
+  "_readme": "Add-on sections the trip wizard merges into the chosen template (docs/WIZARD.md). Each module: id, title (the section it adds or merges into), why (shown on the review step), items {text, required, note?, permitRequired?}, and optional removeItems (regular expressions, case-insensitive) applied to the template first.",
+  "modules": [
+    {
+      "id": "kids",
+      "title": "Kids",
+      "why": "children in the group",
+      "items": [
+        { "text": "Kid-sized sleeping bags and pads", "required": true },
+        { "text": "Comfort item (stuffed animal, blanket)", "required": true },
+        { "text": "Headlamp or glow sticks for each kid", "required": true },
+        { "text": "Double the clothes for little ones (plus swim and mud sets)", "required": true },
+        { "text": "Children's medicines, thermometer, kid sunscreen and bug spray", "required": true },
+        { "text": "Snacks that travel well", "required": true },
+        { "text": "Games, books, cards, a ball", "required": false },
+        { "text": "Whistle on a lanyard and a 'stay put if lost' talk", "required": true }
+      ]
+    },
+    {
+      "id": "dog",
+      "title": "Dog",
+      "why": "a dog is coming",
+      "items": [
+        { "text": "Dog food for every day plus one, and bowls", "required": true },
+        { "text": "Leash (6 ft for most parks) and a tie-out or long line", "required": true },
+        { "text": "Waste bags", "required": true },
+        { "text": "Vaccination records and ID tags", "required": true, "note": "Check the park's dog rules: many trails and all backcountry areas in national parks are closed to dogs." },
+        { "text": "Dog bed or blanket", "required": false },
+        { "text": "Towel and a brush or tick comb", "required": false },
+        { "text": "Extra water and a collapsible bowl for hikes", "required": true },
+        { "text": "Treats and a favourite toy", "required": false },
+        { "text": "Dog first-aid extras (paw balm, vet wrap)", "required": false }
+      ]
+    },
+    {
+      "id": "bigGroup",
+      "title": "Group gear",
+      "why": "a group of six or more",
+      "items": [
+        { "text": "Large pot and a second stove or burner", "required": true },
+        { "text": "Group tarp or canopy with poles and cord", "required": true },
+        { "text": "Extra camp chairs and a folding table", "required": false },
+        { "text": "Dish station: two tubs, soap, sponge, drying towel", "required": true },
+        { "text": "Shared cooler plan and ice schedule", "required": true },
+        { "text": "Two-way radios or a meeting-point plan", "required": false },
+        { "text": "Gear and food assignment list", "required": true }
+      ]
+    },
+    {
+      "id": "solo",
+      "title": "Going solo",
+      "why": "travelling alone",
+      "items": [
+        { "text": "Trip plan and return time left with someone at home", "required": true },
+        { "text": "Whistle and a signal mirror", "required": true },
+        { "text": "Satellite messenger or personal locator beacon on remote trips", "required": false },
+        { "text": "Spare phone battery and a printed map", "required": true }
+      ]
+    },
+    {
+      "id": "fishing",
+      "title": "Fishing",
+      "why": "fishing",
+      "items": [
+        { "text": "Fishing license for the state or park", "required": true, "permitRequired": true, "note": "Check current seasons, limits and tackle rules." },
+        { "text": "Rod, reel and spare line", "required": true },
+        { "text": "Tackle box: hooks, weights, lures or bait", "required": true },
+        { "text": "Pliers and a line cutter", "required": true },
+        { "text": "Net and a stringer or cooler with ice", "required": false },
+        { "text": "Fillet knife and a cutting board", "required": false }
+      ]
+    },
+    {
+      "id": "climbing",
+      "title": "Climbing",
+      "why": "climbing",
+      "items": [
+        { "text": "Helmet, harness and climbing shoes", "required": true },
+        { "text": "Rope, belay device and locking carabiners", "required": true },
+        { "text": "Rack: draws, cams or nuts for the routes planned", "required": true },
+        { "text": "Chalk bag and tape", "required": false },
+        { "text": "Guidebook or route topos downloaded", "required": true },
+        { "text": "Approach shoes", "required": false }
+      ]
+    },
+    {
+      "id": "swimming",
+      "title": "Water fun",
+      "why": "swimming or beach time",
+      "items": [
+        { "text": "Swimsuits and quick-dry towels", "required": true },
+        { "text": "Water shoes or sandals", "required": true },
+        { "text": "Life jackets for kids and weak swimmers", "required": true },
+        { "text": "Dry bag for phone and keys", "required": true },
+        { "text": "Goggles, floats or a paddleboard", "required": false }
+      ]
+    },
+    {
+      "id": "photography",
+      "title": "Photography",
+      "why": "photography",
+      "items": [
+        { "text": "Camera, lenses and lens cloth", "required": true },
+        { "text": "Spare batteries and memory cards", "required": true },
+        { "text": "Tripod", "required": false },
+        { "text": "Dry bag or rain cover for the camera", "required": true }
+      ]
+    },
+    {
+      "id": "biking",
+      "title": "Bikes",
+      "why": "bikes along",
+      "items": [
+        { "text": "Helmets", "required": true },
+        { "text": "Pump, spare tube and a patch kit", "required": true },
+        { "text": "Bike lock", "required": true },
+        { "text": "Lights for dusk rides", "required": false },
+        { "text": "Rack or straps to carry the bikes", "required": true }
+      ]
+    },
+    {
+      "id": "stargazing",
+      "title": "Night sky",
+      "why": "stargazing",
+      "items": [
+        { "text": "Red-light headlamp or a red filter", "required": true },
+        { "text": "Star chart or an offline sky app", "required": false },
+        { "text": "Blanket or reclining chair", "required": false },
+        { "text": "Binoculars", "required": false },
+        { "text": "Extra warm layer for sitting still at night", "required": true }
+      ]
+    },
+    {
+      "id": "hiking",
+      "title": "Day hikes",
+      "why": "day hikes",
+      "items": [
+        { "text": "Daypack", "required": true },
+        { "text": "Map and compass, or offline maps", "required": true },
+        { "text": "Water bottles or bladder (2 L per person)", "required": true },
+        { "text": "Trail snacks", "required": true },
+        { "text": "Trekking poles", "required": false },
+        { "text": "Blister kit", "required": true }
+      ]
+    },
+    {
+      "id": "bear",
+      "title": "Bear country",
+      "why": "bear country",
+      "items": [
+        { "text": "Bear canister or hang kit as the area requires", "required": true, "note": "Check current food-storage rules; many parks require approved canisters." },
+        { "text": "Bear spray where allowed, carried where you can reach it", "required": false, "note": "Not allowed in some parks; check before you go." },
+        { "text": "Odour-proof bags for food, trash and toiletries", "required": true },
+        { "text": "No food, wrappers or scented items in the tent", "required": true }
+      ]
+    },
+    {
+      "id": "cold",
+      "title": "Cold weather extras",
+      "why": "cold nights expected",
+      "items": [
+        { "text": "Sleeping bag rated 10°F (-12°C) colder than the forecast low, or a liner", "required": true },
+        { "text": "Insulated sleeping pad (R-value 4 or more) or a second pad", "required": true },
+        { "text": "Puffy jacket, warm hat and gloves", "required": true },
+        { "text": "Insulated bottle for hot drinks", "required": false },
+        { "text": "Extra stove fuel (cold air burns more)", "required": true },
+        { "text": "Hand warmers", "required": false },
+        { "text": "Dry sleep clothes kept in a sealed bag", "required": true }
+      ]
+    },
+    {
+      "id": "heat",
+      "title": "Heat and sun",
+      "why": "heat and strong sun",
+      "items": [
+        { "text": "Shade: tarp, canopy or a tent with a full fly", "required": true },
+        { "text": "One gallon (4 L) of water per person per day, plus electrolytes", "required": true },
+        { "text": "Wide-brim hat, sunglasses and a sun hoodie", "required": true },
+        { "text": "Sunscreen SPF 30+ and lip balm", "required": true },
+        { "text": "Cooler with plenty of ice", "required": true },
+        { "text": "Misting bottle or a cooling towel", "required": false },
+        { "text": "Plan to hike early and rest in the heat of the day", "required": true }
+      ]
+    },
+    {
+      "id": "rain",
+      "title": "Rain",
+      "why": "rain likely",
+      "items": [
+        { "text": "Rain jacket and rain pants", "required": true },
+        { "text": "Tarp and cord for a dry cooking area", "required": true },
+        { "text": "Pack cover or liner and dry bags", "required": true },
+        { "text": "Extra socks and a dry set of camp clothes", "required": true },
+        { "text": "Camp shoes that can get wet", "required": false },
+        { "text": "Tent footprint, seam sealer and a sponge", "required": false }
+      ]
+    },
+    {
+      "id": "bugs",
+      "title": "Bugs",
+      "why": "bug season",
+      "items": [
+        { "text": "Insect repellent (DEET or picaridin)", "required": true },
+        { "text": "Head net", "required": false },
+        { "text": "Permethrin-treated clothing", "required": false },
+        { "text": "After-bite cream and antihistamine", "required": true },
+        { "text": "Tick check comb and tweezers", "required": true }
+      ]
+    },
+    {
+      "id": "remote",
+      "title": "Remote, no cell service",
+      "why": "no cell service",
+      "items": [
+        { "text": "Satellite messenger or personal locator beacon", "required": true },
+        { "text": "Trip plan left with someone, with a check-in time", "required": true },
+        { "text": "Paper maps and offline maps downloaded", "required": true },
+        { "text": "Power bank and cables", "required": true },
+        { "text": "Bigger first-aid kit: wound care, splint, blister care, meds", "required": true },
+        { "text": "Spare car key kept by a second person", "required": false }
+      ]
+    },
+    {
+      "id": "permit",
+      "title": "Permits",
+      "why": "a permit or reservation is needed",
+      "items": [
+        { "text": "Permit or reservation confirmation (printed and on the phone)", "required": true, "permitRequired": true },
+        { "text": "Photo ID for pickup or check-in", "required": true },
+        { "text": "Pickup time, place and the ranger station hours", "required": true },
+        { "text": "Entry pass or parking permit for the vehicle", "required": false, "permitRequired": true }
+      ]
+    },
+    {
+      "id": "firstTimer",
+      "title": "First trip tips",
+      "why": "first camping trip",
+      "items": [
+        { "text": "Pitch the tent once at home", "required": true },
+        { "text": "Test the stove and know how to light it", "required": true },
+        { "text": "Arrive with daylight to spare", "required": true },
+        { "text": "Pack a small repair kit: tape, cord, a multi-tool", "required": false },
+        { "text": "Read the campground rules (quiet hours, fires, food storage)", "required": true }
+      ]
+    },
+    {
+      "id": "longTrip",
+      "title": "Longer trip",
+      "why": "five nights or more",
+      "items": [
+        { "text": "Resupply plan: where and when", "required": true },
+        { "text": "Laundry kit: soap, cord, clips", "required": false },
+        { "text": "Extra fuel and a spare lighter", "required": true },
+        { "text": "Spare batteries or a solar charger", "required": false },
+        { "text": "Repair kit: patches, needle and thread, zip ties, duct tape", "required": true },
+        { "text": "Cash for places that take nothing else", "required": false }
+      ]
+    },
+    {
+      "id": "campfire",
+      "title": "Campfire cooking",
+      "why": "cooking on the fire",
+      "items": [
+        { "text": "Firewood bought near the site (moving firewood spreads pests)", "required": true, "note": "Check current fire restrictions before you leave." },
+        { "text": "Fire starter, matches and a lighter", "required": true },
+        { "text": "Grill grate or a tripod", "required": true },
+        { "text": "Cast-iron pan or dutch oven", "required": false },
+        { "text": "Long tongs and heat-proof gloves", "required": true },
+        { "text": "Hatchet or saw", "required": false },
+        { "text": "Bucket and shovel to put the fire out", "required": true },
+        { "text": "Foil, skewers and a roasting stick", "required": false }
+      ]
+    },
+    {
+      "id": "stove",
+      "title": "Stove and kitchen",
+      "why": "cooking on a stove",
+      "items": [
+        { "text": "Stove and enough fuel for every meal plus one day", "required": true },
+        { "text": "Lighter and backup matches", "required": true },
+        { "text": "Pot, pan and a lid", "required": true },
+        { "text": "Utensils, spatula and a serving spoon", "required": true },
+        { "text": "Plates, bowls, mugs", "required": true },
+        { "text": "Dish soap, sponge and a wash basin", "required": true },
+        { "text": "Trash bags and a hanging line for them", "required": true }
+      ]
+    },
+    {
+      "id": "noCook",
+      "title": "No-cook meals",
+      "why": "no cooking planned",
+      "items": [
+        { "text": "Cooler and ice (or a second cooler for drinks)", "required": true },
+        { "text": "Ready-to-eat meals: wraps, salads, cold cuts, fruit", "required": true },
+        { "text": "Plates, utensils and napkins", "required": true },
+        { "text": "Trash bags", "required": true },
+        { "text": "Thermos of hot drink from home", "required": false }
+      ]
+    },
+    {
+      "id": "waterFilter",
+      "title": "Water",
+      "why": "filtering from streams or lakes",
+      "items": [
+        { "text": "Water filter or purifier", "required": true },
+        { "text": "Backup purification tablets", "required": true },
+        { "text": "Bottles or bladder: 2 to 3 L per person", "required": true },
+        { "text": "Collapsible container for camp water", "required": false }
+      ]
+    },
+    {
+      "id": "waterCarry",
+      "title": "Water",
+      "why": "no water at the site",
+      "items": [
+        { "text": "Water jugs: one gallon (4 L) per person per day", "required": true },
+        { "text": "Dispenser jug with a tap for camp", "required": false },
+        { "text": "Refillable bottles for the car and hikes", "required": true }
+      ]
+    },
+    {
+      "id": "hammock",
+      "title": "Hammock",
+      "why": "sleeping in a hammock",
+      "removeItems": ["\\btent\\b", "tent stakes", "footprint", "groundsheet"],
+      "items": [
+        { "text": "Hammock with tree straps (wide straps protect bark)", "required": true },
+        { "text": "Underquilt or sleeping pad for warmth underneath", "required": true },
+        { "text": "Tarp with ridgeline and guy lines", "required": true },
+        { "text": "Bug net", "required": true },
+        { "text": "Carabiners and a drip line", "required": false }
+      ]
+    },
+    {
+      "id": "vehicleSleep",
+      "title": "Sleeping in the vehicle",
+      "why": "sleeping in the vehicle or a rooftop tent",
+      "removeItems": ["\\btent\\b(?!.*rooftop)", "tent stakes", "footprint", "groundsheet"],
+      "items": [
+        { "text": "Mattress or sleeping platform that fits the vehicle", "required": true },
+        { "text": "Window covers and bug screens", "required": true },
+        { "text": "Levelling blocks or ramps", "required": false },
+        { "text": "12 V fan or ventilation plan", "required": false },
+        { "text": "Power station or a second battery for lights and devices", "required": false },
+        { "text": "Organiser bins so gear does not take the bed", "required": true }
+      ]
+    },
+    {
+      "id": "cabin",
+      "title": "Cabin or lodging",
+      "why": "a roof is provided",
+      "removeItems": ["\\btent\\b", "tent stakes", "footprint", "groundsheet", "sleeping pad", "guylines"],
+      "items": [
+        { "text": "Reservation confirmation and the key or lock code", "required": true },
+        { "text": "Bedding and towels if they are not provided", "required": true },
+        { "text": "Indoor shoes or slippers", "required": false },
+        { "text": "Lantern or flashlight for the walk from the car", "required": true }
+      ]
+    },
+    {
+      "id": "bivy",
+      "title": "Tarp or bivy",
+      "why": "sleeping under a tarp or in a bivy",
+      "removeItems": ["\\btent\\b", "tent stakes"],
+      "items": [
+        { "text": "Bivy sack or tarp with poles, stakes and cord", "required": true },
+        { "text": "Groundsheet", "required": true },
+        { "text": "Bug net or head net", "required": false }
+      ]
+    },
+    {
+      "id": "festival",
+      "title": "Festival",
+      "why": "a festival or gathering",
+      "items": [
+        { "text": "Tickets or wristbands and photo ID", "required": true, "permitRequired": true },
+        { "text": "Ear plugs", "required": true },
+        { "text": "Cash and a card, split between two places", "required": true },
+        { "text": "Portable charger and cables", "required": true },
+        { "text": "Shade structure or a canopy with weights", "required": true },
+        { "text": "Refillable bottle and a hydration pack", "required": true },
+        { "text": "Wet wipes and hand sanitiser", "required": true },
+        { "text": "Camp flag or totem so you can find your site", "required": false },
+        { "text": "Costume, lights and a warm layer for the night", "required": false }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,304 @@
+/* plan.css — the trip wizard page (/plan/). Builds on css/camplist.css and guide/guide.css. */
+
+.plan-main {
+  max-width: 800px;
+}
+.plan-hero {
+  padding-bottom: 1rem;
+}
+.wizard {
+  padding: 1.5rem 1.75rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+.wizard h2 {
+  display: block;
+  border: 0;
+  padding: 0;
+  margin: 0 0 0.25rem;
+  font-family: var(--font-header);
+  font-size: clamp(1.35rem, 3.5vw, 1.8rem);
+  color: var(--logo-color);
+}
+.wizard h2:focus {
+  outline: none;
+}
+.wizard p {
+  margin: 0;
+}
+.wizard-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.wizard-progress-labels {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+}
+.wizard-progress-labels strong {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.wizard-progress-bar {
+  display: grid;
+  grid-template-columns: repeat(var(--steps, 7), minmax(0, 1fr));
+  gap: 6px;
+}
+.wizard-progress-bar span {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border);
+}
+.wizard-progress-bar span.done {
+  background: var(--accent);
+}
+
+/* Answers */
+.opts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr));
+  gap: 0.6rem;
+}
+.opt {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 56px;
+  padding: 0.75rem 0.9rem;
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  text-align: left;
+  font: 600 1rem var(--font);
+  cursor: pointer;
+}
+.opt:hover {
+  border-color: var(--accent);
+  color: var(--text);
+  opacity: 1;
+}
+.opt[aria-pressed="true"] {
+  border: 2px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, var(--card));
+  color: var(--logo-color);
+  padding: calc(0.75rem - 1px) calc(0.9rem - 1px);
+}
+.opt .ico {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--accent);
+  flex: none;
+}
+.opt small {
+  display: block;
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.opt.muted-opt {
+  border-style: dashed;
+  background: var(--bg);
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 40px;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--text);
+  font: 600 0.9rem var(--font);
+  cursor: pointer;
+}
+.chip:hover {
+  border-color: var(--accent);
+  opacity: 1;
+}
+.chip[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--card));
+  color: var(--logo-color);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.chip.off {
+  border-style: dashed;
+  color: var(--muted);
+  text-decoration: line-through;
+}
+.chip .count {
+  margin: 0;
+  text-decoration: none;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.field label,
+.field > span.label {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.field input[type="text"],
+.field input[type="date"] {
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--text);
+  font: 400 1rem var(--font);
+  min-height: 44px;
+}
+.field-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+  gap: 0.75rem;
+}
+.or {
+  border-top: 1px solid var(--border);
+  padding-top: 0.9rem;
+}
+
+/* "We read that as" */
+.reading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border));
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--accent) 10%, var(--card));
+  font-size: 0.95rem;
+  color: var(--logo-color);
+}
+.reading .ico {
+  color: var(--accent);
+}
+.reading .muted {
+  font-size: 0.85rem;
+}
+.reading.asking {
+  border-color: var(--border);
+  background: var(--bg);
+  color: var(--text);
+}
+.reading .chip {
+  min-height: 34px;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.85rem;
+}
+
+/* Review */
+.plan-base {
+  display: flex;
+  gap: 0.9rem;
+  align-items: flex-start;
+  padding: 1rem 1.1rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border));
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--accent) 10%, var(--card));
+}
+.plan-base .ico {
+  width: 1.75rem;
+  height: 1.75rem;
+  color: var(--accent);
+  flex: none;
+}
+.plan-base-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.plan-base-name {
+  display: block;
+  font-family: var(--font-header);
+  font-size: 1.35rem;
+  color: var(--logo-color);
+}
+.plan-modules-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+.plan-sections {
+  columns: 2 220px;
+  column-gap: 1.25rem;
+  font-size: 0.9rem;
+  margin: 0;
+  padding-inline-start: 1.1rem;
+}
+.plan-sections li {
+  break-inside: avoid;
+}
+
+/* Footer of each step */
+.wizard-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.wizard-nav .right {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  margin-inline-start: auto;
+}
+.wizard-nav button {
+  min-height: 44px;
+}
+.wizard-nav button.primary,
+.wizard button.primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.wizard-error {
+  color: #b7410e;
+  font-size: 0.9rem;
+}
+.done {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+.done .ico {
+  width: 3rem;
+  height: 3rem;
+  color: var(--accent);
+}
+.plan-foot {
+  text-align: center;
+  max-width: 60ch;
+  margin: 0 auto;
+}
+
+@media (max-width: 600px) {
+  .wizard {
+    padding: 1.1rem 1rem 1rem;
+  }
+  .plan-sections {
+    columns: 1;
+  }
+}

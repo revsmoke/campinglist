@@ -23,7 +23,11 @@ const LEGACY_KEYS = {
   collapsed: "campChecklist_collapsedSections",
 };
 const STORAGE_THEME = "campChecklist_theme";
-const DEFAULT_TEMPLATE_URL = "templates/camplist-classic.json";
+// Resolved from this module so pages in subfolders (the trip wizard at /plan/) find it too.
+const DEFAULT_TEMPLATE_URL = new URL(
+  "../templates/camplist-classic.json",
+  import.meta.url
+).href;
 const SCHEMA_VERSION = 2;
 const MAX_HISTORY_SIZE = 50;
 const MAX_TEXT = 500; // characters per item / section title

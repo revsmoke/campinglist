@@ -7,6 +7,8 @@
   "license": "ISC",
   "scripts": {
     "start": "http-server public -p 8080 -c-1",
+    "serve": "node server/index.mjs",
+    "wizard:eval": "node scripts/wizard-eval.mjs",
     "lint": "eslint .",
     "format": "prettier --write \"public/**/*.{js,css,html}\" \"tests/**/*.js\" \"scripts/**/*.mjs\" \"*.{js,json,md}\"",
     "format:check": "prettier --check \"public/**/*.{js,css,html}\" \"tests/**/*.js\" \"scripts/**/*.mjs\" \"*.{js,json,md}\"",

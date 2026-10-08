@@ -17,7 +17,8 @@ Research date: 2026-10-07 (full notes with sources: `docs/research/monetization-
   "Advertisement" unit inside its placement. Every page carries at most the same two
   placements: in the app they sit in the sidebar and under the list; on the guide pages
   (`/guide/`, the templates guide and each template page) they sit between content sections
-  and above the footer, loaded by `public/js/guide.js`. A unit AdSense reports as unfilled (site not approved yet, no
+  and above the footer, loaded by `public/js/guide.js`; the trip wizard page (`/plan/`) has a
+  single placement under the wizard card so the questions stay clear. A unit AdSense reports as unfilled (site not approved yet, no
   matching ad) or a blocked ad script swaps the sponsor/house card back in, so a placement is
   never an empty box. If `ads.slots` are emptied, the loader sets
   `adsbygoogle.pauseAdRequests = 1`, so the script stays present for verification but requests

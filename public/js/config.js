@@ -68,6 +68,13 @@ const defaults = {
     url: "sponsors.json",
   },
 
+  wizard: {
+    // The trip wizard (/plan/) decides everything with rules in the browser. Typed answers the
+    // keyword matcher cannot place can be judged by TypeSafe's Jev model through this site's
+    // own endpoint (server/index.mjs keeps the API key); empty = ask the person to pick instead.
+    judgeUrl: "",
+  },
+
   features: {
     templates: true,
     // Google sign-in and Drive (docs/AUTH.md §6). Set both to false to hide the sign-in button
