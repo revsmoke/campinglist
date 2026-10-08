@@ -2,6 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; script-src 'self' https://accounts.google.com/gsi/client https://www.googletagmanager.com https://apis.google.com https://*.googleapis.com https://*.gstatic.com https://*.google.com https://*.googlesyndication.com https://*.googletagservices.com https://*.adtrafficquality.google https://fundingchoicesmessages.google.com https://plausible.io; style-src 'self' 'unsafe-inline' https://use.typekit.net https://p.typekit.net https://accounts.google.com/gsi/style https://fonts.googleapis.com; font-src 'self' data: https://use.typekit.net https://p.typekit.net https://fonts.gstatic.com; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com https://*.googlesyndication.com https://*.doubleclick.net https://*.adtrafficquality.google https://*.googleusercontent.com https://*.gstatic.com https://*.googleapis.com https://*.google.com https://p.typekit.net; connect-src 'self' https://accounts.google.com/gsi/ https://*.google-analytics.com https://*.googletagmanager.com https://*.googlesyndication.com https://*.doubleclick.net https://*.adtrafficquality.google https://fundingchoicesmessages.google.com https://www.googleapis.com https://*.googleapis.com https://*.google.com https://*.gstatic.com https://login.microsoftonline.com https://graph.microsoft.com https://*.1drv.com https://*.sharepoint.com https://plausible.io https://performance.typekit.net data: blob:; frame-src https://accounts.google.com/gsi/ https://docs.google.com https://*.google.com https://login.microsoftonline.com https://*.doubleclick.net https://*.googlesyndication.com https://*.adtrafficquality.google https://fundingchoicesmessages.google.com; worker-src 'self' blob:; manifest-src 'self'" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Bonnaroo Camping · CampList.guide</title>
     <meta name="description" content="For festival-goers car camping or tent camping for four days on the Bonnaroo Farm in Manchester, Tennessee." />
@@ -12,6 +13,8 @@
     <meta name="theme-color" content="#f7f5f0" />
     <!-- Analytics (Google Analytics 4 via gtag.js); configured in js/config.js -->
     <script type="module" src="../../js/analytics.js"></script>
+    <!-- The two labelled placements (AdSense units / sponsor cards); configured in js/config.js -->
+    <script type="module" src="../../js/guide.js"></script>
     <link rel="stylesheet" href="../../css/camplist.css" />
     <link rel="stylesheet" href="../../guide/guide.css" />
     <link rel="stylesheet" href="https://use.typekit.net/xsc8giw.css" />
@@ -49,6 +52,7 @@
         <h2><svg class="ico" aria-hidden="true"><use href="#i-flag"/></svg>Check before you go</h2>
         <ul class="considerations"><li>Everyone needs a Centeroo ticket plus one camping and parking pass per vehicle; Primitive Car Camping plots are roughly 20 by 20 ft including the car. Vehicle re-entry is discouraged and carried a $40 fee in 2026.</li><li>Campground rules (2026 list): glass, wood fires, kegs, weapons, drones, fireworks, bikes and scooters, pets (except service animals), glow sticks and laser pointers are prohibited; allowed are grills with up to 40 lb of charcoal or one 20 lb propane tank, generators under 4 kW with up to 10 gallons of gas, and personal alcohol (2 cases of beer, 2 boxes of wine, 1 to 1.75 L of liquor per person per car). Verify the current list.</li><li>Centeroo (the venue) allows empty reusable bottles and hydration packs, blankets and point-and-shoot cameras but bans outside food and drink, chairs, wagons, bikes and backpacks with multiple pockets; check the current Centeroo list before packing a day bag.</li><li>June in Tennessee: 90 F heat with high humidity, strong sun and thunderstorms with lightning and mud; tents are hot by 8 am, so a canopy and a fan matter.</li><li>Free water refill stations are spread through Outeroo and Centeroo; showers at the plazas cost a small fee. Bring enough water for the drive in and the entry line.</li><li>Dates, camping tiers (Groop, Mars and Moon Colony tents, RV, Accessible) and policies change yearly; check bonnaroo.com and the Help Center before packing.</li></ul>
       </section>
+      <div class="ad-slot ad-slot-inline ad-slot-sidebar" data-slot="sidebar" aria-label="Sponsor message"></div>
       <section class="group">
         <h2><svg class="ico" aria-hidden="true"><use href="#i-list"/></svg>What&#39;s inside</h2>
         <ul class="legend-keys small">
@@ -307,6 +311,7 @@
       <p class="cta">
         <a class="button-link primary big" href="../../?template=bonnaroo">Use this template <svg class="ico inline" aria-hidden="true"><use href="#i-arrow"/></svg></a>
       </p>
+      <div class="ad-slot ad-slot-inline ad-slot-footer" data-slot="footer" aria-label="Sponsor message"></div>
     </main>
     
     <footer class="guide-footer small">

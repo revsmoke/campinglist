@@ -2,6 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; script-src 'self' https://accounts.google.com/gsi/client https://www.googletagmanager.com https://apis.google.com https://*.googleapis.com https://*.gstatic.com https://*.google.com https://*.googlesyndication.com https://*.googletagservices.com https://*.adtrafficquality.google https://fundingchoicesmessages.google.com https://plausible.io; style-src 'self' 'unsafe-inline' https://use.typekit.net https://p.typekit.net https://accounts.google.com/gsi/style https://fonts.googleapis.com; font-src 'self' data: https://use.typekit.net https://p.typekit.net https://fonts.gstatic.com; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com https://*.googlesyndication.com https://*.doubleclick.net https://*.adtrafficquality.google https://*.googleusercontent.com https://*.gstatic.com https://*.googleapis.com https://*.google.com https://p.typekit.net; connect-src 'self' https://accounts.google.com/gsi/ https://*.google-analytics.com https://*.googletagmanager.com https://*.googlesyndication.com https://*.doubleclick.net https://*.adtrafficquality.google https://fundingchoicesmessages.google.com https://www.googleapis.com https://*.googleapis.com https://*.google.com https://*.gstatic.com https://login.microsoftonline.com https://graph.microsoft.com https://*.1drv.com https://*.sharepoint.com https://plausible.io https://performance.typekit.net data: blob:; frame-src https://accounts.google.com/gsi/ https://docs.google.com https://*.google.com https://login.microsoftonline.com https://*.doubleclick.net https://*.googlesyndication.com https://*.adtrafficquality.google https://fundingchoicesmessages.google.com; worker-src 'self' blob:; manifest-src 'self'" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Zion Narrows · CampList.guide</title>
     <meta name="description" content="For hikers wading the Virgin River Narrows bottom-up as a day hike or top-down (16 miles) on a day or one-night wilderness permit." />
@@ -12,6 +13,8 @@
     <meta name="theme-color" content="#f7f5f0" />
     <!-- Analytics (Google Analytics 4 via gtag.js); configured in js/config.js -->
     <script type="module" src="../../js/analytics.js"></script>
+    <!-- The two labelled placements (AdSense units / sponsor cards); configured in js/config.js -->
+    <script type="module" src="../../js/guide.js"></script>
     <link rel="stylesheet" href="../../css/camplist.css" />
     <link rel="stylesheet" href="../../guide/guide.css" />
     <link rel="stylesheet" href="https://use.typekit.net/xsc8giw.css" />
@@ -49,6 +52,7 @@
         <h2><svg class="ico" aria-hidden="true"><use href="#i-flag"/></svg>Check before you go</h2>
         <ul class="considerations"><li>Top-down day and overnight trips require a wilderness permit: advance reservations open on the 5th of each month at 10 am MT for dates three months out, a daily lottery runs two days ahead, and walk-ups are issued the day before. Day permits cost $6 plus $10 per person; overnight permits $20 plus $7 per person per night; all are picked up in person at the Wilderness Desk (NPS, as of 2026).</li><li>Top-down trips are not permitted when flow exceeds 120 cfs and the whole Narrows closes above 150 cfs and for at least two hours after a flash flood warning lifts; spring snowmelt closed it from April 11 to May 19 in 2024. Check the flow and the NWS flash flood potential rating every morning.</li><li>Flash flood signs: cloud buildup, thunder, a sudden drop in water clarity, floating debris, stronger current or rising water. Climb to high ground immediately; never try to outrun it.</li><li>Toxic cyanobacteria has been found in the Virgin River and NPS states that no filtration or disinfection method makes river water safe to drink; carry all your drinking water (about 1 gallon per person per day). NPS guidance on treating spring water (boil, or 1-micron filter plus chlorine or iodine with a 30-minute wait) applies to springs only; check current advisories.</li><li>Wilderness permit groups must carry at least one human waste disposal bag per person; pack out all solid waste and toilet paper. Campfires are prohibited everywhere in the Zion wilderness.</li><li>Only 12 designated campsites exist for the one-night top-down trip and multi-night Narrows trips are not permitted; you must arrange your own transport to Chamberlain&#39;s Ranch.</li><li>Hypothermia is the leading killer of outdoor recreationists even in summer; wear quick-drying layers, never cotton, and use neoprene socks or a dry suit in cool months.</li></ul>
       </section>
+      <div class="ad-slot ad-slot-inline ad-slot-sidebar" data-slot="sidebar" aria-label="Sponsor message"></div>
       <section class="group">
         <h2><svg class="ico" aria-hidden="true"><use href="#i-list"/></svg>What&#39;s inside</h2>
         <ul class="legend-keys small">
@@ -270,6 +274,7 @@
       <p class="cta">
         <a class="button-link primary big" href="../../?template=zion-narrows">Use this template <svg class="ico inline" aria-hidden="true"><use href="#i-arrow"/></svg></a>
       </p>
+      <div class="ad-slot ad-slot-inline ad-slot-footer" data-slot="footer" aria-label="Sponsor message"></div>
     </main>
     
     <footer class="guide-footer small">

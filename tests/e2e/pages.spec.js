@@ -94,6 +94,45 @@ test.describe("guide pages", () => {
     await expect(page.locator("#listSelect")).toContainText("Bikepacking");
   });
 
+  test("guide pages carry the two labelled placements with the house-card fallback", async ({
+    page,
+  }) => {
+    // AdSense script blocked (blockGoogleMaps aborts it): both placements show house cards.
+    await page.goto("/guide/");
+    const slots = page.locator(".ad-slot");
+    await expect(slots).toHaveCount(2);
+    await expect(slots.nth(0)).toHaveAttribute("data-slot", "sidebar");
+    await expect(slots.nth(1)).toHaveAttribute("data-slot", "footer");
+    await expect(slots.nth(0).locator(".sponsor-label")).toHaveText("From CampList");
+    await expect(slots.nth(1).locator(".sponsor-label")).toHaveText("From CampList");
+    expect(await page.locator(".ad-slot .sponsor-card").count()).toBe(2);
+  });
+
+  test("a template page renders the AdSense units when the script loads", async ({
+    page,
+  }) => {
+    await page.unroute(/googlesyndication\.com/);
+    await page.route("https://pagead2.googlesyndication.com/**", (route) =>
+      route.fulfill({ status: 200, contentType: "application/javascript", body: "" })
+    );
+    await page.goto("/guide/templates/bikepacking.html");
+    const units = page.locator(".ad-slot ins.adsbygoogle");
+    await expect(units).toHaveCount(2);
+    await expect(units.nth(0)).toHaveAttribute("data-ad-slot", "2930956606");
+    await expect(units.nth(1)).toHaveAttribute("data-ad-slot", "7181192800");
+    await expect(page.locator(".ad-slot .sponsor-label").first()).toHaveText(
+      "Advertisement"
+    );
+    // A unit AdSense cannot fill falls back to the house card, as on the app page.
+    await page.evaluate(() => {
+      document.querySelector('.ad-slot[data-slot="footer"] ins').dataset.adStatus =
+        "unfilled";
+    });
+    await expect(page.locator('.ad-slot[data-slot="footer"]')).toContainText(
+      "From CampList"
+    );
+  });
+
   test("/sitemap.xml and /robots.txt are served", async ({ page }) => {
     const sitemap = await page.goto("/sitemap.xml");
     expect(sitemap.status()).toBe(200);

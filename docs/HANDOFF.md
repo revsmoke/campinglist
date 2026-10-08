@@ -20,19 +20,19 @@ Live: https://camplist.guide (Replit static deployment of `public/`).
 | Security | `keys.txt` served publicly; prototype pages deployed; CDN DOMPurify without SRI; no CSP | Only `public/` is deployed; secrets gitignored and absent; DOMPurify/MSAL vendored and pinned; CSP meta + Replit response headers (nosniff, X-Frame-Options, Referrer-Policy, Permissions-Policy on every file; Replit ignored the path-specific COOP and no-store rules, see §3) |
 | Maps | Autocomplete never initialised (`initMap` race) | Loaded lazily when Trip Info opens; manual entry fallback |
 | Guides | None | Picture-first guides generated from the real app: `/guide/` (21 numbered steps), `/guide/templates.html` (how templates work + catalogue) and one page per template with a "Use this template" deep link; text in one locale file, screenshots re-taken by script (`docs/GUIDES.md`); `sitemap.xml` + `robots.txt` |
-| Engineering | No package.json/tests in repo | ESLint, Prettier, Vitest (46 tests), Playwright (48 journeys), template validator, guide capture/builder, docs |
+| Engineering | No package.json/tests in repo | ESLint, Prettier, Vitest (47 tests), Playwright (50 journeys), template validator, guide capture/builder, docs |
 
 ## 2. What was tested
 
-* `npm run lint`, `npm run templates:validate` (23/23), `npm test` (46), `npm run test:e2e`
-  (48: sign-in/out, session expiry, cancelled sign-in, library blocked, wrong audience,
+* `npm run lint`, `npm run templates:validate` (23/23), `npm test` (47), `npm run test:e2e`
+  (50: sign-in/out, session expiry, cancelled sign-in, library blocked, wrong audience,
   providers-disabled flags, same-email account linking and its refusal, Drive
   connect/connecting state/failed connect/save/autosave/mid-upload edits/conflict/open/upload/
   revoked/disconnect/declined consent, templates, core flows, legal pages, mobile viewport,
   analytics tag with consent defaults, AdSense units with unfilled/blocked fallbacks and the
   no-slot pause guard, only configured sign-in providers offered, guide pages with their
-  pictures, the template catalogue and a template page's deep link into the app, sitemap and
-  robots). The unit suite also checks that the generated guide pages match their inputs.
+  pictures, the template catalogue and a template page's deep link into the app, the two
+  placements on guide pages with their house-card fallback, sitemap and robots). The unit suite also checks that the generated guide pages match their inputs.
   Google Identity and Drive are mocked in these tests.
 * Headless Chromium against a local server with the **real** Google libraries: the Google button
   renders, Places autocomplete mounts and the CSP causes no violations.
@@ -75,7 +75,9 @@ MSAL bridge page). Neither is required for the current features.
    work accounts is documented inconsistently by Microsoft).
 4. **Ads:** the AdSense account (`ca-pub-4491650261060374`) is connected (`ads.txt`
    authorised, account meta tag on every page, script on the app page) and the two display
-   units are configured (Sidebar `2930956606`, Footer `7181192800`), labelled "Advertisement".
+   units are configured (Sidebar `2930956606`, Footer `7181192800`), labelled "Advertisement";
+   the same two placements sit on every guide page (between content sections and above the
+   footer).
    Until AdSense approves the site ("Getting ready" on 2026-10-08) the units come back
    unfilled and the placements show the house cards instead; the same fallback covers content
    blockers. Auto ads is off and the GDPR/US consent messages are published. Display ads are

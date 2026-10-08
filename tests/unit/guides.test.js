@@ -3,6 +3,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import {
   DEFAULT_LANG,
+  appCsp,
   contextFor,
   esc,
   loadInputs,
@@ -113,9 +114,23 @@ describe("generated guide pages", () => {
     expect(html).toContain(
       '<link rel="canonical" href="https://camplist.guide/guide/templates/bikepacking.html" />'
     );
-    // The only script is the analytics module; everything else is static markup.
-    expect(html.match(/<script/g)).toHaveLength(1);
+    // Two modules (analytics, placements); everything else is static markup.
+    expect(html.match(/<script/g)).toHaveLength(2);
     expect(html).toContain('src="../../js/analytics.js"');
+    expect(html).toContain('src="../../js/guide.js"');
+    expect(html).toContain(
+      `<meta http-equiv="Content-Security-Policy" content="${appCsp()}" />`
+    );
+  });
+
+  it("carry exactly two labelled placements per page (one per slot)", () => {
+    for (const [path, html] of files) {
+      if (!path.endsWith(".html")) continue;
+      const slots = html.match(/class="ad-slot [^"]*" data-slot="(\w+)"/g) || [];
+      expect(slots, path).toHaveLength(2);
+      expect(slots[0]).toContain('data-slot="sidebar"');
+      expect(slots[1]).toContain('data-slot="footer"');
+    }
   });
 
   it("number the callouts on every illustrated step and legend", () => {

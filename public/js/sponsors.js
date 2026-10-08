@@ -3,7 +3,7 @@
 // at most one card per slot, two slots on the page, fixed-height containers (no layout shift),
 // no pop-ups, no third-party scripts unless configured in config.js.
 import { CONFIG } from "./config.js";
-import { escapeText } from "./ui.js";
+import { escapeText } from "./escape.js";
 
 const SLOTS = ["sidebar", "footer"];
 
@@ -108,10 +108,16 @@ function loadAdsense({ onError } = {}) {
   document.head.appendChild(script);
 }
 
+/** The sponsor file lives at the site root; guide pages sit in subfolders. */
+function sponsorsUrl() {
+  const url = CONFIG.sponsors.url;
+  return /^https?:\/\//i.test(url) ? url : new URL(`../${url}`, import.meta.url).href;
+}
+
 export async function setupSponsors() {
   let cards = [];
   try {
-    const response = await fetch(CONFIG.sponsors.url, { cache: "no-store" });
+    const response = await fetch(sponsorsUrl(), { cache: "no-store" });
     if (response.ok) {
       const data = await response.json();
       cards = Array.isArray(data?.cards) ? data.cards : [];

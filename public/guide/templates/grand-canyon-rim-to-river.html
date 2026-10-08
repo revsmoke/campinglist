@@ -2,6 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; script-src 'self' https://accounts.google.com/gsi/client https://www.googletagmanager.com https://apis.google.com https://*.googleapis.com https://*.gstatic.com https://*.google.com https://*.googlesyndication.com https://*.googletagservices.com https://*.adtrafficquality.google https://fundingchoicesmessages.google.com https://plausible.io; style-src 'self' 'unsafe-inline' https://use.typekit.net https://p.typekit.net https://accounts.google.com/gsi/style https://fonts.googleapis.com; font-src 'self' data: https://use.typekit.net https://p.typekit.net https://fonts.gstatic.com; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com https://*.googlesyndication.com https://*.doubleclick.net https://*.adtrafficquality.google https://*.googleusercontent.com https://*.gstatic.com https://*.googleapis.com https://*.google.com https://p.typekit.net; connect-src 'self' https://accounts.google.com/gsi/ https://*.google-analytics.com https://*.googletagmanager.com https://*.googlesyndication.com https://*.doubleclick.net https://*.adtrafficquality.google https://fundingchoicesmessages.google.com https://www.googleapis.com https://*.googleapis.com https://*.google.com https://*.gstatic.com https://login.microsoftonline.com https://graph.microsoft.com https://*.1drv.com https://*.sharepoint.com https://plausible.io https://performance.typekit.net data: blob:; frame-src https://accounts.google.com/gsi/ https://docs.google.com https://*.google.com https://login.microsoftonline.com https://*.doubleclick.net https://*.googlesyndication.com https://*.adtrafficquality.google https://fundingchoicesmessages.google.com; worker-src 'self' blob:; manifest-src 'self'" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Grand Canyon Rim-to-River · CampList.guide</title>
     <meta name="description" content="For backpackers hiking a corridor-trail rim-to-river route with nights at Bright Angel, Havasupai Gardens or Cottonwood campgrounds." />
@@ -12,6 +13,8 @@
     <meta name="theme-color" content="#f7f5f0" />
     <!-- Analytics (Google Analytics 4 via gtag.js); configured in js/config.js -->
     <script type="module" src="../../js/analytics.js"></script>
+    <!-- The two labelled placements (AdSense units / sponsor cards); configured in js/config.js -->
+    <script type="module" src="../../js/guide.js"></script>
     <link rel="stylesheet" href="../../css/camplist.css" />
     <link rel="stylesheet" href="../../guide/guide.css" />
     <link rel="stylesheet" href="https://use.typekit.net/xsc8giw.css" />
@@ -49,6 +52,7 @@
         <h2><svg class="ico" aria-hidden="true"><use href="#i-flag"/></svg>Check before you go</h2>
         <ul class="considerations"><li>Backcountry permits run through a Recreation.gov early-access lottery (two-week window ending the 1st of the month, four months ahead) with remaining dates opening on the 1st; $10 application plus $15 per person per night below the rim (NPS, as of 2026).</li><li>Corridor campgrounds allow 2 nights per campground per hike (4 nights Nov 15-Feb 28) and 7 nights max per use area; the permit must be in the trip leader&#39;s possession.</li><li>Inner-canyon temperatures often exceed 105 F in summer; do not hike between 10 am and 4 pm, eat double your normal carbohydrates and salty food, and drink to thirst to avoid both dehydration and hyponatremia.</li><li>Corridor water depends on the Transcanyon Pipeline and shuts off with little notice. As of Sept 28, 2026 all inner-canyon water was off and Phantom Ranch, Bright Angel and Cottonwood campgrounds were closed by flash-flood damage; check Key Hiking Messages first.</li><li>Wood and charcoal fires are prohibited (stoves only); burning, burying or leaving toilet paper is prohibited, so pack it out.</li><li>Every corridor campsite has a metal food storage can and pack pole; ravens, ringtails and squirrels raid unsecured packs. Pets and drones are prohibited below the rim.</li><li>Climbing out gains about 5,000 ft; plan on twice as long to hike up as down. Hypothermia and heat illness have been treated on the same day.</li></ul>
       </section>
+      <div class="ad-slot ad-slot-inline ad-slot-sidebar" data-slot="sidebar" aria-label="Sponsor message"></div>
       <section class="group">
         <h2><svg class="ico" aria-hidden="true"><use href="#i-list"/></svg>What&#39;s inside</h2>
         <ul class="legend-keys small">
@@ -290,6 +294,7 @@
       <p class="cta">
         <a class="button-link primary big" href="../../?template=grand-canyon-rim-to-river">Use this template <svg class="ico inline" aria-hidden="true"><use href="#i-arrow"/></svg></a>
       </p>
+      <div class="ad-slot ad-slot-inline ad-slot-footer" data-slot="footer" aria-label="Sponsor message"></div>
     </main>
     
     <footer class="guide-footer small">

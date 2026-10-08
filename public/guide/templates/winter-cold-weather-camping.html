@@ -2,6 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; script-src 'self' https://accounts.google.com/gsi/client https://www.googletagmanager.com https://apis.google.com https://*.googleapis.com https://*.gstatic.com https://*.google.com https://*.googlesyndication.com https://*.googletagservices.com https://*.adtrafficquality.google https://fundingchoicesmessages.google.com https://plausible.io; style-src 'self' 'unsafe-inline' https://use.typekit.net https://p.typekit.net https://accounts.google.com/gsi/style https://fonts.googleapis.com; font-src 'self' data: https://use.typekit.net https://p.typekit.net https://fonts.gstatic.com; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com https://*.googlesyndication.com https://*.doubleclick.net https://*.adtrafficquality.google https://*.googleusercontent.com https://*.gstatic.com https://*.googleapis.com https://*.google.com https://p.typekit.net; connect-src 'self' https://accounts.google.com/gsi/ https://*.google-analytics.com https://*.googletagmanager.com https://*.googlesyndication.com https://*.doubleclick.net https://*.adtrafficquality.google https://fundingchoicesmessages.google.com https://www.googleapis.com https://*.googleapis.com https://*.google.com https://*.gstatic.com https://login.microsoftonline.com https://graph.microsoft.com https://*.1drv.com https://*.sharepoint.com https://plausible.io https://performance.typekit.net data: blob:; frame-src https://accounts.google.com/gsi/ https://docs.google.com https://*.google.com https://login.microsoftonline.com https://*.doubleclick.net https://*.googlesyndication.com https://*.adtrafficquality.google https://fundingchoicesmessages.google.com; worker-src 'self' blob:; manifest-src 'self'" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Winter / Cold-Weather Camping · CampList.guide</title>
     <meta name="description" content="For experienced campers sleeping on snow or in sub-freezing temperatures." />
@@ -12,6 +13,8 @@
     <meta name="theme-color" content="#f7f5f0" />
     <!-- Analytics (Google Analytics 4 via gtag.js); configured in js/config.js -->
     <script type="module" src="../../js/analytics.js"></script>
+    <!-- The two labelled placements (AdSense units / sponsor cards); configured in js/config.js -->
+    <script type="module" src="../../js/guide.js"></script>
     <link rel="stylesheet" href="../../css/camplist.css" />
     <link rel="stylesheet" href="../../guide/guide.css" />
     <link rel="stylesheet" href="https://use.typekit.net/xsc8giw.css" />
@@ -49,6 +52,7 @@
         <h2><svg class="ico" aria-hidden="true"><use href="#i-flag"/></svg>Check before you go</h2>
         <ul class="considerations"><li>Check the current avalanche forecast for your zone; avoid avalanche terrain unless everyone is trained and carrying rescue gear.</li><li>Check current winter permit rules; some parks require wilderness permits and set campsite distances from roads and water.</li><li>Check current road and trailhead status; winter closures add miles and can strand vehicles, so carry a car emergency kit.</li><li>Expect short days and little or no cell coverage; carry a satellite communicator and leave a detailed trip plan.</li><li>Plan fuel for melting snow; it takes far more than summer trips, and liquid-fuel stoves work better in deep cold.</li><li>Check current human-waste rules; many snow zones require pack-out bags.</li></ul>
       </section>
+      <div class="ad-slot ad-slot-inline ad-slot-sidebar" data-slot="sidebar" aria-label="Sponsor message"></div>
       <section class="group">
         <h2><svg class="ico" aria-hidden="true"><use href="#i-list"/></svg>What&#39;s inside</h2>
         <ul class="legend-keys small">
@@ -384,6 +388,7 @@
       <p class="cta">
         <a class="button-link primary big" href="../../?template=winter-cold-weather-camping">Use this template <svg class="ico inline" aria-hidden="true"><use href="#i-arrow"/></svg></a>
       </p>
+      <div class="ad-slot ad-slot-inline ad-slot-footer" data-slot="footer" aria-label="Sponsor message"></div>
     </main>
     
     <footer class="guide-footer small">

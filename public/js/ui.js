@@ -33,6 +33,7 @@ import {
 } from "./state.js";
 import { confirmDialog, promptDialog, showToast } from "./dialogs.js";
 import { prepareDestinationSearch } from "./maps.js";
+import { escapeText } from "./escape.js";
 
 /***************** UI UTILS *****************/
 const $ = (id) => document.getElementById(id);
@@ -41,13 +42,6 @@ const $ = (id) => document.getElementById(id);
 const sanitize = (s) =>
   DOMPurify.sanitize(String(s ?? ""), { USE_PROFILES: { html: true } });
 // Escapes text for safe interpolation into HTML *and* quoted attributes.
-const escapeText = (s) =>
-  String(s ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
 
 /***************** ERROR DIALOG *****************/
 function showErrorDialog(message) {
