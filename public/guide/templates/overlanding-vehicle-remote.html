@@ -2,6 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; script-src 'self' https://accounts.google.com/gsi/client https://www.googletagmanager.com https://apis.google.com https://*.googleapis.com https://*.gstatic.com https://*.google.com https://*.googlesyndication.com https://*.googletagservices.com https://*.adtrafficquality.google https://fundingchoicesmessages.google.com https://plausible.io; style-src 'self' 'unsafe-inline' https://use.typekit.net https://p.typekit.net https://accounts.google.com/gsi/style https://fonts.googleapis.com; font-src 'self' data: https://use.typekit.net https://p.typekit.net https://fonts.gstatic.com; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com https://*.googlesyndication.com https://*.doubleclick.net https://*.adtrafficquality.google https://*.googleusercontent.com https://*.gstatic.com https://*.googleapis.com https://*.google.com https://p.typekit.net; connect-src 'self' https://accounts.google.com/gsi/ https://*.google-analytics.com https://*.googletagmanager.com https://*.googlesyndication.com https://*.doubleclick.net https://*.adtrafficquality.google https://fundingchoicesmessages.google.com https://www.googleapis.com https://*.googleapis.com https://*.google.com https://*.gstatic.com https://login.microsoftonline.com https://graph.microsoft.com https://*.1drv.com https://*.sharepoint.com https://plausible.io https://performance.typekit.net data: blob:; frame-src https://accounts.google.com/gsi/ https://docs.google.com https://*.google.com https://login.microsoftonline.com https://*.doubleclick.net https://*.googlesyndication.com https://*.adtrafficquality.google https://fundingchoicesmessages.google.com; worker-src 'self' blob:; manifest-src 'self'" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Overlanding / Remote Vehicle Camping · CampList.guide</title>
     <meta name="description" content="For 4x4 travelers camping self-sufficiently for days at a time far from pavement and services." />
@@ -12,6 +13,8 @@
     <meta name="theme-color" content="#f7f5f0" />
     <!-- Analytics (Google Analytics 4 via gtag.js); configured in js/config.js -->
     <script type="module" src="../../js/analytics.js"></script>
+    <!-- The two labelled placements (AdSense units / sponsor cards); configured in js/config.js -->
+    <script type="module" src="../../js/guide.js"></script>
     <link rel="stylesheet" href="../../css/camplist.css" />
     <link rel="stylesheet" href="../../guide/guide.css" />
     <link rel="stylesheet" href="https://use.typekit.net/xsc8giw.css" />
@@ -49,6 +52,7 @@
         <h2><svg class="ico" aria-hidden="true"><use href="#i-flag"/></svg>Check before you go</h2>
         <ul class="considerations"><li>Check current road and trail status on the Motor Vehicle Use Map and with the local ranger district or BLM field office; stay on designated routes.</li><li>Check current fire restrictions; many areas ban campfires seasonally and some states require a campfire permit even for stoves.</li><li>Check current dispersed-camping stay limits and distance-from-water rules for the land you are on.</li><li>Carry water and fuel for the whole loop plus a reserve; services can be 100 miles or more apart.</li><li>Cell coverage is unreliable; carry a satellite communicator and leave your route and return date with someone.</li><li>Check seasonal hazards: flash floods in washes, snow at elevation, and extreme heat in deserts.</li></ul>
       </section>
+      <div class="ad-slot ad-slot-inline ad-slot-sidebar" data-slot="sidebar" aria-label="Sponsor message"></div>
       <section class="group">
         <h2><svg class="ico" aria-hidden="true"><use href="#i-list"/></svg>What&#39;s inside</h2>
         <ul class="legend-keys small">
@@ -396,6 +400,7 @@
       <p class="cta">
         <a class="button-link primary big" href="../../?template=overlanding-vehicle-remote">Use this template <svg class="ico inline" aria-hidden="true"><use href="#i-arrow"/></svg></a>
       </p>
+      <div class="ad-slot ad-slot-inline ad-slot-footer" data-slot="footer" aria-label="Sponsor message"></div>
     </main>
     
     <footer class="guide-footer small">

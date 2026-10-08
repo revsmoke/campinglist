@@ -2,6 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; script-src 'self' https://accounts.google.com/gsi/client https://www.googletagmanager.com https://apis.google.com https://*.googleapis.com https://*.gstatic.com https://*.google.com https://*.googlesyndication.com https://*.googletagservices.com https://*.adtrafficquality.google https://fundingchoicesmessages.google.com https://plausible.io; style-src 'self' 'unsafe-inline' https://use.typekit.net https://p.typekit.net https://accounts.google.com/gsi/style https://fonts.googleapis.com; font-src 'self' data: https://use.typekit.net https://p.typekit.net https://fonts.gstatic.com; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com https://*.googlesyndication.com https://*.doubleclick.net https://*.adtrafficquality.google https://*.googleusercontent.com https://*.gstatic.com https://*.googleapis.com https://*.google.com https://p.typekit.net; connect-src 'self' https://accounts.google.com/gsi/ https://*.google-analytics.com https://*.googletagmanager.com https://*.googlesyndication.com https://*.doubleclick.net https://*.adtrafficquality.google https://fundingchoicesmessages.google.com https://www.googleapis.com https://*.googleapis.com https://*.google.com https://*.gstatic.com https://login.microsoftonline.com https://graph.microsoft.com https://*.1drv.com https://*.sharepoint.com https://plausible.io https://performance.typekit.net data: blob:; frame-src https://accounts.google.com/gsi/ https://docs.google.com https://*.google.com https://login.microsoftonline.com https://*.doubleclick.net https://*.googlesyndication.com https://*.adtrafficquality.google https://fundingchoicesmessages.google.com; worker-src 'self' blob:; manifest-src 'self'" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>A.T. Section Hike · CampList.guide</title>
     <meta name="description" content="For hikers doing a 4-10 day section of the Appalachian Trail using shelters, designated campsites and trail-town resupplies." />
@@ -12,6 +13,8 @@
     <meta name="theme-color" content="#f7f5f0" />
     <!-- Analytics (Google Analytics 4 via gtag.js); configured in js/config.js -->
     <script type="module" src="../../js/analytics.js"></script>
+    <!-- The two labelled placements (AdSense units / sponsor cards); configured in js/config.js -->
+    <script type="module" src="../../js/guide.js"></script>
     <link rel="stylesheet" href="../../css/camplist.css" />
     <link rel="stylesheet" href="../../guide/guide.css" />
     <link rel="stylesheet" href="https://use.typekit.net/xsc8giw.css" />
@@ -49,6 +52,7 @@
         <h2><svg class="ico" aria-hidden="true"><use href="#i-flag"/></svg>Check before you go</h2>
         <ul class="considerations"><li>Permits are required in Great Smoky Mountains NP ($8 per person per night plus $6, or the $44.50 thru-hiker permit, as of April 30, 2026), Shenandoah NP ($9 per person plus $6 on Recreation.gov up to 90 days ahead) and Baxter State Park (free long-distance hiker permit in person); AMC campsites in the Whites cost about $10 per night (ATC, as of 2026).</li><li>The ATC recommends a hard-sided bear canister for every overnight trip. Canisters are required March 1-June 1 between Jarrard Gap and Neel Gap in Georgia; the Smokies require hanging on provided cables; Shenandoah requires a canister, a provided box or pole, or a 12 ft hang. Bears have defeated hangs and shredded Ursacks in NC and TN.</li><li>Camping is limited to shelters and designated sites in the Smokies, New Jersey, New York and Connecticut; Connecticut and New Jersey ban campfires; Maine allows fires only at designated sites and no camping above treeline. Check the ATC camping-regulations page for your section.</li><li>Never sleep with food; cook and eat 200 ft from your tent and keep canisters out of shelters and about 70 steps from where you sleep.</li><li>Expect rain, mud, slick roots and rock, ticks (Lyme disease) and norovirus in shelters; treat all water and sanitize hands before eating.</li><li>Trail towns are typically 3-5 days apart; hostel, shuttle and post office hours change with the season, so confirm before you go.</li></ul>
       </section>
+      <div class="ad-slot ad-slot-inline ad-slot-sidebar" data-slot="sidebar" aria-label="Sponsor message"></div>
       <section class="group">
         <h2><svg class="ico" aria-hidden="true"><use href="#i-list"/></svg>What&#39;s inside</h2>
         <ul class="legend-keys small">
@@ -307,6 +311,7 @@
       <p class="cta">
         <a class="button-link primary big" href="../../?template=appalachian-trail-section-hike">Use this template <svg class="ico inline" aria-hidden="true"><use href="#i-arrow"/></svg></a>
       </p>
+      <div class="ad-slot ad-slot-inline ad-slot-footer" data-slot="footer" aria-label="Sponsor message"></div>
     </main>
     
     <footer class="guide-footer small">

@@ -11,10 +11,13 @@ Research date: 2026-10-07 (full notes with sources: `docs/research/monetization-
   the slots are fixed-height so nothing jumps. No pop-ups, interstitials, sticky units or
   tracking.
 * **AdSense account connected** (publisher `ca-pub-4491650261060374`): `public/ads.txt`, the
-  `google-adsense-account` meta tag on every page and the AdSense script on the app page are
-  live (the console shows `ads.txt` as authorised). `ads.slots` holds the two display units
-  (Sidebar `2930956606`, Footer `7181192800`), each rendered as a labelled "Advertisement"
-  unit inside its placement. A unit AdSense reports as unfilled (site not approved yet, no
+  `google-adsense-account` meta tag on every page and the AdSense script on the app page and
+  the guide pages are live (the console shows `ads.txt` as authorised). `ads.slots` holds the
+  two display units (Sidebar `2930956606`, Footer `7181192800`), each rendered as a labelled
+  "Advertisement" unit inside its placement. Every page carries at most the same two
+  placements: in the app they sit in the sidebar and under the list; on the guide pages
+  (`/guide/`, the templates guide and each template page) they sit between content sections
+  and above the footer, loaded by `public/js/guide.js`. A unit AdSense reports as unfilled (site not approved yet, no
   matching ad) or a blocked ad script swaps the sponsor/house card back in, so a placement is
   never an empty box. If `ads.slots` are emptied, the loader sets
   `adsbygoogle.pauseAdRequests = 1`, so the script stays present for verification but requests

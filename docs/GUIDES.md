@@ -11,6 +11,11 @@ Two picture-first guides live on the site, plus one page per template:
 The guides are generated. Do not edit the HTML under `public/guide/` by hand (it is
 Prettier-ignored and a unit test fails when it is stale); change the inputs and rebuild.
 
+Each page carries the same two labelled placements as the app page (`js/sponsors.js` via
+`js/guide.js`: AdSense units from `ads.slots` in `config.js`, with the sponsor/house cards from
+`public/sponsors.json` as the fallback), one between content sections and one above the
+footer, and the app shell's Content-Security-Policy copied in at build time.
+
 ## Inputs and outputs
 
 ```

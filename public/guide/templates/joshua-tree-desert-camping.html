@@ -2,6 +2,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'; script-src 'self' https://accounts.google.com/gsi/client https://www.googletagmanager.com https://apis.google.com https://*.googleapis.com https://*.gstatic.com https://*.google.com https://*.googlesyndication.com https://*.googletagservices.com https://*.adtrafficquality.google https://fundingchoicesmessages.google.com https://plausible.io; style-src 'self' 'unsafe-inline' https://use.typekit.net https://p.typekit.net https://accounts.google.com/gsi/style https://fonts.googleapis.com; font-src 'self' data: https://use.typekit.net https://p.typekit.net https://fonts.gstatic.com; img-src 'self' data: blob: https://*.google-analytics.com https://*.googletagmanager.com https://*.googlesyndication.com https://*.doubleclick.net https://*.adtrafficquality.google https://*.googleusercontent.com https://*.gstatic.com https://*.googleapis.com https://*.google.com https://p.typekit.net; connect-src 'self' https://accounts.google.com/gsi/ https://*.google-analytics.com https://*.googletagmanager.com https://*.googlesyndication.com https://*.doubleclick.net https://*.adtrafficquality.google https://fundingchoicesmessages.google.com https://www.googleapis.com https://*.googleapis.com https://*.google.com https://*.gstatic.com https://login.microsoftonline.com https://graph.microsoft.com https://*.1drv.com https://*.sharepoint.com https://plausible.io https://performance.typekit.net data: blob:; frame-src https://accounts.google.com/gsi/ https://docs.google.com https://*.google.com https://login.microsoftonline.com https://*.doubleclick.net https://*.googlesyndication.com https://*.adtrafficquality.google https://fundingchoicesmessages.google.com; worker-src 'self' blob:; manifest-src 'self'" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Joshua Tree Camping · CampList.guide</title>
     <meta name="description" content="For campers and backpackers visiting Joshua Tree National Park, where you bring every drop of water yourself." />
@@ -12,6 +13,8 @@
     <meta name="theme-color" content="#f7f5f0" />
     <!-- Analytics (Google Analytics 4 via gtag.js); configured in js/config.js -->
     <script type="module" src="../../js/analytics.js"></script>
+    <!-- The two labelled placements (AdSense units / sponsor cards); configured in js/config.js -->
+    <script type="module" src="../../js/guide.js"></script>
     <link rel="stylesheet" href="../../css/camplist.css" />
     <link rel="stylesheet" href="../../guide/guide.css" />
     <link rel="stylesheet" href="https://use.typekit.net/xsc8giw.css" />
@@ -49,6 +52,7 @@
         <h2><svg class="ico" aria-hidden="true"><use href="#i-flag"/></svg>Check before you go</h2>
         <ul class="considerations"><li>Black Rock, Cottonwood, Indian Cove, Jumbo Rocks, Ryan and Sheep Pass campgrounds are reservation-only up to 6 months ahead; Hidden Valley, White Tank and Belle are first-come and are usually full by Friday afternoon from October to May (NPS, as of 2026).</li><li>Only Black Rock and Cottonwood campgrounds have water. The park recommends at least 1 gallon per person per day and more when hiking in heat; keep extra water in the vehicle.</li><li>Backcountry camping requires a $6 Recreation.gov permit (1-12 people, up to 14 nights) in one of 15 zones, at least 1 mile from a trailhead, half a mile from roads and 200 ft from trails. Campfires are illegal in the backcountry.</li><li>Campground fires are allowed only in the provided rings with wood brought from outside the park; a seasonal campfire ban has run from about June 15 to October 1 in recent years. Check current fire restrictions.</li><li>Temperatures top 85 F from April to September; hike before 10 am or after 4 pm in heat. Flash floods can occur even on sunny days during summer monsoon season.</li><li>Cell service is extremely limited; download offline maps and the NPS app and share your itinerary. Search and rescue can take hours or days to reach you.</li><li>Campsite limits: 6 people, 3 tents and usually 2 vehicles; generators only 7-9 am, noon-2 pm and 5-7 pm; first-come sites must be paid within an hour.</li></ul>
       </section>
+      <div class="ad-slot ad-slot-inline ad-slot-sidebar" data-slot="sidebar" aria-label="Sponsor message"></div>
       <section class="group">
         <h2><svg class="ico" aria-hidden="true"><use href="#i-list"/></svg>What&#39;s inside</h2>
         <ul class="legend-keys small">
@@ -282,6 +286,7 @@
       <p class="cta">
         <a class="button-link primary big" href="../../?template=joshua-tree-desert-camping">Use this template <svg class="ico inline" aria-hidden="true"><use href="#i-arrow"/></svg></a>
       </p>
+      <div class="ad-slot ad-slot-inline ad-slot-footer" data-slot="footer" aria-label="Sponsor message"></div>
     </main>
     
     <footer class="guide-footer small">

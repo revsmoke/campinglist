@@ -417,6 +417,15 @@
   gap: 0.3rem;
 }
 
+/* The two labelled placements (same rules as the app: labelled, no pop-ups, no sticky units) */
+.guide-main .ad-slot-inline {
+  margin: 1.5rem auto;
+  max-width: 970px;
+}
+.guide-main .ad-slot-inline .sponsor-card {
+  margin-top: 0;
+}
+
 .guide-footer {
   text-align: center;
   color: var(--muted);

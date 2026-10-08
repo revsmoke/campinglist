@@ -9,8 +9,9 @@
 //
 // Output: public/guide/index.html, public/guide/templates.html, public/guide/templates/<id>.html,
 // the same under public/guide/<lang>/ for every other locale, and public/sitemap.xml.
-// Pages are static, script-free apart from the analytics module, and contain no dates other
-// than the templates' own review dates, so the output only changes when the inputs do.
+// Pages are static apart from two modules (analytics, and the two labelled placements shared
+// with the app page), and contain no dates other than the templates' own review dates, so the
+// output only changes when the inputs do.
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -20,6 +21,18 @@ export const SITE_URL = "https://camplist.guide";
 export const DEFAULT_LANG = "en";
 
 const readJson = (file) => JSON.parse(readFileSync(file, "utf8"));
+
+/** The app shell's Content-Security-Policy, so the guide pages carry the same one. */
+export function appCsp() {
+  const html = readFileSync(join(root, "public", "index.html"), "utf8");
+  const match = html.match(/http-equiv="Content-Security-Policy"\s+content="([^"]+)"/);
+  if (!match) throw new Error("No Content-Security-Policy meta in public/index.html");
+  return match[1];
+}
+
+/** One of the two labelled placements (AdSense unit or sponsor/house card, see js/sponsors.js). */
+export const adSlot = (slot) =>
+  `<div class="ad-slot ad-slot-inline ad-slot-${slot}" data-slot="${slot}" aria-label="Sponsor message"></div>`;
 
 export function esc(value) {
   return String(value ?? "")
@@ -102,7 +115,7 @@ export function makeTranslator(strings, fallback, { onMissing } = {}) {
 }
 
 // ------------------------------------------------------------------ page scaffold
-function head({ t, lang, dir, title, description, rel, canonical, alternates }) {
+function head({ t, lang, dir, title, description, rel, canonical, alternates, csp }) {
   const alt = alternates
     .map((a) => `<link rel="alternate" hreflang="${esc(a.lang)}" href="${esc(a.url)}" />`)
     .join("\n    ");
@@ -110,6 +123,7 @@ function head({ t, lang, dir, title, description, rel, canonical, alternates }) 
 <html lang="${esc(lang)}" dir="${esc(dir)}">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="${csp}" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>${esc(title)} · ${esc(t("siteName"))}${esc(t("siteTld"))}</title>
     <meta name="description" content="${esc(description)}" />
@@ -120,6 +134,8 @@ function head({ t, lang, dir, title, description, rel, canonical, alternates }) 
     <meta name="theme-color" content="#f7f5f0" />
     <!-- Analytics (Google Analytics 4 via gtag.js); configured in js/config.js -->
     <script type="module" src="${rel}js/analytics.js"></script>
+    <!-- The two labelled placements (AdSense units / sponsor cards); configured in js/config.js -->
+    <script type="module" src="${rel}js/guide.js"></script>
     <link rel="stylesheet" href="${rel}css/camplist.css" />
     <link rel="stylesheet" href="${rel}guide/guide.css" />
     <link rel="stylesheet" href="https://use.typekit.net/xsc8giw.css" />
@@ -220,7 +236,7 @@ export function renderSiteGuide(ctx) {
     .join("");
   let n = 0;
   const groups = structure.groups
-    .map((g) => {
+    .map((g, gi) => {
       const steps = g.steps
         .map((step) => {
           n++;
@@ -243,7 +259,7 @@ export function renderSiteGuide(ctx) {
         <h2>${icon(g.icon)}${esc(t(`guide.groups.${g.id}`))}</h2>
         <div class="steps">${steps}
         </div>
-      </section>`;
+      </section>${gi === 0 ? `\n      ${adSlot("sidebar")}` : ""}`;
     })
     .join("");
   return `${head({ ...ctx, title: t("guide.title"), description: t("guide.description"), canonical: ctx.urls.guide })}
@@ -256,6 +272,7 @@ export function renderSiteGuide(ctx) {
         <nav class="toc" aria-label="${esc(t("guide.title"))}">${toc}</nav>
       </section>
       ${groups}
+      ${adSlot("footer")}
       <p class="to-top"><a href="#top">${esc(t("nav.top"))}</a></p>
     </main>
     ${footer({ t, rel })}`;
@@ -357,8 +374,10 @@ export function renderTemplatesGuide(ctx) {
         <div class="steps">${steps}
         </div>
       </section>
+      ${adSlot("sidebar")}
       <h2 class="catalogue-title" id="all">${esc(t("templates.catalogue.title"))} <span class="count">${templates.length}</span></h2>
       ${groups}
+      ${adSlot("footer")}
       <p class="to-top"><a href="#top">${esc(t("nav.top"))}</a></p>
     </main>
     ${footer({ t, rel })}`;
@@ -416,6 +435,7 @@ export function renderTemplatePage(ctx, tpl) {
         <h2>${icon("flag")}${esc(t("templates.page.checkFirst"))}</h2>
         <ul class="considerations">${considerations}</ul>
       </section>
+      ${adSlot("sidebar")}
       <section class="group">
         <h2>${icon("list")}${esc(t("templates.page.inside"))}</h2>
         <ul class="legend-keys small">
@@ -434,6 +454,7 @@ export function renderTemplatePage(ctx, tpl) {
       <p class="cta">
         <a class="button-link primary big" href="${esc(appLink)}">${esc(t("templates.actions.use"))} ${icon("arrow", "inline")}</a>
       </p>
+      ${adSlot("footer")}
     </main>
     ${footer({ t, rel })}`;
 }
@@ -466,6 +487,7 @@ export function loadInputs() {
     templatesStructure: readJson(join(root, "guides", "templates-guide.json")),
     templates,
     categories: index.categories,
+    csp: appCsp(),
   };
 }
 
@@ -499,6 +521,7 @@ export function contextFor(inputs, lang, { depth = 0 } = {}) {
     dir: inputs.locales[lang].dir || "ltr",
     t,
     missing,
+    csp: inputs.csp,
     structure: inputs.structure,
     templatesStructure: inputs.templatesStructure,
     templates: inputs.templates,
