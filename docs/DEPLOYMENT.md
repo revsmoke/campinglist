@@ -62,7 +62,8 @@ server (port 8787) mocks Google and needs nothing registered.
   visitor, 1,200 an hour per instance), then calls TypeSafe with the key. `GET /api/health`
   reports whether the key is set and the visitor address the limiter sees.
 - Environment: `PORT` (3000), `TYPESAFE_API_KEY`, `TYPESAFE_MODEL` (`jev-latest`),
-  `TRUSTED_PROXIES` (1: the `X-Forwarded-For` entries Replit's proxy appends),
+  `TRUSTED_PROXIES` (2: the `X-Forwarded-For` entries Replit's edge and the Cloud Run front
+  end append; the visitor is counted from the end so a client-supplied header changes nothing),
   `SERVE_STATIC=0` and `ALLOW_ORIGIN` for an API-only host.
 
 ## Rollback

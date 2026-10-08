@@ -45,6 +45,7 @@ the shares become probabilities and the confidence is TypeSafe's own Choice form
 | ≥ 0.6 | accepted: "We read that as X. Not it?" plus two alternatives |
 | 0.3 to 0.6 | suggested: "Sounds like X?" plus alternatives |
 | < 0.3 | ask: "Which is closest?" with every option |
+| any, choice "Not sure yet" | ask: the text did not say, so the person picks |
 
 Only when the keywords stay below 0.6 (and the endpoint answered its health probe, see below)
 does the wizard call the site's judge endpoint with one request: a `choice` question whose

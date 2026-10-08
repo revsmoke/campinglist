@@ -536,4 +536,28 @@ describe("judge", () => {
     expect(extras.picked).toEqual(["fishing"]);
     expect(extras.source).toBe("typesafe");
   });
+
+  it("treats a confident 'Not sure yet' verdict as a question, not an answer", async () => {
+    const unsure = mockFetch(
+      answering({
+        tripType: {
+          type: "choice",
+          choice: "unsure",
+          probabilities: { unsure: 0.95, campground: 0.05 },
+          confidence: 0.94,
+        },
+      })
+    );
+    const r = await judgeChoice("tripType", "the usual", {}, { fetchImpl: unsure });
+    expect(r.status).toBe("unresolved");
+    expect(r.choice).toBeNull();
+    expect(r.candidates.map((c) => c.id)).toContain("campground");
+    const local = await judgeChoice(
+      "tripType",
+      "not sure yet",
+      {},
+      { fetchImpl: unsure }
+    );
+    expect(local.choice).toBeNull();
+  });
 });
