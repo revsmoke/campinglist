@@ -30,3 +30,77 @@ test.describe("static pages", () => {
     );
   });
 });
+
+test.describe("guide pages", () => {
+  test.beforeEach(async ({ page }) => {
+    await blockGoogleMaps(page);
+  });
+
+  test("/guide/ shows the picture guide with numbered callouts and no broken images", async ({
+    page,
+  }) => {
+    const failed = [];
+    page.on("response", (r) => {
+      if (r.status() >= 400 && r.url().includes("127.0.0.1")) failed.push(r.url());
+    });
+    await page.goto("/guide/");
+    await expect(page.locator("h1")).toHaveText("How to use CampList");
+    await expect(page.locator(".step").first()).toBeVisible();
+    expect(await page.locator(".step").count()).toBeGreaterThan(15);
+    expect(await page.locator(".shot .num").count()).toBeGreaterThan(40);
+    // Every picture loads (lazy ones too) and keeps its real size.
+    const broken = await page.evaluate(async () => {
+      const imgs = [...document.querySelectorAll(".shot img")];
+      for (const img of imgs) img.loading = "eager";
+      await Promise.all(
+        imgs.map((img) =>
+          img.complete ? null : new Promise((r) => (img.onload = img.onerror = r))
+        )
+      );
+      return imgs
+        .filter((img) => !img.naturalWidth)
+        .map((img) => img.getAttribute("src"));
+    });
+    expect(broken).toEqual([]);
+    expect(failed).toEqual([]);
+    await expect(page.locator('a[href="../"]').first()).toBeVisible();
+  });
+
+  test("/guide/templates.html lists every template with a page and an app link", async ({
+    page,
+  }) => {
+    await page.goto("/guide/templates.html");
+    await expect(page.locator("h1")).toHaveText("Templates");
+    const cards = page.locator(".tcard");
+    expect(await cards.count()).toBe(23);
+    await cards.first().locator("a.tcard-main").click();
+    await expect(page).toHaveURL(/\/guide\/templates\/[a-z0-9-]+\.html$/);
+    await expect(page.locator("h1")).not.toBeEmpty();
+    await expect(page.locator(".tsection").first()).toBeVisible();
+    const use = page.locator('a.button-link.primary[href*="?template="]').first();
+    await expect(use).toHaveText(/Use this template/);
+  });
+
+  test("a template page's app link opens that template in CampList", async ({ page }) => {
+    await page.goto("/guide/templates/bikepacking.html");
+    await page.locator('a.button-link.primary[href*="?template="]').first().click();
+    await page.waitForSelector("body.app-ready");
+    await expect(page.locator("#templateDetail .template-title")).toHaveText(
+      "Bikepacking"
+    );
+    await expect(page).toHaveURL(/\/$/); // the parameter is consumed
+    await page.click("#templateCreate");
+    await page.click("#appDialogConfirm");
+    await expect(page.locator("#listSelect")).toContainText("Bikepacking");
+  });
+
+  test("/sitemap.xml and /robots.txt are served", async ({ page }) => {
+    const sitemap = await page.goto("/sitemap.xml");
+    expect(sitemap.status()).toBe(200);
+    expect(await sitemap.text()).toContain(
+      "https://camplist.guide/guide/templates/bikepacking.html"
+    );
+    const robots = await page.goto("/robots.txt");
+    expect(await robots.text()).toContain("Sitemap: https://camplist.guide/sitemap.xml");
+  });
+});

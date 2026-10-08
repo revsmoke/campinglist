@@ -15,8 +15,10 @@ only when it is previewed or used. Nothing else needs to change to add a templat
    npm run templates:index && npm run templates:validate
    ```
 
-4. Run `npm test` (the unit suite validates every template) and commit both the template and
-   `index.json`.
+4. Rebuild the guide pages (`npm run guides:build` writes `public/guide/templates/<id>.html`
+   and the catalogue; see `docs/GUIDES.md`).
+5. Run `npm test` (the unit suite validates every template and checks the generated pages) and
+   commit the template, `index.json` and the generated guide pages.
 
 ## Schema (validated by `scripts/template-schema.mjs`)
 
@@ -37,6 +39,10 @@ only when it is previewed or used. Nothing else needs to change to add a templat
 
 Limits: 1–14 sections, 5–160 items. Templates are copied into a user's list with fresh ids, so
 editing a template never changes lists users already created.
+
+Every template also has a public page, `/guide/templates/<id>.html`, and a deep link,
+`/?template=<id>`, that opens its preview in the app (used by the guide's "Use this template"
+buttons).
 
 ## Current library (reviewed 2026-10-07)
 

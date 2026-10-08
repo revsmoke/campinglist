@@ -167,7 +167,11 @@ function showBrowser(dlg) {
   dlg.querySelector("#templateSearch")?.focus();
 }
 
-export async function openTemplatesDialog() {
+/**
+ * Opens the template browser; with `templateId` (from a guide page's "Use this template" link,
+ * `/?template=<id>`) it goes straight to that template's preview.
+ */
+export async function openTemplatesDialog({ templateId = "" } = {}) {
   const dlg = document.getElementById("templatesDialog");
   if (!dlg) return;
   const list = dlg.querySelector("#templateList");
@@ -207,10 +211,23 @@ export async function openTemplatesDialog() {
     const summary = index.templates.find((t) => t.id === card.dataset.id);
     if (summary) renderDetail(dlg, index, summary);
   };
+  if (templateId) {
+    const summary = index.templates.find((t) => t.id === templateId);
+    if (summary) renderDetail(dlg, index, summary);
+  }
+}
+
+/** `?template=<id>` in the address bar (links from the guide) and clears it from the URL. */
+export function requestedTemplateId() {
+  const id = new URLSearchParams(location.search).get("template") || "";
+  if (id) history.replaceState(null, "", location.pathname + location.hash);
+  return /^[a-z0-9]+(-[a-z0-9]+)*$/.test(id) ? id : "";
 }
 
 export function setupTemplates() {
-  document.getElementById("btnTemplates")?.addEventListener("click", openTemplatesDialog);
+  document
+    .getElementById("btnTemplates")
+    ?.addEventListener("click", () => openTemplatesDialog());
   document
     .getElementById("templatesClose")
     ?.addEventListener("click", () =>

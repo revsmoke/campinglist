@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>How to use CampList · CampList.guide</title>
+    <meta name="description" content="A picture guide to CampList: make a camping checklist, check items off, track weight and cost, keep permit notes, and save or print your list." />
+    <link rel="canonical" href="https://camplist.guide/guide/" />
+    <link rel="icon" href="../favicon.ico" sizes="any" />
+    <link rel="icon" href="../images/camplist_logo.svg" type="image/svg+xml" />
+    <meta name="google-adsense-account" content="ca-pub-4491650261060374" />
+    <meta name="theme-color" content="#f7f5f0" />
+    <!-- Analytics (Google Analytics 4 via gtag.js); configured in js/config.js -->
+    <script type="module" src="../js/analytics.js"></script>
+    <link rel="stylesheet" href="../css/camplist.css" />
+    <link rel="stylesheet" href="../guide/guide.css" />
+    <link rel="stylesheet" href="https://use.typekit.net/xsc8giw.css" />
+  </head>
+  <body class="guide-body">
+    <svg hidden aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><symbol id="i-tent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20 12 5l10 15"/><path d="M1 20h22"/><path d="M8.5 20 12 13l3.5 7"/></symbol><symbol id="i-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></symbol><symbol id="i-flag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4h12l-2 4 2 4H5"/></symbol><symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6-5.5-6-11a6 6 0 0 1 12 0c0 5.5-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></symbol><symbol id="i-ticket" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9V6a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3a2 2 0 0 0 0 4v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-3a2 2 0 0 0 0-4z"/><path d="M14 5v14" stroke-dasharray="2 2"/></symbol><symbol id="i-list" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="4" height="4" rx="1"/><rect x="3" y="10" width="4" height="4" rx="1"/><rect x="3" y="16" width="4" height="4" rx="1"/><path d="M10 6h11M10 12h11M10 18h11"/></symbol><symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></symbol><symbol id="i-cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.5-8 6 6 0 0 1 11.5 2 3 3 0 0 1 0 6H7z"/><path d="M12 12v6m-3-3 3-3 3 3"/></symbol><symbol id="i-print" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V4h12v5M6 18H4a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-2"/><rect x="6" y="14" width="12" height="7"/></symbol><symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol><symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></symbol><symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/></symbol><symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.9 9.5l6.1-.9z"/></symbol><symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol><symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol><symbol id="i-permit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v6c0 4 3 7 7 9 4-2 7-5 7-9V6z"/><path d="m9 12 2 2 4-4"/></symbol><symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></symbol><symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4 2 20h20z"/><path d="M12 10v4m0 3h.01"/></symbol><symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol><symbol id="i-essential" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3" fill="currentColor" stroke="none"/><path d="m8.5 12 2.5 2.5 4.5-5" stroke="var(--card, #fff)"/></symbol><symbol id="i-optional" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3" stroke-dasharray="3 2"/></symbol><symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 9-7 9 7"/><path d="M5 10v10h14V10"/></symbol></svg>
+    
+    <header class="app-header guide-header">
+      <a class="brand" href="../">
+        <img src="../images/camplist_logo.svg" alt="" class="logo" width="52" height="68" />
+        <span class="wordmark">CampList<span class="tld">.guide</span></span>
+      </a>
+      <nav class="header-actions" aria-label="How to use">
+        <a href="./" class="button-link" aria-current="page">How to use</a>
+        <a href="./templates.html" class="button-link">Templates</a>
+        <a href="../" class="button-link primary">Open CampList</a>
+      </nav>
+    </header>
+    <main class="guide-main">
+      <section class="guide-hero">
+        <h1>How to use CampList</h1>
+        <p class="lead">The numbers on each picture match the notes under it.</p>
+        <ol class="quick"><li class="quick-tile"><span class="quick-no">1</span><svg class="ico big" aria-hidden="true"><use href="#i-list"/></svg><span>Make a list</span></li><li class="quick-tile"><span class="quick-no">2</span><svg class="ico big" aria-hidden="true"><use href="#i-check"/></svg><span>Check things off</span></li><li class="quick-tile"><span class="quick-no">3</span><svg class="ico big" aria-hidden="true"><use href="#i-cloud"/></svg><span>Save, print or share</span></li></ol>
+        <nav class="toc" aria-label="How to use CampList"><a href="#basics"><svg class="ico" aria-hidden="true"><use href="#i-list"/></svg><span>Basics</span></a><a href="#trip"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg><span>Trip tools</span></a><a href="#lists"><svg class="ico" aria-hidden="true"><use href="#i-grid"/></svg><span>Lists and templates</span></a><a href="#save"><svg class="ico" aria-hidden="true"><use href="#i-cloud"/></svg><span>Save and print</span></a><a href="#more"><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg><span>More</span></a></nav>
+      </section>
+      
+      <section class="group" id="basics">
+        <h2><svg class="ico" aria-hidden="true"><use href="#i-list"/></svg>Basics</h2>
+        <div class="steps">
+        <article class="step" id="overview">
+          <h3><span class="step-no">1</span>The screen</h3>
+          <figure class="shot">
+            <img src="./img/en/overview.webp" width="2560" height="1800" alt="" loading="lazy" decoding="async" />
+            <span class="hl" style="left:1.9%;top:11.6%;width:62.5%;height:11.8%"></span><span class="num" style="left:1.9%;top:11.6%">1</span><span class="hl" style="left:1.9%;top:25.1%;width:62.5%;height:21.7%"></span><span class="num" style="left:1.9%;top:25.1%">2</span><span class="hl" style="left:1.9%;top:54.3%;width:62.5%;height:45.7%"></span><span class="num" style="left:1.9%;top:54.3%">3</span><span class="hl" style="left:66.9%;top:33.6%;width:31.3%;height:15.9%"></span><span class="num" style="left:66.9%;top:33.6%">4</span><span class="hl" style="left:83.6%;top:4.4%;width:7.7%;height:3.7%"></span><span class="num" style="left:83.6%;top:4.4%">5</span><span class="hl" style="left:92%;top:4.4%;width:6.1%;height:3.7%"></span><span class="num" style="left:92%;top:4.4%">6</span>
+          </figure>
+          <ol class="legend"><li><span class="num">1</span><span>Your lists</span></li><li><span class="num">2</span><span>Trip info</span></li><li><span class="num">3</span><span>Checklist</span></li><li><span class="num">4</span><span>Trip tools</span></li><li><span class="num">5</span><span>Templates</span></li><li><span class="num">6</span><span>Sign in (optional)</span></li></ol>
+          
+          
+        </article>
+        <article class="step" id="check-off">
+          <h3><span class="step-no">2</span>Check things off</h3>
+          <figure class="shot">
+            <img src="./img/en/check-off.webp" width="1648" height="1910" alt="" loading="lazy" decoding="async" />
+            <span class="hl" style="left:4.5%;top:30.2%;width:2.4%;height:2.1%"></span><span class="num" style="left:4.5%;top:30.2%">1</span><span class="hl" style="left:40.6%;top:4.9%;width:3.4%;height:1.8%"></span><span class="num" style="left:40.6%;top:4.9%">2</span><span class="hl" style="left:92.1%;top:3.9%;width:4.4%;height:3.8%"></span><span class="num" style="left:92.1%;top:3.9%">3</span><span class="hl" style="left:48.2%;top:68.4%;width:6.5%;height:2%"></span><span class="num" style="left:48.2%;top:68.4%">4</span>
+          </figure>
+          <ol class="legend"><li><span class="num">1</span><span>Tap to check</span></li><li><span class="num">2</span><span>Done / total</span></li><li><span class="num">3</span><span>Fold the section</span></li><li><span class="num">4</span><span>Optional item</span></li></ol>
+          
+          
+        </article>
+        <article class="step" id="add-items">
+          <h3><span class="step-no">3</span>Add items and sections</h3>
+          <figure class="shot">
+            <img src="./img/en/add-items.webp" width="1648" height="794" alt="" loading="lazy" decoding="async" />
+            <span class="hl" style="left:3.5%;top:70.5%;width:85.8%;height:9.1%"></span><span class="num" style="left:3.5%;top:70.5%">1</span><span class="hl" style="left:90.3%;top:70.5%;width:6.2%;height:9.1%"></span><span class="num" style="left:90.3%;top:70.5%">2</span><span class="hl" style="left:1.5%;top:87.9%;width:83.3%;height:9.1%"></span><span class="num" style="left:1.5%;top:87.9%">3</span><span class="hl" style="left:85.7%;top:87.9%;width:12.8%;height:9.1%"></span><span class="num" style="left:85.7%;top:87.9%">4</span>
+          </figure>
+          <ol class="legend"><li><span class="num">1</span><span>Type an item</span></li><li><span class="num">2</span><span>Add</span></li><li><span class="num">3</span><span>Type a section name</span></li><li><span class="num">4</span><span>Add section</span></li></ol>
+          
+          
+        </article>
+        <article class="step" id="item-actions">
+          <h3><span class="step-no">4</span>Item tools</h3>
+          <figure class="shot">
+            <img src="./img/en/item-actions.webp" width="1572" height="162" alt="" loading="lazy" decoding="async" />
+            <span class="hl" style="left:2.3%;top:27.2%;width:1.8%;height:23.5%"></span><span class="num" style="left:2.3%;top:27.2%">1</span><span class="hl" style="left:77.9%;top:27.2%;width:4.6%;height:44.4%"></span><span class="num" style="left:77.9%;top:27.2%">2</span><span class="hl" style="left:83%;top:27.2%;width:4.6%;height:44.4%"></span><span class="num" style="left:83%;top:27.2%">3</span><span class="hl" style="left:88%;top:27.2%;width:4.6%;height:44.4%"></span><span class="num" style="left:88%;top:27.2%">4</span><span class="hl" style="left:93.1%;top:27.2%;width:4.6%;height:44.4%"></span><span class="num" style="left:93.1%;top:27.2%">5</span>
+          </figure>
+          <ol class="legend"><li><span class="num">1</span><span>Drag to reorder</span></li><li><span class="num">2</span><span>Note</span></li><li><span class="num">3</span><span>Weight, cost, status</span></li><li><span class="num">4</span><span>Rename</span></li><li><span class="num">5</span><span>Delete</span></li></ol>
+          
+          
+        </article>
+        <article class="step narrow" id="item-details">
+          <h3><span class="step-no">5</span>Item details</h3>
+          <figure class="shot">
+            <img src="./img/en/item-details.webp" width="1000" height="1448" alt="" loading="lazy" decoding="async" />
+            <span class="hl" style="left:48.4%;top:14.8%;width:45%;height:6.1%"></span><span class="num" style="left:48.4%;top:14.8%">1</span><span class="hl" style="left:45.2%;top:25.3%;width:48.2%;height:6.1%"></span><span class="num" style="left:45.2%;top:25.3%">2</span><span class="hl" style="left:88.6%;top:35.8%;width:4.8%;height:3.3%"></span><span class="num" style="left:88.6%;top:35.8%">3</span><span class="hl" style="left:88.6%;top:43.5%;width:4.8%;height:3.3%"></span><span class="num" style="left:88.6%;top:43.5%">4</span><span class="hl" style="left:88.6%;top:61.7%;width:4.8%;height:3.3%"></span><span class="num" style="left:88.6%;top:61.7%">5</span><span class="hl" style="left:80.8%;top:90.9%;width:12.6%;height:4.6%"></span><span class="num" style="left:80.8%;top:90.9%">6</span>
+          </figure>
+          <ol class="legend"><li><span class="num">1</span><span>Weight</span></li><li><span class="num">2</span><span>Cost</span></li><li><span class="num">3</span><span>Packed</span></li><li><span class="num">4</span><span>Optional</span></li><li><span class="num">5</span><span>Needs a permit</span></li><li><span class="num">6</span><span>Save</span></li></ol>
+          
+          
+        </article>
+        <article class="step" id="search">
+          <h3><span class="step-no">6</span>Find an item</h3>
+          <figure class="shot">
+            <img src="./img/en/search.webp" width="1648" height="840" alt="" loading="lazy" decoding="async" />
+            <span class="hl" style="left:1.5%;top:2.9%;width:97.1%;height:8.6%"></span><span class="num" style="left:1.5%;top:2.9%">1</span><span class="hl" style="left:93.2%;top:3.8%;width:4.4%;height:8.6%"></span><span class="num" style="left:93.2%;top:3.8%">2</span>
+          </figure>
+          <ol class="legend"><li><span class="num">1</span><span>Type to filter</span></li><li><span class="num">2</span><span>Clear</span></li></ol>
+          
+          
+        </article>
+        </div>
+      </section>
+      <section class="group" id="trip">
+        <h2><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg>Trip tools</h2>
+        <div class="steps">
+        <article class="step narrow" id="trip-info-dialog">
+          <h3><span class="step-no">7</span>Trip info</h3>
+          <figure class="shot">
+            <img src="./img/en/trip-info-dialog.webp" width="1000" height="1882" alt="" loading="lazy" decoding="async" />
+            <span class="hl" style="left:6.6%;top:10.1%;width:86.8%;height:5.7%"></span><span class="num" style="left:6.6%;top:10.1%">1</span><span class="hl" style="left:6.6%;top:23.9%;width:86.8%;height:3.8%"></span><span class="num" style="left:6.6%;top:23.9%">2</span><span class="hl" style="left:6.6%;top:35.8%;width:41.8%;height:4.1%"></span><span class="num" style="left:6.6%;top:35.8%">3</span><span class="hl" style="left:6.6%;top:44.1%;width:86.8%;height:8.5%"></span><span class="num" style="left:6.6%;top:44.1%">4</span><span class="hl" style="left:6.6%;top:64.8%;width:86.8%;height:3.8%"></span><span class="num" style="left:6.6%;top:64.8%">5</span><span class="hl" style="left:6.6%;top:72.8%;width:86.8%;height:4.1%"></span><span class="num" style="left:6.6%;top:72.8%">6</span><span class="hl" style="left:6.6%;top:81.1%;width:86.8%;height:8.5%"></span><span class="num" style="left:6.6%;top:81.1%">7</span><span class="hl" style="left:80.8%;top:93%;width:12.6%;height:3.5%"></span><span class="num" style="left:80.8%;top:93%">8</span>
+          </figure>
+          <ol class="legend"><li><span class="num">1</span><span>Search a place</span></li><li><span class="num">2</span><span>Destination</span></li><li><span class="num">3</span><span>Dates</span></li><li><span class="num">4</span><span>Notes</span></li><li><span class="num">5</span><span>Permit link</span></li><li><span class="num">6</span><span>Permit deadline</span></li><li><span class="num">7</span><span>Fire rules</span></li><li><span class="num">8</span><span>Save</span></li></ol>
+          
+          
+        </article>
+        <article class="step" id="trip-info-panel">
+          <h3><span class="step-no">8</span>Trip info on your list</h3>
+          <figure class="shot">
+            <img src="./img/en/trip-info-panel.webp" width="1648" height="440" alt="" loading="lazy" decoding="async" />
+            <span class="hl" style="left:3.5%;top:71.8%;width:14%;height:15%"></span><span class="num" style="left:3.5%;top:71.8%">1</span>
+          </figure>
+          <ol class="legend"><li><span class="num">1</span><span>Edit trip info</span></li></ol>
+          
+          
+        </article>
+        <article class="step narrow" id="weight-cost">
+          <h3><span class="step-no">9</span>Weight and cost</h3>
+          <figure class="shot">
+            <img src="./img/en/weight-cost.webp" width="848" height="770" alt="" loading="lazy" decoding="async" />
+            <span class="hl" style="left:16.5%;top:20%;width:8.7%;height:4.9%"></span><span class="num" style="left:16.5%;top:20%">1</span><span class="hl" style="left:81.4%;top:20%;width:11.8%;height:4.9%"></span><span class="num" style="left:81.4%;top:20%">2</span><span class="hl" style="left:32.9%;top:27%;width:11.7%;height:4.9%"></span><span class="num" style="left:32.9%;top:27%">3</span><span class="hl" style="left:24.6%;top:79%;width:13.8%;height:4.9%"></span><span class="num" style="left:24.6%;top:79%">4</span>
+          </figure>
+          <ol class="legend"><li><span class="num">1</span><span>Unit</span></li><li><span class="num">2</span><span>Total weight</span></li><li><span class="num">3</span><span>Packed weight</span></li><li><span class="num">4</span><span>Total cost</span></li></ol>
+          <p class="hint">Totals come from item details.</p>
+          
+        </article>
+        <article class="step narrow" id="permits">
+          <h3><span class="step-no">10</span>Permits and rules</h3>
+          <figure class="shot">
+            <img src="./img/en/permits.webp" width="848" height="552" alt="" loading="lazy" decoding="async" />
+            <span class="hl" style="left:27.6%;top:27.9%;width:26.6%;height:6.9%"></span><span class="num" style="left:27.6%;top:27.9%">1</span><span class="hl" style="left:27.6%;top:37.7%;width:20.3%;height:6.9%"></span><span class="num" style="left:27.6%;top:37.7%">2</span><span class="hl" style="left:6.8%;top:54.3%;width:86.3%;height:13.8%"></span><span class="num" style="left:6.8%;top:54.3%">3</span><span class="hl" style="left:10.6%;top:83.3%;width:82.5%;height:6.2%"></span><span class="num" style="left:10.6%;top:83.3%">4</span>
+          </figure>
+          <ol class="legend"><li><span class="num">1</span><span>Permit link</span></li><li><span class="num">2</span><span>Deadline</span></li><li><span class="num">3</span><span>Fire rules</span></li><li><span class="num">4</span><span>Items that need a permit</span></li></ol>
+          
+          
+        </article>
+        </div>
+      </section>
+      <section class="group" id="lists">
+        <h2><svg class="ico" aria-hidden="true"><use href="#i-grid"/></svg>Lists and templates</h2>
+        <div class="steps">
+        <article class="step" id="lists">
+          <h3><span class="step-no">11</span>More than one list</h3>
+          <figure class="shot">
+            <img src="./img/en/lists.webp" width="1648" height="258" alt="" loading="lazy" decoding="async" />
+            <span class="hl" style="left:7.6%;top:19.3%;width:61.9%;height:33.9%"></span><span class="num" style="left:7.6%;top:19.3%">1</span><span class="hl" style="left:71.5%;top:22.3%;width:6.4%;height:27.7%"></span><span class="num" style="left:71.5%;top:22.3%">2</span><span class="hl" style="left:78.5%;top:22.3%;width:9.4%;height:27.7%"></span><span class="num" style="left:78.5%;top:22.3%">3</span><span class="hl" style="left:88.6%;top:22.3%;width:7.9%;height:27.7%"></span><span class="num" style="left:88.6%;top:22.3%">4</span><span class="hl" style="left:3.5%;top:64.3%;width:93%;height:11.6%"></span><span class="num" style="left:3.5%;top:64.3%">5</span>
+          </figure>
+          <ol class="legend"><li><span class="num">1</span><span>Switch list</span></li><li><span class="num">2</span><span>New list</span></li><li><span class="num">3</span><span>Rename</span></li><li><span class="num">4</span><span>Delete</span></li><li><span class="num">5</span><span>Where it is saved</span></li></ol>
+          
+          
+        </article>
+        <article class="step" id="empty-list">
+          <h3><span class="step-no">12</span>Empty list? Start from a template</h3>
+          <figure class="shot">
+            <img src="./img/en/empty-list.webp" width="1648" height="316" alt="" loading="lazy" decoding="async" />
+            <span class="hl" style="left:41%;top:50.6%;width:18%;height:20.9%"></span><span class="num" style="left:41%;top:50.6%">1</span>
+          </figure>
+          <ol class="legend"><li><span class="num">1</span><span>Browse templates</span></li></ol>
+          
+          <p class="step-link"><a href="templates.html">Template guide <svg class="ico inline" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
+        </article>
+        <article class="step" id="templates-browse">
+          <h3><span class="step-no">13</span>Templates</h3>
+          <figure class="shot">
+            <img src="./img/en/templates-browse.webp" width="1520" height="1400" alt="" loading="lazy" decoding="async" />
+            <span class="hl" style="left:4.3%;top:17.3%;width:54%;height:5.1%"></span><span class="num" style="left:4.3%;top:17.3%">1</span><span class="hl" style="left:59.4%;top:17%;width:36.2%;height:5.7%"></span><span class="num" style="left:59.4%;top:17%">2</span><span class="hl" style="left:4.3%;top:24.4%;width:45%;height:19.7%"></span><span class="num" style="left:4.3%;top:24.4%">3</span>
+          </figure>
+          <ol class="legend"><li><span class="num">1</span><span>Categories</span></li><li><span class="num">2</span><span>Search</span></li><li><span class="num">3</span><span>Pick one</span></li></ol>
+          
+          <p class="step-link"><a href="templates.html">Template guide <svg class="ico inline" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
+        </article>
+        </div>
+      </section>
+      <section class="group" id="save">
+        <h2><svg class="ico" aria-hidden="true"><use href="#i-cloud"/></svg>Save and print</h2>
+        <div class="steps">
+        <article class="step narrow" id="sign-in">
+          <h3><span class="step-no">14</span>Sign in (optional)</h3>
+          <figure class="shot">
+            <img src="./img/en/sign-in.webp" width="1000" height="650" alt="" loading="lazy" decoding="async" />
+            <span class="hl" style="left:6.6%;top:47.1%;width:86.8%;height:13.5%"></span><span class="num" style="left:6.6%;top:47.1%">1</span><span class="hl" style="left:76.1%;top:79.7%;width:17.3%;height:10.2%"></span><span class="num" style="left:76.1%;top:79.7%">2</span>
+          </figure>
+          <ol class="legend"><li><span class="num">1</span><span>Sign in with Google</span></li><li><span class="num">2</span><span>Skip for now</span></li></ol>
+          <p class="hint">Signing in keeps your lists apart from other people on this device.</p>
+          
+        </article>
+        <article class="step narrow" id="storage-not-connected">
+          <h3><span class="step-no">15</span>Connect your Google Drive</h3>
+          <figure class="shot">
+            <img src="./img/en/storage-not-connected.webp" width="848" height="574" alt="" loading="lazy" decoding="async" />
+            <span class="hl" style="left:30.5%;top:51.1%;width:25.7%;height:6.1%"></span><span class="num" style="left:30.5%;top:51.1%">1</span><span class="hl" style="left:6.8%;top:73.2%;width:40.6%;height:10.8%"></span><span class="num" style="left:6.8%;top:73.2%">2</span>
+          </figure>
+          <ol class="legend"><li><span class="num">1</span><span>Not connected yet</span></li><li><span class="num">2</span><span>Connect</span></li></ol>
+          <p class="hint">Lists stay in this browser until you connect storage you own.</p>
+          
+        </article>
+        <article class="step narrow" id="storage-connected">
+          <h3><span class="step-no">16</span>Saved in your Drive</h3>
+          <figure class="shot">
+            <img src="./img/en/storage-connected.webp" width="848" height="604" alt="" loading="lazy" decoding="async" />
+            <span class="hl" style="left:30.5%;top:29.2%;width:19.6%;height:5.8%"></span><span class="num" style="left:30.5%;top:29.2%">1</span><span class="hl" style="left:6.8%;top:43.4%;width:86.3%;height:6%"></span><span class="num" style="left:6.8%;top:43.4%">2</span><span class="hl" style="left:6.8%;top:52%;width:22%;height:10.9%"></span><span class="num" style="left:6.8%;top:52%">3</span><span class="hl" style="left:30.8%;top:52%;width:47.5%;height:10.9%"></span><span class="num" style="left:30.8%;top:52%">4</span><span class="hl" style="left:6.8%;top:65.6%;width:24.1%;height:10.9%"></span><span class="num" style="left:6.8%;top:65.6%">5</span><span class="hl" style="left:32.8%;top:65.6%;width:45.4%;height:10.9%"></span><span class="num" style="left:32.8%;top:65.6%">6</span><span class="hl" style="left:6.8%;top:79.8%;width:3.1%;height:4.3%"></span><span class="num" style="left:6.8%;top:79.8%">7</span>
+          </figure>
+          <ol class="legend"><li><span class="num">1</span><span>Connected</span></li><li><span class="num">2</span><span>Last save</span></li><li><span class="num">3</span><span>Save now</span></li><li><span class="num">4</span><span>Open a list from Drive</span></li><li><span class="num">5</span><span>Trip files</span></li><li><span class="num">6</span><span>Disconnect</span></li><li><span class="num">7</span><span>Save automatically</span></li></ol>
+          <p class="hint">CampList only sees the files it creates.</p>
+          
+        </article>
+        <article class="step narrow" id="controls">
+          <h3><span class="step-no">17</span>Print, export, import</h3>
+          <figure class="shot">
+            <img src="./img/en/controls.webp" width="848" height="360" alt="" loading="lazy" decoding="async" />
+            <span class="hl" style="left:6.8%;top:42.8%;width:19.6%;height:18.3%"></span><span class="num" style="left:6.8%;top:42.8%">1</span><span class="hl" style="left:49.6%;top:42.8%;width:11.9%;height:18.3%"></span><span class="num" style="left:49.6%;top:42.8%">2</span><span class="hl" style="left:63.4%;top:42.8%;width:24.1%;height:18.3%"></span><span class="num" style="left:63.4%;top:42.8%">3</span><span class="hl" style="left:6.8%;top:65.6%;width:27.4%;height:18.3%"></span><span class="num" style="left:6.8%;top:65.6%">4</span><span class="hl" style="left:36.1%;top:65.6%;width:27.2%;height:18.3%"></span><span class="num" style="left:36.1%;top:65.6%">5</span><span class="hl" style="left:65.3%;top:65.6%;width:22%;height:18.3%"></span><span class="num" style="left:65.3%;top:65.6%">6</span>
+          </figure>
+          <ol class="legend"><li><span class="num">1</span><span>Undo / redo</span></li><li><span class="num">2</span><span>Light / dark</span></li><li><span class="num">3</span><span>Print or PDF</span></li><li><span class="num">4</span><span>Export a file</span></li><li><span class="num">5</span><span>Import a file</span></li><li><span class="num">6</span><span>Reset the list</span></li></ol>
+          
+          
+        </article>
+        <article class="step" id="print">
+          <h3><span class="step-no">18</span>Print layout</h3>
+          <figure class="shot">
+            <img src="./img/en/print.webp" width="2560" height="1520" alt="" loading="lazy" decoding="async" />
+            
+          </figure>
+          
+          <p class="hint">Print or PDF gives a clean checklist.</p>
+          
+        </article>
+        </div>
+      </section>
+      <section class="group" id="more">
+        <h2><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg>More</h2>
+        <div class="steps">
+        <article class="step" id="header-account">
+          <h3><span class="step-no">19</span>Your account</h3>
+          <figure class="shot">
+            <img src="./img/en/header-account.webp" width="2496" height="160" alt="" loading="lazy" decoding="async" />
+            <span class="hl" style="left:91.5%;top:21.3%;width:7.9%;height:57.5%"></span><span class="num" style="left:91.5%;top:21.3%">1</span>
+          </figure>
+          <ol class="legend"><li><span class="num">1</span><span>Account menu</span></li></ol>
+          
+          
+        </article>
+        <article class="step" id="dark-theme">
+          <h3><span class="step-no">20</span>Dark mode</h3>
+          <figure class="shot">
+            <img src="./img/en/dark-theme.webp" width="2560" height="1240" alt="" loading="lazy" decoding="async" />
+            <span class="hl" style="left:82.4%;top:100%;width:4%;height:0%"></span><span class="num" style="left:82.4%;top:100%">1</span>
+          </figure>
+          <ol class="legend"><li><span class="num">1</span><span>Switch theme</span></li></ol>
+          
+          
+        </article>
+        <article class="step narrow" id="mobile">
+          <h3><span class="step-no">21</span>On your phone</h3>
+          <figure class="shot">
+            <img src="./img/en/mobile.webp" width="824" height="1830" alt="" loading="lazy" decoding="async" />
+            <span class="hl" style="left:37.3%;top:7.4%;width:24%;height:4.8%"></span><span class="num" style="left:37.3%;top:7.4%">1</span><span class="hl" style="left:11.9%;top:90.2%;width:4.9%;height:2.2%"></span><span class="num" style="left:11.9%;top:90.2%">2</span>
+          </figure>
+          <ol class="legend"><li><span class="num">1</span><span>Templates</span></li><li><span class="num">2</span><span>Tap to check</span></li></ol>
+          
+          
+        </article>
+        </div>
+      </section>
+      <p class="to-top"><a href="#top">Top</a></p>
+    </main>
+    
+    <footer class="guide-footer small">
+      <a href="../privacy.html">Privacy Policy</a> ·
+      <a href="../terms.html">Terms of Service</a> ·
+      <a href="mailto:support@camplist.guide">Contact</a>
+    </footer>
+  </body>
+</html>

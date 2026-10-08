@@ -69,6 +69,18 @@ test.describe("Google sign-in (mocked identity library)", () => {
     await expect(page.locator('.sectionTitle:text-is("Guest work")')).toBeVisible();
   });
 
+  test("offers only the configured providers (Microsoft stays hidden)", async ({
+    page,
+  }) => {
+    await mockGoogleIdentity(page);
+    await page.goto("/");
+    await page.waitForSelector("body.app-ready");
+    await page.click("#btnSignIn");
+    await expect(page.locator("#mockGoogleButton")).toBeVisible();
+    await expect(page.locator("#microsoftSignInSlot")).toBeHidden();
+    await expect(page.locator("#btnMicrosoftSignIn")).toBeHidden();
+  });
+
   test("a cancelled sign-in changes nothing", async ({ page }) => {
     await mockGoogleIdentity(page, { cancelSignIn: true });
     await page.goto("/");
