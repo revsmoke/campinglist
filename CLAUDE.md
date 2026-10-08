@@ -12,7 +12,8 @@
   - `js/dialogs.js` - confirm/prompt dialogs and toasts
   - `js/auth/` - `accounts.js` (local accounts, sessions, linking rules), `auth.js` (UI flow), `google-auth.js` (GIS), `microsoft-auth.js` (MSAL v5)
   - `js/storage/` - `storage.js` (panel, save/load, conflicts), `google-drive.js` (Drive REST), `google-picker.js`, `onedrive.js` (Graph app folder)
-  - `js/templates.js` - template browser; `templates/*.json` + generated `templates/index.json`
+  - `js/templates.js` - template browser (`/?template=<id>` deep link); `templates/*.json` + generated `templates/index.json`
+  - `guide/` - generated picture guides (`index.html`, `templates.html`, `templates/<id>.html`, `img/`), hand-written `guide.css`; inputs live in repo-root `guides/` (`locales/<lang>.json`, step structure, shot metadata), see `docs/GUIDES.md`
   - `js/sponsors.js` + `sponsors.json` - labelled sponsor/house cards, optional AdSense/Plausible
   - `js/maps.js` - lazy Google Places autocomplete
   - `js/config.js` - public configuration (client IDs, Maps key, feature flags)
@@ -25,8 +26,10 @@
 - `npm run lint` - ESLint (flat config)
 - `npm run format` - Prettier
 - `npm run templates:index` / `npm run templates:validate` - rebuild/validate template index
+- `npm run guides:shots` - re-take the guide screenshots with Playwright (after UI changes)
+- `npm run guides:build` - rebuild `public/guide/` and `public/sitemap.xml` (after template or guide-text changes)
 - `npm run vendor` - re-copy pinned browser libraries into `public/vendor`
-- `npm run check` - lint + templates + unit + e2e
+- `npm run check` - lint + templates + guides build + unit + e2e
 
 ## Important Notes
 
@@ -40,5 +43,6 @@
 
 - Run `npm run lint && npm test` before committing; run `npm run test:e2e` for UI changes.
 - Keep every paid placement labelled; max two placements; no pop-ups or sticky ads.
-- Templates: add a JSON file, run `npm run templates:index`, cite sources and set `reviewedOn`.
-- Docs: `docs/PLAN.md` (findings/plan), `docs/AUTH.md`, `docs/MONETIZATION.md`, `docs/TEMPLATES.md`, `docs/DEPLOYMENT.md`, `docs/HANDOFF.md`.
+- Templates: add a JSON file, run `npm run templates:index` and `npm run guides:build`, cite sources and set `reviewedOn`.
+- Guides: never edit `public/guide/*.html` by hand (generated, Prettier-ignored); change `guides/` inputs and rebuild. Guide text goes in `guides/locales/<lang>.json`; keep labels to a few words.
+- Docs: `docs/PLAN.md` (findings/plan), `docs/AUTH.md`, `docs/MONETIZATION.md`, `docs/TEMPLATES.md`, `docs/GUIDES.md`, `docs/DEPLOYMENT.md`, `docs/HANDOFF.md`.

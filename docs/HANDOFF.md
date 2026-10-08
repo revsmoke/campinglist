@@ -19,17 +19,20 @@ Live: https://camplist.guide (Replit static deployment of `public/`).
 | Monetisation | None | Labelled sponsor/house slots (max 2), Google Analytics 4 on (GPC respected, cookieless in the EEA/UK/CH), AdSense units in both placements with house-card fallbacks, updated privacy/terms, economics doc |
 | Security | `keys.txt` served publicly; prototype pages deployed; CDN DOMPurify without SRI; no CSP | Only `public/` is deployed; secrets gitignored and absent; DOMPurify/MSAL vendored and pinned; CSP meta + Replit response headers (nosniff, X-Frame-Options, Referrer-Policy, Permissions-Policy on every file; Replit ignored the path-specific COOP and no-store rules, see §3) |
 | Maps | Autocomplete never initialised (`initMap` race) | Loaded lazily when Trip Info opens; manual entry fallback |
-| Engineering | No package.json/tests in repo | ESLint, Prettier, Vitest (38 tests), Playwright (43 journeys), template validator, docs |
+| Guides | None | Picture-first guides generated from the real app: `/guide/` (21 numbered steps), `/guide/templates.html` (how templates work + catalogue) and one page per template with a "Use this template" deep link; text in one locale file, screenshots re-taken by script (`docs/GUIDES.md`); `sitemap.xml` + `robots.txt` |
+| Engineering | No package.json/tests in repo | ESLint, Prettier, Vitest (46 tests), Playwright (48 journeys), template validator, guide capture/builder, docs |
 
 ## 2. What was tested
 
-* `npm run lint`, `npm run templates:validate` (23/23), `npm test` (38), `npm run test:e2e`
-  (43: sign-in/out, session expiry, cancelled sign-in, library blocked, wrong audience,
+* `npm run lint`, `npm run templates:validate` (23/23), `npm test` (46), `npm run test:e2e`
+  (48: sign-in/out, session expiry, cancelled sign-in, library blocked, wrong audience,
   providers-disabled flags, same-email account linking and its refusal, Drive
   connect/connecting state/failed connect/save/autosave/mid-upload edits/conflict/open/upload/
   revoked/disconnect/declined consent, templates, core flows, legal pages, mobile viewport,
   analytics tag with consent defaults, AdSense units with unfilled/blocked fallbacks and the
-  no-slot pause guard).
+  no-slot pause guard, only configured sign-in providers offered, guide pages with their
+  pictures, the template catalogue and a template page's deep link into the app, sitemap and
+  robots). The unit suite also checks that the generated guide pages match their inputs.
   Google Identity and Drive are mocked in these tests.
 * Headless Chromium against a local server with the **real** Google libraries: the Google button
   renders, Places autocomplete mounts and the CSP causes no violations.
@@ -77,6 +80,9 @@ MSAL bridge page). Neither is required for the current features.
    blockers. Auto ads is off and the GDPR/US consent messages are published. Display ads are
    not recommended at current traffic (see `docs/MONETIZATION.md`).
 5. **App-managed storage / subscriptions** are evaluated, not built (needs a backend).
+   **Guides** exist in English only; the inputs are built for localization (one strings file per
+   language, pictures re-taken per language once the app itself is translated), see
+   `docs/GUIDES.md`. Template names and items stay English until the library is translated.
 6. The Replit workspace must now be treated as a deploy target only; edit on GitHub. It is
    synced from `main` after each merged pull request; the published build is `74019d8`
    (2026-10-08) and docs-only commits after it need no resync or republish.
@@ -95,8 +101,11 @@ MSAL bridge page). Neither is required for the current features.
    before publishing (`docs/DEPLOYMENT.md`). If Replit ever ignores `publicDir` from `.replit`,
    set "Public directory = public" in the Publishing pane once.
 4. **AdSense (console):** wait for the site review to finish ("Getting ready" → "Ready");
-   if it asks for more content, the template guides are the natural pages to add. Keep Auto
-   ads off. Sponsors: edit `public/sponsors.json`.
+   the guide pages (`/guide/`, 23 template pages) are the crawlable content reviewers look for.
+   Keep Auto ads off. Sponsors: edit `public/sponsors.json`.
+5. **Guides:** nothing to set up. After UI changes run `npm run guides:shots` then
+   `npm run guides:build`; after template changes `npm run guides:build`; to add a language
+   follow `docs/GUIDES.md`.
 
 ## 6. Operating costs and maintenance
 

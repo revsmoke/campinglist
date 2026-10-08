@@ -1,0 +1,308 @@
+{
+  "lang": "en",
+  "dir": "ltr",
+  "siteName": "CampList",
+  "siteTld": ".guide",
+  "nav": {
+    "app": "Open CampList",
+    "guide": "How to use",
+    "templates": "Templates",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "contact": "Contact",
+    "top": "Top"
+  },
+  "guide": {
+    "title": "How to use CampList",
+    "description": "A picture guide to CampList: make a camping checklist, check items off, track weight and cost, keep permit notes, and save or print your list.",
+    "lead": "The numbers on each picture match the notes under it.",
+    "quick": {
+      "make": "Make a list",
+      "check": "Check things off",
+      "save": "Save, print or share"
+    },
+    "groups": {
+      "basics": "Basics",
+      "trip": "Trip tools",
+      "lists": "Lists and templates",
+      "save": "Save and print",
+      "more": "More"
+    },
+    "steps": {
+      "overview": {
+        "title": "The screen",
+        "callouts": {
+          "lists": "Your lists",
+          "trip": "Trip info",
+          "checklist": "Checklist",
+          "tools": "Trip tools",
+          "templates": "Templates",
+          "signin": "Sign in (optional)"
+        }
+      },
+      "check-off": {
+        "title": "Check things off",
+        "callouts": {
+          "check": "Tap to check",
+          "progress": "Done / total",
+          "collapse": "Fold the section",
+          "optional": "Optional item"
+        }
+      },
+      "add-items": {
+        "title": "Add items and sections",
+        "callouts": {
+          "item": "Type an item",
+          "add": "Add",
+          "section": "Type a section name",
+          "addSection": "Add section"
+        }
+      },
+      "item-actions": {
+        "title": "Item tools",
+        "callouts": {
+          "drag": "Drag to reorder",
+          "note": "Note",
+          "details": "Weight, cost, status",
+          "rename": "Rename",
+          "delete": "Delete"
+        }
+      },
+      "item-details": {
+        "title": "Item details",
+        "callouts": {
+          "weight": "Weight",
+          "cost": "Cost",
+          "packed": "Packed",
+          "optional": "Optional",
+          "permit": "Needs a permit",
+          "save": "Save"
+        }
+      },
+      "search": {
+        "title": "Find an item",
+        "callouts": {
+          "type": "Type to filter",
+          "clear": "Clear"
+        }
+      },
+      "trip-info-dialog": {
+        "title": "Trip info",
+        "callouts": {
+          "search": "Search a place",
+          "destination": "Destination",
+          "dates": "Dates",
+          "notes": "Notes",
+          "permit": "Permit link",
+          "deadline": "Permit deadline",
+          "fire": "Fire rules",
+          "save": "Save"
+        }
+      },
+      "trip-info-panel": {
+        "title": "Trip info on your list",
+        "callouts": {
+          "edit": "Edit trip info"
+        }
+      },
+      "weight-cost": {
+        "title": "Weight and cost",
+        "hint": "Totals come from item details.",
+        "callouts": {
+          "unit": "Unit",
+          "total": "Total weight",
+          "packed": "Packed weight",
+          "cost": "Total cost"
+        }
+      },
+      "permits": {
+        "title": "Permits and rules",
+        "callouts": {
+          "link": "Permit link",
+          "deadline": "Deadline",
+          "fire": "Fire rules",
+          "items": "Items that need a permit"
+        }
+      },
+      "lists": {
+        "title": "More than one list",
+        "callouts": {
+          "select": "Switch list",
+          "new": "New list",
+          "rename": "Rename",
+          "delete": "Delete",
+          "status": "Where it is saved"
+        }
+      },
+      "empty-list": {
+        "title": "Empty list? Start from a template",
+        "link": "Template guide",
+        "callouts": {
+          "templates": "Browse templates"
+        }
+      },
+      "templates-browse": {
+        "title": "Templates",
+        "link": "Template guide",
+        "callouts": {
+          "tabs": "Categories",
+          "search": "Search",
+          "card": "Pick one"
+        }
+      },
+      "sign-in": {
+        "title": "Sign in (optional)",
+        "hint": "Signing in keeps your lists apart from other people on this device.",
+        "callouts": {
+          "google": "Sign in with Google",
+          "later": "Skip for now"
+        }
+      },
+      "storage-not-connected": {
+        "title": "Connect your Google Drive",
+        "hint": "Lists stay in this browser until you connect storage you own.",
+        "callouts": {
+          "badge": "Not connected yet",
+          "connect": "Connect"
+        }
+      },
+      "storage-connected": {
+        "title": "Saved in your Drive",
+        "hint": "CampList only sees the files it creates.",
+        "callouts": {
+          "badge": "Connected",
+          "status": "Last save",
+          "save": "Save now",
+          "open": "Open a list from Drive",
+          "files": "Trip files",
+          "disconnect": "Disconnect",
+          "autosave": "Save automatically"
+        }
+      },
+      "controls": {
+        "title": "Print, export, import",
+        "callouts": {
+          "undo": "Undo / redo",
+          "theme": "Light / dark",
+          "print": "Print or PDF",
+          "export": "Export a file",
+          "import": "Import a file",
+          "reset": "Reset the list"
+        }
+      },
+      "print": {
+        "title": "Print layout",
+        "hint": "Print or PDF gives a clean checklist."
+      },
+      "header-account": {
+        "title": "Your account",
+        "callouts": {
+          "account": "Account menu",
+          "templates": "Templates"
+        }
+      },
+      "dark-theme": {
+        "title": "Dark mode",
+        "callouts": {
+          "theme": "Switch theme"
+        }
+      },
+      "mobile": {
+        "title": "On your phone",
+        "callouts": {
+          "templates": "Templates",
+          "check": "Tap to check"
+        }
+      }
+    }
+  },
+  "templates": {
+    "title": "Templates",
+    "description": "Researched camping checklists for specific trips, styles, destinations and events. Pick one in CampList, then make it yours.",
+    "lead": "Researched packing lists for specific trips. Pick one, then make it yours.",
+    "steps": {
+      "open": {
+        "title": "Open Templates",
+        "callouts": {
+          "templates": "Templates"
+        }
+      },
+      "browse": {
+        "title": "Browse",
+        "callouts": {
+          "tabs": "Categories",
+          "search": "Search",
+          "card": "Pick a template",
+          "close": "Close"
+        }
+      },
+      "detail": {
+        "title": "Preview, then choose",
+        "callouts": {
+          "back": "Back to all",
+          "sections": "What's inside",
+          "sources": "Sources and review date",
+          "append": "Add its sections to your current list",
+          "create": "Create a new list"
+        }
+      },
+      "created": {
+        "title": "Your new list",
+        "hint": "Everything can be edited.",
+        "callouts": {
+          "list": "The new list is selected",
+          "section": "Sections and items"
+        }
+      },
+      "empty": {
+        "title": "Or start from an empty list",
+        "callouts": {
+          "templates": "Browse templates"
+        }
+      }
+    },
+    "catalogue": {
+      "title": "All templates",
+      "count": "Templates"
+    },
+    "categories": {
+      "general": "General",
+      "style": "Camping styles",
+      "destination": "Destinations",
+      "event": "Events"
+    },
+    "facts": {
+      "season": "Season",
+      "duration": "Length",
+      "sections": "Sections",
+      "items": "Items",
+      "essential": "Essential",
+      "optional": "Optional",
+      "reviewed": "Reviewed",
+      "sources": "Sources"
+    },
+    "actions": {
+      "use": "Use this template",
+      "details": "Details",
+      "all": "All templates",
+      "open": "Open in CampList"
+    },
+    "page": {
+      "checkFirst": "Check before you go",
+      "inside": "What's inside",
+      "sources": "Sources",
+      "reviewedNote": "Rules, fees and conditions change. Verify with the official source before you go.",
+      "legend": {
+        "essential": "Essential",
+        "optional": "Optional",
+        "permit": "Needs a permit"
+      },
+      "note": "Note"
+    }
+  },
+  "footer": {
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "contact": "Contact"
+  }
+}

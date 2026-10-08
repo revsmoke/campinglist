@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://camplist.guide/sitemap.xml

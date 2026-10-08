@@ -1,0 +1,11 @@
+{
+  "_readme": "Structure of the Templates guide (the catalogue below the steps is generated from public/templates/*.json). Text lives in locales/<lang>.json under templates.steps.<id>.",
+  "steps": [
+    { "id": "open", "shot": "header-account", "callouts": ["templates"] },
+    { "id": "browse", "shot": "templates-browse", "callouts": ["tabs", "search", "card", "close"] },
+    { "id": "detail", "shot": "templates-detail", "callouts": ["back", "sections", "sources", "append", "create"] },
+    { "id": "created", "shot": "templates-created", "callouts": ["list", "section"] },
+    { "id": "empty", "shot": "empty-list", "callouts": ["templates"] }
+  ],
+  "categoryIcons": { "general": "tent", "style": "compass", "destination": "pin", "event": "ticket" }
+}

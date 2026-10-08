@@ -15,8 +15,10 @@
     "test:e2e": "playwright test",
     "templates:validate": "node scripts/validate-templates.mjs",
     "templates:index": "node scripts/build-template-index.mjs",
+    "guides:shots": "node scripts/capture-guide-shots.mjs",
+    "guides:build": "node scripts/build-guides.mjs",
     "vendor": "node scripts/vendor.mjs",
-    "check": "npm run lint && npm run templates:validate && npm test && npm run test:e2e"
+    "check": "npm run lint && npm run templates:validate && npm run guides:build && npm test && npm run test:e2e"
   },
   "devDependencies": {
     "@azure/msal-browser": "^5.25.0",

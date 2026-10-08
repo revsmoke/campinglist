@@ -4,7 +4,7 @@ import { renderAll, setupEventListeners, applyTheme, showToast } from "./ui.js";
 import { setupDragAndDrop } from "./drag.js";
 import { resolveInitialNamespace, setupAuth } from "./auth/auth.js";
 import { setupStorage } from "./storage/storage.js";
-import { setupTemplates } from "./templates.js";
+import { openTemplatesDialog, requestedTemplateId, setupTemplates } from "./templates.js";
 import { setupSponsors } from "./sponsors.js";
 
 let reportedError = false;
@@ -40,6 +40,8 @@ async function initializeApp() {
   setupStorage();
   setupSponsors();
   document.body.classList.add("app-ready");
+  const templateId = requestedTemplateId();
+  if (templateId) openTemplatesDialog({ templateId }).catch(reportUnexpected);
 }
 
 if (document.readyState === "loading") {
