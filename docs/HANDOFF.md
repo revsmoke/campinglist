@@ -2,9 +2,9 @@
 
 The rebuild was merged into `main` on 2026-10-07 via pull request
 [revsmoke/campinglist#1](https://github.com/revsmoke/campinglist/pull/1) (merge commit `fb64d02`);
-the follow-up pull requests (revsmoke/campinglist#2 through revsmoke/campinglist#14: Google
+the follow-up pull requests (revsmoke/campinglist#2 through revsmoke/campinglist#19: Google
 client switch, Drive connect state, analytics, AdSense, picture guides and their placements,
-the trip wizard) were merged the same way, the latest being merge commit `400358c` on
+the trip wizard, the Autoscale deployment that runs the wizard's Jev judge) were merged the same way, the latest being merge commit `b27cac6` on
 2026-10-08.
 Live: https://camplist.guide (Replit Autoscale deployment running `server/index.mjs`, which
 serves `public/` and the trip wizard's judge endpoint; a static deployment until 2026-10-08).
@@ -23,11 +23,11 @@ serves `public/` and the trip wizard's judge endpoint; a static deployment until
 | Maps | Autocomplete never initialised (`initMap` race) | Loaded lazily when Trip Info opens; manual entry fallback |
 | Guides | None | Picture-first guides generated from the real app: `/guide/` (21 numbered steps), `/guide/templates.html` (how templates work + catalogue) and one page per template with a "Use this template" deep link; text in one locale file, screenshots re-taken by script (`docs/GUIDES.md`); `sitemap.xml` + `robots.txt` |
 | Trip wizard | None | `/plan/`: seven questions build a list from the templates with deterministic rules (base template, add-on sections, trip info); typed answers matched by keywords with TypeSafe-style confidence and, when the keywords cannot place them, judged by TypeSafe's Jev through `server/index.mjs` (the key stays in the Replit secret); one labelled placement (`docs/WIZARD.md`) |
-| Engineering | No package.json/tests in repo | ESLint, Prettier, Vitest (78 tests), Playwright (55 journeys, run against the production server), template validator, guide capture/builder, a dependency-free Node server, docs |
+| Engineering | No package.json/tests in repo | ESLint, Prettier, Vitest (79 tests), Playwright (55 journeys, run against the production server), template validator, guide capture/builder, a dependency-free Node server, docs |
 
 ## 2. What was tested
 
-* `npm run lint`, `npm run templates:validate` (23/23), `npm test` (78), `npm run test:e2e`
+* `npm run lint`, `npm run templates:validate` (23/23), `npm test` (79), `npm run test:e2e`
   (55: sign-in/out, session expiry, cancelled sign-in, library blocked, wrong audience,
   providers-disabled flags, same-email account linking and its refusal, Drive
   connect/connecting state/failed connect/save/autosave/mid-upload edits/conflict/open/upload/
@@ -43,7 +43,7 @@ serves `public/` and the trip wizard's judge endpoint; a static deployment until
   renders, Places autocomplete mounts and the CSP causes no violations.
 * Production verification: see section 3.
 
-## 3. Production verification (deployment `b094d18f`; 2026-10-07 on commit `c5452e3`, re-verified 2026-10-08 on commits `74019d8`, `c690d23`, `5d333d5` and `400358c`)
+## 3. Production verification (deployment `b094d18f`; 2026-10-07 on commit `c5452e3`, re-verified 2026-10-08 on commits `74019d8`, `c690d23`, `5d333d5`, `400358c`, `36c7844` and `1e04299`)
 
 Checked from a headless Chromium session and curl against https://camplist.guide:
 
@@ -56,7 +56,7 @@ Checked from a headless Chromium session and curl against https://camplist.guide
 | Analytics | `gtag.js` (`G-YBTYHE8TK0`) loads on the app and legal pages, consent defaults are denied for the EEA/UK/CH region list and the collect request is answered 204 |
 | AdSense units (2026-10-08) | Both placements render an `<ins class="adsbygoogle">` with the configured slot id under an "Advertisement" label; `adsbygoogle.js` loads (200) and ad requests go out. While the site is "Getting ready" Google's ad server answers 400 and marks the units unfilled, and the house cards take their place within a few seconds; no CSP violations |
 | Guides (2026-10-08, `c690d23`) | `/guide/` (21 steps), `/guide/templates.html` (5 steps, 23 cards) and `/guide/templates/bikepacking.html` return 200 with every picture loading and no console errors; a template page's "Use this template" button opens that template's preview in the live app and drops the parameter from the URL; the header shows the Guide link; `/robots.txt` and `/sitemap.xml` are served; the sign-in dialog no longer shows the unconfigured Microsoft button. Build `5d333d5`: each guide page carries the two placements (sidebar then footer slot) with the app's CSP and no console errors; while AdSense leaves the units unfilled they show the labelled house cards |
-| Trip wizard (2026-10-08, `400358c`) | `/plan/` returns 200 with the app's CSP and exactly one labelled placement; a typed "half dome in july" is read as Yosemite and "taking the truck and sleeping in the rooftop tent" as Overlanding without any network call; the review step shows the Yosemite template; "Create my list" produces "Yosemite, Jul 2027", the app opens on it with trip info filled and the header carries "Plan a trip"; no console errors. The TypeSafe judge endpoint is not deployed (static site), so typed answers the keywords cannot place end in "Which is closest?" |
+| Trip wizard (2026-10-08, `400358c`) | `/plan/` returns 200 with the app's CSP and exactly one labelled placement; a typed "half dome in july" is read as Yosemite and "taking the truck and sleeping in the rooftop tent" as Overlanding without any network call; the review step shows the Yosemite template; "Create my list" produces "Yosemite, Jul 2027", the app opens on it with trip info filled and the header carries "Plan a trip"; no console errors. The TypeSafe judge endpoint is not deployed (static site), so typed answers the keywords cannot place end in "Which is closest?"; superseded by the next row |
 | Autoscale deployment + Jev (2026-10-08, `36c7844`) | The site is served by `server/index.mjs`: `/` 200 with nosniff, X-Frame-Options DENY, Referrer-Policy, Permissions-Policy and a weak ETag (conditional GET 304); `app.js` gzip-compressed; `/plan` 301 → `/plan/`; `/auth/redirect.html` no-store; guide pictures cached a day; `/keys.txt`, `/package.json`, `/docs/PLAN.md`, `/server/index.mjs`, `/.replit`, `/.git/HEAD`, `/tests/…` all 404 (an HTML 404 page for navigations); sitemap, robots, ads.txt, guides, templates, legal pages and `/plan/` 200. `/api/health` → `{"ok":true,"judge":true}` (the `TYPESAFE_API_KEY` secret reaches the deployment); `POST /api/judge` with the wizard's trip-type question and "we'll be self-sufficient on the dirt roads for a few days" → Jev `jev-1.13.0` answers `overlanding` with confidence 1.0 in 625 ms (550 input / 90 output tokens); a foreign question is rejected 400, GET is 405. In the browser the same typed answer shows "We read that as Overlanding" after one health probe and one judge call; the chip path still creates "Yosemite, Jul 2027" (12/12 checks). `wizard:eval` through the endpoint: Jev agrees with the keywords on all 18 placed samples and resolves the two the keywords cannot ("self-sufficient on the dirt roads" → overlanding 1.00; "the usual" → not sure 0.94); extras: fishing 0.98, climbing 0.74, remote 0.96, stargazing 0.97, first-timer 0.97 (bear stays with the keywords). Found and fixed next: the limiter keyed visitors on the proxy's address (four proxy hops append to X-Forwarded-For, not one) and a confident "Not sure yet" verdict read as "We read that as Not sure yet" instead of asking. Re-verified on `1e04299`: `/api/health` reports the caller's own address (four proxy hops; a client-supplied `X-Forwarded-For` is ignored), "the usual" now asks "Which is closest?", the fuzzy answer is read through Jev in about 400 ms, and 41 of 41 live checks pass |
 | Security | `/keys.txt` 404, `/googledrive.html` 404, `/package.json` 404, `/docs/PLAN.md` 404 (only `public/` is served); CSP meta present; headers `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy` applied to every file |
 | Legal pages | `/terms.html` and `/privacy.html` render their full text with the visible "Last updated: 7 October 2026" line (the blank terms page from the first deployment is fixed) |
