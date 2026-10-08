@@ -3,7 +3,7 @@
 ## Project Information
 
 - **Project Name**: CampList (camplist.guide)
-- **Description**: Free camping checklist planner. Static, client-side web app (ES modules, no bundler, no server), deployed as a Replit static deployment from `public/`.
+- **Description**: Free camping checklist planner. Client-side web app (ES modules, no bundler) under `public/`, served in production by the dependency-free Node server `server/index.mjs` (Replit Autoscale), which also answers the trip wizard's judge endpoint `/api/judge`.
 - **Main Files** (all under `public/`):
   - `index.html` - page shell, dialogs, CSP meta
   - `js/app.js` - entry point
@@ -14,7 +14,7 @@
   - `js/storage/` - `storage.js` (panel, save/load, conflicts), `google-drive.js` (Drive REST), `google-picker.js`, `onedrive.js` (Graph app folder)
   - `js/templates.js` - template browser (`/?template=<id>` deep link); `templates/*.json` + generated `templates/index.json`
   - `guide/` - generated picture guides (`index.html`, `templates.html`, `templates/<id>.html`, `img/`), hand-written `guide.css`; inputs live in repo-root `guides/` (`locales/<lang>.json`, step structure, shot metadata), see `docs/GUIDES.md`
-  - `plan/` + `js/wizard/` (`questions.js`, `rules.js`, `judge.js`, `wizard.js`) + `wizard/modules.json` - the trip wizard: deterministic rules, keyword matching, optional TypeSafe (Jev) judge via `server/index.mjs` (repo root; keeps `TYPESAFE_API_KEY`), see `docs/WIZARD.md`
+  - `plan/` + `js/wizard/` (`questions.js`, `rules.js`, `judge.js`, `wizard.js`) + `wizard/modules.json` - the trip wizard: deterministic rules, keyword matching, TypeSafe (Jev) judge via `server/index.mjs` (repo root; keeps `TYPESAFE_API_KEY`, forwards only the wizard's own questions), see `docs/WIZARD.md`
   - `js/sponsors.js` + `sponsors.json` - labelled sponsor/house cards, optional AdSense/Plausible
   - `js/maps.js` - lazy Google Places autocomplete
   - `js/config.js` - public configuration (client IDs, Maps key, feature flags)
@@ -23,13 +23,13 @@
 ## Commands
 
 - `npm test` - Vitest unit tests (jsdom)
-- `npm run test:e2e` - Playwright journeys (serves `public/` on port 8787; Google APIs are mocked)
+- `npm run test:e2e` - Playwright journeys (runs `server/index.mjs` on port 8787 without a key; Google APIs are mocked)
 - `npm run lint` - ESLint (flat config)
 - `npm run format` - Prettier
 - `npm run templates:index` / `npm run templates:validate` - rebuild/validate template index
 - `npm run guides:shots` - re-take the guide screenshots with Playwright (after UI changes)
 - `npm run guides:build` - rebuild `public/guide/` and `public/sitemap.xml` (after template or guide-text changes)
-- `npm run serve` - Node server: `public/` plus `POST /api/judge` (needs `TYPESAFE_API_KEY`; without it the endpoint answers 503)
+- `npm run serve` - the production server: `public/` plus `POST /api/judge` and `GET /api/health` (needs `TYPESAFE_API_KEY`; without it the endpoint answers 503 and the wizard asks the person)
 - `npm run vendor` - re-copy pinned browser libraries into `public/vendor`
 - `npm run check` - lint + templates + guides build + unit + e2e
 

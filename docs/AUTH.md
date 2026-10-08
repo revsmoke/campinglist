@@ -6,7 +6,8 @@ Microsoft for production.
 
 ## 1. Model
 
-CampList is a static site. There is no CampList server, database or session store. Consequently:
+CampList's server only serves files and the trip wizard's judge endpoint. There is no CampList
+database or session store. Consequently:
 
 | Concept | Where it lives | Notes |
 | --- | --- | --- |

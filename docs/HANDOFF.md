@@ -6,7 +6,8 @@ the follow-up pull requests (revsmoke/campinglist#2 through revsmoke/campinglist
 client switch, Drive connect state, analytics, AdSense, picture guides and their placements,
 the trip wizard) were merged the same way, the latest being merge commit `400358c` on
 2026-10-08.
-Live: https://camplist.guide (Replit static deployment of `public/`).
+Live: https://camplist.guide (Replit Autoscale deployment running `server/index.mjs`, which
+serves `public/` and the trip wizard's judge endpoint; a static deployment until 2026-10-08).
 
 ## 1. What changed and what is live
 
@@ -18,16 +19,16 @@ Live: https://camplist.guide (Replit static deployment of `public/`).
 | Microsoft | None | MSAL v5 sign-in + OneDrive app folder, vendored; enabled by setting `microsoft.clientId` |
 | Templates | One default list | 23 researched templates with sources and review dates; browser dialog; create or append |
 | Monetisation | None | Labelled sponsor/house slots (max 2), Google Analytics 4 on (GPC respected, cookieless in the EEA/UK/CH), AdSense units in both placements with house-card fallbacks, updated privacy/terms, economics doc |
-| Security | `keys.txt` served publicly; prototype pages deployed; CDN DOMPurify without SRI; no CSP | Only `public/` is deployed; secrets gitignored and absent; DOMPurify/MSAL vendored and pinned; CSP meta + Replit response headers (nosniff, X-Frame-Options, Referrer-Policy, Permissions-Policy on every file; Replit ignored the path-specific COOP and no-store rules, see §3) |
+| Security | `keys.txt` served publicly; prototype pages deployed; CDN DOMPurify without SRI; no CSP | Only `public/` is deployed; secrets gitignored and absent; DOMPurify/MSAL vendored and pinned; CSP meta + response headers set by the server (nosniff, X-Frame-Options, Referrer-Policy, Permissions-Policy on every file, no-store on the MSAL bridge); the TypeSafe key lives only in a Replit secret behind an endpoint that forwards nothing but the wizard's own questions |
 | Maps | Autocomplete never initialised (`initMap` race) | Loaded lazily when Trip Info opens; manual entry fallback |
 | Guides | None | Picture-first guides generated from the real app: `/guide/` (21 numbered steps), `/guide/templates.html` (how templates work + catalogue) and one page per template with a "Use this template" deep link; text in one locale file, screenshots re-taken by script (`docs/GUIDES.md`); `sitemap.xml` + `robots.txt` |
-| Trip wizard | None | `/plan/`: seven questions build a list from the templates with deterministic rules (base template, add-on sections, trip info); typed answers matched by keywords with TypeSafe-style confidence, optionally judged by TypeSafe's Jev through `server/index.mjs` (keeps the API key); one labelled placement (`docs/WIZARD.md`) |
-| Engineering | No package.json/tests in repo | ESLint, Prettier, Vitest (74 tests), Playwright (54 journeys), template validator, guide capture/builder, docs |
+| Trip wizard | None | `/plan/`: seven questions build a list from the templates with deterministic rules (base template, add-on sections, trip info); typed answers matched by keywords with TypeSafe-style confidence and, when the keywords cannot place them, judged by TypeSafe's Jev through `server/index.mjs` (the key stays in the Replit secret); one labelled placement (`docs/WIZARD.md`) |
+| Engineering | No package.json/tests in repo | ESLint, Prettier, Vitest (78 tests), Playwright (55 journeys, run against the production server), template validator, guide capture/builder, a dependency-free Node server, docs |
 
 ## 2. What was tested
 
-* `npm run lint`, `npm run templates:validate` (23/23), `npm test` (74), `npm run test:e2e`
-  (54: sign-in/out, session expiry, cancelled sign-in, library blocked, wrong audience,
+* `npm run lint`, `npm run templates:validate` (23/23), `npm test` (78), `npm run test:e2e`
+  (55: sign-in/out, session expiry, cancelled sign-in, library blocked, wrong audience,
   providers-disabled flags, same-email account linking and its refusal, Drive
   connect/connecting state/failed connect/save/autosave/mid-upload edits/conflict/open/upload/
   revoked/disconnect/declined consent, templates, core flows, legal pages, mobile viewport,
@@ -36,7 +37,7 @@ Live: https://camplist.guide (Replit static deployment of `public/`).
   pictures, the template catalogue and a template page's deep link into the app, the two
   placements on guide pages with their house-card fallback, sitemap and robots, the trip
   wizard's chip path into a created list, its typed path, the draft surviving a reload, the
-  judge endpoint and its fallback). The unit suite also checks that the generated guide pages match their inputs.
+  judge endpoint, its fallback and its health probe; all served by `server/index.mjs`). The unit suite also checks that the generated guide pages match their inputs and exercises the server over HTTP (question allow-list, ETag/304, gzip, path traversal, health, rate limit).
   Google Identity and Drive are mocked in these tests.
 * Headless Chromium against a local server with the **real** Google libraries: the Google button
   renders, Places autocomplete mounts and the CSP causes no violations.
@@ -88,14 +89,11 @@ MSAL bridge page). Neither is required for the current features.
    blockers. Auto ads is off and the GDPR/US consent messages are published. Display ads are
    not recommended at current traffic (see `docs/MONETIZATION.md`).
 5. **App-managed storage / subscriptions** are evaluated, not built (needs a backend).
-   **Trip wizard judge:** the live site is static, so `wizard.judgeUrl` is empty and the
-   wizard runs on rules and keywords alone (typed answers the keywords cannot place end in
-   "Which is closest?"). TypeSafe's Jev needs the server in `server/index.mjs` running
-   somewhere with the `TYPESAFE_API_KEY` secret: either switch the Replit deployment to
-   Autoscale (`node server/index.mjs`, one deployment, compute billed) or host the API-only
-   server elsewhere and point `judgeUrl` at it; see `docs/WIZARD.md`. The judge has unit and
-   mocked end-to-end coverage; it has not been exercised against the live TypeSafe API from
-   this repository.
+   **Trip wizard judge:** the deployment is now Autoscale running `server/index.mjs` with the
+   `TYPESAFE_API_KEY` secret, so typed answers the keywords cannot place go to TypeSafe's Jev
+   through `/api/judge` (`docs/WIZARD.md`); the wizard probes `/api/health` once per page and
+   asks the person instead whenever the endpoint is absent or keyless. The live result is
+   recorded in §3 once verified.
    **Guides** exist in English only; the inputs are built for localization (one strings file per
    language, pictures re-taken per language once the app itself is translated), see
    `docs/GUIDES.md`. Template names and items stay English until the library is translated.
@@ -113,24 +111,26 @@ MSAL bridge page). Neither is required for the current features.
    browser.
 2. **Microsoft Entra (optional, 10 minutes):** app registration per `docs/AUTH.md` §5; paste the
    client ID into `config.js → microsoft.clientId`.
-3. **Replit:** the rebuild PR is merged into `main`; keep the workspace synced from `main`
-   before publishing (`docs/DEPLOYMENT.md`). If Replit ever ignores `publicDir` from `.replit`,
-   set "Public directory = public" in the Publishing pane once.
+3. **Replit:** keep the workspace synced from `main` before publishing (`docs/DEPLOYMENT.md`).
+   The deployment is Autoscale with the run command `node server/index.mjs` (from `.replit`);
+   `https://camplist.guide/api/health` says `"judge": true` while the `TYPESAFE_API_KEY`
+   secret reaches it (Publishing → Adjust settings → Production app secrets).
 4. **AdSense (console):** wait for the site review to finish ("Getting ready" → "Ready");
    the guide pages (`/guide/`, 23 template pages) are the crawlable content reviewers look for.
    Keep Auto ads off. Sponsors: edit `public/sponsors.json`.
-5. **Trip wizard (decision):** choose where the TypeSafe judge runs (`docs/WIZARD.md`:
-   Autoscale deployment, or an API-only host plus `wizard.judgeUrl`), or leave the wizard
-   keyword-only. `TYPESAFE_API_KEY=… npm run wizard:eval` prints how the live model reads the
-   sample answers, to check the thresholds before switching it on.
+5. **Trip wizard:** decided: the judge runs inside the Autoscale deployment with the key in
+   the Replit secret. `JUDGE_URL=https://camplist.guide/api/judge npm run wizard:eval` prints
+   how the keywords and Jev read the sample answers (no key needed) to check the thresholds.
 6. **Guides:** nothing to set up. After UI changes run `npm run guides:shots` then
    `npm run guides:build`; after template changes `npm run guides:build`; to add a language
    follow `docs/GUIDES.md`.
 
 ## 6. Operating costs and maintenance
 
-* Hosting: Replit static deployment is free on the Core plan apart from outbound transfer
-  ($0.05/GiB beyond the plan allowance); no compute, no database.
+* Hosting: Replit Autoscale deployment, billed for requests and compute time only while it
+  serves (it scales to zero when idle) plus outbound transfer; check the Replit usage page
+  after the first weeks. TypeSafe: per-call usage only when a typed answer needs Jev; the
+  server caps that at 1,200 calls an hour. No database.
 * Google: Maps JavaScript/Places (New) autocomplete calls are billed per session only when the
   Trip Info search is used (loaded lazily); Drive/Identity are free. Keep the key restricted.
 * Microsoft Entra: free.

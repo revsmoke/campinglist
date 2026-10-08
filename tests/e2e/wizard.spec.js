@@ -126,15 +126,17 @@ test.describe("trip wizard", () => {
     await expect(page.locator("#wizardHeading")).toHaveText("When, and for how long?");
   });
 
-  test("asks the judge endpoint when configured and the keywords cannot tell", async ({
+  test("asks the judge endpoint when it is deployed and the keywords cannot tell", async ({
     page,
   }) => {
     const calls = [];
-    await page.addInitScript(() => {
-      window.CAMPLIST_CONFIG = Object.assign({}, window.CAMPLIST_CONFIG, {
-        wizard: { judgeUrl: "/api/judge" },
-      });
-    });
+    await page.route("**/api/health", (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: '{"ok":true,"judge":true}',
+      })
+    );
     await page.route("**/api/judge", async (route) => {
       calls.push(route.request().postDataJSON());
       await route.fulfill({
@@ -164,11 +166,13 @@ test.describe("trip wizard", () => {
   });
 
   test("falls back to asking when the judge endpoint is down", async ({ page }) => {
-    await page.addInitScript(() => {
-      window.CAMPLIST_CONFIG = Object.assign({}, window.CAMPLIST_CONFIG, {
-        wizard: { judgeUrl: "/api/judge" },
-      });
-    });
+    await page.route("**/api/health", (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: '{"ok":true,"judge":true}',
+      })
+    );
     await page.route("**/api/judge", (route) =>
       route.fulfill({ status: 503, body: "{}" })
     );
@@ -182,5 +186,27 @@ test.describe("trip wizard", () => {
     await page.click('[data-reading="tripType"] .chip[data-chip="festival"]');
     await page.click('[data-action="next"]');
     await expect(page.locator("#wizardHeading")).toHaveText("When, and for how long?");
+  });
+
+  test("probes the real server once and asks the person when the judge has no key", async ({
+    page,
+  }) => {
+    const apiCalls = [];
+    page.on("request", (r) => {
+      if (r.url().includes("/api/")) apiCalls.push(new URL(r.url()).pathname);
+    });
+    await page.goto("/plan/");
+    await page.waitForSelector("body.wizard-ready");
+    await page.click('[data-action="skip"]');
+    await page.fill("#tripTypeInput", "the usual");
+    await expect(page.locator('[data-reading="tripType"]')).toContainText(
+      "Which is closest?"
+    );
+    await page.fill("#tripTypeInput", "something else entirely");
+    await page.waitForTimeout(700);
+    await expect(page.locator('[data-reading="tripType"]')).toContainText(
+      "Which is closest?"
+    );
+    expect(apiCalls).toEqual(["/api/health"]);
   });
 });

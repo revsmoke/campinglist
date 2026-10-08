@@ -70,9 +70,11 @@ const defaults = {
 
   wizard: {
     // The trip wizard (/plan/) decides everything with rules in the browser. Typed answers the
-    // keyword matcher cannot place can be judged by TypeSafe's Jev model through this site's
-    // own endpoint (server/index.mjs keeps the API key); empty = ask the person to pick instead.
-    judgeUrl: "",
+    // keyword matcher cannot place are judged by TypeSafe's Jev model through this site's own
+    // endpoint (server/index.mjs holds the API key, read from the TYPESAFE_API_KEY secret). The
+    // wizard probes the endpoint's /health once per page and asks the person instead when the
+    // endpoint is absent or has no key.
+    judgeUrl: "/api/judge",
   },
 
   features: {
