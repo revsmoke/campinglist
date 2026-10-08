@@ -296,20 +296,20 @@ describe("the site over HTTP", () => {
 
   it("reports health with the visitor's address and keeps the judge closed without a key", async () => {
     const health = await fetch(base + "/api/health", {
-      headers: { "x-forwarded-for": "9.9.9.9, 10.0.0.7" },
+      headers: { "x-forwarded-for": "9.9.9.9, 10.0.0.7, 10.0.0.8, 10.0.0.9" },
     });
     expect(health.status).toBe(200);
     expect(health.headers.get("cache-control")).toBe("no-store");
-    // Two proxies append their entries (Replit's edge, then the Cloud Run front end): the
-    // visitor is the second-last entry, and a header the client adds in front changes nothing.
+    // Four proxy hops append their entries on Replit: the visitor is the fourth-last one, and
+    // a header the client adds in front changes nothing.
     expect(await health.json()).toEqual({
       ok: true,
       judge: false,
       visitor: "9.9.9.9",
-      hops: 2,
+      hops: 4,
     });
     const spoofed = await fetch(base + "/api/health", {
-      headers: { "x-forwarded-for": "1.2.3.4, 9.9.9.9, 10.0.0.7" },
+      headers: { "x-forwarded-for": "1.2.3.4, 9.9.9.9, 10.0.0.7, 10.0.0.8, 10.0.0.9" },
     });
     expect((await spoofed.json()).visitor).toBe("9.9.9.9");
     expect(clientIp({ headers: { "x-forwarded-for": "8.8.8.8" } })).toBe("8.8.8.8");
