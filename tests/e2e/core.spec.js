@@ -247,8 +247,8 @@ test.describe("core checklist", () => {
   });
 });
 
-test.describe("AdSense account", () => {
-  test("declares the account on the page, loads the script, and keeps the labelled house cards", async ({
+test.describe("AdSense", () => {
+  test("renders the two labelled ad units and falls back to the house card when unfilled", async ({
     page,
   }) => {
     await blockGoogleMaps(page);
@@ -266,18 +266,64 @@ test.describe("AdSense account", () => {
     expect(requested).toEqual([
       "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4491650261060374",
     ]);
-    // No slot IDs configured: both placements keep their labelled house cards, no ad units.
-    await expect(page.locator('.ad-slot[data-slot="sidebar"]')).toContainText(
-      "From CampList"
-    );
-    await expect(page.locator("ins.adsbygoogle")).toHaveCount(0);
-    // Ad requests stay paused while no slot id is configured, so Auto ads cannot add units.
-    expect(await page.evaluate(() => window.adsbygoogle.pauseAdRequests)).toBe(1);
     const adsTxt = await page.request.get("/ads.txt");
     expect(adsTxt.status()).toBe(200);
     expect((await adsTxt.text()).trim()).toBe(
       "google.com, pub-4491650261060374, DIRECT, f08c47fec0942fa0"
     );
+    // Both placements hold a labelled ad unit with its own slot id; requests are not paused.
+    const sidebar = page.locator('.ad-slot[data-slot="sidebar"]');
+    const footer = page.locator('.ad-slot[data-slot="footer"]');
+    await expect(sidebar.locator(".sponsor-label")).toHaveText("Advertisement");
+    await expect(sidebar.locator("ins.adsbygoogle")).toHaveAttribute(
+      "data-ad-slot",
+      "2930956606"
+    );
+    await expect(footer.locator("ins.adsbygoogle")).toHaveAttribute(
+      "data-ad-slot",
+      "7181192800"
+    );
+    await expect(page.locator("ins.adsbygoogle")).toHaveCount(2);
+    expect(await page.evaluate(() => window.adsbygoogle.pauseAdRequests)).toBeUndefined();
+    // AdSense reports a unit it could not fill: the house card takes its place.
+    await page.evaluate(() => {
+      document.querySelector('.ad-slot[data-slot="sidebar"] ins').dataset.adStatus =
+        "unfilled";
+    });
+    await expect(sidebar).toContainText("From CampList");
+    await expect(sidebar.locator("ins.adsbygoogle")).toHaveCount(0);
+    await expect(footer.locator("ins.adsbygoogle")).toHaveCount(1);
+  });
+
+  test("shows the house cards when the ad script is blocked", async ({ page }) => {
+    await blockGoogleMaps(page); // also aborts the AdSense script
+    await page.goto("/");
+    await page.waitForSelector("body.app-ready");
+    await expect(page.locator('.ad-slot[data-slot="sidebar"]')).toContainText(
+      "From CampList"
+    );
+    await expect(page.locator("ins.adsbygoogle")).toHaveCount(0);
+  });
+
+  test("pauses ad requests and keeps the house cards when no slot id is configured", async ({
+    page,
+  }) => {
+    await blockGoogleMaps(page);
+    await page.addInitScript(() => {
+      window.CAMPLIST_CONFIG = Object.assign({}, window.CAMPLIST_CONFIG, {
+        ads: { slots: { sidebar: "", footer: "" } },
+      });
+    });
+    await page.route("https://pagead2.googlesyndication.com/**", (route) =>
+      route.fulfill({ status: 200, contentType: "application/javascript", body: "" })
+    );
+    await page.goto("/");
+    await page.waitForSelector("body.app-ready");
+    await expect(page.locator('.ad-slot[data-slot="sidebar"]')).toContainText(
+      "From CampList"
+    );
+    await expect(page.locator("ins.adsbygoogle")).toHaveCount(0);
+    expect(await page.evaluate(() => window.adsbygoogle.pauseAdRequests)).toBe(1);
   });
 });
 

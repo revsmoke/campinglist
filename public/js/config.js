@@ -48,9 +48,10 @@ const defaults = {
     // Google AdSense publisher ID. Loads the AdSense script on the app page (ads.txt and the
     // google-adsense-account meta tag are in public/ as well). Empty = no ad scripts are loaded.
     adsenseClient: "ca-pub-4491650261060374",
-    // Ad-unit slot IDs for the two allowed placements. Empty = that placement shows the
-    // labelled sponsor/house card instead of an ad unit.
-    slots: { sidebar: "", footer: "" },
+    // Ad-unit slot IDs for the two allowed placements (AdSense display units named "Sidebar"
+    // and "Footer"). Empty = that placement shows the labelled sponsor/house card instead;
+    // an unfilled or blocked unit falls back to that card as well.
+    slots: { sidebar: "2930956606", footer: "7181192800" },
   },
 
   analytics: {

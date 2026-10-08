@@ -62,14 +62,13 @@ MSAL bridge page). Neither is required for the current features.
    They have unit/mock coverage only; the first real sign-in should be tested with a personal
    Microsoft account and a work account (the `Files.ReadWrite.AppFolder` scope's behaviour for
    work accounts is documented inconsistently by Microsoft).
-4. **Ads:** the AdSense account (`ca-pub-4491650261060374`) is connected: `ads.txt`, the
-   `google-adsense-account` meta tag on every page and the AdSense script on the app page are
-   live. Both placements still show house cards because no ad-unit slot IDs are configured,
-   and ad requests are paused client-side until slot IDs exist (verified on 2026-10-07: with
-   Auto ads on in the console, the script was already requesting ads on the app page).
-   AdSense's site review, the Privacy & messaging setup, switching Auto ads off and the slot
-   IDs are pending (section 5). Display ads are not recommended at current traffic (see
-   `docs/MONETIZATION.md`).
+4. **Ads:** the AdSense account (`ca-pub-4491650261060374`) is connected (`ads.txt`
+   authorised, account meta tag on every page, script on the app page) and the two display
+   units are configured (Sidebar `2930956606`, Footer `7181192800`), labelled "Advertisement".
+   Until AdSense approves the site ("Getting ready" on 2026-10-08) the units come back
+   unfilled and the placements show the house cards instead; the same fallback covers content
+   blockers. Auto ads is off and the GDPR/US consent messages are published. Display ads are
+   not recommended at current traffic (see `docs/MONETIZATION.md`).
 5. **App-managed storage / subscriptions** are evaluated, not built (needs a backend).
 6. The Replit workspace must now be treated as a deploy target only; edit on GitHub. It is
    synced from `main` (the rebuild PR, merged on 2026-10-07); the published build is `c5452e3`
@@ -88,12 +87,9 @@ MSAL bridge page). Neither is required for the current features.
 3. **Replit:** the rebuild PR is merged into `main`; keep the workspace synced from `main`
    before publishing (`docs/DEPLOYMENT.md`). If Replit ever ignores `publicDir` from `.replit`,
    set "Public directory = public" in the Publishing pane once.
-4. **AdSense (console):** add camplist.guide as a site (the connect check should pass via
-   `ads.txt`, the meta tag or the script), request the review, enable Privacy & messaging for
-   the GDPR (EEA/UK/CH) and US-state messages, switch Auto ads **off** for camplist.guide
-   (Ads → By site), then create two display ad units (sidebar, footer) and put their slot IDs
-   in `public/js/config.js → ads.slots`.
-   Sponsors: edit `public/sponsors.json`.
+4. **AdSense (console):** wait for the site review to finish ("Getting ready" → "Ready");
+   if it asks for more content, the template guides are the natural pages to add. Keep Auto
+   ads off. Sponsors: edit `public/sponsors.json`.
 
 ## 6. Operating costs and maintenance
 

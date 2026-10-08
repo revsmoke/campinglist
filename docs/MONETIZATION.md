@@ -12,12 +12,15 @@ Research date: 2026-10-07 (full notes with sources: `docs/research/monetization-
   tracking.
 * **AdSense account connected** (publisher `ca-pub-4491650261060374`): `public/ads.txt`, the
   `google-adsense-account` meta tag on every page and the AdSense script on the app page are
-  live, which satisfies AdSense's "connect your site" check. Both placements keep showing the
-  labelled house cards until `ads.slots.sidebar` / `ads.slots.footer` hold ad-unit IDs. While
-  no slot id is configured the loader sets `adsbygoogle.pauseAdRequests = 1`, so the script is
-  present for verification but requests no ads. Switch **Auto ads off** for camplist.guide in
-  the AdSense console (Ads → By site): it is on by default and would add formats outside the
-  two labelled placements (anchors, vignettes) once ad requests resume. Setting `ads.adsenseClient` and slot IDs in
+  live (the console shows `ads.txt` as authorised). `ads.slots` holds the two display units
+  (Sidebar `2930956606`, Footer `7181192800`), each rendered as a labelled "Advertisement"
+  unit inside its placement. A unit AdSense reports as unfilled (site not approved yet, no
+  matching ad) or a blocked ad script swaps the sponsor/house card back in, so a placement is
+  never an empty box. If `ads.slots` are emptied, the loader sets
+  `adsbygoogle.pauseAdRequests = 1`, so the script stays present for verification but requests
+  no ads. Auto ads is **off** for camplist.guide (it would add anchors and vignettes outside
+  the two placements) and the GDPR and US-state consent messages are published in Privacy &
+  messaging; the site itself is still "Getting ready" (awaiting AdSense's review). Setting `ads.adsenseClient` and slot IDs in
   `public/js/config.js` switches a placement to a labelled AdSense unit. An `ads.txt` must be
   added to `public/` at that point (`google.com, pub-XXXX, DIRECT, f08c47fec0942fa0`).
   Consent for EEA/UK/CH visitors is handled by AdSense's own certified "Privacy & messaging"

@@ -47,13 +47,43 @@ function renderCard(container, card) {
   </div>`;
 }
 
-function renderAdsense(container, slotId) {
+// Sponsor/house card per slot, shown when that slot's ad unit is unfilled or the ad script is
+// blocked, so a labelled placement is never an empty box.
+const fallbacks = {};
+
+function showFallback(slot) {
+  const container = document.querySelector(`.ad-slot[data-slot="${slot}"]`);
+  if (!container) return;
+  const card = fallbacks[slot];
+  if (card) {
+    container.hidden = false;
+    renderCard(container, card);
+  } else {
+    container.innerHTML = "";
+    container.hidden = true;
+  }
+}
+
+function renderAdsense(container, slot, slotId) {
+  container.hidden = false;
   container.innerHTML = `<span class="sponsor-label">Advertisement</span>
     <ins class="adsbygoogle" style="display:block" data-ad-client="${escapeText(CONFIG.ads.adsenseClient)}" data-ad-slot="${escapeText(slotId)}" data-ad-format="auto" data-full-width-responsive="true"></ins>`;
+  const ins = container.querySelector("ins.adsbygoogle");
+  // AdSense marks a unit it could not fill (site not approved yet, no matching ad): swap in
+  // the sponsor/house card instead of leaving an empty "Advertisement" box.
+  const observer = new MutationObserver(() => {
+    if (ins.dataset.adStatus === "unfilled") {
+      observer.disconnect();
+      showFallback(slot);
+    }
+  });
+  observer.observe(ins, { attributes: true, attributeFilter: ["data-ad-status"] });
   try {
     (window.adsbygoogle = window.adsbygoogle || []).push({});
   } catch (error) {
     console.warn("AdSense push failed:", error);
+    observer.disconnect();
+    showFallback(slot);
   }
 }
 
@@ -61,7 +91,7 @@ function configuredSlots() {
   return SLOTS.filter((slot) => Boolean(CONFIG.ads.slots?.[slot]));
 }
 
-function loadAdsense() {
+function loadAdsense({ onError } = {}) {
   if (document.querySelector('script[data-camplist="adsense"]')) return;
   // Without ad-unit ids the script is here only so AdSense can verify the site: pause all ad
   // requests, otherwise Auto ads (when switched on in the AdSense console) would insert units
@@ -73,6 +103,8 @@ function loadAdsense() {
   script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(CONFIG.ads.adsenseClient)}`;
   script.crossOrigin = "anonymous";
   script.dataset.camplist = "adsense";
+  // Blocked or unreachable (content blockers, offline): show the cards instead.
+  script.onerror = () => onError?.();
   document.head.appendChild(script);
 }
 
@@ -88,17 +120,22 @@ export async function setupSponsors() {
     console.warn("Sponsor cards unavailable:", error.message);
   }
   const adsenseReady = Boolean(CONFIG.ads.adsenseClient);
-  if (adsenseReady) loadAdsense();
+  for (const slot of SLOTS) fallbacks[slot] = pickCard(cards, slot);
+  if (adsenseReady) {
+    loadAdsense({
+      onError: () => {
+        for (const slot of configuredSlots()) showFallback(slot);
+      },
+    });
+  }
   for (const slot of SLOTS) {
     const container = document.querySelector(`.ad-slot[data-slot="${slot}"]`);
     if (!container) continue;
     const slotId = CONFIG.ads.slots?.[slot];
     if (adsenseReady && slotId) {
-      renderAdsense(container, slotId);
+      renderAdsense(container, slot, slotId);
       continue;
     }
-    const card = pickCard(cards, slot);
-    if (card) renderCard(container, card);
-    else container.hidden = true;
+    showFallback(slot);
   }
 }
