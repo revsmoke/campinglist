@@ -21,19 +21,21 @@ Live: https://camplist.guide (Replit static deployment of `public/`).
 | Maps | Autocomplete never initialised (`initMap` race) | Loaded lazily when Trip Info opens; manual entry fallback |
 | Guides | None | Picture-first guides generated from the real app: `/guide/` (21 numbered steps), `/guide/templates.html` (how templates work + catalogue) and one page per template with a "Use this template" deep link; text in one locale file, screenshots re-taken by script (`docs/GUIDES.md`); `sitemap.xml` + `robots.txt` |
 | Trip wizard | None | `/plan/`: seven questions build a list from the templates with deterministic rules (base template, add-on sections, trip info); typed answers matched by keywords with TypeSafe-style confidence, optionally judged by TypeSafe's Jev through `server/index.mjs` (keeps the API key); one labelled placement (`docs/WIZARD.md`) |
-| Engineering | No package.json/tests in repo | ESLint, Prettier, Vitest (47 tests), Playwright (50 journeys), template validator, guide capture/builder, docs |
+| Engineering | No package.json/tests in repo | ESLint, Prettier, Vitest (74 tests), Playwright (54 journeys), template validator, guide capture/builder, docs |
 
 ## 2. What was tested
 
-* `npm run lint`, `npm run templates:validate` (23/23), `npm test` (47), `npm run test:e2e`
-  (50: sign-in/out, session expiry, cancelled sign-in, library blocked, wrong audience,
+* `npm run lint`, `npm run templates:validate` (23/23), `npm test` (74), `npm run test:e2e`
+  (54: sign-in/out, session expiry, cancelled sign-in, library blocked, wrong audience,
   providers-disabled flags, same-email account linking and its refusal, Drive
   connect/connecting state/failed connect/save/autosave/mid-upload edits/conflict/open/upload/
   revoked/disconnect/declined consent, templates, core flows, legal pages, mobile viewport,
   analytics tag with consent defaults, AdSense units with unfilled/blocked fallbacks and the
   no-slot pause guard, only configured sign-in providers offered, guide pages with their
   pictures, the template catalogue and a template page's deep link into the app, the two
-  placements on guide pages with their house-card fallback, sitemap and robots). The unit suite also checks that the generated guide pages match their inputs.
+  placements on guide pages with their house-card fallback, sitemap and robots, the trip
+  wizard's chip path into a created list, its typed path, the draft surviving a reload, the
+  judge endpoint and its fallback). The unit suite also checks that the generated guide pages match their inputs.
   Google Identity and Drive are mocked in these tests.
 * Headless Chromium against a local server with the **real** Google libraries: the Google button
   renders, Places autocomplete mounts and the CSP causes no violations.
