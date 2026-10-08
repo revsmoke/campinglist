@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach } from "vitest";
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import {
@@ -21,9 +21,11 @@ import { CHOICES, EXTRAS, PLACES, STEPS } from "../../public/js/wizard/questions
 import {
   choiceQuestion,
   extrasQuestions,
+  judgeAvailable,
   judgeChoice,
   judgeExtras,
   remoteJudge,
+  resetJudgeAvailability,
 } from "../../public/js/wizard/judge.js";
 
 const tplDir = join(process.cwd(), "public", "templates");
@@ -394,6 +396,30 @@ describe("plan", () => {
 });
 
 describe("judge", () => {
+  beforeEach(() => resetJudgeAvailability());
+
+  const health = (judge) => ({
+    ok: true,
+    status: 200,
+    json: async () => ({ ok: true, judge }),
+  });
+  const answering = (answers) => ({
+    ok: true,
+    status: 200,
+    json: async () => ({ answers }),
+  });
+  /** A fetch mock that answers the health probe and records the judge calls. */
+  const mockFetch = (judgeResponse, { judge = true } = {}) => {
+    const calls = [];
+    const fetchImpl = async (url, init) => {
+      if (url.endsWith("/health")) return health(judge);
+      calls.push({ url, body: JSON.parse(init.body) });
+      return judgeResponse;
+    };
+    fetchImpl.calls = calls;
+    return fetchImpl;
+  };
+
   it("builds TypeSafe questions from the option data", () => {
     const q = choiceQuestion("tripType");
     expect(q.type).toBe("choice");
@@ -422,38 +448,48 @@ describe("judge", () => {
     expect(called).toBe(false);
   });
 
-  it("asks the person when nothing matches and no judge endpoint is configured", async () => {
-    const r = await judgeChoice("tripType", "the usual", {});
+  it("probes the endpoint once per page and asks the person when it is absent or keyless", async () => {
+    let probes = 0;
+    const absent = async (url) => {
+      probes++;
+      expect(url).toBe("/api/health");
+      return { ok: false, status: 404, json: async () => ({}) };
+    };
+    const r = await judgeChoice("tripType", "the usual", {}, { fetchImpl: absent });
     expect(r.status).toBe("unresolved");
     expect(r.candidates).toHaveLength(CHOICES.tripType.options.length);
-    const remote = await remoteJudge(
-      { answer: "x" },
-      {},
-      { fetchImpl: async () => ({ ok: true, json: async () => ({ answers: {} }) }) }
+    await judgeChoice("shelter", "the usual", {}, { fetchImpl: absent });
+    await judgeExtras("the usual", {}, { fetchImpl: absent });
+    expect(probes).toBe(1);
+    resetJudgeAvailability();
+    expect(await judgeAvailable({ fetchImpl: mockFetch(null, { judge: false }) })).toBe(
+      false
     );
-    expect(remote).toBeNull(); // judgeUrl is empty in config
+    resetJudgeAvailability();
+    expect(await judgeAvailable({ fetchImpl: mockFetch(null) })).toBe(true);
+    // Nothing configured: nothing is fetched at all.
+    const { CONFIG } = await import("../../public/js/config.js");
+    const configured = CONFIG.wizard.judgeUrl;
+    expect(configured).toBe("/api/judge");
+    CONFIG.wizard.judgeUrl = "";
+    resetJudgeAvailability();
+    const silent = mockFetch(answering({}));
+    expect(await remoteJudge({ answer: "x" }, {}, { fetchImpl: silent })).toBeNull();
+    expect(silent.calls).toHaveLength(0);
+    CONFIG.wizard.judgeUrl = configured;
   });
 
-  it("uses a configured TypeSafe answer when the keywords give up", async () => {
-    const { CONFIG } = await import("../../public/js/config.js");
-    CONFIG.wizard.judgeUrl = "/api/judge";
-    const calls = [];
-    const fetchImpl = async (url, init) => {
-      calls.push({ url, body: JSON.parse(init.body) });
-      return {
-        ok: true,
-        json: async () => ({
-          answers: {
-            tripType: {
-              type: "choice",
-              choice: "backpacking",
-              probabilities: { backpacking: 0.8, campground: 0.2 },
-              confidence: 0.77,
-            },
-          },
-        }),
-      };
-    };
+  it("uses the TypeSafe answer when the keywords give up", async () => {
+    const fetchImpl = mockFetch(
+      answering({
+        tripType: {
+          type: "choice",
+          choice: "backpacking",
+          probabilities: { backpacking: 0.8, campground: 0.2 },
+          confidence: 0.77,
+        },
+      })
+    );
     const r = await judgeChoice(
       "tripType",
       "we'll be carrying everything on our backs for a week",
@@ -463,27 +499,25 @@ describe("judge", () => {
     expect(r.status).toBe("accepted");
     expect(r.choice).toBe("backpacking");
     expect(r.source).toBe("typesafe");
-    expect(calls[0].url).toBe("/api/judge");
-    expect(calls[0].body.questions.tripType.type).toBe("choice");
-    expect(calls[0].body.state.answer).toMatch(/carrying everything/);
+    expect(fetchImpl.calls).toHaveLength(1);
+    expect(fetchImpl.calls[0].url).toBe("/api/judge");
+    expect(fetchImpl.calls[0].body.questions.tripType.type).toBe("choice");
+    expect(fetchImpl.calls[0].body.state.answer).toMatch(/carrying everything/);
     // A weak remote answer only suggests; a failed call falls back to asking.
-    const weak = async () => ({
-      ok: true,
-      json: async () => ({
-        answers: {
-          tripType: {
-            type: "choice",
-            choice: "campground",
-            probabilities: { campground: 0.4 },
-            confidence: 0.35,
-          },
+    const weak = mockFetch(
+      answering({
+        tripType: {
+          type: "choice",
+          choice: "campground",
+          probabilities: { campground: 0.4 },
+          confidence: 0.35,
         },
-      }),
-    });
+      })
+    );
     expect(
       (await judgeChoice("tripType", "the usual", {}, { fetchImpl: weak })).status
     ).toBe("suggested");
-    const down = async () => ({ ok: false, json: async () => ({}) });
+    const down = mockFetch({ ok: false, status: 503, json: async () => ({}) });
     expect(
       (await judgeChoice("tripType", "the usual", {}, { fetchImpl: down })).status
     ).toBe("unresolved");
@@ -491,19 +525,15 @@ describe("judge", () => {
       "bring the rods",
       {},
       {
-        fetchImpl: async () => ({
-          ok: true,
-          json: async () => ({
-            answers: {
-              extra_fishing: { type: "noul", noul: 0.91 },
-              extra_bear: { type: "noul", noul: 0.2 },
-            },
-          }),
-        }),
+        fetchImpl: mockFetch(
+          answering({
+            extra_fishing: { type: "noul", noul: 0.91 },
+            extra_bear: { type: "noul", noul: 0.2 },
+          })
+        ),
       }
     );
     expect(extras.picked).toEqual(["fishing"]);
     expect(extras.source).toBe("typesafe");
-    CONFIG.wizard.judgeUrl = "";
   });
 });

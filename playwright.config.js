@@ -15,7 +15,10 @@ export default defineConfig({
     screenshot: "only-on-failure",
   },
   webServer: {
-    command: `npx http-server public -p ${PORT} -c-1 -s`,
+    // The same server production runs (Replit Autoscale); no key, so the wizard's judge
+    // endpoint answers 503 and the journeys mock it where they need it.
+    command: "node server/index.mjs",
+    env: { PORT: String(PORT), TYPESAFE_API_KEY: "" },
     url: `http://127.0.0.1:${PORT}/`,
     reuseExistingServer: !process.env.CI,
     timeout: 30_000,

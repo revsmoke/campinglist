@@ -4,7 +4,8 @@
 // supplies judgment only where plain rules run out.
 //   1. localChoice: keyword matching, deterministic and offline (rules.js).
 //   2. remote: TypeSafe's Jev (System One) through this site's own endpoint
-//      (CONFIG.wizard.judgeUrl; the API key stays on the server, see server/index.mjs).
+//      (CONFIG.wizard.judgeUrl; the API key stays on the server, see server/index.mjs). The
+//      endpoint is probed once per page (GET …/health) and skipped when absent or keyless.
 //   3. ask: below the thresholds the wizard shows the candidates and the person picks.
 // Thresholds follow docs.typesafe.ai/confidence: high = act, medium = act but show the reading
 // and offer the alternatives, low = ask.
@@ -38,9 +39,40 @@ export function extrasQuestions(extras = EXTRAS) {
   return questions;
 }
 
+let availability = null;
+
+/**
+ * Whether the site's judge endpoint is deployed with its key: one GET of its /health per page
+ * (cached), so an absent endpoint costs a single request and never a wait.
+ */
+export function judgeAvailable({ fetchImpl = globalThis.fetch, force = false } = {}) {
+  const url = CONFIG.wizard?.judgeUrl;
+  if (!url || typeof fetchImpl !== "function") return Promise.resolve(false);
+  if (availability && !force) return availability;
+  availability = (async () => {
+    try {
+      const response = await fetchImpl(url.replace(/\/judge\/?$/, "/health"), {
+        cache: "no-store",
+      });
+      if (!response.ok) return false;
+      const body = await response.json();
+      return Boolean(body && body.judge);
+    } catch {
+      return false;
+    }
+  })();
+  return availability;
+}
+
+/** Forgets the cached probe (tests). */
+export function resetJudgeAvailability() {
+  availability = null;
+}
+
 /**
  * Calls the site's judge endpoint. Resolves to the TypeSafe answers map, or null when the
- * endpoint is not configured, unreachable, slow or returns an error: the wizard then asks.
+ * endpoint is not configured, absent, unreachable, slow or returns an error: the wizard then
+ * asks the person.
  */
 export async function remoteJudge(
   state,
@@ -49,6 +81,7 @@ export async function remoteJudge(
 ) {
   const url = CONFIG.wizard?.judgeUrl;
   if (!url || typeof fetchImpl !== "function") return null;
+  if (!(await judgeAvailable({ fetchImpl }))) return null;
   const controller = typeof AbortController === "function" ? new AbortController() : null;
   const timer = controller ? setTimeout(() => controller.abort(), timeoutMs) : null;
   try {

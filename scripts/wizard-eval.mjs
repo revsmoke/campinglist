@@ -1,7 +1,9 @@
 // Runs sample typed answers through the trip wizard's judges and prints how each was read.
 //
-//   node scripts/wizard-eval.mjs                       keywords only (deterministic, offline)
-//   TYPESAFE_API_KEY=… node scripts/wizard-eval.mjs    also asks TypeSafe's Jev directly
+//   node scripts/wizard-eval.mjs                                 keywords only (deterministic, offline)
+//   JUDGE_URL=https://camplist.guide/api/judge node scripts/wizard-eval.mjs
+//                                                               also asks Jev through the site's endpoint
+//   TYPESAFE_API_KEY=… node scripts/wizard-eval.mjs              also asks TypeSafe's Jev directly
 //
 // Use it to tune keywords in public/js/wizard/questions.js and the thresholds in judge.js,
 // and to check the model on the kind of answers people actually type (docs/WIZARD.md).
@@ -50,19 +52,31 @@ const SAMPLES = {
 };
 
 const key = process.env.TYPESAFE_API_KEY || "";
+const judgeUrl = process.env.JUDGE_URL || "";
 const url = process.env.TYPESAFE_URL || "https://api.typesafe.ai/v1/systemone";
+const remote = Boolean(judgeUrl || key);
 
+/** Asks Jev: through the site's endpoint (its key stays there) or directly with a key. */
 async function askJev(state, questions) {
-  const r = await fetch(url, {
-    method: "POST",
-    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      state,
-      model: process.env.TYPESAFE_MODEL || "jev-latest",
-      questions,
-    }),
-  });
-  if (!r.ok) throw new Error(`TypeSafe ${r.status}: ${(await r.text()).slice(0, 200)}`);
+  const r = judgeUrl
+    ? await fetch(judgeUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ state, questions }),
+      })
+    : await fetch(url, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          state,
+          model: process.env.TYPESAFE_MODEL || "jev-latest",
+          questions,
+        }),
+      });
+  if (!r.ok)
+    throw new Error(
+      `${judgeUrl ? "judge endpoint" : "TypeSafe"} ${r.status}: ${(await r.text()).slice(0, 200)}`
+    );
   return (await r.json()).answers;
 }
 
@@ -74,9 +88,12 @@ for (const choiceId of ["tripType", "shelter", "cooking", "water"]) {
   for (const text of SAMPLES[choiceId]) {
     const local = localChoice(text, CHOICES[choiceId].options);
     let line = `"${text}"\n   keywords: ${local.choice ?? "-"} (${local.confidence}) → ${verdict(local.confidence)}`;
-    if (key) {
-      const answers = await askJev({ answer: text }, { q: choiceQuestion(choiceId) });
-      const a = answers.q;
+    if (remote) {
+      const answers = await askJev(
+        { answer: text },
+        { [choiceId]: choiceQuestion(choiceId) }
+      );
+      const a = answers[choiceId];
       line += `\n   jev:      ${a.choice} (${a.confidence.toFixed(2)}) → ${verdict(a.confidence)}`;
     }
     console.log(line);
@@ -94,7 +111,7 @@ for (const text of SAMPLES.extras) {
   const local = localExtras(text);
   const picked = EXTRAS.filter((e) => local[e.id] >= THRESHOLDS.noulYes).map((e) => e.id);
   let line = `"${text}"\n   keywords: ${picked.join(", ") || "-"}`;
-  if (key) {
+  if (remote) {
     const answers = await askJev({ answer: text }, extrasQuestions());
     const yes = EXTRAS.filter(
       (e) => (answers[`extra_${e.id}`]?.noul ?? 0) >= THRESHOLDS.noulYes
@@ -103,4 +120,4 @@ for (const text of SAMPLES.extras) {
   }
   console.log(line);
 }
-if (!key) console.log("\n(no TYPESAFE_API_KEY: keyword readings only)");
+if (!remote) console.log("\n(no JUDGE_URL or TYPESAFE_API_KEY: keyword readings only)");

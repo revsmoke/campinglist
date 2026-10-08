@@ -14,7 +14,7 @@ becomes the active list. One labelled placement sits under the wizard card (the 
 | Rules | `public/js/wizard/rules.js` | Pure functions: `resolvePlace`, `whenFacts` (season and nights from dates or picks), `pickBaseTemplate`, `modulesFor`, `assembleSections`, `listName`, `tripNotes`, `buildPlan`, `rebuildWithout` |
 | Judge | `public/js/wizard/judge.js` | Turns typed text into an option: keywords first, TypeSafe second, the person last |
 | Page | `public/plan/index.html`, `public/js/wizard/wizard.js`, `public/plan/plan.css` | The interview UI; the draft survives a reload (sessionStorage) |
-| Server | `server/index.mjs` | Optional: serves `public/` and proxies `/api/judge` to TypeSafe with the key from the environment |
+| Server | `server/index.mjs` | Serves `public/` and answers `/api/judge` by forwarding the wizard's own questions to TypeSafe with the key from the environment; what production runs |
 
 The same answers always give the same list (`tests/unit/wizard.test.js` pins the paths):
 
@@ -46,47 +46,42 @@ the shares become probabilities and the confidence is TypeSafe's own Choice form
 | 0.3 to 0.6 | suggested: "Sounds like X?" plus alternatives |
 | < 0.3 | ask: "Which is closest?" with every option |
 
-Only when the keywords stay below 0.6 and `wizard.judgeUrl` is set in `public/js/config.js`
+Only when the keywords stay below 0.6 (and the endpoint answered its health probe, see below)
 does the wizard call the site's judge endpoint with one request: a `choice` question whose
 `criteria` are the option descriptions, and for the extras step one `noul` per extra, all over
 the same state `{ answer, context }` (TypeSafe's
 [Choice](https://docs.typesafe.ai/primitives/choice) and
 [Noul](https://docs.typesafe.ai/primitives/noul), sent together as the docs recommend). The
-answer is gated with the same thresholds; a slow (4 s), failed or unconfigured endpoint simply
-means the person picks. Nothing is sent to TypeSafe unless the person types free text and the
+answer is gated with the same thresholds; a slow (4 s), failed, keyless or absent endpoint
+simply means the person picks. Nothing is sent to TypeSafe unless the person types free text and the
 keywords cannot place it; the request carries only that text and the earlier answers' option
 ids, never the person's lists.
 
 ### The judge endpoint (TypeSafe's API key)
 
-The site is a static deployment; a key in the browser would be public, so the key lives in a
-server. `server/index.mjs` (Node 20+, no dependencies) serves `public/` and answers
-`POST /api/judge`: it validates the request (small state, 1 to 24 questions of the three
-TypeSafe types, option caps), rate-limits per IP (30 a minute), forwards to
+A key in the browser would be public, so the key lives in the server that also serves the
+site: `server/index.mjs` (Node 20+, no dependencies) answers `POST /api/judge`. It accepts
+only the wizard's own requests: a typed answer of up to 1,000 characters, a small context, and
+questions identical to the ones `judge.js` builds (the server rebuilds them from the same
+data and compares; anything else is a 400, so the endpoint is no general proxy for the key).
+It rate-limits per visitor (30 calls a minute) and per instance (1,200 an hour), forwards to
 `https://api.typesafe.ai/v1/systemone` with `Authorization: Bearer $TYPESAFE_API_KEY` and
-`model: jev-latest`, and returns `{ model, answers, usage }`. Without a key it answers 503 and
-the wizard asks the person. `GET /api/health` reports whether the key is set.
+`model: jev-latest`, and returns `{ model, answers, usage }`. Without a key it answers 503.
+
+`GET /api/health` reports whether the key is set. The wizard probes it once per page and asks
+the person instead when the endpoint is absent or keyless, so a static copy of the site keeps
+working. Nothing is sent to TypeSafe unless the person types free text the keywords cannot
+place; the request carries only that text and the earlier answers' option ids, never lists.
 
 ```bash
-TYPESAFE_API_KEY=… npm run serve          # http://localhost:3000, judge on
-curl -s -X POST localhost:3000/api/judge -H 'content-type: application/json' \
-  -d '{"state":{"answer":"truck with a rooftop tent"},"questions":{"t":{"type":"choice","instructions":"Trip type?","criteria":{"overlanding":null,"campground":null}}}}'
+TYPESAFE_API_KEY=… npm run serve                              # http://localhost:3000, judge on
+JUDGE_URL=http://localhost:3000/api/judge npm run wizard:eval  # the sample answers through it
 ```
 
-Two ways to run it in production:
-
-- **One deployment.** Switch the Replit deployment from Static to Autoscale with the run command
-  `node server/index.mjs`; the `TYPESAFE_API_KEY` secret is already in the Replit app. Set
-  `wizard.judgeUrl: "/api/judge"` in `config.js`. Cost: Autoscale compute instead of free static
-  hosting.
-- **Static site plus a small API.** Keep the static deployment and run the server elsewhere with
-  `SERVE_STATIC=0` and `ALLOW_ORIGIN=https://camplist.guide` (a second Replit app from this
-  repository, a Cloudflare Worker port of the handler, or any Node host); set
-  `wizard.judgeUrl` to that host's `/api/judge`. The site's CSP meta must then allow that
-  host in `connect-src`.
-
-Until one of these runs, the wizard is fully deterministic: every question has chips, and typed
-answers the keywords cannot place end in "Which is closest?".
+Production: the Replit Autoscale deployment runs this server with the `TYPESAFE_API_KEY`
+App Secret (`docs/DEPLOYMENT.md`); `wizard.judgeUrl` in `public/js/config.js` is `/api/judge`.
+An API-only host elsewhere is also possible (`SERVE_STATIC=0 ALLOW_ORIGIN=https://camplist.guide`,
+`judgeUrl` pointing at it, and that host allowed in the pages' CSP `connect-src`).
 
 ## Adding a question, an option or an add-on
 
@@ -98,5 +93,6 @@ answers the keywords cannot place end in "Which is closest?".
 - A place: add it to `PLACES` with its aliases (lower case, as people type them) once a template
   for it exists.
 - Thresholds: `THRESHOLDS` in `judge.js`; the TypeSafe docs suggest validating them on real
-  answers (`TYPESAFE_API_KEY=… npm run wizard:eval` runs the sample answers in
-  `scripts/wizard-eval.mjs` through the live model and prints how each one was read).
+  answers (`JUDGE_URL=https://camplist.guide/api/judge npm run wizard:eval` runs the sample
+  answers in `scripts/wizard-eval.mjs` through the deployed endpoint and prints how the
+  keywords and Jev read each one; `TYPESAFE_API_KEY=…` asks TypeSafe directly).
