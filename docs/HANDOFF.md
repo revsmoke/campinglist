@@ -2,9 +2,9 @@
 
 The rebuild was merged into `main` on 2026-10-07 via pull request
 [revsmoke/campinglist#1](https://github.com/revsmoke/campinglist/pull/1) (merge commit `fb64d02`);
-the follow-up pull requests (revsmoke/campinglist#2 through revsmoke/campinglist#10: Google
-client switch, Drive connect state, analytics, AdSense, picture guides) were merged the same way,
-the latest being merge commit `c690d23` on 2026-10-08.
+the follow-up pull requests (revsmoke/campinglist#2 through revsmoke/campinglist#12: Google
+client switch, Drive connect state, analytics, AdSense, picture guides and their placements)
+were merged the same way, the latest being merge commit `5d333d5` on 2026-10-08.
 Live: https://camplist.guide (Replit static deployment of `public/`).
 
 ## 1. What changed and what is live
@@ -38,7 +38,7 @@ Live: https://camplist.guide (Replit static deployment of `public/`).
   renders, Places autocomplete mounts and the CSP causes no violations.
 * Production verification: see section 3.
 
-## 3. Production verification (deployment `b094d18f`; 2026-10-07 on commit `c5452e3`, re-verified 2026-10-08 on commits `74019d8` and `c690d23`)
+## 3. Production verification (deployment `b094d18f`; 2026-10-07 on commit `c5452e3`, re-verified 2026-10-08 on commits `74019d8`, `c690d23` and `5d333d5`)
 
 Checked from a headless Chromium session and curl against https://camplist.guide:
 
@@ -50,7 +50,7 @@ Checked from a headless Chromium session and curl against https://camplist.guide
 | Sponsor slot | House card renders with its "From CampList" label |
 | Analytics | `gtag.js` (`G-YBTYHE8TK0`) loads on the app and legal pages, consent defaults are denied for the EEA/UK/CH region list and the collect request is answered 204 |
 | AdSense units (2026-10-08) | Both placements render an `<ins class="adsbygoogle">` with the configured slot id under an "Advertisement" label; `adsbygoogle.js` loads (200) and ad requests go out. While the site is "Getting ready" Google's ad server answers 400 and marks the units unfilled, and the house cards take their place within a few seconds; no CSP violations |
-| Guides (2026-10-08, `c690d23`) | `/guide/` (21 steps), `/guide/templates.html` (5 steps, 23 cards) and `/guide/templates/bikepacking.html` return 200 with every picture loading and no console errors; a template page's "Use this template" button opens that template's preview in the live app and drops the parameter from the URL; the header shows the Guide link; `/robots.txt` and `/sitemap.xml` are served; the sign-in dialog no longer shows the unconfigured Microsoft button |
+| Guides (2026-10-08, `c690d23`) | `/guide/` (21 steps), `/guide/templates.html` (5 steps, 23 cards) and `/guide/templates/bikepacking.html` return 200 with every picture loading and no console errors; a template page's "Use this template" button opens that template's preview in the live app and drops the parameter from the URL; the header shows the Guide link; `/robots.txt` and `/sitemap.xml` are served; the sign-in dialog no longer shows the unconfigured Microsoft button. Build `5d333d5`: each guide page carries the two placements (sidebar then footer slot) with the app's CSP and no console errors; while AdSense leaves the units unfilled they show the labelled house cards |
 | Security | `/keys.txt` 404, `/googledrive.html` 404, `/package.json` 404, `/docs/PLAN.md` 404 (only `public/` is served); CSP meta present; headers `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy` applied to every file |
 | Legal pages | `/terms.html` and `/privacy.html` render their full text with the visible "Last updated: 7 October 2026" line (the blank terms page from the first deployment is fixed) |
 | Google sign-in | With the recreated client (`662895092391-…`, build `9b93e13`): Google's button renders in the sign-in dialog with no origin or client errors, and clicking it opens Google's real sign-in page "Sign in to continue to CampList.Guide" with the privacy and terms links. Completing a sign-in needs a real Google account, so that last step was not exercised here. (An earlier build with the old client showed `Error 401: disabled_client`.) |
@@ -87,7 +87,7 @@ MSAL bridge page). Neither is required for the current features.
    language, pictures re-taken per language once the app itself is translated), see
    `docs/GUIDES.md`. Template names and items stay English until the library is translated.
 6. The Replit workspace must now be treated as a deploy target only; edit on GitHub. It is
-   synced from `main` after each merged pull request; the published build is `c690d23`
+   synced from `main` after each merged pull request; the published build is `5d333d5`
    (2026-10-08) and docs-only commits after it need no resync or republish.
 7. `www.camplist.guide` is not served (no certificate). Either add it as a second custom domain in
    Replit (plus DNS) or leave it; Google origins only need the hosts you actually serve.
