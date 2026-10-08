@@ -680,6 +680,26 @@ async function realShots(browser, realBrowser) {
   await context.close();
 }
 
+// ---------------------------------------------------------------- trip wizard
+async function wizardShots(browser) {
+  const context = await newContext(browser);
+  const page = await context.newPage();
+  await page.goto(`${base}/plan/`, { waitUntil: "load" });
+  await page.waitForSelector("body.wizard-ready");
+  await page.fill("#whereInput", "half dome in july");
+  await page.waitForSelector('[data-reading="where"]');
+  await shoot(page, "plan-where", {
+    targets: ["#wizard"],
+    anchors: {
+      input: "#whereInput",
+      reading: '[data-reading="where"]',
+      chips: "#wizard .field .chips",
+      next: '#wizard [data-action="next"]',
+    },
+  });
+  await context.close();
+}
+
 // ---------------------------------------------------------------- phone
 async function mobileShots(browser) {
   const context = await newContext(browser, { mobile: true });
@@ -710,6 +730,7 @@ try {
   log(`Capturing guide screenshots from ${base} (lang=${lang})`);
   await desktopShots(browser);
   await realShots(browser, realBrowser);
+  await wizardShots(browser);
   await mobileShots(browser);
   const ordered = Object.fromEntries(
     Object.entries(shots).sort(([a], [b]) => a.localeCompare(b))

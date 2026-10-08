@@ -213,6 +213,17 @@
           "templates": "Templates",
           "check": "Tap to check"
         }
+      },
+      "plan": {
+        "title": "Or let the trip wizard build it",
+        "hint": "Seven questions. Type a place or tap one.",
+        "link": "Plan a trip",
+        "callouts": {
+          "input": "Type where you are going",
+          "reading": "What we made of it",
+          "chips": "Or tap a place",
+          "next": "Next question"
+        }
       }
     }
   },

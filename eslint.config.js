@@ -33,7 +33,7 @@ export default [
     },
   },
   {
-    files: ["scripts/**/*.mjs", "*.config.js", "*.mjs"],
+    files: ["scripts/**/*.mjs", "server/**/*.mjs", "*.config.js", "*.mjs"],
     languageOptions: {
       ecmaVersion: 2024,
       sourceType: "module",

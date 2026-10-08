@@ -20,19 +20,22 @@ Live: https://camplist.guide (Replit static deployment of `public/`).
 | Security | `keys.txt` served publicly; prototype pages deployed; CDN DOMPurify without SRI; no CSP | Only `public/` is deployed; secrets gitignored and absent; DOMPurify/MSAL vendored and pinned; CSP meta + Replit response headers (nosniff, X-Frame-Options, Referrer-Policy, Permissions-Policy on every file; Replit ignored the path-specific COOP and no-store rules, see §3) |
 | Maps | Autocomplete never initialised (`initMap` race) | Loaded lazily when Trip Info opens; manual entry fallback |
 | Guides | None | Picture-first guides generated from the real app: `/guide/` (21 numbered steps), `/guide/templates.html` (how templates work + catalogue) and one page per template with a "Use this template" deep link; text in one locale file, screenshots re-taken by script (`docs/GUIDES.md`); `sitemap.xml` + `robots.txt` |
-| Engineering | No package.json/tests in repo | ESLint, Prettier, Vitest (47 tests), Playwright (50 journeys), template validator, guide capture/builder, docs |
+| Trip wizard | None | `/plan/`: seven questions build a list from the templates with deterministic rules (base template, add-on sections, trip info); typed answers matched by keywords with TypeSafe-style confidence, optionally judged by TypeSafe's Jev through `server/index.mjs` (keeps the API key); one labelled placement (`docs/WIZARD.md`) |
+| Engineering | No package.json/tests in repo | ESLint, Prettier, Vitest (74 tests), Playwright (54 journeys), template validator, guide capture/builder, docs |
 
 ## 2. What was tested
 
-* `npm run lint`, `npm run templates:validate` (23/23), `npm test` (47), `npm run test:e2e`
-  (50: sign-in/out, session expiry, cancelled sign-in, library blocked, wrong audience,
+* `npm run lint`, `npm run templates:validate` (23/23), `npm test` (74), `npm run test:e2e`
+  (54: sign-in/out, session expiry, cancelled sign-in, library blocked, wrong audience,
   providers-disabled flags, same-email account linking and its refusal, Drive
   connect/connecting state/failed connect/save/autosave/mid-upload edits/conflict/open/upload/
   revoked/disconnect/declined consent, templates, core flows, legal pages, mobile viewport,
   analytics tag with consent defaults, AdSense units with unfilled/blocked fallbacks and the
   no-slot pause guard, only configured sign-in providers offered, guide pages with their
   pictures, the template catalogue and a template page's deep link into the app, the two
-  placements on guide pages with their house-card fallback, sitemap and robots). The unit suite also checks that the generated guide pages match their inputs.
+  placements on guide pages with their house-card fallback, sitemap and robots, the trip
+  wizard's chip path into a created list, its typed path, the draft surviving a reload, the
+  judge endpoint and its fallback). The unit suite also checks that the generated guide pages match their inputs.
   Google Identity and Drive are mocked in these tests.
 * Headless Chromium against a local server with the **real** Google libraries: the Google button
   renders, Places autocomplete mounts and the CSP causes no violations.
@@ -83,6 +86,14 @@ MSAL bridge page). Neither is required for the current features.
    blockers. Auto ads is off and the GDPR/US consent messages are published. Display ads are
    not recommended at current traffic (see `docs/MONETIZATION.md`).
 5. **App-managed storage / subscriptions** are evaluated, not built (needs a backend).
+   **Trip wizard judge:** the live site is static, so `wizard.judgeUrl` is empty and the
+   wizard runs on rules and keywords alone (typed answers the keywords cannot place end in
+   "Which is closest?"). TypeSafe's Jev needs the server in `server/index.mjs` running
+   somewhere with the `TYPESAFE_API_KEY` secret: either switch the Replit deployment to
+   Autoscale (`node server/index.mjs`, one deployment, compute billed) or host the API-only
+   server elsewhere and point `judgeUrl` at it; see `docs/WIZARD.md`. The judge has unit and
+   mocked end-to-end coverage; it has not been exercised against the live TypeSafe API from
+   this repository.
    **Guides** exist in English only; the inputs are built for localization (one strings file per
    language, pictures re-taken per language once the app itself is translated), see
    `docs/GUIDES.md`. Template names and items stay English until the library is translated.
@@ -106,7 +117,11 @@ MSAL bridge page). Neither is required for the current features.
 4. **AdSense (console):** wait for the site review to finish ("Getting ready" → "Ready");
    the guide pages (`/guide/`, 23 template pages) are the crawlable content reviewers look for.
    Keep Auto ads off. Sponsors: edit `public/sponsors.json`.
-5. **Guides:** nothing to set up. After UI changes run `npm run guides:shots` then
+5. **Trip wizard (decision):** choose where the TypeSafe judge runs (`docs/WIZARD.md`:
+   Autoscale deployment, or an API-only host plus `wizard.judgeUrl`), or leave the wizard
+   keyword-only. `TYPESAFE_API_KEY=… npm run wizard:eval` prints how the live model reads the
+   sample answers, to check the thresholds before switching it on.
+6. **Guides:** nothing to set up. After UI changes run `npm run guides:shots` then
    `npm run guides:build`; after template changes `npm run guides:build`; to add a language
    follow `docs/GUIDES.md`.
 

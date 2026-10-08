@@ -13,6 +13,7 @@ npm test             # Vitest unit tests (state, accounts, templates, sponsors)
 npm run test:e2e     # Playwright journeys with mocked Google APIs
 npm run guides:shots # re-take the guide screenshots after UI changes (docs/GUIDES.md)
 npm run guides:build # rebuild public/guide/ and sitemap.xml after template or text changes
+npm run serve        # Node server: public/ plus the trip wizard's judge endpoint (docs/WIZARD.md)
 npm run check        # all of the above plus template validation and the guide build
 ```
 
@@ -36,6 +37,17 @@ server (port 8787) mocks Google and needs nothing registered.
 4. Verify: `https://camplist.guide/templates/index.json` returns the new index,
    `https://camplist.guide/guide/` shows the picture guide, `https://camplist.guide/keys.txt`
    is 404, and the browser console is clean.
+
+## The trip wizard's judge (optional server)
+
+The static deployment serves everything the site needs. The trip wizard's TypeSafe judge is
+the one feature that needs a server, because the API key must not reach the browser:
+`server/index.mjs` serves `public/` and `POST /api/judge`. To use it in production either
+switch this deployment to Autoscale with the run command `node server/index.mjs` (the
+`TYPESAFE_API_KEY` secret is already set on the Replit app) or run the server elsewhere as an
+API-only host (`SERVE_STATIC=0 ALLOW_ORIGIN=https://camplist.guide`) and point
+`wizard.judgeUrl` in `public/js/config.js` at it. Without it the wizard works deterministically
+(docs/WIZARD.md).
 
 ## Rollback
 
