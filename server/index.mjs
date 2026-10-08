@@ -10,7 +10,8 @@
 //   TYPESAFE_API_KEY=… node server/index.mjs    http://localhost:3000, judge on
 //   node server/index.mjs                        judge off: /api/judge answers 503, the wizard asks
 //   PORT (default 3000), TYPESAFE_MODEL (default jev-latest), SERVE_STATIC=0 (API only),
-//   TRUSTED_PROXIES (default 1: X-Forwarded-For entries the hosting proxy appends),
+//   TRUSTED_PROXIES (default 2: X-Forwarded-For entries the hosting proxies append; Replit's
+//   edge and the Cloud Run front end each add one),
 //   ALLOW_ORIGIN (CORS, only for an API-only host that serves another origin)
 import { createServer } from "node:http";
 import { createReadStream, statSync } from "node:fs";
@@ -29,7 +30,7 @@ const TYPESAFE_URL = process.env.TYPESAFE_URL || "https://api.typesafe.ai/v1/sys
 const MODEL = process.env.TYPESAFE_MODEL || "jev-latest";
 const SERVE_STATIC = process.env.SERVE_STATIC !== "0";
 const ALLOW_ORIGIN = process.env.ALLOW_ORIGIN || "";
-const TRUSTED_PROXIES = Math.max(1, Number(process.env.TRUSTED_PROXIES) || 1);
+const TRUSTED_PROXIES = Math.max(1, Number(process.env.TRUSTED_PROXIES) || 2);
 
 export const LIMITS = {
   bodyBytes: 16_384,
@@ -165,16 +166,23 @@ function overHourlyCap() {
   return hour.calls > LIMITS.perHour;
 }
 
-/** The visitor's address behind the hosting proxy: X-Forwarded-For's last trusted entry. */
-export function clientIp(req) {
+/** The X-Forwarded-For chain: what the client sent first, then one entry per proxy. */
+function forwardedHops(req) {
   const forwarded = req.headers["x-forwarded-for"];
-  if (forwarded) {
-    const hops = String(forwarded)
-      .split(",")
-      .map((s) => s.trim())
-      .filter(Boolean);
-    if (hops.length) return hops[Math.max(0, hops.length - TRUSTED_PROXIES)];
-  }
+  if (!forwarded) return [];
+  return String(forwarded)
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+/**
+ * The visitor's address behind the hosting proxies: counted from the end of X-Forwarded-For,
+ * because each proxy appends the address it saw and anything before that is client-supplied.
+ */
+export function clientIp(req) {
+  const hops = forwardedHops(req);
+  if (hops.length) return hops[Math.max(0, hops.length - TRUSTED_PROXIES)];
   return req.socket?.remoteAddress || "?";
 }
 
@@ -364,6 +372,7 @@ export function createApp() {
           ok: true,
           judge: Boolean(process.env.TYPESAFE_API_KEY),
           visitor: clientIp(req),
+          hops: forwardedHops(req).length,
         });
       if (url.pathname.startsWith("/api/") || !SERVE_STATIC)
         return send(res, 404, { error: "not_found" });

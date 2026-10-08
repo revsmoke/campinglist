@@ -118,18 +118,20 @@ export async function judgeChoice(choiceId, text, context = {}, deps = {}) {
   const local = localChoice(text, options);
   const decide = (answer, source) => {
     const candidates = rankedOptions(answer, options);
-    if (answer.choice && answer.confidence >= THRESHOLDS.accept)
+    // "Not sure yet" as a verdict means the text did not say: ask, with every option.
+    const choice = answer.choice === "unsure" ? null : answer.choice;
+    if (choice && answer.confidence >= THRESHOLDS.accept)
       return {
         status: "accepted",
-        choice: answer.choice,
+        choice,
         confidence: answer.confidence,
         source,
         candidates,
       };
-    if (answer.choice && answer.confidence >= THRESHOLDS.suggest)
+    if (choice && answer.confidence >= THRESHOLDS.suggest)
       return {
         status: "suggested",
-        choice: answer.choice,
+        choice,
         confidence: answer.confidence,
         source,
         candidates,
